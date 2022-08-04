@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Basic Three.js Example</title>
+  <!-- WEBGL = POWERFUL ANIMATIONS -->
+  <!-- VIDEO - https://youtu.be/8jP4xpga6yY -->
+  <!-- CODE - https://codepen.io/bradtraversy/pen/VOpZvp -->
+  <!-- TEXTURES - https://github.com/mrdoob/three.js/tree/master/examples/textures -->
+  <!-- SEE - https://threejs.org/docs/index.html?q=scene#manual/en/introduction/Creating-a-scene -->
+  <style>
+    body {
+      margin: 0;
+    }
+    canvas {
+      width: 50%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/104/three.js"></script> -->
+<script src="./three.js"></script>
+<script>
+  let camera;
+  let scene;
+  let renderer;
+  let cube;
+
+  // Cube
+  function qBert() {
+    // https://threejs.org/docs/index.html?q=geometr#api/en/geometries/BoxGeometry
+    let geometry = new THREE.BoxGeometry( 1, 1, 1 );
+    let material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+    return new THREE.Mesh( geometry, material ); // small green cube
+  }
+
+  function qBert1() {
+    let geometry = new THREE.BoxGeometry( 2, 2, 2 );
+    let material = new THREE.MeshBasicMaterial({ color: 0x0000ff });
+    return new THREE.Mesh(geometry, material); // larger blue cube
+  }
+
+  function qBert2() {
+    let geometry = new THREE.BoxGeometry(3, 3, 3);
+    let texture;
+    texture = new THREE.TextureLoader().load("textures/crate.gif");
+    // texture = new THREE.TextureLoader().load("textures/golfball.jpg");
+    let material = new THREE.MeshBasicMaterial({ map: texture });
+    return new THREE.Mesh(geometry, material); // large textured cube
+  }
+
+  function init() {
+    // https://threejs.org/docs/index.html#api/en/scenes/Scene
+    scene = new THREE.Scene();
+
+    // https://threejs.org/docs/index.html#api/en/cameras/PerspectiveCamera
+    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+    renderer = new THREE.WebGLRenderer({ antialias: true });
+
+    // Set size (whole window)
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    // Render to canvas element
+    document.body.appendChild(renderer.domElement);
+
+    // Init BoxGeometry object (rectangular cuboid)
+    // cube = qBert();
+    // cube = qBert1();
+    cube = qBert2();
+
+    // Add to scene
+    scene.add(cube);
+
+    // Position camera
+    camera.position.z = 5;
+  }
+
+  // Draw the scene every time the screen is refreshed
+  function animate() {
+    requestAnimationFrame(animate);
+
+    // Rotate cube (Change values to change speed)
+    cube.rotation.x += 0.01;
+    cube.rotation.y += 0.01;
+
+    renderer.render(scene, camera);
+  }
+
+  // Keep box centered
+  function onWindowResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  }
+
+  window.addEventListener('resize', onWindowResize, false);
+
+  init();
+  animate();
+</script>
+</body>
+</html>
