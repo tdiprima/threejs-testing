@@ -59,14 +59,17 @@
   // Gui
   let gui = new GUI();
   let perfFolder = gui.addFolder('Performance');
+
   let guiStatsEl = document.createElement('div');
   guiStatsEl.classList.add('gui-stats');
   perfFolder.$children.appendChild(guiStatsEl);
-  let madeUpNumber = 17922;
+
+  let madeUpNumber = 17922; // geom byte length.  how am i supposed to get that?
   guiStatsEl.innerHTML = [
-    `<i>GPU draw calls</i>: ${tetrahedra}`,
+    `<i>GPU draw calls</i>: ${tetrahedra}`, // define "gpu draw calls" :/
     `<i>GPU memory</i>: ${formatBytes(tetrahedra * 16 + madeUpNumber, 2)}`
   ].join('<br/>');
+
   perfFolder.open();
 
   let geometry = new THREE.TetrahedronGeometry(2, 0);
