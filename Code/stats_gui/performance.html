@@ -168,9 +168,10 @@
     scene.add(mesh);
 
     let geometryByteLength = getGeometryByteLength(geometry);
+    console.log("geometryByteLength", geometryByteLength);
 
     guiStatsEl.innerHTML = [
-      '<i>GPU draw calls</i>: 1',
+      '<i>GPU draw calls</i>: 1', // hard-coded. brilliant.
       `<i>GPU memory</i>: ${formatBytes(api.count * 16 + geometryByteLength, 2)}`
     ].join('<br/>');
   }

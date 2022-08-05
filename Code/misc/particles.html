@@ -8,13 +8,14 @@
   <style>
     body { margin: 0; }
     canvas { width: 100%; height: 100% }
+    #info { background-color: rgba(0, 0, 0, 0.75); }
+    .lil-gui .gui-stats {
+      line-height: 3;
+      padding: 1px;
+    }
   </style>
 </head>
 <body>
-
-<!-- <script src="/build/three.js"></script> -->
-<!-- <script type="module" src="/jsm/controls/OrbitControls.js"></script> -->
-
 <!-- Import maps polyfill -->
 <script async src="/es-module-shims-1.3.6/dist/es-module-shims.js"></script>
 
@@ -47,12 +48,6 @@
 
   let controls = new OrbitControls(camera, renderer.domElement);
 
-  // Create cube, add to scene
-  // let geometry = new THREE.BoxGeometry(.05, .05, 1);
-  // let material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-  // let cube = new THREE.Mesh(geometry, material);
-  // scene.add(cube);
-
   // https://codepen.io/hfer/pen/MvWyoK
   let particle = new THREE.Object3D();
   scene.add(particle);
@@ -64,6 +59,14 @@
   // Gui
   let gui = new GUI();
   let perfFolder = gui.addFolder('Performance');
+  let guiStatsEl = document.createElement('div');
+  guiStatsEl.classList.add('gui-stats');
+  perfFolder.$children.appendChild(guiStatsEl);
+  let madeUpNumber = 17922;
+  guiStatsEl.innerHTML = [
+    `<i>GPU draw calls</i>: ${tetrahedra}`,
+    `<i>GPU memory</i>: ${formatBytes(tetrahedra * 16 + madeUpNumber, 2)}`
+  ].join('<br/>');
   perfFolder.open();
 
   let geometry = new THREE.TetrahedronGeometry(2, 0);
@@ -93,6 +96,26 @@
   }
 
   animate();
+
+  /**
+   * formatBytes
+   * https://stackoverflow.com/questions/15900485/correct-way-to-convert-size-in-bytes-to-kb-mb-gb-in-javascript/18650828#18650828
+   * @param bytes
+   * @param decimals
+   * @return {string}
+   */
+  function formatBytes(bytes, decimals = 2) {
+    if (bytes === 0) return '0 Bytes';
+
+    const k = 1024;
+    const dm = decimals < 0 ? 0 : decimals;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+  }
 </script>
+
 </body>
 </html>
