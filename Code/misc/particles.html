@@ -30,6 +30,7 @@
   import * as THREE from 'three';
   import { OrbitControls } from '/jsm/controls/OrbitControls.js';
   import Stats from '/jsm/libs/stats.module.js';
+  import { GUI } from '/jsm/libs/lil-gui.module.min.js';
 
   console.log("%cthree.js rev", "color: #ccff00;", THREE.REVISION);
 
@@ -60,6 +61,11 @@
   let stats = Stats();
   document.body.appendChild(stats.dom);
 
+  // Gui
+  let gui = new GUI();
+  let perfFolder = gui.addFolder('Performance');
+  perfFolder.open();
+
   let geometry = new THREE.TetrahedronGeometry(2, 0);
   let material = new THREE.MeshNormalMaterial();
 
@@ -78,6 +84,7 @@
   function animate() {
     requestAnimationFrame(animate);
     render();
+    controls.update();
     stats.update();
   }
 
