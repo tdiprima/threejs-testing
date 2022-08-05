@@ -26,8 +26,7 @@
 <script type="module">
   import * as THREE from 'three';
   import { OrbitControls } from '/jsm/controls/OrbitControls.js';
-  // import Stats from '/jsm/libs/stats.module';
-  // import { GUI } from 'dat.gui'
+  import Stats from '/jsm/libs/stats.module.js';
   import { GUI } from '/jsm/libs/lil-gui.module.min.js';
 
   let scene = new THREE.Scene();
@@ -59,8 +58,8 @@
     render();
   }
 
-  // let stats = Stats();
-  // document.body.appendChild(stats.dom);
+  let stats = Stats();
+  document.body.appendChild(stats.dom);
 
   let gui = new GUI();
   let cubeFolder = gui.addFolder('Cube');
@@ -75,6 +74,7 @@
   function animate() {
     requestAnimationFrame(animate);
 
+    // If you want it movin' by itself...
     // stats.begin();
     // cube.rotation.x += 0.01;
     // cube.rotation.y += 0.01;
@@ -82,7 +82,7 @@
 
     render();
 
-    // stats.update();
+    stats.update();
   }
 
   function render() {
