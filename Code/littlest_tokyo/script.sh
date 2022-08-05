@@ -25,4 +25,4 @@ echo "fini"
 # examples/jsm/libs/stats.module.js
 
 # MODELS
-examples/models/gltf/LittlestTokyo.glb
+# examples/models/gltf/LittlestTokyo.glb
