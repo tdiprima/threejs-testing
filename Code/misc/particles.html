@@ -32,6 +32,7 @@
   import { OrbitControls } from '/jsm/controls/OrbitControls.js';
   import Stats from '/jsm/libs/stats.module.js';
   import { GUI } from '/jsm/libs/lil-gui.module.min.js';
+  // import * as BufferGeometryUtils from '/jsm/utils/BufferGeometryUtils.js';
 
   console.log("%cthree.js rev", "color: #ccff00;", THREE.REVISION);
 
@@ -118,6 +119,10 @@
 
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
   }
+
+  // TODO:
+  // https://discourse.threejs.org/t/how-much-gb-of-memory-my-renderer-scene-is-holding/33139/8
+  // https://threejs.org/docs/#manual/en/introduction/How-to-dispose-of-objects
 </script>
 
 </body>
