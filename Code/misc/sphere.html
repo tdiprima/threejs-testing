@@ -8,7 +8,9 @@
   <!-- http://jsfiddle.net/adiioo7/SF9tX/4/ -->
 </head>
 <body>
+
 <script src="//cdnjs.cloudflare.com/ajax/libs/three.js/r54/three.js"></script>
+
 <script>
   let width = 500;
   let height = 400;
@@ -22,15 +24,15 @@
 
   let geometry = new THREE.SphereGeometry(3, 50, 50, 0, Math.PI * 2, 0, Math.PI * 2);
   let material = new THREE.MeshNormalMaterial();
-  let cube = new THREE.Mesh(geometry, material);
-  scene.add(cube);
+  let mesh = new THREE.Mesh(geometry, material);
+  scene.add(mesh);
 
   camera.position.z = 10;
 
   const render = function () {
     requestAnimationFrame(render);
 
-    cube.rotation.y += 0.01;
+    mesh.rotation.y += 0.01;
 
     renderer.render(scene, camera);
   };
