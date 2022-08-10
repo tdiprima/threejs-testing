@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Design Course</title>
+  <!-- https://youtu.be/6oFvqLfRnsU -->
+  <!-- Three.js Crash Course for Absolute Beginners - 3D in the Browser -->
+  <link href="css/main.css" rel="stylesheet">
+</head>
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/102/three.js"></script>
+<!-- For Debugging: -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.5/dat.gui.min.js"></script> -->
+<!-- Plugin to animate objects more easily -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.2/TweenMax.min.js"></script>
+
+<script>
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+
+  /* Scene = where all your objects & lights go. */
+
+  let scene = new THREE.Scene();
+
+  let camera = new THREE.PerspectiveCamera(
+    75, // fov
+    width / height, // aspect ratio
+    0.1, // near plane
+    1000 // far plane
+  );
+
+  camera.position.z = 5;
+
+  let renderer = new THREE.WebGLRenderer({
+    antialias: true // otherwise the result will look jagged
+  });
+
+  renderer.setClearColor("#e5e5e5"); // aka background color
+  renderer.setSize(width, height);
+
+  document.body.appendChild(renderer.domElement); // create our canvas element
+
+  /* Resize Event */
+
+  window.addEventListener("resize", function () {
+    const newWidth = window.innerWidth;
+    const newHeight = window.innerHeight;
+
+    renderer.setSize(newWidth, newHeight);
+    camera.aspect = newWidth / newHeight;
+
+    camera.updateProjectionMatrix(); // It sounds scary, but it's not.
+
+    render();
+  });
+
+  /* Render */
+
+  function render() {
+    // Call the render method, on the renderer.
+    renderer.render(scene, camera);
+  }
+
+  /* Add a 3D object */
+
+  // SphereGeometry(radius : Float, widthSegments : Integer, heightSegments : Integer, ...)
+  let geometry = new THREE.SphereGeometry(1, 10, 10);
+  let material = new THREE.MeshLambertMaterial({color: 0xffcc00}); // yellow
+  let mesh = new THREE.Mesh(geometry, material);
+  scene.add(mesh);
+
+  // PointLight( color : Integer, intensity : Float, distance : Number, ...)
+  let light = new THREE.PointLight(0xffffff, 1, 500); // white
+  light.position.set(10, 0, 25); // x, y, z
+  scene.add(light);
+
+  render();
+
+  console.log("%cthree.js rev", "color: #ccff00;", THREE.REVISION);
+</script>
+</body>
+</html>

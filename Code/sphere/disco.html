@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>three.js app</title>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>adiioo7</title>
   <!-- http://jsfiddle.net/adiioo7/SF9tX/4/ -->
 </head>
 <body>
@@ -63,15 +63,15 @@
 
     let mesh = new THREE.Mesh(
       sphereBufferGeometry,
-      new THREE.MeshPhongMaterial( {
+      new THREE.MeshPhongMaterial({
         color: 0x156289,
         emissive: 0x072534,
         side: THREE.DoubleSide,
         flatShading: true
-      } )
+      })
     );
 
-    scene.add( mesh );
+    scene.add(mesh);
   }
 
   console.log("%cthree.js rev", "color: #ccff00;", THREE.REVISION);
