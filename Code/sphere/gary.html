@@ -42,6 +42,27 @@
 
   document.body.appendChild(renderer.domElement); // create our canvas element
 
+  /* Add a 3D object */
+
+  // SphereGeometry(radius : Float, widthSegments : Integer, heightSegments : Integer, ...)
+  let geometry = new THREE.SphereGeometry(1, 10, 10);
+  let material = new THREE.MeshLambertMaterial({color: 0xffcc00}); // yellow
+  let mesh = new THREE.Mesh(geometry, material);
+  scene.add(mesh);
+
+  // PointLight( color : Integer, intensity : Float, distance : Number, ...)
+  let light = new THREE.PointLight(0xffffff, 1, 500); // white
+  light.position.set(10, 0, 25); // x, y, z
+  scene.add(light);
+
+  /* Render */
+
+  function render() {
+    requestAnimationFrame(render);
+    // Call the render method, on the renderer.
+    renderer.render(scene, camera);
+  }
+
   /* Resize Event */
 
   window.addEventListener("resize", function () {
@@ -55,26 +76,6 @@
 
     render();
   });
-
-  /* Render */
-
-  function render() {
-    // Call the render method, on the renderer.
-    renderer.render(scene, camera);
-  }
-
-  /* Add a 3D object */
-
-  // SphereGeometry(radius : Float, widthSegments : Integer, heightSegments : Integer, ...)
-  let geometry = new THREE.SphereGeometry(1, 10, 10);
-  let material = new THREE.MeshLambertMaterial({color: 0xffcc00}); // yellow
-  let mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh);
-
-  // PointLight( color : Integer, intensity : Float, distance : Number, ...)
-  let light = new THREE.PointLight(0xffffff, 1, 500); // white
-  light.position.set(10, 0, 25); // x, y, z
-  scene.add(light);
 
   render();
 
