@@ -115,7 +115,7 @@
     stats.update();
   }
 
-  function render() {
+  function move() {
     theta += 0.1;
 
     camera.position.x = radius * Math.sin(THREE.MathUtils.degToRad(theta));
@@ -124,6 +124,10 @@
     camera.lookAt(scene.position);
 
     camera.updateMatrixWorld();
+  }
+
+  function render() {
+    // move(); // don't move.
 
     // find intersections
     raycaster.setFromCamera(pointer, camera);
