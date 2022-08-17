@@ -64,7 +64,9 @@
     let geometry = new THREE.BoxGeometry(20, 20, 20);
 
     for (let i = 0; i < 2000; i++) {
-      let object = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({color: Math.random() * 0xffffff}));
+      let grayness = Math.random() * 0xffffff;
+      let mat = new THREE.MeshLambertMaterial({color: grayness});
+      let object = new THREE.Mesh(geometry, mat);
 
       object.position.x = Math.random() * 800 - 400;
       object.position.y = Math.random() * 800 - 400;
