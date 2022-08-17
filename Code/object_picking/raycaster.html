@@ -104,23 +104,24 @@
       let intersects = raycaster.intersectObjects(objectContainer.children);
 
       objectContainer.children.forEach(cube => {
+        // Reset color.
         cube.material.color.setRGB(cube.grayness, cube.grayness, cube.grayness);
       });
 
       for (let i = 0; i < intersects.length; i++) {
         let intersection = intersects[i];
         let obj = intersection.object;
-
+        // Set to a shade of red, depending on how many are selected.
+        // Shade between 0 and 1, of course.
         obj.material.color.setRGB(1.0 - i / intersects.length, 0, 0);
       }
     }
 
-    function onWindowResize(e) {
-      containerWidth = container.clientWidth;
-      containerHeight = container.clientHeight;
-      renderer.setSize(containerWidth, containerHeight);
-      camera.aspect = containerWidth / containerHeight;
+    function onWindowResize() {
+      camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
+
+      renderer.setSize(window.innerWidth, window.innerHeight);
     }
 
     function animate() {
