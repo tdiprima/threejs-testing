@@ -10,7 +10,7 @@
 
   <script src="three.min.js"></script>
   <script src="TrackballControls.js"></script>
-  
+
   <!-- <script src="/build/three.min.js"></script>
   <script src="/jsm/controls/TrackballControls.js"></script> -->
 
@@ -155,7 +155,7 @@
      * @return {THREE.Object3D} - axes
      */
     function buildAxes() {
-      const axes = new THREE.Object3D();
+      let axes = new THREE.Object3D();
 
       axes.add(buildAxis(new THREE.Vector3(0, 0, 0), new THREE.Vector3(100, 0, 0), 0xff0000, false)); // +X
       axes.add(buildAxis(new THREE.Vector3(0, 0, 0), new THREE.Vector3(-100, 0, 0), 0x800000, true)); // -X
@@ -170,10 +170,10 @@
     /**
      * Build Axis
      *
-     * @param src
-     * @param dst
-     * @param colorHex
-     * @param dashed
+     * @param {object} src - x, y, z coordinates
+     * @param {object} dst - x, y, z coordinates
+     * @param {number} colorHex
+     * @param {boolean} dashed
      * @return {THREE.Line} - axis
      */
     function buildAxis(src, dst, colorHex, dashed) {

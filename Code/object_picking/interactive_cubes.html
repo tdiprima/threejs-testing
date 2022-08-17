@@ -3,14 +3,13 @@
 <head>
   <title>three.js webgl - interactive cubes</title>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-  <link rel="stylesheet" href="/css/main.css">
+  <meta content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" name="viewport">
+  <link href="/css/main.css" rel="stylesheet">
   <style>
     body {
       background-color: #f0f0f0;
       color: #444;
     }
-
     a {
       color: #08f;
     }
@@ -19,7 +18,7 @@
 <body>
 
 <div id="info">
-  <a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> webgl - interactive cubes
+  <a href="https://threejs.org" rel="noopener" target="_blank">three.js</a> webgl - interactive cubes
 </div>
 
 <!-- Import maps polyfill -->
@@ -33,7 +32,6 @@
 </script>
 
 <script type="module">
-
   import * as THREE from 'three';
 
   import Stats from '/jsm/libs/stats.module.js';
@@ -44,14 +42,13 @@
   let INTERSECTED;
   let theta = 0;
 
-  const pointer = new THREE.Vector2();
-  const radius = 100;
+  let pointer = new THREE.Vector2();
+  let radius = 100;
 
   init();
   animate();
 
   function init() {
-
     container = document.createElement('div');
     document.body.appendChild(container);
 
@@ -60,15 +57,14 @@
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0xf0f0f0);
 
-    const light = new THREE.DirectionalLight(0xffffff, 1);
+    let light = new THREE.DirectionalLight(0xffffff, 1);
     light.position.set(1, 1, 1).normalize();
     scene.add(light);
 
-    const geometry = new THREE.BoxGeometry(20, 20, 20);
+    let geometry = new THREE.BoxGeometry(20, 20, 20);
 
     for (let i = 0; i < 2000; i++) {
-
-      const object = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({color: Math.random() * 0xffffff}));
+      let object = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({color: Math.random() * 0xffffff}));
 
       object.position.x = Math.random() * 800 - 400;
       object.position.y = Math.random() * 800 - 400;
@@ -83,7 +79,6 @@
       object.scale.z = Math.random() + 0.5;
 
       scene.add(object);
-
     }
 
     raycaster = new THREE.Raycaster();
@@ -98,41 +93,29 @@
 
     document.addEventListener('mousemove', onPointerMove);
 
-    //
-
     window.addEventListener('resize', onWindowResize);
-
   }
 
   function onWindowResize() {
-
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
 
     renderer.setSize(window.innerWidth, window.innerHeight);
-
   }
 
   function onPointerMove(event) {
-
     pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
     pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
   }
 
-  //
-
   function animate() {
-
     requestAnimationFrame(animate);
 
     render();
     stats.update();
-
   }
 
   function render() {
-
     theta += 0.1;
 
     camera.position.x = radius * Math.sin(THREE.MathUtils.degToRad(theta));
@@ -143,35 +126,26 @@
     camera.updateMatrixWorld();
 
     // find intersections
-
     raycaster.setFromCamera(pointer, camera);
 
-    const intersects = raycaster.intersectObjects(scene.children, false);
+    let intersects = raycaster.intersectObjects(scene.children, false);
 
     if (intersects.length > 0) {
-
       if (INTERSECTED !== intersects[0].object) {
-
         if (INTERSECTED) INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
 
         INTERSECTED = intersects[0].object;
         INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();
         INTERSECTED.material.emissive.setHex(0xff0000);
-
       }
-
     } else {
-
       if (INTERSECTED) INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);
 
       INTERSECTED = null;
-
     }
 
     renderer.render(scene, camera);
-
   }
-
 </script>
 
 </body>
