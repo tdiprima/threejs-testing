@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>object picking</title>
   <!-- http://soledadpenades.com/articles/three-js-tutorials/object-picking/ -->
   <!-- https://stackoverflow.com/questions/27690441/three-js-better-way-of-adding-multiple-cubes-to-a-scene -->
-  <link rel="stylesheet" href="raystyle.css">
+  <link href="raystyle.css" rel="stylesheet">
   <script src="three.min.js"></script>
   <script src="TrackballControls.js"></script>
   <!-- <script src="/build/three.min.js"></script>
@@ -16,11 +16,12 @@
 </head>
 <body>
 
-<h1>object picking with three.js - <a href="http://soledadpenades.com/articles/three-js-tutorials/object-picking/">tutorial</a></h1>
+<h1>object picking with three.js - <a href="http://soledadpenades.com/articles/three-js-tutorials/object-picking/">tutorial</a>
+</h1>
 <div id="container"></div>
 
 <script>
-  window.onload = function() {
+  window.onload = function () {
     let container = document.getElementById('container'),
       containerWidth,
       containerHeight,
@@ -60,12 +61,15 @@
     // instead of adding each object separately into the scene.
     for (let i = 0; i < 100; i++) {
       let grayness = Math.random() * 0.5 + 0.25;
-      let mat = new THREE.MeshBasicMaterial({color: grayness});
+      let mat = new THREE.MeshBasicMaterial();
       let object = new THREE.Mesh(geom, mat);
+      mat.color.setRGB( grayness, grayness, grayness );
 
-      object.position.x = range * (0.5 - Math.random());
-      object.position.y = range * (0.5 - Math.random());
-      object.position.z = range * (0.5 - Math.random());
+      object.position.set(
+        range * (0.5 - Math.random()),
+        range * (0.5 - Math.random()),
+        range * (0.5 - Math.random())
+      );
 
       object.rotation.set(
         Math.random(),
@@ -96,6 +100,13 @@
     // And go!
     animate();
 
+    function onWindowResize() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    }
+
     function onMouseMove(e) {
       mouseVector.x = 2 * (e.clientX / containerWidth) - 1;
       mouseVector.y = 1 - 2 * (e.clientY / containerHeight);
@@ -115,13 +126,6 @@
         // Shade between 0 and 1, of course.
         obj.material.color.setRGB(1.0 - i / intersects.length, 0, 0);
       }
-    }
-
-    function onWindowResize() {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-
-      renderer.setSize(window.innerWidth, window.innerHeight);
     }
 
     function animate() {
