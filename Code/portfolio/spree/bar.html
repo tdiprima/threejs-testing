@@ -1,10 +1,10 @@
 <title>bar</title>
 <link rel="stylesheet" href="style.css">
-<script src="../../node_modules/three/build/three.js"></script>
+<!-- <script src="../../node_modules/three/build/three.js"></script> -->
+<script src="/build/three.min.js"></script>
 <canvas id="bg"></canvas>
 <script>
   // Setup
-
   let scene = new THREE.Scene();
 
   let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000); // mimics what human eyeballs would see
@@ -21,7 +21,6 @@
   renderer.render(scene, camera);
 
   // Torus ring shape
-
   let geometry = new THREE.TorusGeometry(10, 3, 16, 100);
 
   let material = new THREE.MeshStandardMaterial({color: 0xFF6347}); // 0x = "hexidecimal literal"
@@ -30,7 +29,6 @@
   scene.add(torus);
 
   // Lights
-
   let pointLight = new THREE.PointLight(0xffffff); // add a "lightbulb"
 
   function lulu() {
@@ -46,7 +44,6 @@
     scene.add(pointLight, ambientLight);
 
     // Helpers
-
     let lightHelper = new THREE.PointLightHelper(pointLight);
     let gridHelper = new THREE.GridHelper(200, 50);
     scene.add(lightHelper, gridHelper);
@@ -54,7 +51,6 @@
   deeDee();
 
   // Animation Loop
-
   function animate() {
     requestAnimationFrame(animate);
 
