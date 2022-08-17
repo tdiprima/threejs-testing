@@ -16,25 +16,22 @@
           <div class="update-banner">Discover three.js is now <a href="https://github.com/looeee/discoverthreejs-site" target="_blank" rel="noopener noreferrer">open source</a>!</div>
 
           <h1 id="the-big-list-of-threejs-tips-and-tricks">The Big List of three.js Tips and Tricks!</h1>
-<p>Hey everyone! While writing the book I’ve been gathering a big list of tips, tricks, caveats, and gotchas. This page contains everything that I’ve found so far.</p>
+<p>Hey everyone! While writing the book I've been gathering a big list of tips, tricks, caveats, and gotchas. This page contains everything that I've found so far.</p>
 <p>Not all the tips here have been experimentally verified, especially the performance tips. There are too many variables involved to blindly follow a list, so always make sure to test your app thoroughly and see what works for you. These are suggestions, not rules (mostly). That said, this page will have lots of useful tips for apps of any size.</p>
 <p>If you have anything to add or notice any mistakes,
 
-<a href="/contact/">let me know</a> and I’ll update the page.</p>
+<a href="/contact/">let me know</a> and I'll update the page.</p>
 <p>Most of the info here is not specific to three.js, or even WebGL, but will work in any real-time graphics application or framework.</p>
 <p>Happy Coding!</p>
-<h2 id="basic">Beginner Friendly Tips, or <em>Help! Why Can’t I See Anything?</em><a class="anchor-link" href="#basic">#</a></h2>
-<p>You’ve followed a couple of basic tutorials and everything worked out fine. Now you’re creating an app of your own and you’ve set everything up <em>exactly</em> as the tutorial says. But you just can’t see anything! WTH??</p>
+<h2 id="basic">Beginner Friendly Tips, or <em>Help! Why Can't I See Anything?</em><a class="anchor-link" href="#basic">#</a></h2>
+<p>You've followed a couple of basic tutorials and everything worked out fine. Now you're creating an app of your own and you've set everything up <em>exactly</em> as the tutorial says. But you just can't see anything! WTH??</p>
 <p>Here are some things you can do to help figure out the problem.</p>
 <h3 id="error-message-check">1. Check the
 
 <a href="https://developer.mozilla.org/en-US/docs/Tools/Browser_Console" target="_blank" rel="noopener noreferrer">browser console</a> for error messages<a class="anchor-link" href="#error-message-check">#</a></h3>
 <p>But you already did that, right?</p>
 <h3 id="background-color-check">2. Set the background color to something other than black<a class="anchor-link" href="#background-color-check">#</a></h3>
-<p>Staring at a black canvas? It’s hard to tell whether something is happening or not if all you can see is black. Try setting the background color to red:</p>
-
-
-
+<p>Staring at a black canvas? It's hard to tell whether something is happening or not if all you can see is black. Try setting the background color to red:</p>
 
 <section class="highlight-wrapper">
 
@@ -44,15 +41,12 @@ scene<span class="token punctuation">.</span><span class="token property-access"
 </section>
 
 <p>If you get a red canvas, then at least your <code>renderer.render</code> calls are working, and you can move on to figuring out what else is wrong.</p>
-<h3 id="light-check">3. Make sure you have a light in your scene and that it’s illuminating your objects<a class="anchor-link" href="#light-check">#</a></h3>
+<h3 id="light-check">3. Make sure you have a light in your scene and that it's illuminating your objects<a class="anchor-link" href="#light-check">#</a></h3>
 <p>Just as in the real world, most materials in three.js need light to be seen.</p>
 <h3 id="material-check">4. Overide all materials in the scene with a <code>MeshBasicMaterial</code><a class="anchor-link" href="#material-check">#</a></h3>
-<p>One material that doesn’t require light to be visible is the
+<p>One material that doesn't require light to be visible is the
 
 <a href="https://threejs.org/docs/#api/en/materials/MeshBasicMaterial" target="_blank" rel="noopener noreferrer"><code>MeshBasicMaterial</code></a>. If you are having trouble getting objects to show up, you can temporarily override all the materials in your scene with <code>MeshBasicMaterial</code>. If the objects magically appear when you do this, then your problem is a lack of light.</p>
-
-
-
 
 <section class="highlight-wrapper">
 
@@ -61,13 +55,10 @@ scene<span class="token punctuation">.</span><span class="token property-access"
 scene<span class="token punctuation">.</span><span class="token property-access">overrideMaterial</span> <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">MeshBasicMaterial</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-2-close">(</span><span class="token punctuation brace-curly brace-open brace-level-2" id="pair-4-close">{</span> color<span class="token operator">:</span> <span class="token string">"green"</span> <span class="token punctuation brace-curly brace-close brace-level-2" id="pair-4-open">}</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-2-open">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre><div class="toolbar"><div class="toolbar-item"><button>Copy</button></div></div></div>
 </section>
 
-<h3 id="frustum-check">5. Is your object within the camera’s viewing frustum?<a class="anchor-link" href="#frustum-check">#</a></h3>
+<h3 id="frustum-check">5. Is your object within the camera's viewing frustum?<a class="anchor-link" href="#frustum-check">#</a></h3>
 <p>If your object is not inside the
 
 <a href="/book/first-steps/first-scene/#viewing-frustum">viewing frustum</a>, it will get clipped. Try making your far clipping plane really big:</p>
-
-
-
 
 <section class="highlight-wrapper">
 
@@ -75,7 +66,7 @@ scene<span class="token punctuation">.</span><span class="token property-access"
 camera<span class="token punctuation">.</span><span class="token method function property-access">updateProjectionMatrix</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-5-close">(</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-5-open">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre><div class="toolbar"><div class="toolbar-item"><button>Copy</button></div></div></div>
 </section>
 
-<p>Remember this is just for testing though! The camera’s frustum is measured in meters, and you should make it as small as possible for best performance. Once your scene is set up and working correctly, reduce the size of your frustum as much as possible.</p>
+<p>Remember this is just for testing though! The camera's frustum is measured in meters, and you should make it as small as possible for best performance. Once your scene is set up and working correctly, reduce the size of your frustum as much as possible.</p>
 <h3 id="camera-check">6. Is your camera inside the object?<a class="anchor-link" href="#camera-check">#</a></h3>
 <p>By default, everything gets created at the point <span><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mopen">(</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord">0</span><span class="mclose">)</span></span></span></span></span>, AKA the <strong>origin</strong>. Make sure you have moved your camera back so that you can see your scene!</p>
 
@@ -88,20 +79,20 @@ camera<span class="token punctuation">.</span><span class="token method function
 </section>
 
 <h3 id="scale-check">7. Think carefully about the scale of your scene<a class="anchor-link" href="#scale-check">#</a></h3>
-<p>Try to visualize your scene and remember that one unit in three.js is one meter. Does everything fit together in a reasonably logical manner? Or perhaps you cannot see anything because the object you just loaded is only 0.00001 meters wide. Wait, what’s that tiny black dot in the middle of the screen?</p>
+<p>Try to visualize your scene and remember that one unit in three.js is one meter. Does everything fit together in a reasonably logical manner? Or perhaps you cannot see anything because the object you just loaded is only 0.00001 meters wide. Wait, what's that tiny black dot in the middle of the screen?</p>
 <h2 id="general-tips">General Tips<a class="anchor-link" href="#general-tips">#</a></h2>
 <ol>
-<li>Object creation in JavaScript is expensive, so don’t create objects in a loop. Instead, create a single object such as a
+<li>Object creation in JavaScript is expensive, so don't create objects in a loop. Instead, create a single object such as a
 
 <a href="https://threejs.org/docs/#api/en/math/Vector3" target="_blank" rel="noopener noreferrer">Vector3</a> and use
 
 <a href="https://threejs.org/docs/#api/en/math/Vector3.set" target="_blank" rel="noopener noreferrer"><code>vector.set()</code></a> or similar methods to reuse a that inside the loop.</li>
-<li>The same goes for your render loop. To make sure your app runs at a buttery smooth sixty frames per second, do as little work as possible in your render loop. Don’t create new objects every frame.</li>
+<li>The same goes for your render loop. To make sure your app runs at a buttery smooth sixty frames per second, do as little work as possible in your render loop. Don't create new objects every frame.</li>
 <li>Always use
 
 <a href="https://threejs.org/docs/#api/en/core/BufferGeometry" target="_blank" rel="noopener noreferrer"><code>BufferGeometry</code></a> instead of
 
-<a href="https://threejs.org/docs/#api/en/core/Geometry" target="_blank" rel="noopener noreferrer"><code>Geometry</code></a>, it’s faster.</li>
+<a href="https://threejs.org/docs/#api/en/core/Geometry" target="_blank" rel="noopener noreferrer"><code>Geometry</code></a>, it's faster.</li>
 <li>The same goes for the pre-built objects, always use the buffer geometry version (
 
 <a href="https://threejs.org/docs/#api/en/geometries/BoxBufferGeometry" target="_blank" rel="noopener noreferrer"><code>BoxBufferGeometry</code></a> rather than
@@ -158,9 +149,6 @@ material<span class="token punctuation">.</span><span class="token property-acce
 
 <p>Finally, to get (nearly) correct colors in your textures, <strong>you need to set the texture encoding for the color, environment, and emissive maps <em>only</em></strong>:</p>
 
-
-
-
 <section class="highlight-wrapper">
 
 <div class="code-toolbar"><pre style="background-color: rgb(32, 32, 32); counter-reset: linenumber 0;" class="line-numbers hide-line-numbers language-js" data-start="1" data-line="" data-line-offset="1"><code class="highlight match-braces language-js"><span class="token keyword module">import</span> <span class="token punctuation brace-curly brace-open brace-level-1" id="pair-13-close">{</span> sRGBEncoding <span class="token punctuation brace-curly brace-close brace-level-1" id="pair-13-open">}</span> <span class="token keyword module">from</span> <span class="token string">"./vendor/three/build/three.module.js"</span><span class="token punctuation">;</span>
@@ -169,11 +157,11 @@ material<span class="token punctuation">.</span><span class="token property-acce
 colorMap<span class="token punctuation">.</span><span class="token property-access">encoding</span> <span class="token operator">=</span> sRGBEncoding<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre><div class="toolbar"><div class="toolbar-item"><button>Copy</button></div></div></div>
 </section>
 
-<p>All other texture types should remain in linear color space. This is the default, so you don’t need to change the encoding for any textures other than color, environment, and emissive maps.</p>
-<p>Note that I’m saying <strong>nearly correct</strong> here since three.js color management is not quite correct at the moment. Hopefully, it will be fixed soon, but in the meantime, any inaccuracy in color will be so minor that it’s very unlikely anybody will notice unless you are doing scientific or medical renderings.</p>
+<p>All other texture types should remain in linear color space. This is the default, so you don't need to change the encoding for any textures other than color, environment, and emissive maps.</p>
+<p>Note that I'm saying <strong>nearly correct</strong> here since three.js color management is not quite correct at the moment. Hopefully, it will be fixed soon, but in the meantime, any inaccuracy in color will be so minor that it's very unlikely anybody will notice unless you are doing scientific or medical renderings.</p>
 <h2 id="javascript">JavaScript<a class="anchor-link" href="#javascript">#</a></h2>
-<h3 id="dont-assume-you-know-what-will-be-faster">Don’t assume you know what will be faster<a class="anchor-link" href="#dont-assume-you-know-what-will-be-faster">#</a></h3>
-<p>The JavaScript engines used by web browsers change frequently and do an amazing amount of optimization of your code behind the scenes. Don’t trust your intuition about what will be faster, always test. Don’t listen to articles from a few years ago telling you to avoid certain methods such as <code>array.map</code> or <code>array.forEach</code>. Test these for yourself, or find articles from the last few months with proper tests.</p>
+<h3 id="dont-assume-you-know-what-will-be-faster">Don't assume you know what will be faster<a class="anchor-link" href="#dont-assume-you-know-what-will-be-faster">#</a></h3>
+<p>The JavaScript engines used by web browsers change frequently and do an amazing amount of optimization of your code behind the scenes. Don't trust your intuition about what will be faster, always test. Don't listen to articles from a few years ago telling you to avoid certain methods such as <code>array.map</code> or <code>array.forEach</code>. Test these for yourself, or find articles from the last few months with proper tests.</p>
 <h3 id="use-a-style-guide-and-linter">Use a style guide and linter<a class="anchor-link" href="#use-a-style-guide-and-linter">#</a></h3>
 <p>Personally, I use a combination of
 
@@ -188,7 +176,7 @@ colorMap<span class="token punctuation">.</span><span class="token property-acce
 <a href="https://www.robinwieruch.de/prettier-eslint" target="_blank" rel="noopener noreferrer">part 2</a>), and now I never have to waste my time with formatting, linting, or wondering whether a particular piece of syntax is a good idea, ever again.</p>
 <p>Many people who work with three.js prefer
 
-<a href="https://github.com/mrdoob/three.js/wiki/Mr.doob%27s-Code-Style%E2%84%A2" target="_blank" rel="noopener noreferrer"><strong>Mr.doob’s Code Style™</strong></a> over Airbnb, so if you prefer to use that just replace
+<a href="https://github.com/mrdoob/three.js/wiki/Mr.doob%27s-Code-Style%E2%84%A2" target="_blank" rel="noopener noreferrer"><strong>Mr.doob's Code Style™</strong></a> over Airbnb, so if you prefer to use that just replace
 
 <a href="https://www.npmjs.com/package/eslint-config-airbnb" target="_blank" rel="noopener noreferrer">eslint-config-airbnb</a> plugin with
 
@@ -209,20 +197,20 @@ colorMap<span class="token punctuation">.</span><span class="token property-acce
 </ol>
 <h2 id="camera">Camera<a class="anchor-link" href="#camera">#</a></h2>
 <ol>
-<li>Make your frustum as small as possible for better performance. It’s fine to use a large frustum in development, but once you are fine-tuning your app for deployment, make your frustum as small as possible to gain a few vital FPS.</li>
-<li>Don’t put things right on the far clipping plane (especially if your far clipping plane is really big), as this can cause flickering.</li>
+<li>Make your frustum as small as possible for better performance. It's fine to use a large frustum in development, but once you are fine-tuning your app for deployment, make your frustum as small as possible to gain a few vital FPS.</li>
+<li>Don't put things right on the far clipping plane (especially if your far clipping plane is really big), as this can cause flickering.</li>
 </ol>
 <h2 id="renderer">Renderer<a class="anchor-link" href="#renderer">#</a></h2>
 <ol>
-<li>Don’t enable
+<li>Don't enable
 
 <a href="https://threejs.org/docs/#api/en/renderers/WebGLRenderer" target="_blank" rel="noopener noreferrer"><code>preserveDrawingBuffer</code></a> unless you need it.</li>
 <li>Disable the alpha buffer unless you need it.</li>
-<li>Don’t enable the stencil buffer unless you need it.</li>
+<li>Don't enable the stencil buffer unless you need it.</li>
 <li>Disable the depth buffer unless you need it (but you probably do need it).</li>
-<li>Use <code>powerPreference: "high-performance"</code> when creating the renderer. This <em>may</em> encourage a user’s system to choose the high-performance GPU, in multi-GPU systems.</li>
+<li>Use <code>powerPreference: "high-performance"</code> when creating the renderer. This <em>may</em> encourage a user's system to choose the high-performance GPU, in multi-GPU systems.</li>
 <li>Consider only rendering when the camera position changes by epsilon or when an animation happens.</li>
-<li>If your scene is static and uses <code>OrbitControls</code>, you can listen for the control’s <code>change</code> event. This way you can render the scene only when the camera moves:</li>
+<li>If your scene is static and uses <code>OrbitControls</code>, you can listen for the control's <code>change</code> event. This way you can render the scene only when the camera moves:</li>
 </ol>
 
 
@@ -233,8 +221,8 @@ colorMap<span class="token punctuation">.</span><span class="token property-acce
 <div class="code-toolbar"><pre style="background-color: rgb(32, 32, 32); counter-reset: linenumber 0;" class="line-numbers hide-line-numbers language-js" data-start="1" data-line="" data-line-offset="1"><code class="highlight match-braces language-js"><span class="token maybe-class-name">OrbitControls</span><span class="token punctuation">.</span><span class="token method function property-access">addEventListener</span><span class="token punctuation brace-round brace-open brace-level-1" id="pair-16-close">(</span><span class="token string">"change"</span><span class="token punctuation">,</span> <span class="token punctuation brace-round brace-open brace-level-2" id="pair-14-close">(</span><span class="token punctuation brace-round brace-close brace-level-2" id="pair-14-open">)</span> <span class="token arrow operator">=&gt;</span> renderer<span class="token punctuation">.</span><span class="token method function property-access">render</span><span class="token punctuation brace-round brace-open brace-level-2" id="pair-15-close">(</span>scene<span class="token punctuation">,</span> camera<span class="token punctuation brace-round brace-close brace-level-2" id="pair-15-open">)</span><span class="token punctuation brace-round brace-close brace-level-1" id="pair-16-open">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre><div class="toolbar"><div class="toolbar-item"><button>Copy</button></div></div></div>
 </section>
 
-<p>You won’t get a higher frame rate from the last two, but what you will get is less fans switching on, and less battery drain on mobile devices.</p>
-<p>Note: I’ve seen a few places around the web recommending that you disable anti-aliasing and apply a post-processing AA pass instead. In my testing, this is not true. On modern hardware built-in MSAA seems to be extremely cheap even on low-power mobile devices, while the post-processing FXAA or SMAA passes cause a considerable frame rate drop on every scene I’ve tested them with, and are also lower quality than MSAA.</p>
+<p>You won't get a higher frame rate from the last two, but what you will get is less fans switching on, and less battery drain on mobile devices.</p>
+<p>Note: I've seen a few places around the web recommending that you disable anti-aliasing and apply a post-processing AA pass instead. In my testing, this is not true. On modern hardware built-in MSAA seems to be extremely cheap even on low-power mobile devices, while the post-processing FXAA or SMAA passes cause a considerable frame rate drop on every scene I've tested them with, and are also lower quality than MSAA.</p>
 <h2 id="lights">Lights<a class="anchor-link" href="#lights">#</a></h2>
 <ol>
 <li>Direct lights (<code>SpotLight</code>, <code>PointLight</code>, <code>RectAreaLight</code>, and <code>DirectionalLight</code>) are slow. Use as few direct lights as possible in your scenes.</li>
@@ -246,27 +234,27 @@ colorMap<span class="token punctuation">.</span><span class="token property-acce
 <li>If your scene is static, only update the shadow map when something changes, rather than every frame.</li>
 <li>Use a
 
-<a href="https://threejs.org/docs/#api/en/helpers/CameraHelper" target="_blank" rel="noopener noreferrer"><code>CameraHelper</code></a> to visualize the shadow camera’s viewing frustum.</li>
+<a href="https://threejs.org/docs/#api/en/helpers/CameraHelper" target="_blank" rel="noopener noreferrer"><code>CameraHelper</code></a> to visualize the shadow camera's viewing frustum.</li>
 <li>Make the shadow frustum as small as possible.</li>
 <li>Make the shadow texture as low resolution as possible.</li>
 <li>Remember that point light shadows are more expensive than other shadow types since they must render six times (once in each direction), compared with a single time for <code>DirectionalLight</code> and <code>SpotLight</code> shadows.</li>
-<li>While we’re on the topic of <code>PointLight</code> shadows, note that the <code>CameraHelper</code> only visualizes <strong>one out of six</strong> of the shadow directions when used to visualize point light shadows. It’s still useful, but you’ll need to use your imagination for the other five directions.</li>
+<li>While we're on the topic of <code>PointLight</code> shadows, note that the <code>CameraHelper</code> only visualizes <strong>one out of six</strong> of the shadow directions when used to visualize point light shadows. It's still useful, but you'll need to use your imagination for the other five directions.</li>
 </ol>
 <h2 id="materials">Materials<a class="anchor-link" href="#materials">#</a></h2>
 <ol>
-<li><code>MeshLambertMaterial</code> doesn’t work for shiny materials, but for matte materials like cloth it will give very similar results to <code>MeshPhongMaterial</code> but is faster.</li>
+<li><code>MeshLambertMaterial</code> doesn't work for shiny materials, but for matte materials like cloth it will give very similar results to <code>MeshPhongMaterial</code> but is faster.</li>
 <li>If you are using morph targets, make sure you set
 
-<a href="https://threejs.org/docs/#api/en/materials/MeshStandardMaterial.morphTargets" target="_blank" rel="noopener noreferrer"><code>morphTargets = true</code></a> in your material, or they won’t work!</li>
+<a href="https://threejs.org/docs/#api/en/materials/MeshStandardMaterial.morphTargets" target="_blank" rel="noopener noreferrer"><code>morphTargets = true</code></a> in your material, or they won't work!</li>
 <li>Same goes for
 
 <a href="https://threejs.org/docs/#api/en/materials/MeshStandardMaterial.morphNormals" target="_blank" rel="noopener noreferrer">morph normals</a>.</li>
-<li>And if you’re using a
+<li>And if you're using a
 
 <a href="https://threejs.org/docs/#api/en/objects/SkinnedMesh" target="_blank" rel="noopener noreferrer">SkinnedMesh</a> for skeletal animations, make sure that
 
 <a href="https://threejs.org/docs/#api/en/materials/MeshStandardMaterial.skinning" target="_blank" rel="noopener noreferrer"><code>material.skinning = true</code></a>.</li>
-<li>Materials used with morph targets, morph normals, or skinning can’t be shared. You’ll need to create a unique material for each skinned or morphed mesh (
+<li>Materials used with morph targets, morph normals, or skinning can't be shared. You'll need to create a unique material for each skinned or morphed mesh (
 
 <a href="https://threejs.org/docs/#api/en/materials/Material.clone" target="_blank" rel="noopener noreferrer"><code>material.clone()</code></a> is your friend here).</li>
 </ol>
@@ -283,26 +271,26 @@ colorMap<span class="token punctuation">.</span><span class="token property-acce
 <h2 id="textures">Textures<a class="anchor-link" href="#textures">#</a></h2>
 <ol>
 <li>All of your textures need to be power of two (POT) size: <span><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.83888em; vertical-align: -0.19444em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord">2</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord">4</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord">8</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord">1</span><span class="mord">6</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="minner">…</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord">5</span><span class="mord">1</span><span class="mord">2</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="mord">2</span><span class="mord">0</span><span class="mord">4</span><span class="mord">8</span><span class="mpunct">,</span><span class="mspace" style="margin-right: 0.166667em;"></span><span class="minner">…</span></span></span></span></span>.</li>
-<li>Don’t change the dimensions of your textures. Create new ones instead,
+<li>Don't change the dimensions of your textures. Create new ones instead,
 
-<a href="https://webglinsights.github.io/tips.html" target="_blank" rel="noopener noreferrer">it’s faster</a></li>
+<a href="https://webglinsights.github.io/tips.html" target="_blank" rel="noopener noreferrer">it's faster</a></li>
 <li>Use the smallest texture sizes possible (can you get away with a 256x256 tiled texture? You might be surprised!).</li>
-<li>Non-power-of-two (NPOT) textures require linear or nearest filtering, and clamp-to-border or clamp-to-edge wrapping. Mipmap filtering and repeat wrapping are not supported. But seriously, just don’t use NPOT textures.</li>
+<li>Non-power-of-two (NPOT) textures require linear or nearest filtering, and clamp-to-border or clamp-to-edge wrapping. Mipmap filtering and repeat wrapping are not supported. But seriously, just don't use NPOT textures.</li>
 <li>All textures with the same dimensions are the same size in memory, so JPG may have a smaller file size than PNG, but it will take up the same amount of memory on your GPU.</li>
 </ol>
 <h2 id="antialiasing">Antialiasing<a class="anchor-link" href="#antialiasing">#</a></h2>
 <ol>
-<li>The worst-case scenario for antialiasing is geometry made up of lots of thin straight pieces aligned parallel with one another. Think metal window blinds or a lattice fence. If it’s at all possible, <strong>don’t include geometry like this in your scenes.</strong> If you have no choice, consider replacing the lattice with a texture instead, as that may give better results.</li>
+<li>The worst-case scenario for antialiasing is geometry made up of lots of thin straight pieces aligned parallel with one another. Think metal window blinds or a lattice fence. If it's at all possible, <strong>don't include geometry like this in your scenes.</strong> If you have no choice, consider replacing the lattice with a texture instead, as that may give better results.</li>
 </ol>
 <h2 id="post-processing">Post-Processing<a class="anchor-link" href="#post-processing">#</a></h2>
 <ol>
-<li>The built-in antialiasing doesn’t work with post-processing (at least in WebGL 1). You will need to do this manually, using
+<li>The built-in antialiasing doesn't work with post-processing (at least in WebGL 1). You will need to do this manually, using
 
 <a href="https://threejs.org/examples/#webgl_postprocessing_fxaa" target="_blank" rel="noopener noreferrer">FXAA</a> or
 
 <a href="https://threejs.org/examples/#webgl_postprocessing_smaa" target="_blank" rel="noopener noreferrer">SMAA</a> (probably faster, better)</li>
 <li>Since you are not using the built-in AA, be sure to disable it!</li>
-<li>three.js has loads of post-processing shaders, and that’s just great! But remember that each pass requires rendering your entire scene. Once you’re done testing, consider whether you can combine your passes into one single custom pass. It’s a little more work to do this, but can come with a considerable performance increase.</li>
+<li>three.js has loads of post-processing shaders, and that's just great! But remember that each pass requires rendering your entire scene. Once you're done testing, consider whether you can combine your passes into one single custom pass. It's a little more work to do this, but can come with a considerable performance increase.</li>
 </ol>
 <h2 id="disposing-of-things">Disposing of Things<a class="anchor-link" href="#disposing-of-things">#</a></h2>
 <p>Removing something from your scene?</p>
@@ -320,19 +308,19 @@ colorMap<span class="token punctuation">.</span><span class="token property-acce
 <li><strong>Transparent objects are slow.</strong> Use as few transparent objects as possible in your scenes.</li>
 <li>use
 
-<a href="https://threejs.org/docs/#api/en/materials/Material.alphaTest" target="_blank" rel="noopener noreferrer"><code>alphatest</code></a> instead of standard transparency if possible, it’s faster.</li>
-<li>When testing the performance of your apps, one of the first things you’ll need to do is check whether it is CPU bound, or GPU bound. Replace all materials with basic material using <code>scene.overrideMaterial</code> (see beginners tips and the start of the page). If performance increases, then your app is GPU bound. If performance doesn’t increase, your app is CPU bound.</li>
-<li>When performance testing on a fast machine, you’ll probably be getting the maximum frame rate of 60FPS. Run chrome using <code>open -a "Google Chrome" --args --disable-gpu-vsync</code> for an unlimited frame rate.</li>
+<a href="https://threejs.org/docs/#api/en/materials/Material.alphaTest" target="_blank" rel="noopener noreferrer"><code>alphatest</code></a> instead of standard transparency if possible, it's faster.</li>
+<li>When testing the performance of your apps, one of the first things you'll need to do is check whether it is CPU bound, or GPU bound. Replace all materials with basic material using <code>scene.overrideMaterial</code> (see beginners tips and the start of the page). If performance increases, then your app is GPU bound. If performance doesn't increase, your app is CPU bound.</li>
+<li>When performance testing on a fast machine, you'll probably be getting the maximum frame rate of 60FPS. Run chrome using <code>open -a "Google Chrome" --args --disable-gpu-vsync</code> for an unlimited frame rate.</li>
 <li>Modern mobile devices have high pixel ratios as high as 5 - consider limiting the max pixel ratio to 2 or 3 on these devices. At the expense of some very slight blurring of your scene you will gain a considerable performance increase.</li>
 <li>Bake lighting and shadow maps to reduce the number of lights in your scene.</li>
 <li>Keep an eye on the number of drawcalls in your scene. A good rule of thumb is fewer draw calls = better performance.</li>
-<li>Far away objects don’t need the same level of detail as objects close to the camera. There are many tricks used to increase performance by reducing the quality of distant objects. Consider using a
+<li>Far away objects don't need the same level of detail as objects close to the camera. There are many tricks used to increase performance by reducing the quality of distant objects. Consider using a
 
 <a href="https://threejs.org/docs/#api/en/objects/LOD" target="_blank" rel="noopener noreferrer">LOD</a> (Level Of Detail) object. You may also get away with only updating position / animation every 2nd or 3rd frame for distant objects, or replacing them with a billboard - that is, a drawing of the object.</li>
 </ol>
 <h2 id="advanced-tips">Advanced Tips<a class="anchor-link" href="#advanced-tips">#</a></h2>
 <ol>
-<li>Don’t use <code>TriangleFanDrawMode</code>, it’s slow.</li>
+<li>Don't use <code>TriangleFanDrawMode</code>, it's slow.</li>
 <li>Use geometry instancing when you have hundreds or thousands of similar geometries.</li>
 <li>Animate on the GPU instead of the CPU, especially when animating vertices or particles (see
 
@@ -348,7 +336,7 @@ colorMap<span class="token punctuation">.</span><span class="token property-acce
 
 <a href="https://docs.unrealengine.com/en-us/Engine/Performance/Guidelines" target="_blank" rel="noopener noreferrer">Performance Guidelines for Artists and Designers (Unreal)</a></li>
 </ul>
-<p>WebGL Insights has lots of tips collected from throughout the book. It’s more technical, but worth reading too, especially if you are writing your own shaders.</p>
+<p>WebGL Insights has lots of tips collected from throughout the book. It's more technical, but worth reading too, especially if you are writing your own shaders.</p>
 <ul>
 <li>
 
