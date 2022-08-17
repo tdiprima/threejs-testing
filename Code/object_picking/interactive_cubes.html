@@ -45,59 +45,56 @@
   let pointer = new THREE.Vector2();
   let radius = 100;
 
-  init();
-  animate();
+  container = document.createElement('div');
+  document.body.appendChild(container);
 
-  function init() {
-    container = document.createElement('div');
-    document.body.appendChild(container);
+  camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 10000);
 
-    camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 10000);
+  scene = new THREE.Scene();
+  scene.background = new THREE.Color(0xf0f0f0);
 
-    scene = new THREE.Scene();
-    scene.background = new THREE.Color(0xf0f0f0);
+  let light = new THREE.DirectionalLight(0xffffff, 1);
+  light.position.set(1, 1, 1).normalize();
+  scene.add(light);
 
-    let light = new THREE.DirectionalLight(0xffffff, 1);
-    light.position.set(1, 1, 1).normalize();
-    scene.add(light);
+  let geometry = new THREE.BoxGeometry(20, 20, 20);
 
-    let geometry = new THREE.BoxGeometry(20, 20, 20);
+  // They're adding them directly to the scene.
+  for (let i = 0; i < 2000; i++) {
+    let grayness = Math.random() * 0xffffff;
+    let mat = new THREE.MeshLambertMaterial({color: grayness});
+    let object = new THREE.Mesh(geometry, mat);
 
-    // They're adding them directly to the scene.
-    for (let i = 0; i < 2000; i++) {
-      let grayness = Math.random() * 0xffffff;
-      let mat = new THREE.MeshLambertMaterial({color: grayness});
-      let object = new THREE.Mesh(geometry, mat);
+    object.position.x = Math.random() * 800 - 400;
+    object.position.y = Math.random() * 800 - 400;
+    object.position.z = Math.random() * 800 - 400;
 
-      object.position.x = Math.random() * 800 - 400;
-      object.position.y = Math.random() * 800 - 400;
-      object.position.z = Math.random() * 800 - 400;
+    object.rotation.x = Math.random() * 2 * Math.PI;
+    object.rotation.y = Math.random() * 2 * Math.PI;
+    object.rotation.z = Math.random() * 2 * Math.PI;
 
-      object.rotation.x = Math.random() * 2 * Math.PI;
-      object.rotation.y = Math.random() * 2 * Math.PI;
-      object.rotation.z = Math.random() * 2 * Math.PI;
+    object.scale.x = Math.random() + 0.5;
+    object.scale.y = Math.random() + 0.5;
+    object.scale.z = Math.random() + 0.5;
 
-      object.scale.x = Math.random() + 0.5;
-      object.scale.y = Math.random() + 0.5;
-      object.scale.z = Math.random() + 0.5;
-
-      scene.add(object);
-    }
-
-    raycaster = new THREE.Raycaster();
-
-    renderer = new THREE.WebGLRenderer();
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    container.appendChild(renderer.domElement);
-
-    stats = new Stats();
-    container.appendChild(stats.dom);
-
-    document.addEventListener('mousemove', onPointerMove);
-
-    window.addEventListener('resize', onWindowResize);
+    scene.add(object);
   }
+
+  raycaster = new THREE.Raycaster();
+
+  renderer = new THREE.WebGLRenderer();
+  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  container.appendChild(renderer.domElement);
+
+  stats = new Stats();
+  container.appendChild(stats.dom);
+
+  document.addEventListener('mousemove', onPointerMove);
+
+  window.addEventListener('resize', onWindowResize);
+
+  animate();
 
   function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
