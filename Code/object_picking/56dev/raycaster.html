@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>object picking</title>
+  <title>object picking - 56dev</title>
   <!-- http://soledadpenades.com/articles/three-js-tutorials/object-picking/ -->
   <!-- https://stackoverflow.com/questions/27690441/three-js-better-way-of-adding-multiple-cubes-to-a-scene -->
   <link href="raystyle.css" rel="stylesheet">
@@ -22,6 +22,8 @@
 
 <script>
   window.onload = function () {
+    console.log(`%cTHREE REV: ${THREE.REVISION}`, "color: #ccff00;");
+
     let container = document.getElementById('container'),
       containerWidth,
       containerHeight,
@@ -63,7 +65,7 @@
       let grayness = Math.random() * 0.5 + 0.25;
       let mat = new THREE.MeshBasicMaterial();
       let object = new THREE.Mesh(geom, mat);
-      mat.color.setRGB( grayness, grayness, grayness );
+      mat.color.setRGB(grayness, grayness, grayness);
 
       object.position.set(
         range * (0.5 - Math.random()),
@@ -77,7 +79,7 @@
         Math.random()
       ).multiplyScalar(2 * Math.PI);
 
-      object.grayness = grayness; // Huh?
+      object.grayness = grayness; // We'll use it later!
 
       objectContainer.add(object);
     }
@@ -101,17 +103,28 @@
     animate();
 
     function onWindowResize() {
-      camera.aspect = window.innerWidth / window.innerHeight;
+      // Update containerWidth and containerHeight so that picking keeps working properly.
+      containerWidth = container.clientWidth;
+      containerHeight = container.clientHeight;
+
+      camera.aspect = containerWidth / containerHeight;
       camera.updateProjectionMatrix();
 
-      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setSize(containerWidth, containerHeight);
     }
 
     function onMouseMove(e) {
+      // Convert the mouse coordinates, which go from 0 to containerWidth, and from
+      // 0 to containerHeight, to (-1, 1) in both axes.
       mouseVector.x = 2 * (e.clientX / containerWidth) - 1;
       mouseVector.y = 1 - 2 * (e.clientY / containerHeight);
+      // Y is Negated, because in the classic DOM coordinate system the Y axis grows from top to bottom (i.e. top is 0),
+      // whereas in 3D it grows from bottom to top (i.e. bottom is 0).
 
+      // Casting a ray and using it to find objects in its path
       let raycaster = projector.pickingRay(mouseVector.clone(), camera);
+
+      // Find intersections of the ray with objects
       let intersects = raycaster.intersectObjects(objectContainer.children);
 
       objectContainer.children.forEach(cube => {
@@ -121,9 +134,14 @@
 
       for (let i = 0; i < intersects.length; i++) {
         let intersection = intersects[i];
+        // console.log({
+        //   "distance": intersection.distance,
+        //   "point": intersection.point,
+        //   "face": intersection.face,
+        //   "object": intersection.object
+        // });
         let obj = intersection.object;
-        // Set to a shade of red, depending on how many are selected.
-        // Shade between 0 and 1, of course.
+        // Paint the intersected cubes redder as they get closer to the camera.
         obj.material.color.setRGB(1.0 - i / intersects.length, 0, 0);
       }
     }
@@ -133,8 +151,6 @@
       controls.update();
       renderer.render(scene, camera);
     }
-
-    console.log(`%cTHREE REV: ${THREE.REVISION}`, "color: #ccff00;");
 
   };
 </script>
