@@ -16,22 +16,23 @@
 <body>
 
 <script src="three.min.js"></script>
-
 <script src="Projector.js"></script>
 <script src="CanvasRenderer.js"></script>
 
 <script>
   console.log(`%cREV: ${THREE.REVISION}`, "color: #ccff00;");
-  var container;
-  var camera, scene, renderer;
-  var plane;
 
-  var mouse, raycaster, isShiftDown = false;
+  let container;
+  let camera, scene, renderer;
+  let plane;
+  let directionalLight;
 
-  var cubeGeometry = new THREE.BoxBufferGeometry(50, 50, 50);
-  var cubeMaterial = new THREE.MeshLambertMaterial({color: 0x00ff80, overdraw: 0.5});
+  let mouse, raycaster, isShiftDown = false;
 
-  var objects = [];
+  let cubeGeometry = new THREE.BoxBufferGeometry(50, 50, 50);
+  let cubeMaterial = new THREE.MeshLambertMaterial({ color: 0x00ff80, overdraw: 0.5 });
+
+  let objects = [];
 
   init();
   render();
@@ -40,12 +41,13 @@
     container = document.createElement('div');
     document.body.appendChild(container);
 
-    var info = document.createElement('div');
+    let info = document.createElement('div');
     info.style.position = 'absolute';
     info.style.top = '10px';
     info.style.width = '100%';
     info.style.textAlign = 'center';
-    info.innerHTML = '<a href="http://threejs.org" target="_blank" rel="noopener">three.js</a> - voxel painter<br><strong>click</strong>: add voxel, <strong>shift + click</strong>: remove voxel, <a href="javascript:save()">save .png</a>';
+    info.innerHTML =
+      '<a href="http://threejs.org" target="_blank" rel="noopener">three.js</a> - voxel painter<br><strong>click</strong>: add voxel, <strong>shift + click</strong>: remove voxel, <a href="javascript:save()">save .png</a>';
     container.appendChild(info);
 
     camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 10000);
@@ -56,32 +58,32 @@
     scene.background = new THREE.Color(0xf0f0f0);
 
     // Grid
-    var gridHelper = new THREE.GridHelper(1000, 20);
+    let gridHelper = new THREE.GridHelper(1000, 20);
     scene.add(gridHelper);
 
     raycaster = new THREE.Raycaster();
     mouse = new THREE.Vector2();
 
-    var geometry = new THREE.PlaneBufferGeometry(1000, 1000);
+    let geometry = new THREE.PlaneBufferGeometry(1000, 1000);
     geometry.rotateX(-Math.PI / 2);
 
-    plane = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({visible: false}));
+    plane = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({ visible: false }));
     scene.add(plane);
 
     objects.push(plane);
 
     // Lights
-    var ambientLight = new THREE.AmbientLight(0x606060);
+    let ambientLight = new THREE.AmbientLight(0x606060);
     scene.add(ambientLight);
 
-    var directionalLight = new THREE.DirectionalLight(0xffffff);
+    directionalLight = new THREE.DirectionalLight(0xffffff);
     directionalLight.position.x = Math.random() - 0.5;
     directionalLight.position.y = Math.random() - 0.5;
     directionalLight.position.z = Math.random() - 0.5;
     directionalLight.position.normalize();
     scene.add(directionalLight);
 
-    var directionalLight = new THREE.DirectionalLight(0x808080);
+    directionalLight = new THREE.DirectionalLight(0x808080);
     directionalLight.position.x = Math.random() - 0.5;
     directionalLight.position.y = Math.random() - 0.5;
     directionalLight.position.z = Math.random() - 0.5;
@@ -98,7 +100,6 @@
     document.addEventListener('keyup', onDocumentKeyUp, false);
 
     window.addEventListener('resize', onWindowResize, false);
-
   }
 
   function onWindowResize() {
@@ -118,23 +119,24 @@
 
     raycaster.setFromCamera(mouse, camera);
 
-    var intersects = raycaster.intersectObjects(objects);
+    let intersects = raycaster.intersectObjects(objects);
 
     if (intersects.length > 0) {
-
-      var intersect = intersects[0];
+      let intersect = intersects[0];
 
       if (isShiftDown) {
-
         if (intersect.object !== plane) {
           scene.remove(intersect.object);
           objects.splice(objects.indexOf(intersect.object), 1);
         }
-
       } else {
-        var voxel = new THREE.Mesh(cubeGeometry, cubeMaterial);
+        let voxel = new THREE.Mesh(cubeGeometry, cubeMaterial);
         voxel.position.copy(intersect.point).add(intersect.face.normal);
-        voxel.position.divideScalar(50).floor().multiplyScalar(50).addScalar(25);
+        voxel.position
+          .divideScalar(50)
+          .floor()
+          .multiplyScalar(50)
+          .addScalar(25);
         scene.add(voxel);
 
         objects.push(voxel);
@@ -161,14 +163,13 @@
   }
 
   function save() {
-    window.open(renderer.domElement.toDataURL('image/png'), 'myWindow');
+    window.open(renderer.domElement.toDataURL("image/png"), "myWindow");
     return false;
   }
 
   function render() {
     renderer.render(scene, camera);
   }
-
 </script>
 
 </body>
