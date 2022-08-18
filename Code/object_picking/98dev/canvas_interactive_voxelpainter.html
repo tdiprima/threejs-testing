@@ -16,6 +16,7 @@
 <body>
 
 <script src="three.min.js"></script>
+<!-- TODO: Comment if using WebGLRenderer: -->
 <script src="Projector.js"></script>
 <script src="CanvasRenderer.js"></script>
 
@@ -90,10 +91,12 @@
     directionalLight.position.normalize();
     scene.add(directionalLight);
 
-    renderer = new THREE.CanvasRenderer();
+    renderer = new THREE.CanvasRenderer(); // TODO
+    // renderer = new THREE.WebGLRenderer( { antialias: true } );
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
-    container.appendChild(renderer.domElement);
+    container.appendChild(renderer.domElement); // TODO
+    // document.body.appendChild( renderer.domElement );
 
     document.addEventListener('mousedown', onDocumentMouseDown, false);
     document.addEventListener('keydown', onDocumentKeyDown, false);
@@ -163,6 +166,7 @@
   }
 
   function save() {
+    // gotta use the canvas renderer
     window.open(renderer.domElement.toDataURL("image/png"), "myWindow");
     return false;
   }
