@@ -29,13 +29,16 @@
 
 <script type="importmap">
   {
-  	"imports": {
-    "three": "/build/three.module.js"
-  	}
+    "imports": {
+      "three": "/build/three.module.js"
+    }
   }
 </script>
 
 <script type="module">
+  console.clear();
+  console.log("%cthree.js rev", "color: #ccff00;", THREE.REVISION);
+
   import * as THREE from 'three';
 
   import Stats from '/jsm/libs/stats.module.js';
@@ -44,16 +47,11 @@
   import {OrbitControls} from '/jsm/controls/OrbitControls.js';
   import * as BufferGeometryUtils from '/jsm/utils/BufferGeometryUtils.js';
 
-  let container;
-  let stats;
-  let gui;
-  let guiStatsEl;
+  let container, stats, gui, guiStatsEl;
+  let camera, controls, scene, renderer, material;
 
-  let camera;
-  let controls;
-  let scene;
-  let renderer;
-  let material;
+  const min = 1000;
+  const max = 10000;
 
   // gui
   const Method = {
@@ -65,7 +63,7 @@
   // api
   const api = {
     method: Method.INSTANCED,
-    count: 1000
+    count: min
   };
 
   init();
@@ -93,6 +91,7 @@
 
   /**
    * randomizeMatrix
+   * @type {(function(*): void)|*}
    */
   let randomizeMatrix = (function () {
     let position = new THREE.Vector3();
@@ -168,7 +167,7 @@
     scene.add(mesh);
 
     let geometryByteLength = getGeometryByteLength(geometry);
-    console.log("geometryByteLength", geometryByteLength);
+    // console.log("geometryByteLength", geometryByteLength);
 
     guiStatsEl.innerHTML = [
       '<i>GPU draw calls</i>: 1', // hard-coded. brilliant.
@@ -263,7 +262,7 @@
     gui = new GUI();
     gui.add(api, 'method', Method).onChange(initMesh);
     gui
-      .add(api, 'count', 1, 10000)
+      .add(api, 'count', 1, max)
       .step(1)
       .onChange(initMesh);
 
@@ -285,13 +284,13 @@
    * onWindowResize
    */
   function onWindowResize() {
-    let width = window.innerWidth;
-    let height = window.innerHeight;
+    const newWidth = window.innerWidth;
+    const newHeight = window.innerHeight;
 
-    camera.aspect = width / height;
+    camera.aspect = newWidth / newHeight;
     camera.updateProjectionMatrix();
 
-    renderer.setSize(width, height);
+    renderer.setSize(newWidth, newHeight);
   }
 
   /**
