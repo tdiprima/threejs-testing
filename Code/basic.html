@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>basic</title>
+  <style>
+    body { margin: 0; }
+  </style>
+</head>
+<body>
+<script src="//cdn.rawgit.com/mrdoob/three.js/master/build/three.min.js"></script>
+<script>
+  let scene, camera, renderer;
+  createScene();
+
+  let geometry, material, cube;
+  createGeometry();
+
+  renderScene();
+
+  /**
+   * Create Scene
+   */
+  function createScene() {
+    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+    renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+  }
+
+  /**
+   * Create Geometry
+   */
+  function createGeometry() {
+    geometry = new THREE.BoxGeometry(1, 1, 1);
+    material = new THREE.MeshBasicMaterial({color: 0x00ff00});
+    cube = new THREE.Mesh(geometry, material);
+    scene.add(cube);
+
+    camera.position.z = 5;
+  }
+
+  /**
+   * Render the Scene
+   */
+  function renderScene() {
+    requestAnimationFrame(renderScene);
+    renderer.render(scene, camera);
+  }
+</script>
+</body>
+</html>
