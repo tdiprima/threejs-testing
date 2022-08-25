@@ -2,46 +2,55 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>How to implement ThreeJS</title>
   <!-- https://discourse.threejs.org/t/how-to-implement-threejs-please-without-type-module/18879 -->
-  <link rel="stylesheet"
-      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/default.min.css">
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
-<style>
-  :root {
-    color-scheme: light dark;
-  }
-  body {
-    font-size: x-large;
-  }
-</style>
+  <link href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/default.min.css" rel="stylesheet">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
+  <style>
+    :root { color-scheme: light dark; }
+    body { font-size: x-large; margin: 30px }
+  </style>
 </head>
 <body>
-<a href="https://discourse.threejs.org/t/how-to-implement-threejs-please-without-type-module/18879">
-  How to implement ThreeJS</a>
-  <div class="cooked"><p>According to your lib folder structure suggested in your code above, it would be something like this,</p>
-    <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"./js/three.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"./examples/js/loaders/GLTFLoader.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"./examples/js/controls/OrbitControls.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<a href="https://discourse.threejs.org/t/how-to-implement-threejs-please-without-type-module/18879">How to implement ThreeJS</a>
+
+<div class="cooked"><p>According to your lib folder structure suggested in your code above, it would be something like this,</p>
+
+  <pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span
+    class="hljs-string">"./js/three.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span
+    class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span
+    class="hljs-string">"./examples/js/loaders/GLTFLoader.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span
+      class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span
+    class="hljs-string">"./examples/js/controls/OrbitControls.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span
+      class="hljs-name">script</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
   <span class="hljs-comment">// rest of your script goes here</span>
   </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
   </code></pre>
-    <p>The libs in this version,</p>
-    <ul>
-      <li>are being loaded using script tags and not es6 import statements.</li>
-      <li>are in the <code>/examples/js</code> folder and not the <code>/examples/jsm</code> folder</li>
-      <li>the three lib is either <code>three.js</code> or <code>three.min.js</code> and not the <code>three.module.js</code>
-      </li>
-    </ul></div>
 
-    <p>Thanks very much for your reply. Unfortunately it didn’t work. I get two warnings and an error in Firefox.</p>
+  <!-- sean wasere -->
+  <p>The libs in this version,</p>
+  <ul>
+    <li>are being loaded using script tags and not es6 import statements.</li>
+    <li>are in the <code>/examples/js</code> folder and not the <code>/examples/jsm</code> folder</li>
+    <li>the three lib is either <code>three.js</code> or <code>three.min.js</code> and not the
+      <code>three.module.js</code>
+    </li>
+  </ul>
+</div>
 
-    <p><pre><code class="hljs js">const controls = new OrbitControls( camera, renderer.domElement );</code></pre></p>
-    <p>Change that line to</p>
-    <p><pre><code class="hljs js">const controls = new THREE.OrbitControls( camera, renderer.domElement );</code></pre></p>
-    <p><a class="mention" href="/u/cannon303">@cannon303</a> If you want to keep using modules in your project, you could also use a compiler like Babel or a bundler like Webpack that will automatically convert your code to an older js version, compatible with your CMS.</p>
+<p>Thanks very much for your reply. Unfortunately it didn't work. I get two warnings and an error in Firefox.</p>
+
+<p><pre><code class="hljs js">const controls = new OrbitControls( camera, renderer.domElement );</code></pre></p>
+<p>Change that line to</p>
+<p><pre><code class="hljs js">const controls = new THREE.OrbitControls( camera, renderer.domElement );</code></pre></p>
+
+<p><a class="mention" href="/u/cannon303">@cannon303</a> If you want to keep using modules in your project, you could
+  also use a compiler like Babel or a bundler like Webpack that will automatically convert your code to an older js
+  version, compatible with your CMS.</p>
 </body>
 </html>
