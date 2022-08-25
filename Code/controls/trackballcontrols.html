@@ -39,7 +39,9 @@
   let axesHelper = new THREE.AxesHelper(5);
   scene.add(axesHelper);
 
+  // A light source positioned directly above the scene, with color fading from the sky color to the ground color.
   let light = new THREE.HemisphereLight();
+  // let light = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
   scene.add(light);
 
   let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
