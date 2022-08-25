@@ -1,87 +1,86 @@
 #skillShareVideoLink {
-    display: none;
-    padding: 0px;
-    margin-right: 10px;
+  display: none;
+  margin-right: 10px;
+  padding: 0;
 }
 
 #skillShareVideoLink :hover {
-    box-shadow: 5px 0px 40px rgba(0, 0, 0, .2);
+  box-shadow: 5px 0 40px rgba(0, 0, 0, .2);
 }
 
 #udemyVideoLink {
-    display: none;
-    padding: 0px;
-    margin-right: 10px;
+  display: none;
+  margin-right: 10px;
+  padding: 0;
 }
 
 #udemyVideoLink :hover {
-    box-shadow: 5px 0px 40px rgba(0, 0, 0, .2);
+  box-shadow: 5px 0 40px rgba(0, 0, 0, .2);
 }
 
 #tutorialspointVideoLink {
-    display: none;
-    padding: 0px;
-    margin-right: 10px;
+  display: none;
+  margin-right: 10px;
+  padding: 0;
 }
 
 #tutorialspointVideoLink :hover {
-    box-shadow: 5px 0px 40px rgba(0, 0, 0, .2);
+  box-shadow: 5px 0 40px rgba(0, 0, 0, .2);
 }
 
-#ytVideoLink {   
-    display: none;
-    padding: 0px;
-    margin-right: 10px;
+#ytVideoLink {
+  display: none;
+  margin-right: 10px;
+  padding: 0;
 }
 
 #ytVideoLink :hover {
-    box-shadow: 5px 0px 40px rgba(0, 0, 0, .2);
+  box-shadow: 5px 0 40px rgba(0, 0, 0, .2);
 }
 
 #sbcodeVideoLink {
-    display: none;
-    padding: 0px;
-    margin-right: 10px;
+  display: none;
+  margin-right: 10px;
+  padding: 0;
 }
 
 #sbcodeVideoLink :hover {
-    box-shadow: 5px 0px 40px rgba(0, 0, 0, .2);
+  box-shadow: 5px 0 40px rgba(0, 0, 0, .2);
 }
 
 #sbcodeVideoDiv {
-    display: none;
+  display: none;
 }
 
 #vwSrcLink {
-    position: absolute;
-    right: 20px;
-    bottom: 20px;
-    text-decoration: none;
-    font-size: 17px;
-    color: black;
-    font-family: Tahoma, sans-serif;
-    width: 25px;
-    height: 16px;
-    text-align: center;
-    vertical-align: middle;
-    line-height: 16px;
-    border-radius: 4px;
-    text-align: center;
-    background: white;
-    padding-bottom: 1px;
-    opacity: .5;
+  font-family: Tahoma, sans-serif;
+  font-size: 17px;
+  line-height: 16px;
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  width: 25px;
+  height: 16px;
+  padding-bottom: 1px;
+  text-align: center;
+  vertical-align: middle;
+  text-decoration: none;
+  opacity: .5;
+  color: black;
+  border-radius: 4px;
+  background: white;
 }
 
 @keyframes highlight-timer {
-    0% {
-        background: #00ffaa
-    }
+  0% {
+    background: #0fa;
+  }
 
-    100% {
-        background: #f8f8f8;
-    }
+  100% {
+    background: #f8f8f8;
+  }
 }
 
 .run-highlight-timer {
-    animation: highlight-pre .5s;
+  animation: highlight-pre .5s;
 }
