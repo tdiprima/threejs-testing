@@ -2,45 +2,56 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>three.js - idk</title>
+  <meta content="width=device-width, initial-scale=1.0, user-scalable=no" name="viewport">
+  <title>three.js - stats</title>
   <!-- https://github.com/Sean-Bradley/Three.js-TypeScript-Boilerplate/blob/master/src/client/client.ts -->
-  <link type="text/css" rel="stylesheet" href="/css/main.css">
+  <link href="/css/main.css" rel="stylesheet">
 </head>
 <body>
 
 <div id="info">
-  <a href="https://threejs.org" target="_blank" rel="noopener">three.js</a> idk
+  <a href="https://threejs.org" rel="noopener" target="_blank">three.js</a> stats
 </div>
 
 <!-- Import maps polyfill -->
 <script async src="/es-module-shims-1.3.6/dist/es-module-shims.js"></script>
 
 <script type="importmap">
-  {
-  	"imports": {
-  		"three": "/build/three.module.js"
-  	}
-  }
+    {
+      "imports": {
+          "three": "/build/three.module.js"
+      }
+    }
+
+
 </script>
 
 <script type="module">
   import * as THREE from 'three';
-  import { OrbitControls } from '/jsm/controls/OrbitControls.js';
+  import {OrbitControls} from '/jsm/controls/OrbitControls.js';
+  // import {TrackballControls} from '/jsm/controls/TrackballControls.js';
   import Stats from '/jsm/libs/stats.module.js';
-  import { GUI } from '/jsm/libs/lil-gui.module.min.js';
+  import {GUI} from '/jsm/libs/lil-gui.module.min.js';
+
+  console.log(`%c${THREE.REVISION}`, "color: #ccff00;");
 
   let scene = new THREE.Scene();
+
+  // The X axis is red. The Y axis is green. The Z axis is blue.
+  // let axesHelper = new THREE.AxesHelper(5);
+  // scene.add(axesHelper);
 
   let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
   camera.position.z = 2;
 
   let renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);
+
   document.body.appendChild(renderer.domElement);
 
   let controls = new OrbitControls(camera, renderer.domElement);
-  // controls.addEventListener('change', render);
+  // let trackballControls = new TrackballControls(camera, renderer.domElement);
+  // If using trackball, then need controls.update(); in animate function.
 
   let geometry = new THREE.BoxGeometry();
   let material = new THREE.MeshBasicMaterial({
@@ -52,6 +63,7 @@
   scene.add(cube);
 
   window.addEventListener('resize', onWindowResize, false);
+
   function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
@@ -72,19 +84,20 @@
   cameraFolder.add(camera.position, 'z', 0, 10);
   cameraFolder.open();
 
-  function animate() {
+  let animate = function () {
     requestAnimationFrame(animate);
 
     // If you want it movin' by itself...
-    // stats.begin();
-    // cube.rotation.x += 0.01;
-    // cube.rotation.y += 0.01;
-    // stats.end();
+    stats.begin();
+    cube.rotation.x += 0.01;
+    cube.rotation.y += 0.01;
+    stats.end();
 
+    // trackballControls.update();
     render();
 
     stats.update();
-  }
+  };
 
   function render() {
     renderer.render(scene, camera);
