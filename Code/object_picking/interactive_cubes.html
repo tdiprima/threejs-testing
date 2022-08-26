@@ -10,6 +10,7 @@
       background-color: #f0f0f0;
       color: #444;
     }
+
     a {
       color: #08f;
     }
@@ -33,8 +34,10 @@
 
 <script type="module">
   import * as THREE from 'three';
-
   import Stats from '/jsm/libs/stats.module.js';
+
+  // circumference = tau * r
+  const tau = 2 * Math.PI;
 
   let container, stats;
   let camera, scene, raycaster, renderer;
@@ -69,9 +72,9 @@
     object.position.y = Math.random() * 800 - 400;
     object.position.z = Math.random() * 800 - 400;
 
-    object.rotation.x = Math.random() * 2 * Math.PI;
-    object.rotation.y = Math.random() * 2 * Math.PI;
-    object.rotation.z = Math.random() * 2 * Math.PI;
+    object.rotation.x = Math.random() * tau;
+    object.rotation.y = Math.random() * tau;
+    object.rotation.z = Math.random() * tau;
 
     object.scale.x = Math.random() + 0.5;
     object.scale.y = Math.random() + 0.5;

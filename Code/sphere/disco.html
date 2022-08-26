@@ -15,8 +15,9 @@
 <!-- <script src="/build/three.min.js"></script> -->
 
 <script>
-  let width = 500;
-  let height = 400;
+  const tau = 2 * Math.PI;
+  const width = 500;
+  const height = 400;
 
   let scene = new THREE.Scene();
   let camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 1000);
@@ -26,7 +27,7 @@
   document.body.appendChild(renderer.domElement);
 
   // TODO: r54
-  let geometry = new THREE.SphereGeometry(3, 50, 50, 0, Math.PI * 2, 0, Math.PI * 2);
+  let geometry = new THREE.SphereGeometry(3, 50, 50, 0, tau, 0, tau);
   let material = new THREE.MeshNormalMaterial();
   let mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
@@ -35,9 +36,7 @@
 
   const render = function () {
     requestAnimationFrame(render);
-
     mesh.rotation.y += 0.01;
-
     renderer.render(scene, camera);
   };
 
@@ -78,6 +77,5 @@
 
   console.log("%cthree.js rev", "color: #ccff00;", THREE.REVISION);
 </script>
-
 </body>
 </html>

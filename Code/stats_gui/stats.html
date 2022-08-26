@@ -17,6 +17,11 @@
 <script src="stats.min.js"></script>
 
 <script>
+  // The circle constant to represent a full rotation around a circle in radians
+  const tau = 2 * Math.PI;
+
+  let scene = new THREE.Scene();
+
   let stats = new Stats();
   // stats.showPanel(1); // Milliseconds needed to render a frame
 
@@ -47,7 +52,8 @@
       y = Math.sin(time + i * 0.01234) * 196 + 256;
 
       context.beginPath();
-      context.arc(x, y, 10, 0, Math.PI * 2, true);
+      // x, y, radius, start angle, end angle, counterClockwise?
+      context.arc(x, y, 10, 0, tau, true);
       context.fill();
     }
 
