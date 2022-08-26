@@ -24,9 +24,9 @@
           "three/examples/jsm/libs/stats.module": "/jsm/libs/stats.module.js"
       }
     }
+
   </script>
 </head>
-
 <body>
 <script type="module">
   import * as THREE from 'three';
@@ -41,9 +41,8 @@
   let axesHelper = new THREE.AxesHelper(5);
   scene.add(axesHelper);
 
-  // A light source positioned directly above the scene, with color fading from the sky color to the ground color.
+  // A light source positioned directly above the scene
   let light = new THREE.HemisphereLight();
-  // let light = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
   scene.add(light);
 
   let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -87,7 +86,7 @@
 
   let stats = Stats();
   document.body.appendChild(stats.dom);
-  var animate = function () {
+  let animate = function () {
     requestAnimationFrame(animate);
     controls.update();
     render();
