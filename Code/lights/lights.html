@@ -26,7 +26,7 @@
   import {GLTFLoader} from "/jsm/loaders/GLTFLoader.js";
 
   console.clear();
-  console.log('%cthree.js rev', 'color: #ccff00;', THREE.REVISION);
+  console.log("%cthree.js rev", "color: #ccff00;", THREE.REVISION);
 
   let scene = new THREE.Scene();
   let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -48,6 +48,8 @@
 
   let light;
   let gltfLoader = new GLTFLoader();
+  // https://r105.threejsfundamentals.org/threejs/lessons/threejs-load-gltf.html
+  // let url = "resources/models/cartoon_lowpoly_small_city_free_pack/scene.gltf";
 
   // Removing objects from scene
   function removeModel(gltf) {
@@ -60,11 +62,14 @@
         }
       }
     });
+
     objectsToRemove.forEach(node => {
       let parent = node.parent;
       parent.remove( node );
     });
+
     console.log("---------");
+
     gltf.scene.traverse( function( node ) {
       if(node instanceof THREE.Mesh){
         console.log(node);
@@ -73,32 +78,39 @@
   }
 
   function updateModel(param) {
-    let my3DFile;
+    let url;
 
     switch (param) {
       case 1:
-        my3DFile = "/models/gltf/bench.glb";
+        url = "/models/gltf/bench.glb";
         break;
       case 2:
-        my3DFile = "/models/gltf/box.glb";
+        url = "/models/gltf/box.glb";
         break;
       case 3:
-        my3DFile = "/models/gltf/Flamingo.glb";
+        url = "/models/gltf/Flamingo.glb";
         break;
       case 4:
-        my3DFile = "/models/gltf/Soldier.glb";
+        url = "/models/gltf/Soldier.glb";
         break;
       default:
-        my3DFile = "/models/gltf/bench.glb";
+        // BENCH
+        url = "/models/gltf/bench.glb";
         break;
     }
 
-    gltfLoader.load(my3DFile, function (gltf) {
+    gltfLoader.load(url, function (gltf) {
       let root = gltf.scene;
       scene.add(root);
+      
+      // gltf.scene.traverse(function (node) {
+      //   if (node instanceof THREE.Mesh) {
+      //     console.log(node);
+      //   }
+      // });
     });
 
-    // gltfLoader.load(my3DFile, function (gltf) {
+    // gltfLoader.load(url, function (gltf) {
     //   scene.add(gltf.scene);
     // }, undefined, function (error) {
     //   console.error("Here.", error);
@@ -139,7 +151,6 @@
         // This light gets emitted from a single point in one direction, along a cone that increases in size the further from the light it gets.
         // This light can cast shadows - see the SpotLightShadow page for details.
         // white spotlight shining from the side, casting a shadow
-
         light = new THREE.SpotLight(0xffffff);
         light.position.set(100, 1000, 100);
 
@@ -156,6 +167,7 @@
         break;
 
       default:
+        // HEMISPHERE
         light = new THREE.HemisphereLight(0xffffbb, 0x080820, 1);
         scene.add(light);
         break;
@@ -174,6 +186,7 @@
         renderer.setClearColor(0x000000);
         break;
       default:
+        // GRAY
         renderer.setClearColor(0xcccccc);
         break;
     }
@@ -189,9 +202,9 @@
       backgroundColor: "backgroundColor",
       myModel: "someModel"
     }
-  gui.add(text, 'myLight', {Ambient: 1, Directional: 2, Hemisphere: 3, Point: 4, Spot: 5}).onChange(updateLighting);
-  gui.add(text, 'backgroundColor', {gray: 1, black: 2}).onChange(updateBackground);
-  gui.add(text, 'myModel', {bench: 1, box: 2, flamingo: 3, soldier: 4}).onChange(updateModel);
+  gui.add(text, "myLight", {Ambient: 1, Directional: 2, Hemisphere: 3, Point: 4, Spot: 5}).onChange(updateLighting);
+  gui.add(text, "backgroundColor", {gray: 1, black: 2}).onChange(updateBackground);
+  gui.add(text, "myModel", {bench: 1, box: 2, flamingo: 3, soldier: 4}).onChange(updateModel);
 
   function animate() {
     requestAnimationFrame(animate);
