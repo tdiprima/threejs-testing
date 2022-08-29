@@ -15,15 +15,14 @@
   		"three": "/build/three.module.js"
   	}
   }
-
-
 </script>
 
 <script type="module">
-  import * as THREE from 'three';
-  import { OrbitControls } from '/jsm/controls/OrbitControls.js';
-  import Stats from '/jsm/libs/stats.module.js';
-  import { GUI } from '/jsm/libs/lil-gui.module.min.js';
+  import * as THREE from "three";
+  import { OrbitControls } from "/jsm/controls/OrbitControls.js";
+  import Stats from "/jsm/libs/stats.module.js";
+  import { GUI } from "/jsm/libs/lil-gui.module.min.js";
+  import { GLTFLoader } from "/jsm/loaders/GLTFLoader.js";
 
   console.log('%cthree.js rev', 'color: #ccff00;', THREE.REVISION);
 
@@ -32,8 +31,6 @@
 
   let renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);
-  // renderer.setClearColor(0xcccccc);
-  renderer.setClearColor(0x000000);
   document.body.appendChild(renderer.domElement);
 
   let controls = new OrbitControls(camera, renderer.domElement);
@@ -47,7 +44,7 @@
   // lightHelpers();
   let light;
 
-  function updateToggle(parm) {
+  function updateLighting(parm) {
     scene.remove(light);
     switch(parm) {
       case 1:
@@ -104,16 +101,35 @@
   let gui = new GUI();
   let text =
     {
-      myLight: 'someLight'
+      myLight: "someLight",
+      backgroundColor: "backgroundColor"
     }
-  gui.add(text, 'myLight', { Ambient: 1, Directional: 2, Hemisphere: 3, Point: 4, Spot: 5 } ).onChange( updateToggle );
+  gui.add(text, 'myLight', { Ambient: 1, Directional: 2, Hemisphere: 3, Point: 4, Spot: 5 } ).onChange( updateLighting );
+  gui.add(text, 'backgroundColor', { gray: 1, black: 2 } ).onChange( updateBackground );
 
-  let geometry = new THREE.BoxGeometry(5, 0.5, 1);
-  let material = new THREE.MeshBasicMaterial({ color: 0xff00ff });
-  let cube = new THREE.Mesh(geometry, material);
-  scene.add(cube);
+  function updateBackground(parm) {
+    switch (parm) {
+      case 1:
+        renderer.setClearColor(0xcccccc);
+        break;
+      case 2:
+        renderer.setClearColor(0x000000);
+        break;
+      default:
+        break;
+    }
+  }
 
-  camera.position.z = 5;
+  let my3DFile = "../gltf-load/assets/bench.glb";
+  // let my3DFile = "../gltf-load/assets/box.glb";
+  let loader = new GLTFLoader();
+  loader.load(my3DFile, function (gltf) {
+    scene.add(gltf.scene);
+  }, undefined, function (error) {
+    console.error(error);
+  });
+
+  camera.position.z = 2;
 
   function animate() {
     requestAnimationFrame(animate);
@@ -124,28 +140,28 @@
 
   animate();
 
-  function lightHelpers() {
-    // let light = new THREE.DirectionalLight( 0xFFFFFF );
-    // let helper = new THREE.DirectionalLightHelper( light, 5 );
-    // scene.add( helper );
-
-    // let light = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
-    // let helper = new THREE.HemisphereLightHelper( light, 5 );
-    // scene.add( helper );
-
-    // let pointLight = new THREE.PointLight( 0xff0000, 1, 100 );
-    // pointLight.position.set( 10, 10, 10 );
-    // scene.add( pointLight );
-    // let sphereSize = 1;
-    // let pointLightHelper = new THREE.PointLightHelper( pointLight, sphereSize );
-    // scene.add( pointLightHelper );
-
-    let spotLight = new THREE.SpotLight(0xffffff);
-    spotLight.position.set(10, 10, 10);
-    scene.add(spotLight);
-    let spotLightHelper = new THREE.SpotLightHelper(spotLight);
-    scene.add(spotLightHelper);
-  }
+  // function lightHelpers() {
+  //   // let light = new THREE.DirectionalLight( 0xFFFFFF );
+  //   // let helper = new THREE.DirectionalLightHelper( light, 5 );
+  //   // scene.add( helper );
+  //
+  //   // let light = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
+  //   // let helper = new THREE.HemisphereLightHelper( light, 5 );
+  //   // scene.add( helper );
+  //
+  //   // let pointLight = new THREE.PointLight( 0xff0000, 1, 100 );
+  //   // pointLight.position.set( 10, 10, 10 );
+  //   // scene.add( pointLight );
+  //   // let sphereSize = 1;
+  //   // let pointLightHelper = new THREE.PointLightHelper( pointLight, sphereSize );
+  //   // scene.add( pointLightHelper );
+  //
+  //   let spotLight = new THREE.SpotLight(0xffffff);
+  //   spotLight.position.set(10, 10, 10);
+  //   scene.add(spotLight);
+  //   let spotLightHelper = new THREE.SpotLightHelper(spotLight);
+  //   scene.add(spotLightHelper);
+  // }
 </script>
 </body>
 </html>
