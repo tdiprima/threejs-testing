@@ -79,8 +79,8 @@
 
   function bench() {
     // Graphics Language Transmission Format (glTF)
-    let my3DFile = "./assets/bench.glb";
-    // let my3DFile = "./assets/box.glb";
+    let my3DFile = "/models/gltf/bench.glb";
+    // let my3DFile = "/models/gltf/box.glb";
 
     let loader = new GLTFLoader();
     loader.load(my3DFile, function (gltf) {
@@ -91,9 +91,9 @@
   }
 
   function cube() {
-    const geometry = new THREE.BoxGeometry(1, 1, 1);
-    const material = new THREE.MeshBasicMaterial({color: 0x00ff00});
-    const cube = new THREE.Mesh(geometry, material);
+    let geometry = new THREE.BoxGeometry(1, 1, 1);
+    let material = new THREE.MeshBasicMaterial({color: 0x00ff00});
+    let cube = new THREE.Mesh(geometry, material);
     scene.add(cube);
   }
 </script>

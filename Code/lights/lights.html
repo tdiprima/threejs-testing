@@ -39,8 +39,10 @@
   let stats = Stats();
   document.body.appendChild(stats.dom);
 
-  let my3DFile = "../gltf-load/assets/bench.glb";
-  // let my3DFile = "../gltf-load/assets/box.glb";
+  // let my3DFile = "/models/gltf/bench.glb";
+  // let my3DFile = "/models/gltf/box.glb";
+  // let my3DFile = "/models/gltf/Flamingo.glb";
+  let my3DFile = "/models/gltf/Soldier.glb";
   let loader = new GLTFLoader();
   loader.load(my3DFile, function (gltf) {
     scene.add(gltf.scene);
