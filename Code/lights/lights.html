@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Lights</title>
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+<script async src="/es-module-shims-1.3.6/dist/es-module-shims.js"></script>
+<script type="importmap">
+  {
+  	"imports": {
+  		"three": "/build/three.module.js"
+  	}
+  }
+
+</script>
+
+<script type="module">
+  import * as THREE from 'three';
+  import {OrbitControls} from '/jsm/controls/OrbitControls.js';
+  import Stats from '/jsm/libs/stats.module.js';
+  import {GUI} from '/jsm/libs/lil-gui.module.min.js';
+
+  console.log("%cthree.js rev", "color: #ccff00;", THREE.REVISION);
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+
+  const renderer = new THREE.WebGLRenderer();
+  renderer.setSize( window.innerWidth, window.innerHeight );
+  renderer.setClearColor(0xcccccc);
+  document.body.appendChild( renderer.domElement );
+
+  let controls = new OrbitControls(camera, renderer.domElement);
+
+  // LIGHTS
+  // https://threejs.org/docs/index.html?q=light
+  // lightHelpers();
+  lights();
+
+  const geometry = new THREE.BoxGeometry( 5, 0.5, 1 );
+  const material = new THREE.MeshBasicMaterial( { color: 0xff00ff  } );
+  const cube = new THREE.Mesh( geometry, material );
+  scene.add( cube );
+
+  camera.position.z = 5;
+
+  function animate() {
+    requestAnimationFrame( animate );
+    renderer.render( scene, camera );
+  }
+  animate();
+
+  function lightHelpers() {
+    // const light = new THREE.DirectionalLight( 0xFFFFFF );
+    // const helper = new THREE.DirectionalLightHelper( light, 5 );
+    // scene.add( helper );
+
+    // const light = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
+    // const helper = new THREE.HemisphereLightHelper( light, 5 );
+    // scene.add( helper );
+
+    // const pointLight = new THREE.PointLight( 0xff0000, 1, 100 );
+    // pointLight.position.set( 10, 10, 10 );
+    // scene.add( pointLight );
+    // const sphereSize = 1;
+    // const pointLightHelper = new THREE.PointLightHelper( pointLight, sphereSize );
+    // scene.add( pointLightHelper );
+
+    const spotLight = new THREE.SpotLight( 0xffffff );
+    spotLight.position.set( 10, 10, 10 );
+    scene.add( spotLight );
+    const spotLightHelper = new THREE.SpotLightHelper( spotLight );
+    scene.add( spotLightHelper );
+  }
+
+  function lights() {
+
+  }
+
+</script>
+</body>
+</html>
