@@ -15,9 +15,9 @@
   		"three": "/build/three.module.js"
   	}
   }
-
 </script>
 
+</body>
 <script type="module">
   import * as THREE from "three";
   import {OrbitControls} from "/jsm/controls/OrbitControls.js";
@@ -25,6 +25,7 @@
   import {GUI} from "/jsm/libs/lil-gui.module.min.js";
   import {GLTFLoader} from "/jsm/loaders/GLTFLoader.js";
 
+  console.clear();
   console.log('%cthree.js rev', 'color: #ccff00;', THREE.REVISION);
 
   let scene = new THREE.Scene();
@@ -46,17 +47,35 @@
   // lightHelpers();
 
   let light;
-  let loader = new GLTFLoader();
-  let gltf;
+  let gltfLoader = new GLTFLoader();
 
-  function updateModel(parm) {
+  // Removing objects from scene
+  function removeModel(gltf) {
+    // https://discourse.threejs.org/t/removing-objects-from-scene-not-working/33891
+    let objectsToRemove = [];
+    gltf.scene.traverse( function( node ) {
+      if (node instanceof THREE.Mesh) {
+        if(!node.visible){
+          objectsToRemove.push(node);
+        }
+      }
+    });
+    objectsToRemove.forEach(node => {
+      let parent = node.parent;
+      parent.remove( node );
+    });
+    console.log("---------");
+    gltf.scene.traverse( function( node ) {
+      if(node instanceof THREE.Mesh){
+        console.log(node);
+      }
+    });
+  }
+
+  function updateModel(param) {
     let my3DFile;
 
-    // if (typeof gltf !== "undefined") {
-    //   scene.remove(gltf.scene); // cwap :(
-    // }
-
-    switch (parm) {
+    switch (param) {
       case 1:
         my3DFile = "/models/gltf/bench.glb";
         break;
@@ -70,24 +89,28 @@
         my3DFile = "/models/gltf/Soldier.glb";
         break;
       default:
-        my3DFile = "/models/gltf/bench.glb"
+        my3DFile = "/models/gltf/bench.glb";
         break;
     }
 
-    loader.load(my3DFile, function (gltf) {
-      // scene.remove(gltf.scene); // cwap :(
-      scene.add(gltf.scene);
-    }, undefined, function (error) {
-      console.error(error);
+    gltfLoader.load(my3DFile, function (gltf) {
+      let root = gltf.scene;
+      scene.add(root);
     });
+
+    // gltfLoader.load(my3DFile, function (gltf) {
+    //   scene.add(gltf.scene);
+    // }, undefined, function (error) {
+    //   console.error("Here.", error);
+    // });
 
   }
 
   updateModel();
 
-  function updateLighting(parm) {
+  function updateLighting(param) {
     scene.remove(light);
-    switch (parm) {
+    switch (param) {
       case 1:
         // This light globally illuminates all objects in the scene equally.
         // This light cannot be used to cast shadows as it does not have a direction.
@@ -142,8 +165,8 @@
 
   updateLighting();
 
-  function updateBackground(parm) {
-    switch (parm) {
+  function updateBackground(param) {
+    switch (param) {
       case 1:
         renderer.setClearColor(0xcccccc);
         break;
@@ -202,5 +225,4 @@
     scene.add(spotLightHelper);
   }
 </script>
-</body>
 </html>
