@@ -288,7 +288,10 @@
         },
 
         CircleGeometry(mesh) {
-          // console.log("mesh", mesh);
+          console.log("%cCircleGeometry", "color: #ccff00;");
+          console.log("%cmesh", "color: #ff00cc;", mesh);
+          // http://www.bodurov.com/JsonFormatter/
+          // console.log("%cmesh", "color: #ff00cc;", JSON.stringify(mesh));
 
           let data = {
             radius: 10,
@@ -739,8 +742,6 @@
         return {};
       }
 
-      //
-
       let selectedGeometry = window.location.hash.substring(1);
 
       if (guis[selectedGeometry] !== undefined) {
@@ -798,12 +799,10 @@
 
       function render() {
         requestAnimationFrame(render);
-
-        if (!options.fixed) {
-          group.rotation.x += 0.005;
-          group.rotation.y += 0.005;
-        }
-
+        // if (!options.fixed) {
+        //   group.rotation.x += 0.005;
+        //   group.rotation.y += 0.005;
+        // }
         renderer.render(scene, camera);
       }
 
