@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Test</title>
+  <!-- https://discourse.threejs.org/t/cdn-only-approach-not-so-satisfying/35498/5 -->
+  <!-- Also: https://github.com/Sean-Bradley/Three.js-TypeScript-Boilerplate/blob/master/src/client/client.ts -->
+  <style>
+    body { margin: 0; }
+  </style>
+
+  <script
+    async
+    src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"
+  ></script>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.skypack.dev/three@0.138.0/build/three.module",
+        "three/examples/jsm/controls/OrbitControls": "https://cdn.skypack.dev/three@0.138.0/examples/jsm/controls/OrbitControls",
+        "three/examples/jsm/libs/stats.module": "https://cdn.skypack.dev/three@0.138.0/examples/jsm/libs/stats.module",
+        "dat.gui": "https://cdn.skypack.dev/dat.gui"
+      }
+    }
+  </script>
+</head>
+<body>
+<script type="module">
+  import * as THREE from "three";
+  import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
+  // import {TrackballControls} from '/jsm/controls/TrackballControls.js';
+  import Stats from "three/examples/jsm/libs/stats.module";
+  import {GUI} from "dat.gui";
+
+  console.log(`%c${THREE.REVISION}`, "color: #ccff00;");
+
+  // The number π is a mathematical constant that is the ratio of a circle's circumference to its diameter.
+  const pi = Math.PI;
+  // 2pi is the ratio of a circle's circumference to its radius.
+  // the circle constant to represent a full rotation around a circle in radians
+  // The value of τ is approximately 6.283 and can be calculated by dividing any circle's circumference by its radius.
+  const tau = pi * 2;
+
+  let scene = new THREE.Scene();
+
+  // The X axis is red. The Y axis is green. The Z axis is blue.
+  // let axesHelper = new THREE.AxesHelper(5);
+  // scene.add(axesHelper);
+
+  let camera = new THREE.PerspectiveCamera(
+    75,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    100
+  );
+  camera.position.z = 2;
+
+  let renderer = new THREE.WebGLRenderer();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
+
+  let controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  // let trackballControls = new TrackballControls(camera, renderer.domElement);
+  // If using trackball, then need controls.update(); in animate function.
+
+  let geometry = new THREE.BoxGeometry();
+  let material = new THREE.MeshBasicMaterial({
+    color: 0x00ff00,
+    wireframe: true
+  });
+  let cube = new THREE.Mesh(geometry, material);
+  scene.add(cube);
+
+  // window.addEventListener('resize', onWindowResize, false);
+  // function onWindowResize() { ... }
+
+  window.addEventListener(
+    "resize",
+    () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      render();
+    },
+    false
+  );
+
+  let stats = Stats();
+  document.body.appendChild(stats.dom);
+
+  let gui = new GUI();
+
+  let cubeFolder = gui.addFolder("Cube");
+
+  // https://www.livescience.com/14836-pi-wrong-tau.html
+  /*
+  cubeFolder.add(cube.rotation, 'x', 0, tau);
+  cubeFolder.add(cube.rotation, 'y', 0, tau);
+  cubeFolder.add(cube.rotation, 'z', 0, tau);
+  */
+
+  cubeFolder.add(cube.rotation, "x", 0, tau, 0.01);
+  cubeFolder.add(cube.rotation, "y", 0, tau, 0.01);
+  cubeFolder.add(cube.rotation, "z", 0, tau, 0.01);
+  cubeFolder.open();
+
+  let cameraFolder = gui.addFolder("Camera");
+  // cameraFolder.add(camera.position, 'z', 0, 10);
+  cameraFolder.add(camera.position, "z", 0, 10, 0.01);
+  cameraFolder.open();
+
+  let animate = function () {
+    requestAnimationFrame(animate);
+    // If you want it movin' by itself...
+    /*
+    stats.begin();
+    cube.rotation.x += 0.01;
+    cube.rotation.y += 0.01;
+    stats.end();
+    */
+    // trackballControls.update();
+    controls.update();
+    render();
+    stats.update();
+  };
+
+  function render() {
+    renderer.render(scene, camera);
+  }
+
+  animate();
+</script>
+</body>
+</html>
+
