@@ -15,19 +15,21 @@
   		"three": "/build/three.module.js"
   	}
   }
+
 </script>
 
 <script type="module">
   import * as THREE from "three";
-  import { OrbitControls } from "/jsm/controls/OrbitControls.js";
+  import {OrbitControls} from "/jsm/controls/OrbitControls.js";
   import Stats from "/jsm/libs/stats.module.js";
-  import { GUI } from "/jsm/libs/lil-gui.module.min.js";
-  import { GLTFLoader } from "/jsm/loaders/GLTFLoader.js";
+  import {GUI} from "/jsm/libs/lil-gui.module.min.js";
+  import {GLTFLoader} from "/jsm/loaders/GLTFLoader.js";
 
   console.log('%cthree.js rev', 'color: #ccff00;', THREE.REVISION);
 
   let scene = new THREE.Scene();
   let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.z = 2;
 
   let renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);
@@ -39,27 +41,53 @@
   let stats = Stats();
   document.body.appendChild(stats.dom);
 
-  // let my3DFile = "/models/gltf/bench.glb";
-  // let my3DFile = "/models/gltf/box.glb";
-  // let my3DFile = "/models/gltf/Flamingo.glb";
-  let my3DFile = "/models/gltf/Soldier.glb";
-  let loader = new GLTFLoader();
-  loader.load(my3DFile, function (gltf) {
-    scene.add(gltf.scene);
-  }, undefined, function (error) {
-    console.error(error);
-  });
-
-  camera.position.z = 2;
-
   // LIGHTS
   // https://threejs.org/docs/index.html?q=light
   // lightHelpers();
+
   let light;
+  let loader = new GLTFLoader();
+  let gltf;
+
+  function updateModel(parm) {
+    let my3DFile;
+
+    // if (typeof gltf !== "undefined") {
+    //   scene.remove(gltf.scene); // cwap :(
+    // }
+
+    switch (parm) {
+      case 1:
+        my3DFile = "/models/gltf/bench.glb";
+        break;
+      case 2:
+        my3DFile = "/models/gltf/box.glb";
+        break;
+      case 3:
+        my3DFile = "/models/gltf/Flamingo.glb";
+        break;
+      case 4:
+        my3DFile = "/models/gltf/Soldier.glb";
+        break;
+      default:
+        my3DFile = "/models/gltf/bench.glb"
+        break;
+    }
+
+    loader.load(my3DFile, function (gltf) {
+      // scene.remove(gltf.scene); // cwap :(
+      scene.add(gltf.scene);
+    }, undefined, function (error) {
+      console.error(error);
+    });
+
+  }
+
+  updateModel();
 
   function updateLighting(parm) {
     scene.remove(light);
-    switch(parm) {
+    switch (parm) {
       case 1:
         // This light globally illuminates all objects in the scene equally.
         // This light cannot be used to cast shadows as it does not have a direction.
@@ -105,10 +133,14 @@
         break;
 
       default:
-      // code block
+        light = new THREE.HemisphereLight(0xffffbb, 0x080820, 1);
+        scene.add(light);
+        break;
     }
 
   }
+
+  updateLighting();
 
   function updateBackground(parm) {
     switch (parm) {
@@ -119,19 +151,24 @@
         renderer.setClearColor(0x000000);
         break;
       default:
+        renderer.setClearColor(0xcccccc);
         break;
     }
   }
 
-  // Gui
+  updateBackground();
+
+  // GUI
   let gui = new GUI();
   let text =
     {
       myLight: "someLight",
-      backgroundColor: "backgroundColor"
+      backgroundColor: "backgroundColor",
+      myModel: "someModel"
     }
-  gui.add(text, 'myLight', { Ambient: 1, Directional: 2, Hemisphere: 3, Point: 4, Spot: 5 } ).onChange( updateLighting );
-  gui.add(text, 'backgroundColor', { gray: 1, black: 2 } ).onChange( updateBackground );
+  gui.add(text, 'myLight', {Ambient: 1, Directional: 2, Hemisphere: 3, Point: 4, Spot: 5}).onChange(updateLighting);
+  gui.add(text, 'backgroundColor', {gray: 1, black: 2}).onChange(updateBackground);
+  gui.add(text, 'myModel', {bench: 1, box: 2, flamingo: 3, soldier: 4}).onChange(updateModel);
 
   function animate() {
     requestAnimationFrame(animate);
