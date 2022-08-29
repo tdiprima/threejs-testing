@@ -39,6 +39,17 @@
   let stats = Stats();
   document.body.appendChild(stats.dom);
 
+  let my3DFile = "../gltf-load/assets/bench.glb";
+  // let my3DFile = "../gltf-load/assets/box.glb";
+  let loader = new GLTFLoader();
+  loader.load(my3DFile, function (gltf) {
+    scene.add(gltf.scene);
+  }, undefined, function (error) {
+    console.error(error);
+  });
+
+  camera.position.z = 2;
+
   // LIGHTS
   // https://threejs.org/docs/index.html?q=light
   // lightHelpers();
@@ -97,16 +108,6 @@
 
   }
 
-  // Gui
-  let gui = new GUI();
-  let text =
-    {
-      myLight: "someLight",
-      backgroundColor: "backgroundColor"
-    }
-  gui.add(text, 'myLight', { Ambient: 1, Directional: 2, Hemisphere: 3, Point: 4, Spot: 5 } ).onChange( updateLighting );
-  gui.add(text, 'backgroundColor', { gray: 1, black: 2 } ).onChange( updateBackground );
-
   function updateBackground(parm) {
     switch (parm) {
       case 1:
@@ -120,16 +121,15 @@
     }
   }
 
-  let my3DFile = "../gltf-load/assets/bench.glb";
-  // let my3DFile = "../gltf-load/assets/box.glb";
-  let loader = new GLTFLoader();
-  loader.load(my3DFile, function (gltf) {
-    scene.add(gltf.scene);
-  }, undefined, function (error) {
-    console.error(error);
-  });
-
-  camera.position.z = 2;
+  // Gui
+  let gui = new GUI();
+  let text =
+    {
+      myLight: "someLight",
+      backgroundColor: "backgroundColor"
+    }
+  gui.add(text, 'myLight', { Ambient: 1, Directional: 2, Hemisphere: 3, Point: 4, Spot: 5 } ).onChange( updateLighting );
+  gui.add(text, 'backgroundColor', { gray: 1, black: 2 } ).onChange( updateBackground );
 
   function animate() {
     requestAnimationFrame(animate);
@@ -140,28 +140,28 @@
 
   animate();
 
-  // function lightHelpers() {
-  //   // let light = new THREE.DirectionalLight( 0xFFFFFF );
-  //   // let helper = new THREE.DirectionalLightHelper( light, 5 );
-  //   // scene.add( helper );
-  //
-  //   // let light = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
-  //   // let helper = new THREE.HemisphereLightHelper( light, 5 );
-  //   // scene.add( helper );
-  //
-  //   // let pointLight = new THREE.PointLight( 0xff0000, 1, 100 );
-  //   // pointLight.position.set( 10, 10, 10 );
-  //   // scene.add( pointLight );
-  //   // let sphereSize = 1;
-  //   // let pointLightHelper = new THREE.PointLightHelper( pointLight, sphereSize );
-  //   // scene.add( pointLightHelper );
-  //
-  //   let spotLight = new THREE.SpotLight(0xffffff);
-  //   spotLight.position.set(10, 10, 10);
-  //   scene.add(spotLight);
-  //   let spotLightHelper = new THREE.SpotLightHelper(spotLight);
-  //   scene.add(spotLightHelper);
-  // }
+  function lightHelpers() {
+    // let light = new THREE.DirectionalLight( 0xFFFFFF );
+    // let helper = new THREE.DirectionalLightHelper( light, 5 );
+    // scene.add( helper );
+
+    // let light = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
+    // let helper = new THREE.HemisphereLightHelper( light, 5 );
+    // scene.add( helper );
+
+    // let pointLight = new THREE.PointLight( 0xff0000, 1, 100 );
+    // pointLight.position.set( 10, 10, 10 );
+    // scene.add( pointLight );
+    // let sphereSize = 1;
+    // let pointLightHelper = new THREE.PointLightHelper( pointLight, sphereSize );
+    // scene.add( pointLightHelper );
+
+    let spotLight = new THREE.SpotLight(0xffffff);
+    spotLight.position.set(10, 10, 10);
+    scene.add(spotLight);
+    let spotLightHelper = new THREE.SpotLightHelper(spotLight);
+    scene.add(spotLightHelper);
+  }
 </script>
 </body>
 </html>
