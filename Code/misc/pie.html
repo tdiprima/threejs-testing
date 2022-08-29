@@ -2,31 +2,63 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Pie</title>
+  <!-- https://threejs.org/docs/scenes/geometry-browser.html#CircleGeometry -->
 </head>
 <body>
-  <script src="/build/three.min.js"></script>
-  <script>
-  	let scene = new THREE.Scene();
-  	let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-  	camera.position.z = 10;
+<script src="/build/three.min.js"></script>
+<script>
+  const tau = Math.PI * 2;
 
-  	let renderer = new THREE.WebGLRenderer({antialias: true});
-  	renderer.setSize(window.innerWidth, window.innerHeight);
-  	document.body.appendChild(renderer.domElement);
+  let scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x444444);
 
-    let geometry = new THREE.CircleGeometry( 5, 10 );
-    let material = new THREE.MeshBasicMaterial( { color: 0x0000ff } );
-    let circle = new THREE.Mesh( geometry, material );
-    scene.add( circle );
+  let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 50);
+  camera.position.z = 30;
 
-    function animate() {
+  let renderer = new THREE.WebGLRenderer({antialias: true});
+  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
+
+  const data = {
+    radius: 10,
+    segments: 10,
+    thetaStart: 0,
+    thetaLength: tau
+  };
+
+  let geometry = new THREE.CircleGeometry(data.radius, data.segments, data.thetaStart, data.thetaLength);
+
+  let group = new THREE.Group();
+  let lineMaterial = new THREE.LineBasicMaterial( { color: 0xff0000, transparent: false, opacity: 1 } );
+  group.add( new THREE.LineSegments( geometry, lineMaterial ) );
+  scene.add( group );
+
+  let material = new THREE.MeshBasicMaterial({color: 0x0000ff});
+  let circle = new THREE.Mesh(geometry, material);
+  scene.add(circle);
+
+  // let gui = new GUI();
+  // let folder = gui.addFolder( 'THREE.CircleGeometry' );
+  // folder.add( data, 'radius', 1, 20 ).onChange( generateGeometry );
+  // folder.add( data, 'segments', 0, 128 ).step( 1 ).onChange( generateGeometry );
+  // folder.add( data, 'thetaStart', 0, tau ).onChange( generateGeometry );
+  // folder.add( data, 'thetaLength', 0, tau ).onChange( generateGeometry );
+
+  function animate() {
     requestAnimationFrame(animate);
     renderer.render(scene, camera);
   }
   animate();
-  </script>
+
+  window.addEventListener( 'resize', function () {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize( window.innerWidth, window.innerHeight );
+  }, false );
+</script>
 </body>
 </html>
