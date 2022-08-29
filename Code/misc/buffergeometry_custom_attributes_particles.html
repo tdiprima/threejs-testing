@@ -89,7 +89,7 @@
 
     for (let i = 0; i < particles; i++) {
       positions.push((Math.random() * 2 - 1) * radius); // If you change it to tau, it won't work.
-      positions.push((Math.random() * 2 - 1) * radius);
+      positions.push((Math.random() * 2 - 1) * radius); // Because they all need to be random.
       positions.push((Math.random() * 2 - 1) * radius);
 
       color.setHSL(i / particles, 1.0, 0.5);
