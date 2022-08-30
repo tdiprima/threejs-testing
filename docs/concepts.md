@@ -20,7 +20,15 @@ Lazy Loading 🆚 Eager Loading
 
 [Google Search](https://www.google.com/search?q=imaging+level+of+detail&oq=imaging+level+of+detail&aqs=chrome..69i57j33i160j33i299l2.12167j0j7&sourceid=chrome&ie=UTF-8)
 
-In computer graphics, level of detail (LOD) refers to the complexity of a 3D model representation. Level of Detail can be decreased as the model moves away from the viewer; or according to other metrics, such as object importance, viewpoint-relative speed, or position.
+In computer graphics, level of detail (LOD) refers to the complexity of a 3D model representation.
+
+Level of Detail can be decreased as the model moves away from the viewer.
+
+Or according to other metrics, such as object importance, viewpoint-relative speed, or position.
+
+An example of various DLOD ranges. Darker areas are meant to be rendered with higher detail. An additional culling operation is run, discarding all the information outside the frustum (colored areas).
+
+<p><a href="https://commons.wikimedia.org/wiki/File:DiscreteLodAndCullExampleRanges.MaxDZ8.svg#/media/File:DiscreteLodAndCullExampleRanges.MaxDZ8.svg"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/DiscreteLodAndCullExampleRanges.MaxDZ8.svg/256px-DiscreteLodAndCullExampleRanges.MaxDZ8.svg.png" alt="DiscreteLodAndCullExampleRanges.MaxDZ8.svg"></a></p>
 
 [Level of Detail in 3D City Model](https://www.treistek.com/post/level-of-detail-in-3d-city-model)
 
