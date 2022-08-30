@@ -40,6 +40,22 @@ An example of various DLOD ranges. Darker areas are meant to be rendered with hi
 
 <br>
 
+# Frustum
+
+[Google Search](https://www.google.com/search?q=frustum&spell=1&sa=X&ved=2ahUKEwiMwrK0n875AhWgj4kEHThuApkQBSgAegQIAhA1&biw=1389&bih=729&dpr=2.5)
+
+In geometry, a frustum (from the Latin for "morsel"; plural: frusta or frustums) is the portion of a solid (normally a pyramid or a cone) that lies between one or two parallel planes cutting it. The base faces are polygonal, the side faces are trapezoidal
+
+![Camera Frustum](img/VisualCameraFrustum.jpg)
+
+<br>
+
+![Cone Frustum](img/Frustum-Of-A-Cone-4.jpg)
+
+three.js/camera frustum, tricks with frustum, idk 🤔
+
+<br>
+
 # Culling
 
 [Google Search](https://www.google.com/search?q=three.js+culling&oq=three.js+culling&aqs=chrome..69i57j0i22i30l6j0i390l3.2220j0j7&sourceid=chrome&ie=UTF-8)
@@ -57,22 +73,6 @@ An example of various DLOD ranges. Darker areas are meant to be rendered with hi
 [Lode's Computer Graphics Tutorial - Raycasting](https://lodev.org/cgtutor/raycasting.html)
 
 ![Game](img/Wolfenstein_3D_Screenshot.jpg)
-
-<br>
-
-# Frustum
-
-[Google Search](https://www.google.com/search?q=frustum&spell=1&sa=X&ved=2ahUKEwiMwrK0n875AhWgj4kEHThuApkQBSgAegQIAhA1&biw=1389&bih=729&dpr=2.5)
-
-In geometry, a frustum (from the Latin for "morsel"; plural: frusta or frustums) is the portion of a solid (normally a pyramid or a cone) that lies between one or two parallel planes cutting it. The base faces are polygonal, the side faces are trapezoidal
-
-![Camera Frustum](img/VisualCameraFrustum.jpg)
-
-<br>
-
-![Cone Frustum](img/Frustum-Of-A-Cone-4.jpg)
-
-three.js/camera frustum, tricks with frustum, idk 🤔
 
 <br>
 
