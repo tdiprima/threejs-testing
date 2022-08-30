@@ -74,7 +74,7 @@ three.js/camera frustum, tricks with frustum, idk 🤔
 
 [Google Search](https://www.google.com/search?q=imaging+level+of+detail&oq=imaging+level+of+detail&aqs=chrome..69i57j33i160j33i299l2.12167j0j7&sourceid=chrome&ie=UTF-8)
 
-In computer graphics, level of detail (LOD) refers to the complexity of a 3D model representation. LOD can be decreased as the model moves away from the viewer or according to other metrics such as object importance, viewpoint-relative speed or position.
+In computer graphics, level of detail (LOD) refers to the complexity of a 3D model representation. Level of Detail can be decreased as the model moves away from the viewer; or according to other metrics, such as object importance, viewpoint-relative speed, or position.
 
 [Level of Detail in 3D City Model](https://www.treistek.com/post/level-of-detail-in-3d-city-model)
 
