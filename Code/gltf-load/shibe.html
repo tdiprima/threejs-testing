@@ -44,28 +44,33 @@
   import { OrbitControls } from '/jsm/controls/OrbitControls.js';
   import { GLTFLoader } from '/jsm/loaders/GLTFLoader.js';
 
-  let width = window.innerWidth;
-  let height = window.innerHeight;
-
   let scene = new THREE.Scene();
-  let camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+  let camera = window._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+  // window._camera.position
+  let p = { x: 0, y: 1, z: 4 };
+  camera.position.x = p.x;
+  camera.position.y = p.y;
+  camera.position.z = p.z;
 
   let renderer = new THREE.WebGLRenderer({antialias: true});
-  renderer.setSize(width, height);
+  renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
 
   let controls = new OrbitControls(camera, renderer.domElement);
 
+  let light = new THREE.HemisphereLight(0xffffbb, 0x080820, 1);
+  scene.add(light);
+
   // Add Shiba Inu model
-  let glftLoader = new GLTFLoader();
-    glftLoader.load("./assets/shiba/scene.gltf", (gltfScene) => {
+  let gltfLoader = new GLTFLoader();
+    // https://sketchfab.com/3d-models/shiba-faef9fe5ace445e7b2989d1c1ece361c
+    gltfLoader.load("./assets/shiba.glb", (gltfScene) => {
       gltfScene.scene.position.y = 1;
       gltfScene.scene.position.z = 1;
       gltfScene.scene.scale.set(1, 1, 1);
       scene.add(gltfScene.scene);
     });
-
-  camera.position.z = 5;
 
   function animate() {
     requestAnimationFrame(animate);
