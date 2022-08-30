@@ -22,7 +22,7 @@ Lazy Loading 🆚 Eager Loading
 
 In computer graphics, level of detail (LOD) refers to the complexity of a 3D model representation.
 
-Level of Detail can be decreased as the model moves away from the viewer.
+Level of Detail can be decreased as the model moves away from the viewer. **(Distance!)**
 
 Or according to other metrics, such as object importance, viewpoint-relative speed, or position.
 
