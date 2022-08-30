@@ -2,7 +2,7 @@
 
 Interactive - click on box, and it highlights - that concept; identifying a single object.
 
-## Editing a Polygon in three.js
+# Editing a Polygon in three.js
 
 [Google Search](https://www.google.com/search?q=editing+a+polygon+in+three.js&oq=editing+a+polygon+in+three.js&aqs=chrome..69i57j33i22i29i30l5.3805j0j7&sourceid=chrome&ie=UTF-8)
 
@@ -18,7 +18,7 @@ Interactive - click on box, and it highlights - that concept; identifying a sing
 
 <br>
 
-## Lazy Loading of Data
+# Lazy Loading of Data
 
 [Google Search](https://www.google.com/search?q=lazy+loading+of+data&oq=lazy+loading+of+data&aqs=chrome..69i57j0i22i30l9.2657j0j7&sourceid=chrome&ie=UTF-8)
 
@@ -34,7 +34,7 @@ Lazy Loading 🆚 Eager Loading
 
 <br>
 
-## three.js Culling
+# three.js Culling
 
 [Google Search](https://www.google.com/search?q=three.js+culling&oq=three.js+culling&aqs=chrome..69i57j0i22i30l6j0i390l3.2220j0j7&sourceid=chrome&ie=UTF-8)
 
@@ -44,7 +44,7 @@ Lazy Loading 🆚 Eager Loading
 
 <br>
 
-## Raycasting
+# Raycasting
 
 [Tutorial](http://soledadpenades.com/articles/three-js-tutorials/object-picking/)
 
@@ -54,7 +54,7 @@ Lazy Loading 🆚 Eager Loading
 
 <br>
 
-## Frustum
+# Frustum
 
 [Google Search](https://www.google.com/search?q=frustum&spell=1&sa=X&ved=2ahUKEwiMwrK0n875AhWgj4kEHThuApkQBSgAegQIAhA1&biw=1389&bih=729&dpr=2.5)
 
@@ -66,11 +66,11 @@ In geometry, a frustum (from the Latin for "morsel"; plural: frusta or frustums)
 
 ![Cone Frustum](Frustum-Of-A-Cone-4.jpg)
 
-### three.js/camera frustum, tricks with frustum, idk 🤔
+three.js/camera frustum, tricks with frustum, idk 🤔
 
 <br>
 
-## Imaging Level Of Detail
+# Imaging Level Of Detail
 
 [Google Search](https://www.google.com/search?q=imaging+level+of+detail&oq=imaging+level+of+detail&aqs=chrome..69i57j33i160j33i299l2.12167j0j7&sourceid=chrome&ie=UTF-8)
 
@@ -86,7 +86,7 @@ In computer graphics, level of detail (LOD) refers to the complexity of a 3D mod
 
 <br>
 
-## Deep Learning Distributed Training
+# Deep Learning Distributed Training
 
 [Distributed Training in a Deep Learning Context](https://blog.ovhcloud.com/distributed-training-in-a-deep-learning-context/)
 
