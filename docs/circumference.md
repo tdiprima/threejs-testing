@@ -4,11 +4,11 @@
 
 # C = 𝛕r
 
-![Grand Rapids Community College](GRCCtv.png)
+![Grand Rapids Community College](img/GRCCtv.jpg)
 
 [Math Antics - Circles, What Is PI?](https://youtu.be/cC0fZ_lkFpQ)
 
-![mathemaniacs](mathantics.png)
+![mathemaniacs](img/mathantics.jpg)
 
 Tau = The circle constant to represent a full rotation around a circle in radians.
 

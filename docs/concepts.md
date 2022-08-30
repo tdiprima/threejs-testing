@@ -10,7 +10,7 @@ Lazy Loading 🆚 Eager Loading
 
 [Tips for rolling your own lazy loading](https://css-tricks.com/tips-for-rolling-your-own-lazy-loading/)
 
-![Lightweight Lazy Loading with Netlify](css-tricks.jpg)
+![Lightweight Lazy Loading with Netlify](img/css-tricks.jpg)
 
 [netlify](https://lazy-load-nlm.netlify.com)
 
@@ -24,11 +24,11 @@ In computer graphics, level of detail (LOD) refers to the complexity of a 3D mod
 
 [Level of Detail in 3D City Model](https://www.treistek.com/post/level-of-detail-in-3d-city-model)
 
-![Level of Detail 3D City](level-of-detail-in-3d-city-model.jpg)
+![Level of Detail 3D City](img/level-of-detail-in-3d-city-model.jpg)
 
 <br>
 
-![Summary-of-the-method](Summary-of-the-method-Level-of-detail-LOD-triangulated-irregular-network-TIN.jpg)
+![Summary-of-the-method](img/Summary-of-the-method-Level-of-detail-LOD-triangulated-irregular-network-TIN.jpg)
 
 <br>
 
@@ -38,7 +38,7 @@ In computer graphics, level of detail (LOD) refers to the complexity of a 3D mod
 
 [Does Three.js automatically cull objects that are not visible behind other objects?](https://stackoverflow.com/questions/67428704/does-three-js-automatically-cull-objects-that-are-not-visible-behind-other-objec)
 
-![Culling](tree.jpg)
+![Culling](img/tree.jpg)
 
 <br>
 
@@ -48,7 +48,7 @@ In computer graphics, level of detail (LOD) refers to the complexity of a 3D mod
 
 [Lode's Computer Graphics Tutorial - Raycasting](https://lodev.org/cgtutor/raycasting.html)
 
-![Game](Wolfenstein_3D_Screenshot.jpg)
+![Game](img/Wolfenstein_3D_Screenshot.jpg)
 
 <br>
 
@@ -58,11 +58,11 @@ In computer graphics, level of detail (LOD) refers to the complexity of a 3D mod
 
 In geometry, a frustum (from the Latin for "morsel"; plural: frusta or frustums) is the portion of a solid (normally a pyramid or a cone) that lies between one or two parallel planes cutting it. The base faces are polygonal, the side faces are trapezoidal
 
-![Camera Frustum](VisualCameraFrustum.jpg)
+![Camera Frustum](img/VisualCameraFrustum.jpg)
 
 <br>
 
-![Cone Frustum](Frustum-Of-A-Cone-4.jpg)
+![Cone Frustum](img/Frustum-Of-A-Cone-4.jpg)
 
 three.js/camera frustum, tricks with frustum, idk 🤔
 
@@ -74,13 +74,13 @@ three.js/camera frustum, tricks with frustum, idk 🤔
 
 [Drawing a line with three.js dynamically](https://stackoverflow.com/questions/31399856/drawing-a-line-with-three-js-dynamically)
 
-![Line](aVBCe.jpg)
+![Line](img/aVBCe.jpg)
 
 <br>
 
 [Introduction To Polygonal Modeling And Three.js](https://www.smashingmagazine.com/2013/09/introduction-to-polygonal-modeling-and-three-js/)
 
-![Polygon](polygondiagram-large-mini.jpg)
+![Polygon](img/polygondiagram-large-mini.jpg)
 
 <br>
 
@@ -88,7 +88,7 @@ three.js/camera frustum, tricks with frustum, idk 🤔
 
 [Distributed Training in a Deep Learning Context](https://blog.ovhcloud.com/distributed-training-in-a-deep-learning-context/)
 
-![Distributed Deep Learning](distributed_dl_architecture.jpg)
+![Distributed Deep Learning](img/distributed_dl_architecture.jpg)
 
 <br>
 
@@ -96,6 +96,6 @@ three.js/camera frustum, tricks with frustum, idk 🤔
 
 # Axes
 
-![axes](x-y-z-2.png)
+![axes](img/x-y-z-2.png)
 
-![axes](x-y-z-1.png)
+![axes](img/x-y-z-1.png)
