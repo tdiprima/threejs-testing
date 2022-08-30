@@ -24,8 +24,9 @@
 
   let scene = new THREE.Scene();
   let camera = window._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
-  let p = {x: -1839, y: 600, z: -1810};
-  // camera.position.z = 2650;
+  // window._camera.position
+  // let p = {x: -1839, y: 600, z: -1810};
+  let p = {x: 0, y: 600, z: 2650};
   camera.position.x = p.x;
   camera.position.y = p.y;
   camera.position.z = p.z;
@@ -54,6 +55,13 @@
   }
 
   animate();
+
+  window.addEventListener("resize", onWindowResize);
+  function onWindowResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  }
 
 </script>
 </body>
