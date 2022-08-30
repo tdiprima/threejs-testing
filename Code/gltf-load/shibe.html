@@ -10,7 +10,6 @@
   <title>Shiba Inu</title>
   <style>
     body {
-      /*margin: 0;*/
       color: #e8e6e3;
       background-color: #181a1b;
     }
@@ -40,9 +39,12 @@
 </script>
 
 <script type="module">
-  import * as THREE from 'three';
-  import { OrbitControls } from '/jsm/controls/OrbitControls.js';
-  import { GLTFLoader } from '/jsm/loaders/GLTFLoader.js';
+  import * as THREE from "three";
+  import { OrbitControls } from "/jsm/controls/OrbitControls.js";
+  import { GLTFLoader } from "/jsm/loaders/GLTFLoader.js";
+  
+  console.clear();
+  console.log("%cthree.js rev", "color: #ccff00;", THREE.REVISION);
 
   let scene = new THREE.Scene();
   let camera = window._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -58,9 +60,6 @@
   document.body.appendChild(renderer.domElement);
 
   let controls = new OrbitControls(camera, renderer.domElement);
-
-  // let light = new THREE.HemisphereLight(0xffffbb, 0x080820, 1);
-  // scene.add(light);
 
   // Add Shiba Inu model
   let gltfLoader = new GLTFLoader();
