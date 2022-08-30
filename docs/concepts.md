@@ -1,24 +1,6 @@
-# Concepts
+# Concepts ⭐️
 
-Interactive - click on box, and it highlights - that concept; identifying a single object.
-
-# Editing a Polygon in three.js
-
-[Google Search](https://www.google.com/search?q=editing+a+polygon+in+three.js&oq=editing+a+polygon+in+three.js&aqs=chrome..69i57j33i22i29i30l5.3805j0j7&sourceid=chrome&ie=UTF-8)
-
-[Drawing a line with three.js dynamically](https://stackoverflow.com/questions/31399856/drawing-a-line-with-three-js-dynamically)
-
-![Line](aVBCe.jpg)
-
-<br>
-
-[Introduction To Polygonal Modeling And Three.js](https://www.smashingmagazine.com/2013/09/introduction-to-polygonal-modeling-and-three-js/)
-
-![Polygon](polygondiagram-large-mini.jpg)
-
-<br>
-
-# Lazy Loading of Data
+# Lazy Loading of Data 
 
 [Google Search](https://www.google.com/search?q=lazy+loading+of+data&oq=lazy+loading+of+data&aqs=chrome..69i57j0i22i30l9.2657j0j7&sourceid=chrome&ie=UTF-8)
 
@@ -34,7 +16,23 @@ Lazy Loading 🆚 Eager Loading
 
 <br>
 
-# three.js Culling
+# Imaging Level of Detail
+
+[Google Search](https://www.google.com/search?q=imaging+level+of+detail&oq=imaging+level+of+detail&aqs=chrome..69i57j33i160j33i299l2.12167j0j7&sourceid=chrome&ie=UTF-8)
+
+In computer graphics, level of detail (LOD) refers to the complexity of a 3D model representation. Level of Detail can be decreased as the model moves away from the viewer; or according to other metrics, such as object importance, viewpoint-relative speed, or position.
+
+[Level of Detail in 3D City Model](https://www.treistek.com/post/level-of-detail-in-3d-city-model)
+
+![Level of Detail 3D City](level-of-detail-in-3d-city-model.jpg)
+
+<br>
+
+![Summary-of-the-method](Summary-of-the-method-Level-of-detail-LOD-triangulated-irregular-network-TIN.jpg)
+
+<br>
+
+# Culling
 
 [Google Search](https://www.google.com/search?q=three.js+culling&oq=three.js+culling&aqs=chrome..69i57j0i22i30l6j0i390l3.2220j0j7&sourceid=chrome&ie=UTF-8)
 
@@ -70,19 +68,19 @@ three.js/camera frustum, tricks with frustum, idk 🤔
 
 <br>
 
-# Imaging Level Of Detail
+# Editing a Polygon in three.js
 
-[Google Search](https://www.google.com/search?q=imaging+level+of+detail&oq=imaging+level+of+detail&aqs=chrome..69i57j33i160j33i299l2.12167j0j7&sourceid=chrome&ie=UTF-8)
+[Google Search](https://www.google.com/search?q=editing+a+polygon+in+three.js&oq=editing+a+polygon+in+three.js&aqs=chrome..69i57j33i22i29i30l5.3805j0j7&sourceid=chrome&ie=UTF-8)
 
-In computer graphics, level of detail (LOD) refers to the complexity of a 3D model representation. Level of Detail can be decreased as the model moves away from the viewer; or according to other metrics, such as object importance, viewpoint-relative speed, or position.
+[Drawing a line with three.js dynamically](https://stackoverflow.com/questions/31399856/drawing-a-line-with-three-js-dynamically)
 
-[Level of Detail in 3D City Model](https://www.treistek.com/post/level-of-detail-in-3d-city-model)
-
-![Level of Detail 3D City](level-of-detail-in-3d-city-model.jpg)
+![Line](aVBCe.jpg)
 
 <br>
 
-![Summary-of-the-method](Summary-of-the-method-Level-of-detail-LOD-triangulated-irregular-network-TIN.jpg)
+[Introduction To Polygonal Modeling And Three.js](https://www.smashingmagazine.com/2013/09/introduction-to-polygonal-modeling-and-three-js/)
+
+![Polygon](polygondiagram-large-mini.jpg)
 
 <br>
 
@@ -91,3 +89,13 @@ In computer graphics, level of detail (LOD) refers to the complexity of a 3D mod
 [Distributed Training in a Deep Learning Context](https://blog.ovhcloud.com/distributed-training-in-a-deep-learning-context/)
 
 ![Distributed Deep Learning](distributed_dl_architecture.jpg)
+
+<br>
+
+### Interactive - click on box, and it highlights - that concept; identifying a single object.
+
+# Axes
+
+![axes](x-y-z-2.png)
+
+![axes](x-y-z-1.png)
