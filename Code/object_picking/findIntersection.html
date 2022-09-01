@@ -24,6 +24,9 @@
 <script type="module">
   import * as THREE from "three";
 
+  console.clear();
+  console.log("%cthree.js rev", "color: #ccff00;", THREE.REVISION);
+
   let container;
   let camera, scene, raycaster, renderer;
 
@@ -127,7 +130,10 @@
         }
         INTERSECTED = intersects[0].object;
         check2(INTERSECTED.material);
-        // console.log(INTERSECTED.position);
+        console.log(INTERSECTED.position);
+        // console.log(INTERSECTED.quaternion);
+        // console.log(INTERSECTED);
+        // console.log(JSON.stringify(INTERSECTED));
       }
     } else {
       if (INTERSECTED) {
