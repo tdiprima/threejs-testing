@@ -1,48 +1,4 @@
-// Rapture.html, line 262
-async function addLayer(x, y, w, h) {
-  // console.log("Getting Feature Data");
-  // const datum = await featuresRcurl(x, y, w, h);
-  console.log("Creating Feature Layer");
-  // const feature = new FeatureLayer(datum);
-  // scene.add(feature);
-  const feature2 = new FeatureLayer2(datum);
-  scene.add(feature2);
-  console.log("Segmentation Layer Added");
-}
-
-THREE.Cache.enabled = true;
-
-const scene = new THREE.Scene();
-
-const camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, -10, 100);
-camera.position.set(0, 0, 150000);
-// camera.position.set(0, 0, 1250);
-
-const renderer = new THREE.WebGLRenderer({antialias: true});
-renderer.setPixelRatio(window.devicePixelRatio);
-renderer.setSize(window.innerWidth, window.innerHeight);
-
-document.body.appendChild(renderer.domElement);
-
-window.addEventListener("resize", onWindowResize);
-
-let controls = new THREE.TrackballControls(camera, renderer.domElement);
-
-const image = new Rapture(0, 0, 82984, 82984, 0);
-scene.add(image);
-
-const feature2 = new FeatureLayer2(0, 0, 82984, 82984, 1);
-scene.add(feature2);
-
-console.log("Segmentation Layer Added");
-
-/**/
-let x = 65536;
-let y = 28672;
-let w = 512;
-let h = 512;
-
-// Line 192. Cwap :\
+// Rapture.html, line 192
 console.log(`Render ---> ${x}, ${y}, ${w}, ${h}`);
 
 const offx = Math.trunc(w / 2);
@@ -93,3 +49,52 @@ const onloadCallback = function (data) {
 // loader.load(url, function (data) {}, function (xhr) {}); // or something...
 
 loader.load(resourceURL, onloadCallback);
+
+// Rapture.html, line 262
+async function addLayer(x, y, w, h) {
+  // console.log("Getting Feature Data");
+  // const datum = await featuresRcurl(x, y, w, h);
+  console.log("Creating Feature Layer");
+  // const feature = new FeatureLayer(datum);
+  // scene.add(feature);
+  const feature2 = new FeatureLayer2(datum);
+  scene.add(feature2);
+  console.log("Segmentation Layer Added");
+}
+
+THREE.Cache.enabled = true;
+
+const scene = new THREE.Scene();
+
+const camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, -10, 100);
+camera.position.set(0, 0, 150000);
+// camera.position.set(0, 0, 1250);
+
+const renderer = new THREE.WebGLRenderer({antialias: true});
+renderer.setPixelRatio(window.devicePixelRatio);
+renderer.setSize(window.innerWidth, window.innerHeight);
+
+document.body.appendChild(renderer.domElement);
+
+window.addEventListener("resize", onWindowResize);
+
+let controls = new THREE.TrackballControls(camera, renderer.domElement);
+
+const image = new Rapture(0, 0, 82984, 82984, 0);
+scene.add(image);
+
+const feature2 = new FeatureLayer2(0, 0, 82984, 82984, 1);
+scene.add(feature2);
+
+console.log("Segmentation Layer Added");
+
+// let x = 65536;
+// let y = 28672;
+// let w = 512;
+// let h = 512;
+
+// const pg = new THREE.Group();
+
+// const loader = new THREE.FileLoader();
+// loader.load(url, callback);
+// etc.
