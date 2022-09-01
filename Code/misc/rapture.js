@@ -42,6 +42,7 @@ let y = 28672;
 let w = 512;
 let h = 512;
 
+// Line 192. Cwap :\
 console.log(`Render ---> ${x}, ${y}, ${w}, ${h}`);
 
 const offx = Math.trunc(w / 2);
