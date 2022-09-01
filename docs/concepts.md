@@ -112,7 +112,7 @@ three.js/camera frustum, tricks with frustum, idk 🤔
 
 <!-- <img src="https://www.researchgate.net/profile/Hashim-Hashim/publication/335854843/figure/fig2/AS:803963083452423@1568691144637/Graphical-representation-of-Euler-angles-with-respect-to-the-reference-axis-of-the_Q320.jpg"/> -->
 
-![Yaw, Pitch, Roll](Euler-angles-with-respect-to-axis-of-rotation.jpg)
+![Yaw, Pitch, Roll](img/Euler-angles-with-respect-to-axis-of-rotation.jpg)
 
 # Quaternion
 
