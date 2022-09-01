@@ -107,3 +107,23 @@ three.js/camera frustum, tricks with frustum, idk 🤔
 ![axes](img/x-y-z-2.png)
 
 ![axes](img/x-y-z-1.png)
+
+# Quaternion
+
+[Don't Get Lost in Deep Space: Understanding Quaternions](https://www.allaboutcircuits.com/technical-articles/dont-get-lost-in-deep-space-understanding-quaternions/)
+
+Quaternions are an alternate way to describe orientation or rotations in 3D space using an ordered set of four numbers.
+
+They have the ability to uniquely describe any three-dimensional rotation about an arbitrary axis and do not suffer from **gimbal lock**.
+
+<img src="https://www.meccanismocomplesso.org/wp-content/uploads/2020/09/Hamiltons-quaternions-and-3D-rotation-with-Python.jpg" alt="3D rotation with Python"/>
+
+<img src="https://cdn.kastatic.org/ka-perseus-images/d24dd08a0ea7aaeeaa90d84f642e12998df3ffe7.svg" alt="Khan Academy"/>
+
+<img src="https://w7.pngwing.com/pngs/1010/569/png-transparent-conversion-between-quaternions-and-euler-angles-orientation-rotation-rigid-body-angle-angle-text-symmetry-thumbnail.png" alt="quaternions"/>
+
+[Rotating objects in 3D Engines](https://artrointel.github.io/rotating-objects/)
+
+[Understanding Quaternion](https://www.ceva-dsp.com/ourblog/what-is-a-quaterion/)
+
+[Rotating 3D shapes](https://www.khanacademy.org/computing/computer-programming/programming-games-visualizations/programming-3d-shapes/a/rotating-3d-shapes)
