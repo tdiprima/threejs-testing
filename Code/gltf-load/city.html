@@ -40,7 +40,8 @@
 
   let controls = new OrbitControls(camera, renderer.domElement);
 
-  let light = new THREE.HemisphereLight(0xffffbb, 0x080820, 1);
+  // let light = new THREE.HemisphereLight(0xffffbb, 0x080820, 1);
+  let light = new THREE.HemisphereLight(0xffffff, 0xffffff, 1);
   scene.add(light);
 
   // Add city model
