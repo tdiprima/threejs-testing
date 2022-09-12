@@ -1,8 +1,9 @@
 ### [Drawing a line with three.js dynamically](https://stackoverflow.com/questions/31399856/drawing-a-line-with-three-js-dynamically)
 
-<!-- [how to draw a dynamic line in threejs with mouse down between two points using buffergeometry](https://stackoverflow.com/questions/51650707/how-to-draw-a-dynamic-line-in-threejs-with-mouse-down-between-two-points-using-b) -->
+[how to draw a dynamic line in threejs with mouse down between two points using buffergeometry](https://stackoverflow.com/questions/51650707/how-to-draw-a-dynamic-line-in-threejs-with-mouse-down-between-two-points-using-b)
 
-<a href="https://stackoverflow.com/questions/51650707/how-to-draw-a-dynamic-line-in-threejs-with-mouse-down-between-two-points-using-b" target="_blank">how to draw a dynamic line in threejs with mouse down between two points using buffergeometry</a>
+<!-- TARGET=_BLANK DOES NOT WORK -->
+<!-- <a href="https://stackoverflow.com/questions/51650707/how-to-draw-a-dynamic-line-in-threejs-with-mouse-down-between-two-points-using-b" target="_blank">how to draw a dynamic line in threejs with mouse down between two points using buffergeometry</a> -->
 
 [How to smoothly animate drawing of a line](https://stackoverflow.com/questions/42229799/how-to-smoothly-animate-drawing-of-a-line/42236893#42236893)
 
