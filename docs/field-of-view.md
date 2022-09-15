@@ -101,3 +101,16 @@ This forward-facing orientation of the eye means each eye has a rather similar v
 
 [ViewFrustum.svg](https://en.wikipedia.org/wiki/Viewing_frustum#/media/File:ViewFrustum.svg)
 
+# Coordinates
+
+[Soledad Penadés object-picking](https://soledadpenades.com/articles/three-js-tutorials/object-picking/)
+
+```js
+mouseVector.x = 2 * (e.clientX / containerWidth) - 1;
+mouseVector.y = 1 - 2 * ( e.clientY / containerHeight );
+```
+
+They convert the mouse coordinates, which go from 0 to containerWidth, and from 0 to containerHeight, to (-1, 1) in both axes.
+
+Did you notice that the calculations for the y coordinate are negated? That's because in the classic DOM coordinate system, the Y axis grows from top to bottom (i.e. top is 0), whereas in 3D it grows from bottom to top (i.e. bottom is 0).
+
