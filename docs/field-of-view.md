@@ -6,7 +6,15 @@ It all started with...
 
 [Frustum Calculation And Culling, Hopefully Demystified](http://davidlively.com/programming/graphics/frustum-calculation-and-culling-hopefully-demystified/)
 
-This is valid for **view space**, where the camera is at the origin and pointed along the Z axis.
+This is valid for **view space**, where the camera is at the origin and pointed along the Z axis...
+
+**define "view space"**
+
+The view space is what people usually refer to as **the camera of OpenGL** (it is sometimes also known as camera space or eye space).
+
+The view space is the result of transforming your world-space coordinates to coordinates that are in front of the user's view.
+
+[Coordinate Systems](https://learnopengl.com/Getting-started/Coordinate-Systems)
 
 <table>
 <thead>
@@ -82,4 +90,14 @@ This forward-facing orientation of the eye means each eye has a rather similar v
 ![](img/xVisualFieldHoriz.webp)
 
 <br>
+
+# Calculating the Viewing Frustum in a 3D Space
+
+### [Peep](https://stackoverflow.com/questions/13665932/calculating-the-viewing-frustum-in-a-3d-space)
+
+![](https://i.stack.imgur.com/wkv8x.png)
+
+![Look At](http://tanrobby.github.io/note/opengl/gluLookAt.jpg)
+
+[ViewFrustum.svg](https://en.wikipedia.org/wiki/Viewing_frustum#/media/File:ViewFrustum.svg)
 
