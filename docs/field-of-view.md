@@ -53,6 +53,11 @@ This is valid for **view space**, where the camera is at the origin and pointed 
 
 ![](img/Fov_diagram.png)
 
+<br>
+
+<!--https://www.wikiwand.com/en/Field_of_view-->
+![](img/440px-Vertical_FOV.svg.png)
+
 
 [What is Field of View?](https://perception28.wordpress.com/2017/02/04/vision-field-of-view/)
 
@@ -68,7 +73,9 @@ Field of view is the angular extent of what can be seen with the eye. Various an
 
 What we see is the result of signals sent from the eyes to the brain. Usually, the brain receives signals from **both (bi) eyes (ocular)** at the same time.
 
-Unlike some other animals, humans' eyes are both set on the front of the face, permitting binocular vision. This forward-facing orientation of the eye means each eye has a rather similar view of an image. The field of view, which is the area that you can see when you close one eye, overlaps significantly between each eye also. The center of the eyes' fields of view overlap with one another the most. This portion of the visual field provides the most detailed information to the brain.
+Unlike some other animals, **humans' eyes are both set on the front of the face**, permitting binocular vision.
+
+This forward-facing orientation of the eye means each eye has a rather similar view of an image. The **field of view**, which is **the area that you can see when you close one eye**, overlaps significantly between each eye also.
 
 [What is a normal visual field?](https://www.vision-and-eye-health.com/visual-field.html)
 
