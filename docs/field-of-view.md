@@ -120,3 +120,10 @@ They convert the mouse coordinates, which go from 0 to containerWidth, and from 
 
 Did you notice that the calculations for the y coordinate are negated? That's because in the classic DOM coordinate system, the Y axis grows from top to bottom (i.e. top is 0), whereas in 3D it grows from bottom to top (i.e. bottom is 0).
 
+![coordinate_system](https://discoverthreejs.com/images/first-steps/coordinate_system.svg)
+
+<br>
+
+![my img](img/mouse-coords.jpg)
+
+
