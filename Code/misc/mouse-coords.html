@@ -20,6 +20,9 @@
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
 
+  const axesHelper = new THREE.AxesHelper(5);
+  scene.add( axesHelper );
+
   function onDocumentMouseMove(event) {
     event.preventDefault();
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
