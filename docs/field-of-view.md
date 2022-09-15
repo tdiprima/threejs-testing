@@ -106,8 +106,14 @@ This forward-facing orientation of the eye means each eye has a rather similar v
 [Soledad Penadés object-picking](https://soledadpenades.com/articles/three-js-tutorials/object-picking/)
 
 ```js
+let container = document.getElementById( "container" );
+let containerWidth = container.clientWidth;
+let containerHeight = container.clientHeight;
+
 mouseVector.x = 2 * (e.clientX / containerWidth) - 1;
 mouseVector.y = 1 - 2 * ( e.clientY / containerHeight );
+
+// otherwise, it's window.innerWidth, window.innerHeight
 ```
 
 They convert the mouse coordinates, which go from 0 to containerWidth, and from 0 to containerHeight, to (-1, 1) in both axes.
