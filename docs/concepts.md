@@ -133,3 +133,11 @@ They have the ability to uniquely describe any three-dimensional rotation about 
 [Understanding Quaternion](https://www.ceva-dsp.com/ourblog/what-is-a-quaterion/)
 
 [Rotating 3D shapes](https://www.khanacademy.org/computing/computer-programming/programming-games-visualizations/programming-3d-shapes/a/rotating-3d-shapes)
+
+# Vertex
+
+### What word do we use to describe where 2 edges meet and touch?
+
+Vertices in shapes are the points where two or more line segments or edges meet (like a corner). The singular of vertices is vertex. For example a cube has 8 vertices and a cone has one vertex. Vertices are sometimes called corners but when dealing with 2D and 3D shapes, the word vertices is preferred.
+
+[What Are Vertices, Faces And Edges?](https://thirdspacelearning.com/blog/what-are-vertices-faces-edges/)
