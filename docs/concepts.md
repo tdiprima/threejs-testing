@@ -141,3 +141,13 @@ They have the ability to uniquely describe any three-dimensional rotation about 
 Vertices in shapes are the points where two or more line segments or edges meet (like a corner). The singular of vertices is vertex. For example a cube has 8 vertices and a cone has one vertex. Vertices are sometimes called corners but when dealing with 2D and 3D shapes, the word vertices is preferred.
 
 [What Are Vertices, Faces And Edges?](https://thirdspacelearning.com/blog/what-are-vertices-faces-edges/)
+
+# Vector3
+
+Represent a number of things, such as: A point in 3D space. A direction and length in 3D space.
+
+```text
+(x, y, z)
+```
+
+[Vector3](https://threejs.org/docs/#api/en/math/Vector3)
