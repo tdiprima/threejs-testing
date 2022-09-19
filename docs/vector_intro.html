@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vectors</title>
+  <!-- https://mathinsight.org/vector_introduction -->
+  <base href="https://mathinsight.org/vector_introduction/">
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <div id="main">
+    <div class="ym-wrapper">
+      <div class="ym-wbox">
+
+        <div class="ym-column linearize-level-1">
+          <div class="ym-col1">
+            <div class="ym-cbox">
+              <h1>An introduction to vectors</h3>
+            </div>
+          </div>
+
+          <div class="ym-col3">
+            <div class="ym-cbox">
+              &nbsp;
+            </div>
+          </div>
+        </div>
+
+        <div class="ym-column linearize-level-1">
+          <div id="main_content" class="ym-col1">
+            <div class="ym-cbox">
+
+              <a id="definition" class="anchor"></a>
+              <h2>vector = length + direction</h4>
+
+              <p>A vector is an object that has both a <a href="/definition/magnitude_vector" class="definition"
+                  title="Magnitude of a vector definition: The magnitude of a vector is the length of the vector.">magnitude</a>
+                and a direction.
+                Geometrically, we can picture a vector as a directed line segment, whose length is the magnitude ("size"!) of the
+                vector and with an arrow indicating the direction. The direction of the vector is from its tail to its
+                head. </p>
+
+              <p class="centeredImage"><a id="image:vector" class="anchor"></a><a href="/image/vector"
+                  title="A vector is an object that has a magnitude and a direction"><img class="displayed"
+                    src="/media/image/image/vector.png" alt="A vector" width="336" height="165"></a></p>
+
+              <p>Two vectors are the same if they have the same magnitude and direction. This means that if we take a
+                vector and translate it to a new position (without rotating it), then the vector we obtain at the end of
+                this process is the same vector we had in the beginning.</p>
+
+              <p>Two examples of vectors are those that represent force and velocity.
+                Both force and velocity are in a particular direction. The magnitude of the
+                vector would indicate the strength of the force or the speed associated with the velocity.</p>
+
+
+                <img alt="force vector" src="https://calcworkshop.com/wp-content/uploads/ramp-force-vector.png"/>
+
+                <!-- <img alt="Using component forces and resultant forces to solve problems" width="450" height="253" src="https://calcworkshop.com/wp-content/uploads/ramp-force-vector.png"> -->
+                <br>
+
+                <img width="600" alt="speed vector" src="https://i.ytimg.com/vi/e0mXa6_xN6A/maxresdefault.jpg"/>
+
+
+              <p>We denote vectors using boldface as in <span class="MathJax_Preview"
+                  style="color: inherit;"></span><span class="MathJax" id="MathJax-Element-1-Frame" tabindex="0"
+                  style="position: relative;"
+                  data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mrow class=&quot;MJX-TeXAtom-ORD&quot;><mi mathvariant=&quot;bold&quot;>a</mi></mrow></math>"
+                  role="presentation">
+                  <nobr aria-hidden="true"><span class="math" id="MathJax-Span-1" role="math"
+                      style="width: 0.589em; display: inline-block;"><span
+                        style="display: inline-block; position: relative; width: 0.515em; height: 0px; font-size: 111%;"><span
+                          style="position: absolute; clip: rect(1.908em, 1000.5em, 2.781em, -1000em); top: -2.574em; left: 0em;"><span
+                            class="mrow" id="MathJax-Span-2"><span class="texatom" id="MathJax-Span-3"><span
+                                class="mrow" id="MathJax-Span-4"><span class="mi" id="MathJax-Span-5"
+                                  style="font-family: STIXGeneral; font-weight: bold;">a</span></span></span></span><span
+                            style="display: inline-block; width: 0px; height: 2.574em;"></span></span></span><span
+                        style="display: inline-block; overflow: hidden; vertical-align: -0.087em; border-left: 0px solid; width: 0px; height: 0.683em;"></span></span>
+                  </nobr><span class="MJX_Assistive_MathML" role="presentation"><math
+                      xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mrow class="MJX-TeXAtom-ORD">
+                        <mi mathvariant="bold">a</mi>
+                      </mrow>
+                    </math></span>
+                </span>
+                <script type="math/tex" id="MathJax-Element-1">\vc{a}</script> or <span class="MathJax_Preview"
+                  style="color: inherit;"></span><span class="MathJax" id="MathJax-Element-2-Frame" tabindex="0"
+                  style="position: relative;"
+                  data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mrow class=&quot;MJX-TeXAtom-ORD&quot;><mi mathvariant=&quot;bold&quot;>b</mi></mrow></math>"
+                  role="presentation">
+                  <nobr aria-hidden="true"><span class="math" id="MathJax-Span-6" role="math"
+                      style="width: 0.661em; display: inline-block;"><span
+                        style="display: inline-block; position: relative; width: 0.579em; height: 0px; font-size: 111%;"><span
+                          style="position: absolute; clip: rect(1.705em, 1000.54em, 2.781em, -1000em); top: -2.574em; left: 0em;"><span
+                            class="mrow" id="MathJax-Span-7"><span class="texatom" id="MathJax-Span-8"><span
+                                class="mrow" id="MathJax-Span-9"><span class="mi" id="MathJax-Span-10"
+                                  style="font-family: STIXGeneral; font-weight: bold;">b</span></span></span></span><span
+                            style="display: inline-block; width: 0px; height: 2.574em;"></span></span></span><span
+                        style="display: inline-block; overflow: hidden; vertical-align: -0.087em; border-left: 0px solid; width: 0px; height: 0.909em;"></span></span>
+                  </nobr><span class="MJX_Assistive_MathML" role="presentation"><math
+                      xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mrow class="MJX-TeXAtom-ORD">
+                        <mi mathvariant="bold">b</mi>
+                      </mrow>
+                    </math></span>
+                </span>
+                <script type="math/tex" id="MathJax-Element-2">\vc{b}</script>.
+                Especially when writing by hand where one cannot easily write in
+                boldface, people will sometimes denote vectors using arrows as in <span class="MathJax_Preview"
+                  style="color: inherit;"></span><span class="MathJax" id="MathJax-Element-3-Frame" tabindex="0"
+                  style="position: relative;"
+                  data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mrow class=&quot;MJX-TeXAtom-ORD&quot;><mover><mi>a</mi><mo stretchy=&quot;false&quot;>&amp;#x2192;</mo></mover></mrow></math>"
+                  role="presentation">
+                  <nobr aria-hidden="true"><span class="math" id="MathJax-Span-11" role="math"
+                      style="width: 0.589em; display: inline-block;"><span
+                        style="display: inline-block; position: relative; width: 0.515em; height: 0px; font-size: 111%;"><span
+                          style="position: absolute; clip: rect(1.181em, 1000.49em, 2.392em, -1000em); top: -2.188em; left: 0em;"><span
+                            class="mrow" id="MathJax-Span-12"><span class="texatom" id="MathJax-Span-13"><span
+                                class="mrow" id="MathJax-Span-14"><span class="munderover" id="MathJax-Span-15"><span
+                                    style="display: inline-block; position: relative; width: 0.501em; height: 0px;"><span
+                                      style="position: absolute; clip: rect(3.356em, 1000.48em, 4.194em, -1000em); top: -3.99em; left: 0em;"><span
+                                        class="mi" id="MathJax-Span-16"
+                                        style="font-family: STIXGeneral; font-style: italic;">a</span><span
+                                        style="display: inline-block; width: 0px; height: 3.99em;"></span></span><span
+                                      style="position: absolute; top: -4.044em; left: 0.033em;"><span
+                                        style="height: 0em; vertical-align: 0em; width: 0.453em; display: inline-block; overflow: hidden;"></span><span
+                                        class="mo" id="MathJax-Span-17" style="font-family: STIXGeneral;">⃗&nbsp;<span
+                                          style="height: 0em; vertical-align: 0em; margin-left: -0.257em;"></span></span><span
+                                        style="display: inline-block; overflow: hidden; height: 1px; width: 0em;"></span><span
+                                        style="display: inline-block; width: 0px; height: 3.99em;"></span></span></span></span></span></span></span><span
+                            style="display: inline-block; width: 0px; height: 2.188em;"></span></span></span><span
+                        style="display: inline-block; overflow: hidden; vertical-align: -0.084em; border-left: 0px solid; width: 0px; height: 1.058em;"></span></span>
+                  </nobr><span class="MJX_Assistive_MathML" role="presentation"><math
+                      xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mrow class="MJX-TeXAtom-ORD">
+                        <mover>
+                          <mi>a</mi>
+                          <mo stretchy="false">→</mo>
+                        </mover>
+                      </mrow>
+                    </math></span>
+                </span>
+                <script type="math/tex" id="MathJax-Element-3">\vec{a}</script> or
+                <span class="MathJax_Preview" style="color: inherit;"></span><span class="MathJax"
+                  id="MathJax-Element-4-Frame" tabindex="0" style="position: relative;"
+                  data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mrow class=&quot;MJX-TeXAtom-ORD&quot;><mover><mi>b</mi><mo stretchy=&quot;false&quot;>&amp;#x2192;</mo></mover></mrow></math>"
+                  role="presentation">
+                  <nobr aria-hidden="true"><span class="math" id="MathJax-Span-18" role="math"
+                      style="width: 0.589em; display: inline-block;"><span
+                        style="display: inline-block; position: relative; width: 0.515em; height: 0px; font-size: 111%;"><span
+                          style="position: absolute; clip: rect(0.939em, 1000.49em, 2.392em, -1000em); top: -2.188em; left: 0em;"><span
+                            class="mrow" id="MathJax-Span-19"><span class="texatom" id="MathJax-Span-20"><span
+                                class="mrow" id="MathJax-Span-21"><span class="munderover" id="MathJax-Span-22"><span
+                                    style="display: inline-block; position: relative; width: 0.5em; height: 0px;"><span
+                                      style="position: absolute; clip: rect(3.114em, 1000.47em, 4.194em, -1000em); top: -3.99em; left: 0em;"><span
+                                        class="mi" id="MathJax-Span-23"
+                                        style="font-family: STIXGeneral; font-style: italic;">b</span><span
+                                        style="display: inline-block; width: 0px; height: 3.99em;"></span></span><span
+                                      style="position: absolute; top: -4.286em; left: 0.032em;"><span
+                                        style="height: 0em; vertical-align: 0em; width: 0.453em; display: inline-block; overflow: hidden;"></span><span
+                                        class="mo" id="MathJax-Span-24" style="font-family: STIXGeneral;">⃗&nbsp;<span
+                                          style="height: 0em; vertical-align: 0em; margin-left: -0.257em;"></span></span><span
+                                        style="display: inline-block; overflow: hidden; height: 1px; width: 0em;"></span><span
+                                        style="display: inline-block; width: 0px; height: 3.99em;"></span></span></span></span></span></span></span><span
+                            style="display: inline-block; width: 0px; height: 2.188em;"></span></span></span><span
+                        style="display: inline-block; overflow: hidden; vertical-align: -0.084em; border-left: 0px solid; width: 0px; height: 1.327em;"></span></span>
+                  </nobr><span class="MJX_Assistive_MathML" role="presentation"><math
+                      xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mrow class="MJX-TeXAtom-ORD">
+                        <mover>
+                          <mi>b</mi>
+                          <mo stretchy="false">→</mo>
+                        </mover>
+                      </mrow>
+                    </math></span>
+                </span>
+                <script type="math/tex" id="MathJax-Element-4">\vec{b}</script>, or they use other markings. We won't
+                need to use arrows here.
+                We denote the magnitude of the vector <span class="MathJax_Preview" style="color: inherit;"></span><span
+                  class="MathJax" id="MathJax-Element-5-Frame" tabindex="0" style="position: relative;"
+                  data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mrow class=&quot;MJX-TeXAtom-ORD&quot;><mi mathvariant=&quot;bold&quot;>a</mi></mrow></math>"
+                  role="presentation">
+                  <nobr aria-hidden="true"><span class="math" id="MathJax-Span-25" role="math"
+                      style="width: 0.589em; display: inline-block;"><span
+                        style="display: inline-block; position: relative; width: 0.515em; height: 0px; font-size: 111%;"><span
+                          style="position: absolute; clip: rect(1.908em, 1000.5em, 2.781em, -1000em); top: -2.574em; left: 0em;"><span
+                            class="mrow" id="MathJax-Span-26"><span class="texatom" id="MathJax-Span-27"><span
+                                class="mrow" id="MathJax-Span-28"><span class="mi" id="MathJax-Span-29"
+                                  style="font-family: STIXGeneral; font-weight: bold;">a</span></span></span></span><span
+                            style="display: inline-block; width: 0px; height: 2.574em;"></span></span></span><span
+                        style="display: inline-block; overflow: hidden; vertical-align: -0.087em; border-left: 0px solid; width: 0px; height: 0.683em;"></span></span>
+                  </nobr><span class="MJX_Assistive_MathML" role="presentation"><math
+                      xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mrow class="MJX-TeXAtom-ORD">
+                        <mi mathvariant="bold">a</mi>
+                      </mrow>
+                    </math></span>
+                </span>
+                <script type="math/tex" id="MathJax-Element-5">\vc{a}</script> by <span class="MathJax_Preview"
+                  style="color: inherit;"></span><span class="MathJax" id="MathJax-Element-6-Frame" tabindex="0"
+                  style="position: relative;"
+                  data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mo fence=&quot;false&quot; stretchy=&quot;false&quot;>&amp;#x2225;</mo><mrow class=&quot;MJX-TeXAtom-ORD&quot;><mi mathvariant=&quot;bold&quot;>a</mi></mrow><mo fence=&quot;false&quot; stretchy=&quot;false&quot;>&amp;#x2225;</mo></math>"
+                  role="presentation">
+                  <nobr aria-hidden="true"><span class="math" id="MathJax-Span-30" role="math"
+                      style="width: 1.732em; display: inline-block;"><span
+                        style="display: inline-block; position: relative; width: 1.544em; height: 0px; font-size: 111%;"><span
+                          style="position: absolute; clip: rect(1.691em, 1001.42em, 2.956em, -1000em); top: -2.574em; left: 0em;"><span
+                            class="mrow" id="MathJax-Span-31"><span class="mo" id="MathJax-Span-32"
+                              style="font-family: STIXGeneral;">∥</span><span class="texatom" id="MathJax-Span-33"><span
+                                class="mrow" id="MathJax-Span-34"><span class="mi" id="MathJax-Span-35"
+                                  style="font-family: STIXGeneral; font-weight: bold;">a</span></span></span><span
+                              class="mo" id="MathJax-Span-36" style="font-family: STIXGeneral;">∥</span></span><span
+                            style="display: inline-block; width: 0px; height: 2.574em;"></span></span></span><span
+                        style="display: inline-block; overflow: hidden; vertical-align: -0.281em; border-left: 0px solid; width: 0px; height: 1.119em;"></span></span>
+                  </nobr><span class="MJX_Assistive_MathML" role="presentation"><math
+                      xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mo fence="false" stretchy="false">∥</mo>
+                      <mrow class="MJX-TeXAtom-ORD">
+                        <mi mathvariant="bold">a</mi>
+                      </mrow>
+                      <mo fence="false" stretchy="false">∥</mo>
+                    </math></span>
+                </span>
+                <script type="math/tex" id="MathJax-Element-6">\|\vc{a}\|</script>.
+                When we want to refer to a number and stress that it is not a vector,
+                we can call the number a <a href="/definition/scalar" class="definition"
+                  title="Scalar definition: A scalar is a real number.">scalar</a>. We will denote scalars
+                with italics, as in <span class="MathJax_Preview" style="color: inherit;"></span><span class="MathJax"
+                  id="MathJax-Element-7-Frame" tabindex="0" style="position: relative;"
+                  data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mi>a</mi></math>"
+                  role="presentation">
+                  <nobr aria-hidden="true"><span class="math" id="MathJax-Span-37" role="math"
+                      style="width: 0.589em; display: inline-block;"><span
+                        style="display: inline-block; position: relative; width: 0.515em; height: 0px; font-size: 111%;"><span
+                          style="position: absolute; clip: rect(1.94em, 1000.49em, 2.778em, -1000em); top: -2.574em; left: 0em;"><span
+                            class="mrow" id="MathJax-Span-38"><span class="mi" id="MathJax-Span-39"
+                              style="font-family: STIXGeneral; font-style: italic;">a</span></span><span
+                            style="display: inline-block; width: 0px; height: 2.574em;"></span></span></span><span
+                        style="display: inline-block; overflow: hidden; vertical-align: -0.084em; border-left: 0px solid; width: 0px; height: 0.645em;"></span></span>
+                  </nobr><span class="MJX_Assistive_MathML" role="presentation"><math
+                      xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mi>a</mi>
+                    </math></span>
+                </span>
+                <script type="math/tex" id="MathJax-Element-7">a</script> or <span class="MathJax_Preview"
+                  style="color: inherit;"></span><span class="MathJax" id="MathJax-Element-8-Frame" tabindex="0"
+                  style="position: relative;"
+                  data-mathml="<math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;><mi>b</mi></math>"
+                  role="presentation">
+                  <nobr aria-hidden="true"><span class="math" id="MathJax-Span-40" role="math"
+                      style="width: 0.589em; display: inline-block;"><span
+                        style="display: inline-block; position: relative; width: 0.515em; height: 0px; font-size: 111%;"><span
+                          style="position: absolute; clip: rect(1.698em, 1000.49em, 2.778em, -1000em); top: -2.574em; left: 0em;"><span
+                            class="mrow" id="MathJax-Span-41"><span class="mi" id="MathJax-Span-42"
+                              style="font-family: STIXGeneral; font-style: italic;">b</span></span><span
+                            style="display: inline-block; width: 0px; height: 2.574em;"></span></span></span><span
+                        style="display: inline-block; overflow: hidden; vertical-align: -0.084em; border-left: 0px solid; width: 0px; height: 0.913em;"></span></span>
+                  </nobr><span class="MJX_Assistive_MathML" role="presentation"><math
+                      xmlns="http://www.w3.org/1998/Math/MathML">
+                      <mi>b</mi>
+                    </math></span>
+                </span>
+                <script type="math/tex" id="MathJax-Element-8">b</script>.
+              </p>
+
+
+              <p>You can explore the concept of the magnitude and direction of a vector using the below applet. Note
+                that moving the vector around doesn't change the vector, as the position of the vector doesn't affect
+                the magnitude or the direction.
+                But if you stretch or turn the vector by moving just its head or its tail, the magnitude or direction
+                will change. (This applet also shows the coordinates of the vector, which you can read about in <a
+                  href="/vectors_cartesian_coordinates_2d_3d" class="content"
+                  title="Vectors in two- and three-dimensional Cartesian coordinates: A introduction to representing vectors using the standard Cartesian coordinate systems in the plane and in three-dimensional space.">another
+                  page</a>.)</p>
+</body>
+
+</html>
