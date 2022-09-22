@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>brainspell</title>
+  <link href="./css/style.css" rel="stylesheet">
+</head>
+<body>
+<script src="./js/three.min.js"></script>
+<script src='./js/SubdivisionModifier.js'></script>
+<script src="./js/PLYLoader.js"></script>
+<script src="./js/OrbitControls.js"></script>
+<script>
+  console.log(`%cREV ${THREE.REVISION}`, "color: #ccff00;");
+
+  let scene = new THREE.Scene();
+
+  let camera = window._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
+  camera.position.x = 0;
+  camera.position.y = 12;
+  camera.position.z = 192;
+
+  let renderer = new THREE.WebGLRenderer({
+    antialias: true,
+    preserveDrawingBuffer: true,
+    alpha: true
+  });
+
+  renderer.setClearColor(0x000000, 1);
+  renderer.setPixelRatio(window.devicePixelRatio ? window.devicePixelRatio : 1);
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
+
+  new THREE.OrbitControls(camera, renderer.domElement);
+
+  // It's different colors.
+  let loader = new THREE.PLYLoader();
+  loader.load("./data/lrh3.ply", function (geometry) {
+    scene.add(new THREE.Mesh(geometry));
+  });
+
+  function animate() {
+    requestAnimationFrame(animate);
+    renderer.render(scene, camera);
+  }
+
+  animate();
+
+  function onWindowResize() {
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+  }
+
+  window.addEventListener("resize", onWindowResize, false);
+</script>
+</body>
+</html>
