@@ -11,12 +11,13 @@
   <link href="./css/style.css" rel="stylesheet">
   <script>
     // Is JS enabled? Is it a touch device?
-    var init = function () {
-      var htmlTag = document.getElementsByTagName('html')[0];
-      htmlTag.className = (htmlTag.className + ' ' || '') + 'hasJS';
-      if ('ontouchstart' in document.documentElement)
-        htmlTag.className = (htmlTag.className + ' ' || '') + 'isTouch';
-    }();
+    (() => {
+  var htmlTag = document.getElementsByTagName("html")[0];
+  htmlTag.className = (htmlTag.className + " " || "") + "hasJS";
+  if ("ontouchstart" in document.documentElement)
+    htmlTag.className = (htmlTag.className + " " || "") + "isTouch";
+  }
+})();
   </script>
 </head>
 <body>
