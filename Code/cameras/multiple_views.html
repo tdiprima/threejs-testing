@@ -38,13 +38,22 @@
 
   let windowWidth, windowHeight;
 
+  let kimberly = "rgba(169, 129, 193, 1)"; // #a981c1
+  kimberly = new THREE.Color(0.5, 0.5, 0.7);
+
+  let neptune = "rgba(113, 180, 179, 1)"; // #71b4b3
+  neptune = new THREE.Color(0.5, 0.7, 0.7);
+
+  let oldRose = "rgba(187, 125, 127, 1)"; // #bb7d7f
+  oldRose = new THREE.Color(0.7, 0.5, 0.5);
+
   let views = [
     {
       left: 0,
       bottom: 0,
       width: 0.5,
       height: 1.0,
-      background: new THREE.Color(0.5, 0.5, 0.7),
+      background: kimberly,
       eye: [0, 300, 1800],
       up: [0, 1, 0],
       fov: 30,
@@ -59,7 +68,7 @@
       bottom: 0,
       width: 0.5,
       height: 0.5,
-      background: new THREE.Color(0.7, 0.5, 0.5),
+      background: oldRose,
       eye: [0, 1800, 0],
       up: [0, 0, 1],
       fov: 45,
@@ -74,7 +83,7 @@
       bottom: 0.5,
       width: 0.5,
       height: 0.5,
-      background: new THREE.Color(0.5, 0.7, 0.7),
+      background: neptune,
       eye: [1400, 800, 1400],
       up: [0, 1, 0],
       fov: 60,
@@ -121,8 +130,8 @@
       canvas.height / 2,
       canvas.width / 2
     );
-    gradient.addColorStop(0.1, "rgba(0,0,0,0.15)");
-    gradient.addColorStop(1, "rgba(0,0,0,0)");
+    gradient.addColorStop(0.1, "rgba(0, 0, 0, 0.15)");
+    gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
 
     context.fillStyle = gradient;
     context.fillRect(0, 0, canvas.width, canvas.height);
