@@ -20,13 +20,14 @@
 <body>
 <!-- Translucent Viewer -->
 <script src="./js/three.min.js"></script>
+<script src="./js/Detector.js"></script>
 <script src='./js/SubdivisionModifier.js'></script>
 <script src="./js/PLYLoader.js"></script>
 <script src="./js/OrbitControls.js"></script>
 <!-- <script src="./js/TrackballControls.js"></script> -->
 <script>
   console.log(`%cREV ${THREE.REVISION}`, "color: #ccff00;");
-  // if (!Detector.webgl) Detector.addGetWebGLMessage();
+  if (!Detector.webgl) Detector.addGetWebGLMessage();
 
   let scene = new THREE.Scene();
   // let camera = window._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
