@@ -125,49 +125,26 @@
     let geometry2 = geometry1.clone();
     let geometry3 = geometry1.clone();
 
-    let color = new THREE.Color();
-    let positions1 = geometry1.attributes.position;
-    let positions2 = geometry2.attributes.position;
-    let positions3 = geometry3.attributes.position;
-    let colors1 = geometry1.attributes.color;
-    let colors2 = geometry2.attributes.color;
-    let colors3 = geometry3.attributes.color;
-
-    for (let i = 0; i < count; i++) {
-      color.setHSL((positions1.getY(i) / radius + 1) / 2, 1.0, 0.5);
-      colors1.setXYZ(i, color.r, color.g, color.b);
-
-      color.setHSL(0, (positions2.getY(i) / radius + 1) / 2, 0.5);
-      colors2.setXYZ(i, color.r, color.g, color.b);
-
-      color.setRGB(1, 0.8 - (positions3.getY(i) / radius + 1) / 2, 0);
-      colors3.setXYZ(i, color.r, color.g, color.b);
-    }
-
-    let material = new THREE.MeshPhongMaterial({
-      color: 0xffffff,
-      flatShading: true,
-      vertexColors: true,
-      shininess: 0
+    let material = new THREE.MeshBasicMaterial({
+      color: 0x00ff00,
+      wireframe: true
     });
 
-    let wireframeMaterial = new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true, transparent: true });
-
     let mesh = new THREE.Mesh(geometry1, material);
-    let wireframe = new THREE.Mesh(geometry1, wireframeMaterial);
+    let wireframe = new THREE.Mesh(geometry1, material);
     mesh.add(wireframe);
     mesh.position.x = -400;
     mesh.rotation.x = -1.87;
     scene.add(mesh);
 
     mesh = new THREE.Mesh(geometry2, material);
-    wireframe = new THREE.Mesh(geometry2, wireframeMaterial);
+    wireframe = new THREE.Mesh(geometry2, material);
     mesh.add(wireframe);
     mesh.position.x = 400;
     scene.add(mesh);
 
     mesh = new THREE.Mesh(geometry3, material);
-    wireframe = new THREE.Mesh(geometry3, wireframeMaterial);
+    wireframe = new THREE.Mesh(geometry3, material);
     mesh.add(wireframe);
     scene.add(mesh);
 
@@ -191,7 +168,6 @@
     if (windowWidth !== window.innerWidth || windowHeight !== window.innerHeight) {
       windowWidth = window.innerWidth;
       windowHeight = window.innerHeight;
-
       renderer.setSize(windowWidth, windowHeight);
     }
   }
