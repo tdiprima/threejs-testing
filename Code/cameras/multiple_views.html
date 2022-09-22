@@ -115,51 +115,6 @@
     light.position.set(0, 0, 1);
     scene.add(light);
 
-    // shadow
-
-    let canvas = document.createElement("canvas");
-    canvas.width = 128;
-    canvas.height = 128;
-
-    let context = canvas.getContext("2d");
-    let gradient = context.createRadialGradient(
-      canvas.width / 2,
-      canvas.height / 2,
-      0,
-      canvas.width / 2,
-      canvas.height / 2,
-      canvas.width / 2
-    );
-    gradient.addColorStop(0.1, "rgba(0, 0, 0, 0.15)");
-    gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
-
-    context.fillStyle = gradient;
-    context.fillRect(0, 0, canvas.width, canvas.height);
-
-    let shadowTexture = new THREE.CanvasTexture(canvas);
-
-    let shadowMaterial = new THREE.MeshBasicMaterial({ map: shadowTexture, transparent: true });
-    let shadowGeo = new THREE.PlaneGeometry(300, 300, 1, 1);
-
-    let shadowMesh;
-
-    shadowMesh = new THREE.Mesh(shadowGeo, shadowMaterial);
-    shadowMesh.position.y = -250;
-    shadowMesh.rotation.x = -Math.PI / 2;
-    scene.add(shadowMesh);
-
-    shadowMesh = new THREE.Mesh(shadowGeo, shadowMaterial);
-    shadowMesh.position.x = -400;
-    shadowMesh.position.y = -250;
-    shadowMesh.rotation.x = -Math.PI / 2;
-    scene.add(shadowMesh);
-
-    shadowMesh = new THREE.Mesh(shadowGeo, shadowMaterial);
-    shadowMesh.position.x = 400;
-    shadowMesh.position.y = -250;
-    shadowMesh.rotation.x = -Math.PI / 2;
-    scene.add(shadowMesh);
-
     let radius = 200;
 
     let geometry1 = new THREE.IcosahedronGeometry(radius, 1);
