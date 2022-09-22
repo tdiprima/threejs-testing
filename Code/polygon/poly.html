@@ -12,10 +12,10 @@
   <script>
     // Is JS enabled? Is it a touch device?
     (function () {
-      let htmlTag = document.getElementsByTagName('html')[0];
-      htmlTag.className = `${`${htmlTag.className} ` || ''}hasJS`;
-      if ('ontouchstart' in document.documentElement) {
-        htmlTag.className = `${`${htmlTag.className} ` || ''}isTouch`;
+      let htmlTag = document.getElementsByTagName("html")[0];
+      htmlTag.classList.add("hasJS");
+      if ("ontouchstart" in document.documentElement) {
+        htmlTag.classList.add("isTouch");
       }
     })();
   </script>
