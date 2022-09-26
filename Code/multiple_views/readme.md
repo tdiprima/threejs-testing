@@ -29,3 +29,17 @@ JS IS STRUCTURED IN AN ACCESSIBLE WAY. The way that Three. js structures its ren
 Three. js you can use any way you could use canvas, including full-screen animations, so long as the device supports WebGL. The prospects that Three. js suggest out of the package without any skills in 3D are very important when we want to create some multi-dimensional projects in no time issue.Jan 16, 2018
 
 [Why to Use ThreeJS in Web Application Development? - Cmarix](https://www.cmarix.com/blog/why-to-use-threejs-in-web-application-development/)
+
+# [wtf is scissorTest??](https://gamedev.stackexchange.com/questions/40704/what-is-the-purpose-of-glscissor)
+
+### I like this kind of things explained visually.
+
+In OpenGL we have 2D coordinates that go from -1 to +1 for both the X and Y axis.
+
+![](YB4pb.png)
+
+Then this image needs to be mapped to window coordinates.
+
+## Picture in picture
+
+[codepen.io](https://codepen.io/anon/pen/EwrbGZ)

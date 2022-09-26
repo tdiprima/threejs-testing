@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" name="viewport">
-  <title>three.js webgl - multiple views</title>
+  <title>three.js webgl - multiple cameras</title>
   <!-- https://stackoverflow.com/questions/14740076/one-scene-but-multiple-viewports-with-their-own-camera-three-js -->
   <!-- https://threejs.org/examples/webgl_multiple_views.html -->
   <link href="/favicon.ico" rel="icon" type="image/x-icon">
@@ -43,20 +43,20 @@
   let oldRose = "rgba(187, 125, 127, 1)"; // #bb7d7f
   oldRose = new THREE.Color(0.7, 0.5, 0.5);
 
-  let views = [
+  let cameras = [
     {
       left: 0,
       bottom: 0,
       width: 0.5,
       height: 1.0,
       background: kimberly,
-      eye: [0, 300, 1800],
-      up: [0, 1, 0],
-      fov: 30,
+      eye: [0, 300, 1800], // camera position
+      up: [0, 1, 0], // wtf is this?
+      fov: 30, // the lower the #, the closer it is.
       updateCamera(camera, scene, mouseX) {
-        camera.position.x += mouseX * 0.05;
+        camera.position.x += mouseX * 0.05; // x +=
         camera.position.x = Math.max(Math.min(camera.position.x, 2000), -2000);
-        camera.lookAt(scene.position);
+        camera.lookAt(scene.position); // scene.position
       }
     },
     {
@@ -69,7 +69,7 @@
       up: [0, 0, 1],
       fov: 45,
       updateCamera(camera, scene, mouseX) {
-        camera.position.x -= mouseX * 0.05;
+        camera.position.x -= mouseX * 0.05; // x -+
         camera.position.x = Math.max(Math.min(camera.position.x, 2000), -2000);
         camera.lookAt(camera.position.clone().setY(0));
       }
@@ -82,11 +82,11 @@
       background: neptune,
       eye: [1400, 800, 1400],
       up: [0, 1, 0],
-      fov: 60,
+      fov: 60, // the higher the #, the further away it is.
       updateCamera(camera, scene, mouseX) {
-        camera.position.y -= mouseX * 0.05;
+        camera.position.y -= mouseX * 0.05; // y -=
         camera.position.y = Math.max(Math.min(camera.position.y, 1600), -1600);
-        camera.lookAt(scene.position);
+        camera.lookAt(scene.position); // scene.position
       }
     }
   ];
@@ -97,12 +97,14 @@
   function init() {
     let container = document.getElementById("container");
 
-    for (let ii = 0; ii < views.length; ++ii) {
-      let view = views[ii];
+    // "Cameras", "views", whatever you wanna call it.
+    for (let ii = 0; ii < cameras.length; ++ii) {
+      let view = cameras[ii];
       let camera = new THREE.PerspectiveCamera(view.fov, window.innerWidth / window.innerHeight, 1, 10000);
       camera.position.fromArray(view.eye);
       camera.up.fromArray(view.up);
       view.camera = camera;
+      // console.log("camera", JSON.stringify(view));
     }
 
     scene = new THREE.Scene();
@@ -158,6 +160,10 @@
   function onDocumentMouseMove(event) {
     mouseX = event.clientX - windowWidth / 2;
     mouseY = event.clientY - windowHeight / 2;
+    // Whatever happened to (updatePointer)...?
+    // const rect = _domElement.getBoundingClientRect();
+    // _pointer.x = ( event.clientX - rect.left ) / rect.width * 2 - 1;
+    // _pointer.y = - ( event.clientY - rect.top ) / rect.height * 2 + 1;
   }
 
   function updateSize() {
@@ -178,8 +184,8 @@
   function render() {
     updateSize();
 
-    for (let ii = 0; ii < views.length; ++ii) {
-      let view = views[ii];
+    for (let ii = 0; ii < cameras.length; ++ii) {
+      let view = cameras[ii];
       let camera = view.camera;
 
       view.updateCamera(camera, scene, mouseX, mouseY);
@@ -191,6 +197,8 @@
 
       renderer.setViewport(left, bottom, width, height);
       renderer.setScissor(left, bottom, width, height);
+      // The Scissor Test discards Fragments that fall outside of a certain rectangular portion of the screen.
+      // glScissor() defines a screen space rectangle beyond which nothing is drawn (if the scissor test is enabled).
       renderer.setScissorTest(true);
       renderer.setClearColor(view.background);
 
