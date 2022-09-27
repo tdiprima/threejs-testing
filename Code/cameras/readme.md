@@ -1,4 +1,4 @@
-# can you have 2 three.js on one page
+# Camera, view, whatever.
 
 [three.js multiple camera](https://www.google.com/search?q=three.js+multiple+camera&oq=three.js+multiple+camera&aqs=chrome..69i57j0i22i30l2.2131j0j7&sourceid=chrome&ie=UTF-8)
 
