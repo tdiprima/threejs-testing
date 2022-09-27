@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>How to use 2 cameras three.js</title>
+  <!-- https://youtu.be/_TtVdWAc9Sc -->
+  <link href="/css/main.css" rel="stylesheet">
+</head>
+<body>
+<script async src="/es-module-shims-1.3.6/dist/es-module-shims.js"></script>
+<script type="importmap">
+	{
+		"imports": {
+			"three": "/build/three.module.js"
+		}
+	}
+</script>
+<script type="module">
+  import * as THREE from "three"
+
+  let aspect = window.innerWidth / window.innerHeight; // cam aspect ratio (width:height)
+  let insetWidth, insetHeight; // width and height of overhead cam viewport
+
+  let scene = new THREE.Scene();
+
+  // CAMERA
+  // CAM #1 - behind player; take up whole screen.
+  let camera = new THREE.PerspectiveCamera(
+    70, // field of view in vertical degrees
+    aspect, // aspect ratio: ratio of image width to height
+    0.01, // near: distance from camera object starts to appear
+    500 // far: distance from camera objects stop appearing
+  );
+
+  camera.position.z = 10; // move 10 units behind origin
+  camera.position.y = 2; // move 2 units up
+
+  camera.lookAt(0, 0, 0); // point camera to this x, y, z position
+
+  camera.name = "PlayerCam"; // easy to identify
+
+  // CAM #2 - overhead cam
+  let cameraTop = new THREE.PerspectiveCamera(
+    90, // field of view
+    aspect, // aspect ratio
+    0.01, // near
+    500 // far
+  );
+
+  cameraTop.position.set(0, 10, 0); // move 10 units above origin
+  cameraTop.lookAt(0, 0, -10); // reverse 10 from camera #1 (1:37)
+
+  cameraTop.name = "OverheadCam";
+
+  camera.add(cameraTop); // camera (CAM #1) is parent to cameraTop (CAM #2)
+
+  scene.add(camera); // add camera (parent-camera and child-cameraTop) to scene
+
+  let geometry = new THREE.BoxGeometry(10.2, 0.2, 0.2);
+  let material = new THREE.MeshNormalMaterial();
+
+  // Fudge 'em.
+  let cube3 = new THREE.Mesh(geometry, material);
+  scene.add(cube3);
+
+  let mesh = new THREE.Mesh(geometry, material);
+  scene.add(mesh);
+
+  // https://discoverthreejs.com/book/first-steps/first-scene/
+  const renderer = new THREE.WebGLRenderer();
+
+  // next, set the renderer to the same size as our container element
+  renderer.setSize(window.clientWidth, window.clientHeight);
+
+  // finally, set the pixel ratio so that our scene will look good on HiDPI displays
+  renderer.setPixelRatio(window.devicePixelRatio);
+
+  // add the automatically created <canvas> element to the page
+  document.body.append(renderer.domElement);
+
+  // render, or 'create a still image', of the scene
+  renderer.render(scene, camera);
+
+  // RESIZE HANDLER FOR BOTH CAMERAS
+  function resize() {
+    // for CAM#1 - player cam
+    camera.aspect = window.innerWidth / window.innerHeight; // update aspect ratio
+    camera.updateProjectionMatrix(); // update projection that contains matrix CAM#1
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    // for CAM#2 - overhead cam
+    // ***** dimensions of overhead cam viewport (length & width = 25% of height)
+    insetWidth = window.innerHeight / 4; // control width of mini viewer
+    insetHeight = window.innerHeight / 4; // control height of mini viewer
+
+    cameraTop.aspect = insetWidth / insetHeight; // aspect ratio of CAM#2 - overhead cam
+    cameraTop.updateProjectionMatrix(); // update projection that contains matrix CAM#2
+
+  }
+
+  resize(); // check if window resizes
+  window.addEventListener("resize", resize);
+
+  function animate() {
+    requestAnimationFrame(animate);
+
+    camera.position.x = cube3.position.x; // set player cam to follow player x position
+    camera.position.z = cube3.position.z + 10; // the camera will always be 10 behind the player
+    mesh.rotation.y += 0.01; // rotate by 0.01 each time animate function runs
+
+    // ***** CAM #1 *****
+    // set viewport of CAM#1 - player cam - full screen
+    // arguments: x, y of lower left hand corner, width, height
+    renderer.setViewport(0, 0, window.innerWidth, window.innerHeight);
+
+    // render scene from CAM#1 - player cam
+    renderer.render(scene, camera);
+
+    // ***** CAM #2 *****
+    // depth buffer - helps render 3D scene to make sure closer objects go in front of farth...
+    renderer.clearDepth(); // clear depth buffer
+
+    renderer.setScissorTest(true); // only pixels in the scissor region (2nd cam) affected by further renders
+    // Anything outside of that will not be updated here.
+
+    renderer.setScissor(
+      // set scissor region (area to show overhead cam over the 1st camera) outside of this
+      window.innerWidth - insetWidth - 16, // x lower left corner of scissor region
+      window.innerHeight - insetHeight - 16, // y lower left corner of scissor region
+      insetWidth, // width of scissor region
+      insetHeight // height of scissor region
+    );
+
+    renderer.setViewport(
+      // set viewport to render overhead cam (same area as setScissor area)
+      window.innerWidth - insetWidth - 16, // x lower left corner of viewport
+      window.innerHeight - insetHeight - 16, // y lower left corner of viewport
+      insetWidth, // width of viewport
+      insetHeight // height of viewport
+    );
+
+    renderer.render(scene, cameraTop); // render scene with CAM#2 - overhead cam
+
+    renderer.setScissorTest(false); // so that it can render CAM#1 - player cam
+
+  }
+
+  animate(); // animate movement
+</script>
+</body>
+</html>
