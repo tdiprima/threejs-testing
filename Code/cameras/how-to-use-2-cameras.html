@@ -7,23 +7,24 @@
   <title>How to use 2 cameras three.js</title>
   <!-- https://youtu.be/_TtVdWAc9Sc -->
   <link href="/css/main.css" rel="stylesheet">
+  <!-- <style>
+    body {
+      background: url("/daikanyama.jpg") no-repeat center center;
+    }
+  </style> -->
 </head>
 <body>
-<script async src="/es-module-shims-1.3.6/dist/es-module-shims.js"></script>
-<script type="importmap">
-	{
-		"imports": {
-			"three": "/build/three.module.js"
-		}
-	}
-</script>
 <script type="module">
-  import * as THREE from "three"
+  import * as THREE from "/build/three.module.js"
 
   let aspect = window.innerWidth / window.innerHeight; // cam aspect ratio (width:height)
   let insetWidth, insetHeight; // width and height of overhead cam viewport
 
   let scene = new THREE.Scene();
+
+  let loader = new THREE.TextureLoader();
+  let bgTexture = loader.load('/daikanyama.jpg');
+  scene.background = bgTexture;
 
   // CAMERA
   // CAM #1 - behind player; take up whole screen.
@@ -58,18 +59,32 @@
 
   scene.add(camera); // add camera (parent-camera and child-cameraTop) to scene
 
+  // CREATE SOME OBJECTS
   let geometry = new THREE.BoxGeometry(10.2, 0.2, 0.2);
   let material = new THREE.MeshNormalMaterial();
-
-  // Fudge 'em.
-  let cube3 = new THREE.Mesh(geometry, material);
-  scene.add(cube3);
 
   let mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
 
+  // Make sh!t up.
+  geometry = new THREE.BoxBufferGeometry(1, 1, 1);
+  material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+  let cube3 = new THREE.Mesh(geometry, material);
+  scene.add(cube3);
+
+  material = new THREE.MeshBasicMaterial({ color: 0x0000ff });
+  let cube2 = new THREE.Mesh(geometry, material);
+  cube2.position.set(-5, 0, 0);
+  scene.add(cube2);
+
+  material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+  let cube1 = new THREE.Mesh(geometry, material);
+  cube1.position.set(5, 0, 0);
+  scene.add(cube1);
+
+  // Fudge 'em.
   // https://discoverthreejs.com/book/first-steps/first-scene/
-  const renderer = new THREE.WebGLRenderer();
+  let renderer = new THREE.WebGLRenderer();
 
   // next, set the renderer to the same size as our container element
   renderer.setSize(window.clientWidth, window.clientHeight);
@@ -82,6 +97,8 @@
 
   // render, or 'create a still image', of the scene
   renderer.render(scene, camera);
+
+  renderer.setClearColor(0x016f01); // green
 
   // RESIZE HANDLER FOR BOTH CAMERAS
   function resize() {
