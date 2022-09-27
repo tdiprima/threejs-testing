@@ -23,7 +23,7 @@
   let scene = new THREE.Scene();
 
   let loader = new THREE.TextureLoader();
-  let bgTexture = loader.load('/textures/sky/daikanyama.jpg');
+  let bgTexture = loader.load("/textures/sky/daikanyama.jpg");
   scene.background = bgTexture;
 
   // CAMERA
@@ -50,6 +50,7 @@
     500 // far
   );
 
+  // It sorta renders it "to scale."
   cameraTop.position.set(0, 10, 0); // move 10 units above origin
   cameraTop.lookAt(0, 0, -10); // reverse 10 from camera #1 (1:37)
 
