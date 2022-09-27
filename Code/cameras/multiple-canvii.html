@@ -79,7 +79,7 @@
    */
   function createDefaultRender(elementId) {
     let renderer = new THREE.WebGLRenderer();
-    // Cool. This is the only one that divides by 4.
+    // 1/4 size
     renderer.setSize(window.innerWidth / 4, window.innerHeight / 4);
     document.getElementById(elementId).appendChild(renderer.domElement);
     renderer.domElement.style.border = "2px solid orange";
