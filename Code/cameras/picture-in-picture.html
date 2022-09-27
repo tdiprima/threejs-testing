@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>1 camera, 2 views</title>
+  <!-- https://codepen.io/anon/pen/EwrbGZ -->
+  <style>
+    body {
+      font-family: Monospace, sans-serif;
+      overflow: hidden;
+      margin: 0;
+      /* well, ya made the margin 0, so this is a moot point - */
+      /* background-color: #f0f0f0; */
+    }
+  </style>
+  <!-- ok, so explain how using 87 puts it at the bottom, but 144 puts it at the top! -->
+  <script src="https://unpkg.com/three@0.87.1/build/three.js"></script>
+  <!-- <script src="https://unpkg.com/three@0.144.0/build/three.js"></script> -->
+</head>
+<body>
+<script>
+  let camera, scene, renderer;
+  let radius = 100, theta = 0;
+
+  function init() {
+    camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 10000);
+    scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xf0f0f0);
+
+    let light = new THREE.DirectionalLight(0xffffff, 1);
+    light.position.set(1, 1, 1).normalize();
+    scene.add(light);
+
+    // geometry
+    let instances = 1000;
+
+    let geometry = new THREE.BoxBufferGeometry(20, 20, 20);
+
+    for (let i = 0; i < instances; i++) {
+      let object = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({color: Math.random() * 0xffffff}));
+      object.position.x = Math.random() * 800 - 400;
+      object.position.y = Math.random() * 800 - 400;
+      object.position.z = Math.random() * 800 - 400;
+
+      object.rotation.x = Math.random() * 2 * Math.PI;
+      object.rotation.y = Math.random() * 2 * Math.PI;
+      object.rotation.z = Math.random() * 2 * Math.PI;
+
+      object.scale.x = Math.random() + 0.5;
+      object.scale.y = Math.random() + 0.5;
+      object.scale.z = Math.random() + 0.5;
+
+      scene.add(object);
+    }
+
+    renderer = new THREE.WebGLRenderer({antialias: true});
+
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    // You need this in order to get the picture-in-picture effect.
+    // Otherwise, you just get the quarter-sized picture.
+    renderer.setScissorTest(true);
+
+    document.body.appendChild(renderer.domElement);
+
+    window.addEventListener("resize", onWindowResize, false);
+  }
+
+  init();
+
+  function onWindowResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  }
+
+  // https://discourse.threejs.org/t/three-math-undefined/16999
+  // THREE.Math = { // 144 Fix
+  //   degToRad: THREE.MathUtils.degToRad,
+  //   randInt: THREE.MathUtils.randInt,
+  //   randFloat: THREE.MathUtils.randFloat
+  // };
+
+  function render() {
+    // Rotate
+    theta += 0.1;
+    camera.position.x = radius * Math.sin(THREE.Math.degToRad(theta));
+    camera.position.y = radius * Math.sin(THREE.Math.degToRad(theta));
+    camera.position.z = radius * Math.cos(THREE.Math.degToRad(theta));
+    camera.lookAt(scene.position);
+    camera.updateMatrixWorld();
+
+    // full screen
+    renderer.setScissor(0, 0, window.innerWidth, window.innerHeight);
+    renderer.setViewport(0, 0, window.innerWidth, window.innerHeight);
+    renderer.render(scene, camera);
+
+    // corner
+    let widthHalf = window.innerWidth / 2;
+    let heightHalf = window.innerHeight / 2;
+
+    renderer.setScissor(widthHalf, heightHalf, widthHalf, heightHalf);
+    renderer.setViewport(widthHalf, heightHalf, widthHalf, heightHalf);
+
+    renderer.render(scene, camera);
+  }
+
+  function animate() {
+    requestAnimationFrame(animate);
+
+    render();
+  }
+
+  animate();
+</script>
+</body>
+</html>
