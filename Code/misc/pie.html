@@ -91,18 +91,6 @@
     }
   };
 
-  function chooseFromHash(mesh) {
-    // Let it default to Circle.
-    let selectedGeometry = window.location.hash.substring(1) || "CircleGeometry";
-
-    if (guis[selectedGeometry] !== undefined) {
-      guis[selectedGeometry](mesh);
-    }
-
-    // No configuration options
-    return {};
-  }
-
   let gui = new GUI();
 
   let scene = new Scene();
@@ -148,7 +136,8 @@
   group.add(new LineSegments(geometry, lineMaterial));
   group.add(new Mesh(geometry, meshMaterial));
 
-  let options = chooseFromHash(group);
+  // Do the thing.
+  guis["CircleGeometry"](group); // the group is the mesh
 
   scene.add(group);
 
