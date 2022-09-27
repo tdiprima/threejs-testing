@@ -151,3 +151,9 @@ Represent a number of things, such as: A point in 3D space. A direction and leng
 ```
 
 [Vector3](https://threejs.org/docs/#api/en/math/Vector3)
+
+# World Space
+
+[transformations](https://discoverthreejs.com/book/first-steps/transformations/)
+
+![](img/world-space.png)
