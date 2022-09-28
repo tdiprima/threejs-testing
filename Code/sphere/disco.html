@@ -6,6 +6,16 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>adiioo7</title>
   <!-- http://jsfiddle.net/adiioo7/SF9tX/4/ -->
+  <style>
+    body {
+      background-color: #cce0ff;
+      color: #000;
+    }
+
+    a {
+      color: #080;
+    }
+  </style>
 </head>
 <body>
 
@@ -25,6 +35,7 @@
   let renderer = new THREE.WebGLRenderer();
   renderer.setSize(width, height);
   document.body.appendChild(renderer.domElement);
+  renderer.setClearColorHex(0xcce0ff, 1);
 
   // TODO: r54
   let geometry = new THREE.SphereGeometry(3, 50, 50, 0, tau, 0, tau);
