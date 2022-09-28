@@ -30,13 +30,14 @@
   const height = 400;
 
   let scene = new THREE.Scene();
+  scene.background = new THREE.Color(0xcce0ff); // even better
   let camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 1000);
 
   let renderer = new THREE.WebGLRenderer();
   renderer.setSize(width, height);
   document.body.appendChild(renderer.domElement);
   // https://stackoverflow.com/questions/16177056/changing-three-js-background-to-transparent-or-other-color
-  renderer.setClearColorHex(0xcce0ff, 1);
+  // renderer.setClearColorHex(0xcce0ff, 1);
   // renderer.setClearColor(0xcce0ff, 0);
 
   // TODO: r54
