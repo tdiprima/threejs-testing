@@ -23,11 +23,11 @@
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
 
-  let geometry = new THREE.SphereBufferGeometry(10, 10, 10);
-  let material = new THREE.MeshNormalMaterial({wireframe: true});
   let objects = [];
 
   function createObject(position) {
+    let geometry = new THREE.SphereBufferGeometry(10, 10, 10);
+    let material = new THREE.MeshNormalMaterial({wireframe: true});
     let mesh = new THREE.Mesh(geometry, material);
     if (position) {
       mesh.position.x = position;
@@ -40,11 +40,11 @@
   createObject(-40);
 
   // now we can add event listeners to any mesh we want
-  // let domEvents = new THREEx.DomEvents(camera, renderer.domElement);
-  // domEvents.addEventListener(objects[0], "click", function () {
-  //   console.log(objects[0]);
-  //   objects[0].material.wireframe = false;
-  // });
+  let domEvents = new THREEx.DomEvents(camera, renderer.domElement);
+  domEvents.addEventListener(objects[0], "click", function () {
+    // console.log(objects[0]);
+    objects[0].material.wireframe = false;
+  });
 
   let controls = new THREE.OrbitControls(camera, renderer.domElement);
   controls.minDistance = 1;
