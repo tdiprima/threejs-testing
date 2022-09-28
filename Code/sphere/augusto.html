@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Sphere</title>
   <!-- Learning Threejs: Add event listeners to 3D objects, camera features and more -->
   <!-- https://youtu.be/x68rZ_UEQPE -->
-  <link rel="stylesheet" href="/css/main.css">
- </head>
+  <link href="/css/main.css" rel="stylesheet">
+</head>
 <body>
 <script src="/build/three.js"></script>
 <script src="/node_modules/three/examples/js/controls/OrbitControls.js"></script>
@@ -32,23 +32,30 @@
     let geometry = new THREE.SphereBufferGeometry(10, 10, 10);
     let material = new THREE.MeshNormalMaterial({wireframe: true});
     let mesh = new THREE.Mesh(geometry, material);
+    let sphereClicked = false;
 
     if (position) {
       mesh.position.x = position;
     }
 
     domEvents.addEventListener(mesh, "click", function () {
-      mesh.material.wireframe = false;
+      if (!sphereClicked) {
+        mesh.material.wireframe = false;
+        sphereClicked = true;
+      } else {
+        mesh.material.wireframe = true;
+        sphereClicked = false;
+      }
+
     });
 
     objects.push(mesh);
     scene.add(mesh);
   }
+
   createObject(0);
   createObject(40);
   createObject(-40);
-
-
 
 
   let controls = new THREE.OrbitControls(camera, renderer.domElement);
