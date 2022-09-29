@@ -66,7 +66,7 @@
   scene.add(gridHelper);
 
   // GROUND - to go underneath grid
-  let groundGeo = new THREE.PlaneGeometry(size, size);
+  let groundGeo = new THREE.PlaneGeometry(50, 50);
   let groundMat = new THREE.MeshPhongMaterial({color: 0x00ff00});
   groundGeo.rotateX(-Math.PI / 2);
 
