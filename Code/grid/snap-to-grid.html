@@ -31,7 +31,7 @@
   import * as THREE from "three";
   // import * as THREE from "/build/three.module.js" // No es bueno.
   import {OrbitControls} from "/jsm/controls/OrbitControls.js";
-  import {DragControls} from "/jsm/controls/DragControls.js";
+  import {DragControls} from "./DragControls.js";
 
   console.clear();
   console.log("%cthree.js rev", "color: #ccff00;", THREE.REVISION);
@@ -91,22 +91,24 @@
   let dControls = new DragControls(cubes.children, camera, renderer.domElement);
 
   dControls.addEventListener("dragstart", function (event) {
+    // event.object (mesh), event.target (null), event.type (dragstart)
+    // object.geometry.type = BoxGeometry
+    // console.log("%cevent.object", "color: #ccff00;", event.object);
     oControls.enabled = false;
-    // event.object.materials.wireframe = true;
-
+    event.object.material.wireframe = true;
   });
 
   dControls.addEventListener("dragend", function (event) {
     oControls.enabled = true;
-    // event.object.materials.wireframe = false;
+    event.object.material.wireframe = false;
   });
 
   dControls.addEventListener("hoveron", function (event) {
-    // event.object.materials.wireframe = true;
+    event.object.material.wireframe = true;
   });
 
   dControls.addEventListener("hoveroff", function (event) {
-    // event.object.materials.wireframe = false;
+    event.object.material.wireframe = false;
   });
 
   function animate() {
