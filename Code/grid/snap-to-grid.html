@@ -57,11 +57,12 @@
   // let gridHelper = new THREE.GridHelper(size, divisions);
   // scene.add(gridHelper);
 
-  let size = 50;
-  let divisions = 10;
   let colorCenterLine = 0x000000;
   let colorGrid = 0xffffff;
-  let gridHelper = new THREE.GridHelper(size, divisions, colorCenterLine, colorGrid);
+  // grid size = 50 x 50 units
+  // divisions: 10 x 10 cells
+  // each cell: 5 x 5 units
+  let gridHelper = new THREE.GridHelper(50, 10, colorCenterLine, colorGrid);
   scene.add(gridHelper);
 
   // GROUND
