@@ -19,6 +19,7 @@
 </script>
 <script type="module">
   import * as THREE from "three";
+  // import * as THREE from "/build/three.module.js" // No es bueno.
   import {OrbitControls} from "/jsm/controls/OrbitControls.js";
 
   console.clear();
@@ -27,19 +28,43 @@
   let scene = new THREE.Scene();
   scene.background = new THREE.Color(0x87ceeb);
 
-  let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-  camera.position.z = 2;
+  let camera = window._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
+  camera.position.set(0.27, 27.35, 39.56);
+
+  let light = new THREE.HemisphereLight(0xffffbb, 0x080820, 1);
+  scene.add(light);
 
   let renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
 
   let controls = new OrbitControls(camera, renderer.domElement);
-  let size = 10;
-  let divisions = 10;
 
-  let gridHelper = new THREE.GridHelper(size, divisions);
+  // GRID
+  // let size = 10;
+  // let divisions = 10;
+  // let gridHelper = new THREE.GridHelper(size, divisions);
+  // scene.add(gridHelper);
+
+  let size = 50;
+  let divisions = 10;
+  let colorCenterLine = 0x000000;
+  let colorGrid = 0xffffff;
+  let gridHelper = new THREE.GridHelper(size, divisions, colorCenterLine, colorGrid);
   scene.add(gridHelper);
+
+  let cubes = new THREE.Group();
+  let cGeometry = new THREE.BoxGeometry(5, 5, 5); // length, height, width
+  let cMaterial = new THREE.MeshStandardMaterial({color: 0x115533}); //0x00ffff // 0x115533
+  let cube = new THREE.Mesh(cGeometry, cMaterial);
+
+  cube.position.set(5, 2.5, 5);
+
+  // cube.castShadow(true);
+  // cube.receiveShadow(true);
+
+  cubes.add(cube);
+  scene.add(cubes);
 
   function animate() {
     requestAnimationFrame(animate);
