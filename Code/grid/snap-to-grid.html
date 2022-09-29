@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>How to use drag controls for snap to grid</title>
+  <!-- https://youtu.be/ZnBIH_0YVYI -->
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+<script async src="/es-module-shims-1.3.6/dist/es-module-shims.js"></script>
+<script type="importmap">
+  {
+    "imports": {
+      "three": "/build/three.module.js"
+    }
+  }
+</script>
+<script type="module">
+  import * as THREE from "three";
+  // import * as THREE from "/build/three.module.js" // No es bueno.
+  import {OrbitControls} from "/jsm/controls/OrbitControls.js";
+  import {DragControls} from "/jsm/controls/DragControls.js";
+
+  console.clear();
+  console.log("%cthree.js rev", "color: #ccff00;", THREE.REVISION);
+
+  let scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x87ceeb);
+
+  let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.z = 2;
+
+  let renderer = new THREE.WebGLRenderer();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
+
+  let light = new THREE.HemisphereLight(0xffffbb, 0x080820, 1);
+  scene.add(light);
+
+  let controls = new OrbitControls(camera, renderer.domElement);
+
+  // GRID
+  // let size = 50;
+  // let divisions = 10;
+  // let colorCenterLine = 0x000000;
+  // let colorGrid = 0xffffff;
+  // let gridHelper = new THREE.GridHelper(size, divisions, colorCenterLine, colorGrid);
+
+  let size = 10;
+  let divisions = 10;
+  let gridHelper = new THREE.GridHelper( size, divisions );
+  scene.add( gridHelper );
+
+  // GROUND
+  // let groundGeo = new THREE.PlaneGeometry(size, size);
+  // let groundMat = new THREE.MeshPhongMaterial({color: 0x00ff00});
+  // groundGeo.rotateX(-Math.PI / 2);
+
+  // let ground = new THREE.Mesh(groundGeo, groundMat);
+  // scene.add(ground);
+
+  // ground.receiveShadow(true);
+
+  // let cubes = new THREE.Group();
+  // let cGeometry = new THREE.BoxGeometry(5, 5, 5); // length, height, width
+  // let cMaterial = new THREE.MeshStandardMaterial({color: 0x115533}); //0x00ffff // 0x115533
+  // let cube = new THREE.Mesh(cGeometry, cMaterial);
+
+  // cube.position.set(5, 2.5, 5);
+
+  // cube.castShadow(true);
+  // cube.receiveShadow(true);
+
+  // cubes.add(cube);
+  // scene.add(cubes);
+
+  function animate() {
+    requestAnimationFrame(animate);
+    controls.update();
+    renderer.render(scene, camera);
+  }
+
+  animate();
+
+</script>
+</body>
+</html>
