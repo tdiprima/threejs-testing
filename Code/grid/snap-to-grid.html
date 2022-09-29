@@ -21,6 +21,7 @@
   import * as THREE from "three";
   // import * as THREE from "/build/three.module.js" // No es bueno.
   import {OrbitControls} from "/jsm/controls/OrbitControls.js";
+  import {DragControls} from "/jsm/controls/DragControls.js";
 
   console.clear();
   console.log("%cthree.js rev", "color: #ccff00;", THREE.REVISION);
@@ -53,6 +54,15 @@
   let gridHelper = new THREE.GridHelper(size, divisions, colorCenterLine, colorGrid);
   scene.add(gridHelper);
 
+  // GROUND
+  let groundGeo = new THREE.PlaneGeometry(size, size);
+  let groundMat = new THREE.MeshPhongMaterial({color: 0x00ff00});
+  groundGeo.rotateX(-Math.PI / 2);
+  let ground = new THREE.Mesh(groundGeo, groundMat);
+  scene.add(ground);
+  // ground.receiveShadow(true);
+
+  // CUBES
   let cubes = new THREE.Group();
   let cGeometry = new THREE.BoxGeometry(5, 5, 5); // length, height, width
   let cMaterial = new THREE.MeshStandardMaterial({color: 0x115533}); //0x00ffff // 0x115533
