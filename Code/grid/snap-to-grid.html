@@ -65,7 +65,7 @@
   let gridHelper = new THREE.GridHelper(50, 10, colorCenterLine, colorGrid);
   scene.add(gridHelper);
 
-  // GROUND
+  // GROUND - to go underneath grid
   let groundGeo = new THREE.PlaneGeometry(size, size);
   let groundMat = new THREE.MeshPhongMaterial({color: 0x00ff00});
   groundGeo.rotateX(-Math.PI / 2);
@@ -74,7 +74,7 @@
   scene.add(ground);
   ground.receiveShadow = true;
 
-  // CUBES
+  // CUBE - so we can drag it around
   let cubes = new THREE.Group();
   let cGeometry = new THREE.BoxGeometry(5, 5, 5); // width, height, depth
   let cMaterial = new THREE.MeshStandardMaterial({color: 0x115533}); //0x00ffff // 0x115533
