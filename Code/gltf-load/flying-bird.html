@@ -7,6 +7,7 @@
   <title>Animate!</title>
   <link rel="stylesheet" href="/css/main.css">
   <!-- https://discoverthreejs.com/book/first-steps/load-models/ -->
+  <!-- https://discoverthreejs.com/book/first-steps/animation-system/ -->
   <!-- https://discoverthreejs.com/book/appendix/asynchronous-javascript/ -->
 </head>
 <body>
@@ -48,10 +49,16 @@
   let light = new THREE.HemisphereLight(0xffffff, 0xffffff, 1);
   scene.add(light);
 
-  // The await keyword means “wait here until the model has loaded”.
+  // The await keyword means "wait here until the model has loaded".
   let loader = new GLTFLoader();
+
   let loadedData = await loader.loadAsync("/models/gltf/Parrot.glb");
+  console.log("%cloadedData", "color: #ff00cc;", loadedData);
+
   scene.add(loadedData.scene);
+
+  const model = loadedData.scene.children[0];
+  const clip = loadedData.animations[0];
 
   function animate() {
     requestAnimationFrame(animate);
