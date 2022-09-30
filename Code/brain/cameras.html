@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>translucent</title>
+  <!-- TODO: Note! It's here, because the dependencies are here. -->
+  <link href="./css/style.css" rel="stylesheet">
+  <script>
+    // Is JS enabled?  Is it a touch device?  Who cares?
+    (function () {
+      let htmlTag = document.getElementsByTagName("html")[0];
+      htmlTag.classList.add("hasJS");
+      if ("ontouchstart" in document.documentElement) {
+        htmlTag.classList.add("isTouch");
+      }
+    })();
+  </script>
+</head>
+<body>
+<script src="./js/three.min.js"></script>
+<script src="./js/Detector.js"></script>
+<script src='./js/SubdivisionModifier.js'></script>
+<script src="./js/PLYLoader.js"></script>
+<script src="./js/OrbitControls.js"></script>
+<script>
+  console.log(`%cREV ${THREE.REVISION}`, "color: #ccff00;");
+  if (!Detector.webgl) Detector.addGetWebGLMessage();
+
+  let scene = new THREE.Scene();
+  let camera = window._camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 25, 50);
+  camera.position.set(0, 0, 40);
+
+  let renderer = new THREE.WebGLRenderer({
+    antialias: true, // to get smoother output
+    preserveDrawingBuffer: true, // to allow screenshot
+    alpha: true
+  });
+
+  renderer.setClearColor(0xffffff, 0);
+  renderer.setPixelRatio(window.devicePixelRatio ? window.devicePixelRatio : 1);
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
+
+  let cameraControls = new THREE.OrbitControls(camera, renderer.domElement);
+
+  // Load mesh (ply format)
+  let oReq = new XMLHttpRequest();
+  oReq.open("GET", "./data/lrh3.ply", true);
+  oReq.responseType = "text";
+  oReq.onload = function () {
+    let tmp = this.response;
+    let modifier = new THREE.SubdivisionModifier(1);
+    let material = new THREE.ShaderMaterial({
+      uniforms: {
+        coeficient: {
+          type: "f",
+          value: 1.0
+        },
+        power: {
+          type: "f",
+          value: 2
+        },
+        glowColor: {
+          type: "c",
+          value: new THREE.Color("grey")
+        },
+      },
+      vertexShader: ['varying vec3	vVertexWorldPosition;',
+        'varying vec3	vVertexNormal;',
+        'void main(){',
+        '	vVertexNormal	= normalize(normalMatrix * normal);',
+        '	vVertexWorldPosition	= (modelMatrix * vec4(position, 1.0)).xyz;',
+        '	gl_Position	= projectionMatrix * modelViewMatrix * vec4(position, 1.0);',
+        '}',
+      ].join('\n'),
+      fragmentShader: ['uniform vec3	glowColor;',
+        'uniform float	coeficient;',
+        'uniform float	power;',
+        'varying vec3	vVertexNormal;',
+        'varying vec3	vVertexWorldPosition;',
+        'void main(){',
+        '	vec3 worldCameraToVertex=vVertexWorldPosition - cameraPosition;',
+        '	vec3 viewCameraToVertex=(viewMatrix * vec4(worldCameraToVertex, 0.0)).xyz;',
+        '	viewCameraToVertex=normalize(viewCameraToVertex);',
+        '	float intensity=pow(coeficient + dot(vVertexNormal, viewCameraToVertex), power);',
+        '	gl_FragColor=vec4(glowColor, intensity);',
+        '}',
+      ].join('\n'),
+      transparent: true,
+      depthWrite: false,
+    });
+
+    let geometry = new THREE.PLYLoader().parse(tmp);
+    geometry.sourceType = "ply";
+
+    modifier.modify(geometry);
+    for (let i = 0; i < geometry.vertices.length; i++) {
+      geometry.vertices[i].x *= 0.14;
+      geometry.vertices[i].y *= 0.14;
+      geometry.vertices[i].z *= 0.14;
+      geometry.vertices[i].y += 3;
+      geometry.vertices[i].z -= 2;
+    }
+
+    let brainmesh = new THREE.Mesh(geometry, material);
+    scene.add(brainmesh);
+  };
+  oReq.send();
+
+  function animate() {
+    requestAnimationFrame(animate);
+    cameraControls.update();
+    renderer.render(scene, camera);
+  }
+
+  animate();
+
+  // Tell the render and camera to resize the contents of your canvas as well.
+  function onWindowResize() {
+    // set the aspect ratio to match the new browser window aspect ratio
+    camera.aspect = container.clientWidth / container.clientHeight;
+
+    // update the camera's frustum
+    camera.updateProjectionMatrix();
+
+    // update the size of the renderer AND the canvas
+    renderer.setSize(container.clientWidth, container.clientHeight);
+  }
+
+  window.addEventListener('resize', onWindowResize);
+</script>
+</body>
+</html>

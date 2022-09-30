@@ -64,7 +64,7 @@
         url = "/models/gltf/box.glb";
         break;
       case 3:
-        url = "/models/gltf/Flamingo.glb";
+        url = "/models/gltf/Parrot.glb";
         break;
       case 4:
         url = "/models/gltf/Soldier.glb";
@@ -78,7 +78,7 @@
     gltfLoader.load(url, function (gltf) {
       let root = gltf.scene;
       scene.add(root);
-      
+
       // see: https://discourse.threejs.org/t/removing-objects-from-scene-not-working/33891
       // gltf.scene.traverse(function (node) {
       //   if (node instanceof THREE.Mesh) {
@@ -181,7 +181,7 @@
     }
   gui.add(text, "myLight", {Ambient: 1, Directional: 2, Hemisphere: 3, Point: 4, Spot: 5}).onChange(updateLighting);
   gui.add(text, "backgroundColor", {gray: 1, black: 2}).onChange(updateBackground);
-  gui.add(text, "myModel", {bench: 1, box: 2, flamingo: 3, soldier: 4}).onChange(updateModel);
+  gui.add(text, "myModel", {bench: 1, box: 2, parrot: 3, soldier: 4}).onChange(updateModel);
 
   function animate() {
     requestAnimationFrame(animate);
