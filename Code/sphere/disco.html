@@ -6,47 +6,35 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>adiioo7</title>
   <!-- http://jsfiddle.net/adiioo7/SF9tX/4/ -->
-  <style>
-    body {
-      background-color: #cce0ff;
-      color: #000;
-    }
-
-    a {
-      color: #080;
-    }
-  </style>
 </head>
 <body>
 
-<!-- gives facets -->
-<script src="//cdnjs.cloudflare.com/ajax/libs/three.js/r54/three.js"></script>
-<!-- makes smooth -->
-<!-- <script src="/build/three.min.js"></script> -->
+<script src="/build/three.min.js"></script>
 
 <script>
+  console.log("%cthree.js rev", "color: #ccff00;", THREE.REVISION);
+
   const tau = 2 * Math.PI;
   const width = 500;
   const height = 400;
 
   let scene = new THREE.Scene();
-  scene.background = new THREE.Color(0xcce0ff); // even better
+  scene.background = new THREE.Color(0xcce0ff);
+
   let camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 1000);
+  camera.position.z = 10;
 
   let renderer = new THREE.WebGLRenderer();
   renderer.setSize(width, height);
+  // renderer.setClearColor(0xcce0ff, 1); // either/or.
   document.body.appendChild(renderer.domElement);
-  // https://stackoverflow.com/questions/16177056/changing-three-js-background-to-transparent-or-other-color
-  // renderer.setClearColorHex(0xcce0ff, 1);
-  // renderer.setClearColor(0xcce0ff, 0);
 
-  // TODO: r54
   let geometry = new THREE.SphereGeometry(3, 50, 50, 0, tau, 0, tau);
-  let material = new THREE.MeshNormalMaterial();
+  // Flat shading :)
+  // https://discoverthreejs.com/book/first-steps/built-in-geometries/
+  let material = new THREE.MeshNormalMaterial({flatShading: true,});
   let mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
-
-  camera.position.z = 10;
 
   const render = function () {
     requestAnimationFrame(render);
@@ -55,41 +43,6 @@
   };
 
   render();
-
-  // TODO: 142
-  function drawSphereBufferGeometry(scene) {
-    // https://embed.plnkr.co/2QNBPh/
-    let sphereBufferGeometry = new THREE.SphereBufferGeometry(
-      // radius -- default 1
-      12,
-      // widthSegments -- default 8
-      9,
-      // heightSegments -- default 6
-      4,
-      // phiStart -- default 0
-      0,
-      // phiLength -- default Math.PI * 2
-      2,
-      // thetaStart -- default 0
-      0.8,
-      // thetaLength -- default Math.PI
-      1
-    );
-
-    let mesh = new THREE.Mesh(
-      sphereBufferGeometry,
-      new THREE.MeshPhongMaterial({
-        color: 0x156289,
-        emissive: 0x072534,
-        side: THREE.DoubleSide,
-        flatShading: true
-      })
-    );
-
-    scene.add(mesh);
-  }
-
-  console.log("%cthree.js rev", "color: #ccff00;", THREE.REVISION);
 </script>
 </body>
 </html>
