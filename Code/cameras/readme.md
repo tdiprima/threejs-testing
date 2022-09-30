@@ -1,6 +1,8 @@
 # Camera, view, whatever.
 
-webgl_multiple_canvases_circle.html 💡
+**Note to self:** OF COURSE!  This only works with lower version of three.  Because SubdivisionModifier deals only in &ndash; what, again?  Geometry! 💢
+
+`webgl_multiple_canvases_circle.html` 💡
 
 [a pen by captain dumbo](https://codepen.io/anon/pen/EwrbGZ)
 
