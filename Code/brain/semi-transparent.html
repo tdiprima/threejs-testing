@@ -63,6 +63,7 @@
     let oReq = new XMLHttpRequest();
     oReq.open("GET", "./data/lrh3.ply", true);
     oReq.responseType = "text";
+    // todo: async function to load the model
     oReq.onload = function () {
       let tmp = this.response;
       let modifier = new THREE.SubdivisionModifier(1);
