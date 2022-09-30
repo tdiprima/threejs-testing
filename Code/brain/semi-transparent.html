@@ -4,132 +4,196 @@
   <meta charset="UTF-8">
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>brainspell</title>
-  <!-- https://web.archive.org/web/20180206125803/http://brainspell.org/article/24996404 -->
-  <!-- http://brainspell.org/article/24996404 -->
-  <!-- https://github.com/r03ert0/brainspell.git -->
-  <link href="./css/style.css" rel="stylesheet">
-  <script>
-    // Is JS enabled? Is it a touch device?
-    (function () {
-      let htmlTag = document.getElementsByTagName("html")[0];
-      htmlTag.classList.add("hasJS");
-      if ("ontouchstart" in document.documentElement) {
-        htmlTag.classList.add("isTouch");
-      }
-    })();
-  </script>
+  <title>translucent</title>
+  <link href="/css/main.css" rel="stylesheet">
+  <style>
+    body { background-color: #f5f5f5; }
+    #info { color: #777; }
+  </style>
 </head>
 <body>
-<!-- Translucent Viewer -->
+<div id="info">To rotate, uncomment update().</div>
+
 <script src="./js/three.min.js"></script>
-<script src="./js/Detector.js"></script>
 <script src='./js/SubdivisionModifier.js'></script>
 <script src="./js/PLYLoader.js"></script>
 <script src="./js/OrbitControls.js"></script>
+
 <script>
-  console.log(`%cREV ${THREE.REVISION}`, "color: #ccff00;");
-  if (!Detector.webgl) Detector.addGetWebGLMessage();
+  // these need to be accessed inside more than one function, so we'll declare them first
+  let container;
+  let camera;
+  let controls;
+  let renderer;
+  let scene;
+  // bogus init mesh
+  let meshA = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial({color: 0xf5f5f5}));
 
-  let scene = new THREE.Scene();
-  let camera = window._camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 25, 50);
-  camera.position.set(0, 0, 40);
+  function createScene() {
+    scene = new THREE.Scene();
+  }
 
-  let renderer = new THREE.WebGLRenderer({
-    antialias: true, // to get smoother output
-    preserveDrawingBuffer: true, // to allow screenshot
-    alpha: true
-  });
+  function createCamera() {
+    // camera = window._camera = new THREE.PerspectiveCamera(
+    //   70,  // FOV
+    //   window.innerWidth / window.innerHeight,  // aspect
+    //   1, // near clipping plane
+    //   1000 // far clipping plane
+    // );
 
-  renderer.setClearColor(0xffffff, 0);
-  renderer.setPixelRatio(window.devicePixelRatio ? window.devicePixelRatio : 1);
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  document.body.appendChild(renderer.domElement);
+    camera = window._camera = new THREE.PerspectiveCamera(40,
+      window.innerWidth / window.innerHeight,
+      25,
+      50
+    );
 
-  let cameraControls = new THREE.OrbitControls(camera, renderer.domElement);
-  // cameraControls.noZoom = true;
+    camera.position.set(0, 0, 40);
 
-  // Load mesh (ply format)
-  let oReq = new XMLHttpRequest();
-  oReq.open("GET", "./data/lrh3.ply", true);
-  oReq.responseType = "text";
-  oReq.onload = function () {
-    let tmp = this.response;
-    let modifier = new THREE.SubdivisionModifier(1);
-    let material = new THREE.ShaderMaterial({
-      uniforms: {
-        coeficient: {
-          type: "f",
-          value: 1.0
+    // _camera.position
+  }
+
+  function createControls() {
+    controls = new THREE.OrbitControls(camera, renderer.domElement);
+    // controls.enableZoom = false;
+    // controls.enablePan = false;
+  }
+
+  function createMeshes() {
+    // ply format
+    let oReq = new XMLHttpRequest();
+    oReq.open("GET", "./data/lrh3.ply", true);
+    oReq.responseType = "text";
+    oReq.onload = function () {
+      let tmp = this.response;
+      let modifier = new THREE.SubdivisionModifier(1);
+
+      // create a Shader material
+      let material = new THREE.ShaderMaterial({
+        uniforms: {
+          coeficient: {
+            type: "f",
+            value: 1.0
+          },
+          power: {
+            type: "f",
+            value: 2
+          },
+          glowColor: {
+            type: "c",
+            value: new THREE.Color("grey")
+          },
         },
-        power: {
-          type: "f",
-          value: 2
-        },
-        glowColor: {
-          type: "c",
-          value: new THREE.Color("grey")
-        },
-      },
-      vertexShader: ['varying vec3	vVertexWorldPosition;',
-        'varying vec3	vVertexNormal;',
-        'void main(){',
-        '	vVertexNormal	= normalize(normalMatrix * normal);',
-        '	vVertexWorldPosition	= (modelMatrix * vec4(position, 1.0)).xyz;',
-        '	gl_Position	= projectionMatrix * modelViewMatrix * vec4(position, 1.0);',
-        '}',
-      ].join('\n'),
-      fragmentShader: ['uniform vec3	glowColor;',
-        'uniform float	coeficient;',
-        'uniform float	power;',
-        'varying vec3	vVertexNormal;',
-        'varying vec3	vVertexWorldPosition;',
-        'void main(){',
-        '	vec3 worldCameraToVertex=vVertexWorldPosition - cameraPosition;',
-        '	vec3 viewCameraToVertex=(viewMatrix * vec4(worldCameraToVertex, 0.0)).xyz;',
-        '	viewCameraToVertex=normalize(viewCameraToVertex);',
-        '	float intensity=pow(coeficient + dot(vVertexNormal, viewCameraToVertex), power);',
-        '	gl_FragColor=vec4(glowColor, intensity);',
-        '}',
-      ].join('\n'),
-      transparent: true,
-      depthWrite: false,
+        vertexShader: ['varying vec3	vVertexWorldPosition;',
+          'varying vec3	vVertexNormal;',
+          'void main(){',
+          '	vVertexNormal	= normalize(normalMatrix * normal);',
+          '	vVertexWorldPosition	= (modelMatrix * vec4(position, 1.0)).xyz;',
+          '	gl_Position	= projectionMatrix * modelViewMatrix * vec4(position, 1.0);',
+          '}',
+        ].join('\n'),
+        fragmentShader: ['uniform vec3	glowColor;',
+          'uniform float	coeficient;',
+          'uniform float	power;',
+          'varying vec3	vVertexNormal;',
+          'varying vec3	vVertexWorldPosition;',
+          'void main(){',
+          '	vec3 worldCameraToVertex=vVertexWorldPosition - cameraPosition;',
+          '	vec3 viewCameraToVertex=(viewMatrix * vec4(worldCameraToVertex, 0.0)).xyz;',
+          '	viewCameraToVertex=normalize(viewCameraToVertex);',
+          '	float intensity=pow(coeficient + dot(vVertexNormal, viewCameraToVertex), power);',
+          '	gl_FragColor=vec4(glowColor, intensity);',
+          '}',
+        ].join('\n'),
+        transparent: true,
+        depthWrite: false,
+      });
+
+      // create a geometry
+      let geometry = new THREE.PLYLoader().parse(tmp);
+      geometry.sourceType = "ply";
+
+      modifier.modify(geometry);
+      for (let i = 0; i < geometry.vertices.length; i++) {
+        geometry.vertices[i].x *= 0.14;
+        geometry.vertices[i].y *= 0.14;
+        geometry.vertices[i].z *= 0.14;
+        geometry.vertices[i].y += 3;
+        geometry.vertices[i].z -= 2;
+      }
+
+      // create a Mesh containing the geometry and material
+      meshA = new THREE.Mesh(geometry, material);
+
+      // add the mesh to the scene object
+      scene.add(meshA);
+    };
+    oReq.send();
+  }
+
+  function createRenderer() {
+    renderer = new THREE.WebGLRenderer({
+      antialias: true, // to get smoother output
+      preserveDrawingBuffer: true, // to allow screenshot
+      alpha: true
     });
 
-    let geometry = new THREE.PLYLoader().parse(tmp);
-    geometry.sourceType = "ply";
-    // console.log("geometry.vertices", geometry.vertices);
+    renderer.setPixelRatio(window.devicePixelRatio ? window.devicePixelRatio : 1);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0xf5f5f5);
 
-    modifier.modify(geometry);
-    for (let i = 0; i < geometry.vertices.length; i++) {
-      geometry.vertices[i].x *= 0.14;
-      geometry.vertices[i].y *= 0.14;
-      geometry.vertices[i].z *= 0.14;
-      geometry.vertices[i].y += 3;
-      geometry.vertices[i].z -= 2;
-    }
+    // add the automatically created <canvas> element to the page
+    document.body.appendChild(renderer.domElement);
+  }
 
-    let brainmesh = new THREE.Mesh(geometry, material);
-    scene.add(brainmesh);
-  };
-  oReq.send();
+  // perform any updates to the scene, called once per frame
+  // avoid heavy computation here
+  function update() {
+    // increase the mesh's rotation each frame
+    meshA.rotation.z += 0.01;
+    meshA.rotation.x += 0.01;
+    meshA.rotation.y += 0.01;
+  }
 
-  function animate() {
-    requestAnimationFrame(animate);
-    // renderer.setClearColor( 0xffffff, 0 );
-    // renderer.clear( true );
+  // render, or 'draw a still image', of the scene
+  function render() {
     renderer.render(scene, camera);
   }
 
-  animate();
-
-  function onWindowResize() {
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
+  function animate() {
+    // update();
+    requestAnimationFrame(animate);
+    controls.update();
+    render();
   }
 
-  window.addEventListener('resize', onWindowResize, false);
+  // a function that will be called every time the window gets resized.
+  // It can get called a lot, so don't put any heavy computation in here!
+  function onWindowResize() {
+    // set the aspect ratio to match the new browser window aspect ratio
+    camera.aspect = container.clientWidth / container.clientHeight;
+
+    // update the camera's frustum
+    camera.updateProjectionMatrix();
+
+    // update the size of the renderer AND the canvas
+    renderer.setSize(container.clientWidth, container.clientHeight);
+  }
+
+  function init() {
+    console.log(`%cREV ${THREE.REVISION}`, "color: #ccff00;");
+
+    createScene();
+    createMeshes();
+    createCamera();
+    createRenderer();
+    createControls();
+
+    animate();
+
+    window.addEventListener("resize", onWindowResize);
+  }
+
+  init();
 </script>
 </body>
 </html>

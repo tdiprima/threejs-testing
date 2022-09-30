@@ -5,14 +5,19 @@
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>translucent</title>
-  <!-- TODO: Note! It's here, because the dependencies are here. -->
-  <link href="./css/style.css" rel="stylesheet">
+  <link href="/css/main.css" rel="stylesheet">
+  <style>
+    body { background-color: #c7deea; }
+  </style>
 </head>
 <body>
+<div id="info">Tried to make this 144 compliant - need to fix (or get new) SubdivisionModifier.</div>
+
 <script src="/build/three.min.js"></script>
- <script src='./js/SubdivisionModifier.js'></script>
+<script src='./js/SubdivisionModifier.js'></script>
 <script src="/js/loaders/PLYLoader.js"></script>
 <script src="/js/controls/OrbitControls.js"></script>
+
 <script>
   // these need to be accessed inside more than one function, so we'll declare them first
   let container;
@@ -21,7 +26,7 @@
   let renderer;
   let scene;
   // bogus init mesh
-  let meshA = new THREE.Mesh( new THREE.BoxGeometry( 1, 1, 1 ), new THREE.MeshBasicMaterial( { color: 0xc7deea } ) );
+  let meshA = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial({color: 0xc7deea}));
 
   function createScene() {
     scene = new THREE.Scene();
@@ -99,7 +104,8 @@
       let geometry = new THREE.PLYLoader().parse(tmp);
       geometry.sourceType = "ply";
 
-      console.log("geometry.vertices", geometry)
+      // TODO:
+      console.log("geometry.vertices", geometry);
       // modifier.modify(geometry);
       // for (let i = 0; i < geometry.vertices.length; i++) {
       //   geometry.vertices[i].x *= 0.14;
@@ -170,13 +176,13 @@
   // It can get called a lot, so don't put any heavy computation in here!
   function onWindowResize() {
     // set the aspect ratio to match the new browser window aspect ratio
-    camera.aspect = container.clientWidth / container.clientHeight;
+    camera.aspect = window.innerWidth / window.innerHeight;
 
     // update the camera's frustum
     camera.updateProjectionMatrix();
 
     // update the size of the renderer AND the canvas
-    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setSize(window.innerWidth, window.innerHeight);
   }
 
   function init() {
