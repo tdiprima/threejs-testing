@@ -28,6 +28,8 @@
   console.log("%cthree.js rev", "color: #ccff00;", THREE.REVISION);
 
   let scene = new THREE.Scene();
+  scene.background = new THREE.Color(0xc7deea);
+
   let camera = window._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
   // window._camera.position
 
@@ -46,13 +48,10 @@
   let light = new THREE.HemisphereLight(0xffffff, 0xffffff, 1);
   scene.add(light);
 
-  // Add city model
-  let gltfLoader = new GLTFLoader();
-  gltfLoader.load("/models/gltf/Parrot.glb", function (gltf) {
-    scene.add(gltf.scene);
-  }, undefined, function (error) {
-    console.error(error);
-  });
+  // The await keyword means “wait here until the model has loaded”.
+  let loader = new GLTFLoader();
+  let loadedData = await loader.loadAsync("/models/gltf/Parrot.glb");
+  scene.add(loadedData.scene);
 
   function animate() {
     requestAnimationFrame(animate);
