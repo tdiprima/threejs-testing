@@ -5,7 +5,7 @@
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Animate!</title>
-  <link rel="stylesheet" href="/css/main.css">
+  <link href="/css/main.css" rel="stylesheet">
   <!-- https://discoverthreejs.com/book/first-steps/load-models/ -->
   <!-- https://discoverthreejs.com/book/first-steps/animation-system/ -->
   <!-- https://discoverthreejs.com/book/appendix/asynchronous-javascript/ -->
@@ -18,13 +18,14 @@
   		"three": "/build/three.module.js"
   	}
   }
+
 </script>
 
 <script type="module">
   import * as THREE from "three";
   import {OrbitControls} from "/jsm/controls/OrbitControls.js";
   import {GLTFLoader} from "/jsm/loaders/GLTFLoader.js";
-  import { AnimationMixer } from 'three';
+  import {AnimationMixer} from 'three';
   // import { AnimationMixer } from '/js/animation/AnimationMixer.js';
 
   console.clear();
@@ -36,7 +37,7 @@
   let camera = window._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
   // window._camera.position
 
-  let p = {x: -93.91188531607672, y: 22.037651253352788, z: 8.740520894388773 };
+  let p = {x: -93.91188531607672, y: 22.037651253352788, z: 8.740520894388773};
   camera.position.x = p.x;
   camera.position.y = p.y;
   camera.position.z = p.z;
@@ -76,8 +77,11 @@
     return model;
   }
 
+  const parrot = setupModel(loadedData);
+  parrot.position.set(0, 0, 2.5);
+
   function animate() {
-    setupModel(loadedData);
+    // setupModel(loadedData);
     requestAnimationFrame(animate);
     renderer.render(scene, camera);
   }
@@ -91,6 +95,48 @@
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
   }
+
+  const clock = new THREE.Clock();
+
+  class Loop {
+    constructor(camera, scene, renderer) {
+      this.camera = camera;
+      this.scene = scene;
+      this.renderer = renderer;
+      this.updatables = [];
+    }
+
+    start() {
+      this.renderer.setAnimationLoop(() => {
+        // tell every animated object to tick forward one frame
+        this.tick();
+
+        // render a frame
+        this.renderer.render(this.scene, this.camera);
+      });
+    }
+
+    stop() {
+      this.renderer.setAnimationLoop(null);
+    }
+
+    tick() {
+      // only call the getDelta function once per frame!
+      const delta = clock.getDelta();
+
+      // console.log(
+      //   `The last frame rendered in ${delta * 1000} milliseconds`,
+      // );
+
+      for (const object of this.updatables) {
+        object.tick(delta);
+      }
+    }
+  }
+
+  let loop = new Loop(camera, scene, renderer);
+  loop.start();
+
 </script>
 </body>
 </html>
