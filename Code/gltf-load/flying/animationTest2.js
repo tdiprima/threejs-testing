@@ -17,6 +17,7 @@ function initScene() {
     0.1,
     1000
   );
+
   clock = new THREE.Clock();
   renderer = new THREE.WebGLRenderer();
   controls = new OrbitControls(camera, renderer.domElement);
@@ -41,7 +42,6 @@ let gridHelper = new THREE.GridHelper(30, 30);
 scene.add(light, axesHelper, gridHelper);
 
 // GLTF START
-
 const GLTFloader = new GLTFLoader();
 
 var newMaterial = new THREE.MeshStandardMaterial({color: "#e76f51"});
@@ -52,7 +52,6 @@ GLTFloader.load("https://richardlundquist.github.io/library/alice_TEST2.glb", fu
   mixer = new THREE.AnimationMixer(gltf.scene);
 
   mixer.clipAction(gltf.animations[0]).play();
-
 
   scene.add(model.scene);
 });
