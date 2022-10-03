@@ -9,7 +9,8 @@
   So I find this online.  Figured out, it only works in Chrome. (Only "hovers" in FFx.)
   Need to point to your local Parrot.glb
   "antialias" is spelled wrong. As soon as you fix it, the code stops working. :\
-  Oh - and don't even think about adding "let" to your statements! -->
+  Oh - and don't even think about adding "let" to your statements!
+  If you try to use the modules, as soon as your code becomes modular, you *have* to use the "let" keyword. -->
   <!-- https://www.sololearn.com/compiler-playground/W8GR26TztP9t/?ref=app -->
   <script src="https://threejs.org/build/three.min.js"></script>
   <script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
@@ -66,7 +67,6 @@
 
     scene.add(object.scene);
   });
-
 
   basicLight = new THREE.AmbientLight();
   scene.add(basicLight);
