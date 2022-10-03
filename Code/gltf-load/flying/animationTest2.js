@@ -1,12 +1,8 @@
 import * as THREE from "https://threejsfundamentals.org/threejs/resources/threejs/r132/build/three.module.js";
+import { GLTFLoader } from "https://threejsfundamentals.org/threejs/resources/threejs/r132/examples/jsm/loaders/GLTFLoader.js";
+import { OrbitControls } from "https://threejsfundamentals.org/threejs/resources/threejs/r132/examples/jsm/controls/OrbitControls.js";
 
-import {
-  GLTFLoader
-} from "https://threejsfundamentals.org/threejs/resources/threejs/r132/examples/jsm/loaders/GLTFLoader.js";
-
-import {
-  OrbitControls
-} from "https://threejsfundamentals.org/threejs/resources/threejs/r132/examples/jsm/controls/OrbitControls.js";
+console.log("%cthree.js rev", "color: #ccff00;", THREE.REVISION);
 
 let clock, controls, scene, camera, renderer, mixer, container, model;
 
@@ -38,13 +34,13 @@ scene.background = new THREE.Color("#f8edeb");
 const light = new THREE.DirectionalLight(0xffffff, 1);
 light.position.set(2, 2, 5);
 
-//HELPERS
+// HELPERS
 const axesHelper = new THREE.AxesHelper(5);
 let gridHelper = new THREE.GridHelper(30, 30);
 
 scene.add(light, axesHelper, gridHelper);
 
-//GLTF START
+// GLTF START
 
 const GLTFloader = new GLTFLoader();
 
@@ -60,7 +56,7 @@ GLTFloader.load("https://richardlundquist.github.io/library/alice_TEST2.glb", fu
 
   scene.add(model.scene);
 });
-//GLTF END
+// GLTF END
 
 camera.position.set(0, 20, 50);
 
@@ -71,7 +67,7 @@ function animate() {
   // let time = clock.elapsedTime;
 
   if (mixer) {
-    //mixer.update(clock.getDelta());
+    // mixer.update(clock.getDelta());
     mixer.update(delta);
   }
 

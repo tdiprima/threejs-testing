@@ -2,7 +2,9 @@ import * as THREE from "https://threejsfundamentals.org/threejs/resources/threej
 import { GLTFLoader } from "https://threejsfundamentals.org/threejs/resources/threejs/r132/examples/jsm/loaders/GLTFLoader.js";
 import { OrbitControls } from "https://threejsfundamentals.org/threejs/resources/threejs/r132/examples/jsm/controls/OrbitControls.js";
 
-let clock, controls, scene, camera, renderer, mixer, container, model;
+console.log("%cthree.js rev", "color: #ccff00;", THREE.REVISION);
+
+let clock, controls, scene, camera, renderer, mixer, model;
 
 initScene();
 animate();
@@ -20,13 +22,11 @@ function initScene() {
   controls = new OrbitControls(camera, renderer.domElement);
   controls.update();
 
-  container = document.getElementById("container");
-
-  container.appendChild(renderer.domElement);
+  document.body.appendChild(renderer.domElement);
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-scene.background = new THREE.Color("#f8edeb");
+scene.background = new THREE.Color("#c7deea");
 
 // LIGHT
 const ambientLight = new THREE.HemisphereLight(
@@ -40,17 +40,8 @@ mainLight.position.set(10, 10, 10);
 
 scene.add(ambientLight, mainLight);
 
-//HELPERS
-const axesHelper = new THREE.AxesHelper(5);
-let gridHelper = new THREE.GridHelper(30, 30);
-
-scene.add(axesHelper, gridHelper);
-
-//GLTF START
-
+// GLTF START
 const GLTFloader = new GLTFLoader();
-
-var newMaterial = new THREE.MeshStandardMaterial({color: "#e76f51"});
 
 GLTFloader.load("/models/gltf/Parrot.glb", function (gltf) {
   model = gltf;
@@ -58,7 +49,6 @@ GLTFloader.load("/models/gltf/Parrot.glb", function (gltf) {
   mixer = new THREE.AnimationMixer(gltf.scene);
 
   mixer.clipAction(gltf.animations[0]).play();
-
 
   scene.add(model.scene);
 });
@@ -69,11 +59,9 @@ camera.position.set(0, 20, 50);
 function animate() {
   requestAnimationFrame(animate);
 
-  let delta = clock.getDelta(); // * 4;
-  // let time = clock.elapsedTime;
+  let delta = clock.getDelta();
 
   if (mixer) {
-    //mixer.update(clock.getDelta());
     mixer.update(delta);
   }
 
