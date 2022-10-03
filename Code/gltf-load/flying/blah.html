@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Works in Chrome</title>
+  <!-- So first, I couldn't get this to work with the latest release, wtf else is new.
+  So I find this online.  Figured out, it only works in Chrome. (Only "hovers" in FFx.)
+  Need to point to your local Parrot.glb
+  Don't use "antialias: true" in renderer -->
+  <!-- https://www.sololearn.com/compiler-playground/W8GR26TztP9t/?ref=app -->
+  <script src="https://threejs.org/build/three.min.js"></script>
+  <script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://threejs.org/examples/js/loaders/GLTFLoader.js"></script>
+  <!-- this is his own magic crap: -->
+  <!-- <script src="https://dl.dropboxusercontent.com/s/8thddl7sh6trxy2/mycodebits.js"></script> -->
+  <style>
+    body {
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="canvas"></canvas>
+<!-- <div id="pro"></div> -->
+
+<script>
+  let fov = 60;
+  let aspectRatio = window.innerWidth / window.innerHeight;
+  let near = 1;
+  let far = 2000;
+
+  let mixer;
+
+  let scene = new THREE.Scene();
+  scene.background = new THREE.Color("#c7deea");
+
+  let camera = new THREE.PerspectiveCamera(fov, aspectRatio, near, far);
+  camera.position.set(-40 / 2, 5, 50 / 2);
+  camera.lookAt(0, 0, 0);
+  scene.add(camera);
+
+  let renderer = new THREE.WebGLRenderer({canvas: document.getElementById("canvas")});
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.gammaOutput = true;
+  renderer.gammaFactor = 2.0;
+
+  let orbitCtr = new THREE.OrbitControls(camera, renderer.domElement);
+
+  let gltfLoader = new THREE.GLTFLoader();
+
+  gltfLoader.load("/models/gltf/Parrot.glb", function (object) {
+    object.scene.scale.set(0.1, 0.1, 0.1);
+    // object.scene.traverse(function (child) {
+    //   alert(child);
+    // });
+
+    mixer = new THREE.AnimationMixer(object.scene);
+
+    let clip = mixer.clipAction(object.animations[0]);
+    clip.play();
+
+    scene.add(object.scene);
+  });
+
+  basicLight = new THREE.AmbientLight();
+  scene.add(basicLight);
+
+  let animate = function () {
+    if (mixer !== undefined) {
+      mixer.update(1 / 60);
+    }
+
+    renderer.render(scene, camera);
+    requestAnimationFrame(animate);
+  };
+
+  animate();
+  // pro.appendChild(ele);
+</script>
+</body>
+</html>
