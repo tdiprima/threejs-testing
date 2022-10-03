@@ -24,6 +24,8 @@
   import * as THREE from "three";
   import {OrbitControls} from "/jsm/controls/OrbitControls.js";
   import {GLTFLoader} from "/jsm/loaders/GLTFLoader.js";
+  import { AnimationMixer } from 'three';
+  // import { AnimationMixer } from '/js/animation/AnimationMixer.js';
 
   console.clear();
   console.log("%cthree.js rev", "color: #ccff00;", THREE.REVISION);
@@ -57,10 +59,25 @@
 
   scene.add(loadedData.scene);
 
-  const model = loadedData.scene.children[0];
-  const clip = loadedData.animations[0];
+  let updatables = [];
+
+  function setupModel(data) {
+    const model = data.scene.children[0];
+    const clip = data.animations[0];
+
+    const mixer = new AnimationMixer(model);
+    const action = mixer.clipAction(clip);
+    action.play();
+
+    model.tick = (delta) => mixer.update(delta);
+
+    updatables.push(model);
+
+    return model;
+  }
 
   function animate() {
+    setupModel(loadedData);
     requestAnimationFrame(animate);
     renderer.render(scene, camera);
   }
