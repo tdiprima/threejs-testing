@@ -52,7 +52,7 @@
   let light = new THREE.HemisphereLight(0xffffff, 0xffffff, 1);
   scene.add(light);
 
-  // The await keyword means "wait here until the model has loaded".
+  // The "await" keyword means "wait here until the model has loaded".
   let loader = new GLTFLoader();
 
   let loadedData = await loader.loadAsync("/models/gltf/Parrot.glb");
@@ -64,6 +64,7 @@
 
   function setupModel(data) {
     const model = data.scene.children[0];
+    // console.log("data.scene", data.scene);
     const clip = data.animations[0];
 
     const mixer = new AnimationMixer(model);
