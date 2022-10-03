@@ -4,87 +4,85 @@
   <meta charset="UTF-8">
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Animate!</title>
-  <link rel="stylesheet" href="/css/main.css">
-  <!-- https://discoverthreejs.com/book/first-steps/load-models/ -->
-  <!-- https://discoverthreejs.com/book/first-steps/animation-system/ -->
-  <!-- https://discoverthreejs.com/book/appendix/asynchronous-javascript/ -->
+  <title>Works in Chrome</title>
+  <!-- So first, I couldn't get this to work with the latest release, wtf else is new.
+  So I find this online.  Figured out, it only works in Chrome. (Only "hovers" in FFx.)
+  Need to point to your local Parrot.glb
+  "antialias" is spelled wrong. As soon as you fix it, the code stops working. :\
+  Oh - and don't even think about adding "let" to your statements! -->
+  <!-- https://www.sololearn.com/compiler-playground/W8GR26TztP9t/?ref=app -->
+  <script src="https://threejs.org/build/three.min.js"></script>
+  <script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://threejs.org/examples/js/loaders/GLTFLoader.js"></script>
+  <!-- this is his own magic crap: -->
+  <!-- <script src="https://dl.dropboxusercontent.com/s/8thddl7sh6trxy2/mycodebits.js"></script> -->
+  <style>
+    body {
+      margin: 0;
+    }
+  </style>
 </head>
 <body>
-<script async src="/es-module-shims-1.3.6/dist/es-module-shims.js"></script>
-<script type="importmap">
-  {
-  	"imports": {
-  		"three": "/build/three.module.js"
-  	}
-  }
-</script>
 
-<script type="module">
-  import * as THREE from "three";
-  import {OrbitControls} from "/jsm/controls/OrbitControls.js";
-  import {GLTFLoader} from "/jsm/loaders/GLTFLoader.js";
+<canvas id="canvas"></canvas>
+<div id="pro"></div>
 
-  console.clear();
-  console.log("%cthree.js rev", "color: #ccff00;", THREE.REVISION);
+<script>
+  fov = 60;
+  aspectRatio = window.innerWidth / window.innerHeight;
+  near = 1;
+  far = 2000;
 
-  let scene = new THREE.Scene();
-  scene.background = new THREE.Color(0xc7deea);
+  var mixer;
 
-  let camera = window._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
-  // window._camera.position
+  scene = new THREE.Scene();
+  scene.background = new THREE.Color();
 
-  let p = {x: -93.91188531607672, y: 22.037651253352788, z: 8.740520894388773 };
-  camera.position.x = p.x;
-  camera.position.y = p.y;
-  camera.position.z = p.z;
+  camera = new THREE.PerspectiveCamera(fov, aspectRatio, near, far);
+  camera.position.set(-40 / 2, 5, 50 / 2);
+  camera.lookAt(0, 0, 0);
+  scene.add(camera);
 
-  let renderer = new THREE.WebGLRenderer({antialias: true});
+  // as soon as you fix "antialiase", it doesn't work anymore. wtf. :\
+  renderer = new THREE.WebGLRenderer({canvas: document.getElementById("canvas"), antialiase: true});
   renderer.setSize(window.innerWidth, window.innerHeight);
-  document.body.appendChild(renderer.domElement);
+  renderer.gammaOutput = true;
+  renderer.gammaFactor = 2.0;
 
-  let controls = new OrbitControls(camera, renderer.domElement);
+  orbitCtr = new THREE.OrbitControls(camera, renderer.domElement);
 
-  let light = new THREE.HemisphereLight(0xffffff, 0xffffff, 1);
-  scene.add(light);
+  gltfLoader = new THREE.GLTFLoader();
 
-  // The "await" keyword means "wait here until the model has loaded".
-  let loader = new GLTFLoader();
+  gltfLoader.load("/models/gltf/Parrot.glb", function (object) {
+    object.scene.scale.set(0.1, 0.1, 0.1);
+    object.scene.traverse(function (child) {
+      // alert(child);
+    });
 
-  let loadedData = await loader.loadAsync("/models/gltf/Parrot.glb");
-  console.log("%cloadedData", "color: #ff00cc;", loadedData);
+    mixer = new THREE.AnimationMixer(object.scene);
 
-  scene.add(loadedData.scene);
+    var clip = mixer.clipAction(object.animations[0]);
+    clip.play();
 
-  const model = loadedData.scene.children[0];
-  // model.tick = (delta) => mixer.update(delta);
-  const clip = loadedData.animations[0];
+    scene.add(object.scene);
+  });
 
-  const mixer = new THREE.AnimationMixer(model);
-  const action = mixer.clipAction(clip);
-  action.play();
 
-  let clock = new THREE.Clock();
-  function animate() {
-    requestAnimationFrame(animate);
-    let delta = clock.getDelta();
-    // console.log("delta", delta);
+  basicLight = new THREE.AmbientLight();
+  scene.add(basicLight);
 
-    if (mixer) {
-      mixer.update(delta);
+  animate = function () {
+
+    if (mixer !== undefined) {
+      mixer.update(1 / 60);
     }
+
     renderer.render(scene, camera);
+    requestAnimationFrame(animate);
   }
 
   animate();
-
-  window.addEventListener("resize", onWindowResize);
-
-  function onWindowResize() {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-  }
+  // pro.appendChild(ele);
 </script>
 </body>
 </html>
