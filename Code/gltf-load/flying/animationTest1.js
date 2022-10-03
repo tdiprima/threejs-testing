@@ -61,6 +61,7 @@ function animate() {
   requestAnimationFrame(animate);
 
   let delta = clock.getDelta();
+  // console.log("delta", delta);
 
   if (mixer) {
     mixer.update(delta);
