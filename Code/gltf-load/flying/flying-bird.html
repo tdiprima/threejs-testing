@@ -9,9 +9,7 @@
 </head>
 <body>
 
-<div id="scene-container">
-  <!-- Our <canvas> will be inserted here -->
-</div>
+<div id="scene-container"></div>
 
 <script type="module">
   import {
@@ -24,10 +22,10 @@
     Scene,
     WebGLRenderer,
   } from "https://cdn.skypack.dev/three@0.132.2";
+
   import {OrbitControls} from "https://cdn.skypack.dev/three@0.132.2/examples/jsm/controls/OrbitControls.js";
   import {GLTFLoader} from "https://cdn.skypack.dev/three@0.132.2/examples/jsm/loaders/GLTFLoader.js";
 
-  // these need to be accessed inside more than one function, so we'll declare them first
   let container;
   let camera;
   let controls;
@@ -62,7 +60,6 @@
     const mainLight = new DirectionalLight('white', 4);
     mainLight.position.set(10, 10, 10);
 
-    // remember to add the light to the scene
     scene.add(ambientLight, mainLight);
   }
 
@@ -142,11 +139,9 @@
     renderer = new WebGLRenderer({antialias: true});
     renderer.physicallyCorrectLights = true;
     renderer.setSize(window.innerWidth, window.innerHeight);
-    // add the automatically created <canvas> element to the page
     document.body.appendChild(renderer.domElement);
   }
 
-  // render, or 'draw a still image', of the scene
   function render() {
     renderer.render(scene, camera);
   }
@@ -179,7 +174,7 @@
     // move the target to the center of the front bird
     controls.target.copy(parrot.position);
 
-    loop.updatables.push(parrot); // TODO: does this really belong here?
+    loop.updatables.push(parrot);
     scene.add(parrot);
 
     renderer.setAnimationLoop(() => {
