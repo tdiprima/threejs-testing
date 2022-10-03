@@ -17,6 +17,7 @@ function initScene() {
     0.1,
     1000
   );
+
   clock = new THREE.Clock();
   renderer = new THREE.WebGLRenderer();
   controls = new OrbitControls(camera, renderer.domElement);
@@ -52,7 +53,7 @@ GLTFloader.load("/models/gltf/Parrot.glb", function (gltf) {
 
   scene.add(model.scene);
 });
-//GLTF END
+// GLTF END
 
 camera.position.set(0, 20, 50);
 
