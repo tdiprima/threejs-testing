@@ -25,7 +25,6 @@
   import {OrbitControls} from "/jsm/controls/OrbitControls.js";
   import {GLTFLoader} from "/jsm/loaders/GLTFLoader.js";
   import { AnimationMixer } from 'three';
-  // import { AnimationMixer } from '/js/animation/AnimationMixer.js';
 
   console.clear();
   console.log("%cthree.js rev", "color: #ccff00;", THREE.REVISION);
@@ -47,7 +46,6 @@
 
   let controls = new OrbitControls(camera, renderer.domElement);
 
-  // let light = new THREE.HemisphereLight(0xffffbb, 0x080820, 1);
   let light = new THREE.HemisphereLight(0xffffff, 0xffffff, 1);
   scene.add(light);
 
