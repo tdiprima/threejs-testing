@@ -31,12 +31,13 @@
   camera.position.set(1.5, 1.5, 2.25);
 
   let clock = new THREE.Clock();
+
   let renderer = new THREE.WebGLRenderer();
+  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
 
   let controls = new OrbitControls(camera, renderer.domElement);
-
-  document.body.appendChild(renderer.domElement);
-  renderer.setSize(window.innerWidth, window.innerHeight);
 
   // TODO: ENHANCE LIGHTING
   // How Lighting (Basically) Works in Games https://youtu.be/VXggMZvqSvM

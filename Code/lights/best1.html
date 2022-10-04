@@ -19,7 +19,6 @@
 </script>
 
 <script type="module">
-   // TODO: why blurry?
   import * as THREE from "three";
   import {OrbitControls} from "/jsm/controls/OrbitControls.js";
   import {GLTFLoader} from "/jsm/loaders/GLTFLoader.js";
@@ -33,8 +32,9 @@
 
   // Create a WebGLRenderer and turn on shadows in the renderer
   let renderer = new THREE.WebGLRenderer();
-  document.body.appendChild(renderer.domElement);
+  renderer.setPixelRatio(window.devicePixelRatio); // TODO: Note: not blurry no mo!
   renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
   // renderer.setClearColor("#151515");
 
   renderer.shadowMap.enabled = true;
