@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Earth</title>
+  <!-- https://www.instagram.com/p/CeWtN3pvYjT/ -->
+  <!-- https://threejs.org/docs/#api/en/loaders/ImageLoader -->
+  <!-- https://github.com/mrdoob/three.js/issues/10439#issuecomment-275785639 -->
+  <link href="/css/main.css" rel="stylesheet">
+</head>
+<body>
+<script src="/build/three.min.js"></script>
+<script>
+  THREE.ImageLoader = function (manager) {
+    this.manager = (manager !== undefined) ? manager : THREE.DefaultLoadingManager;
+  }
+
+  Object.assign(THREE.ImageLoader.prototype, {
+
+    load: function (url, onLoad, onProgress, onError) {
+      var scope = this;
+
+      var image = document.createElementNS("http://www.w3.org/1999/xhtml", "img");
+      image.onload = function () {
+
+        image.onload = null;
+
+        URL.revokeObjectURL(image.src);
+
+        if (onLoad) {
+          onLoad(image);
+        }
+
+        scope.manager.itemEnd(url);
+
+      };
+      image.onerror = onError;
+
+      var loader = new THREE.FileLoader();
+      loader.setPath(this.path);
+      loader.setResponseType("blob");
+      loader.setWithCredentials(this.withCredentials);
+      loader.load(url, function (blob) {
+
+        image.src = URL.createObjectURL(blob);
+
+      }, onProgress, onError);
+
+      scope.manager.itemStart(url);
+
+      return image;
+    },
+
+    setCrossOrigin: function (value) {
+      this.crossOrigin = value;
+      return this;
+    },
+
+    setWithCredentials: function (value) {
+      this.withCredentials = value;
+      return this;
+    },
+
+    setPath: function (value) {
+      this.path = value;
+      return this;
+    }
+
+  });
+
+  let scene = new THREE.Scene();
+  let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
+  camera.position.z = 2;
+
+  let renderer = new THREE.WebGLRenderer();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
+
+  let geometry = new THREE.BoxBufferGeometry(1, 1, 1);
+  let material = new THREE.MeshBasicMaterial({color: 0x0000ff});
+  let cube = new THREE.Mesh(geometry, material);
+  scene.add(cube);
+
+  let light = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
+  scene.add( light );
+
+  // instantiate a loader
+  const loader = new THREE.ImageLoader();
+
+  // load a image resource
+  loader.load(
+    // resource URL
+    "simon_dev.jpg",
+
+    // onLoad callback
+    function (image) {
+      // use the image, e.g. draw part of it on a canvas
+      const canvas = document.createElement("canvas");
+      const context = canvas.getContext("2d");
+      context.drawImage(image, 100, 100);
+    },
+
+    // onProgress callback currently not supported
+    undefined,
+
+    // onError callback
+    function () {
+      console.error("An error happened.");
+    }
+  );
+
+  function animate() {
+    requestAnimationFrame(animate);
+    renderer.render(scene, camera);
+  }
+
+  animate();
+</script>
+</body>
+
+</html>

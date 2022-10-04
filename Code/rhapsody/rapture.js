@@ -8,7 +8,7 @@ const pg = new THREE.Group();
 
 const loader = new THREE.FileLoader();
 
-const resourceURL = "http://localhost:8888/halcyon/?iiif=file:///D:/HalcyonStorage/nuclearsegmentation2019/TCGA-CM-5348-01Z-99-DX1.2ad0b8f6...";
+const resourceURL = "http://localhost:8888/fake/?iiif=file:///D:/fakeStorage/nuclearsegmentation2019/TCGA-CM-5348-01Z-99-DX1.2ad0b8f6...";
 
 const onloadCallback = function (data) {
   let obj = JSON.parse(data);
