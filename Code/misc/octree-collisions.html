@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>three.js - misc - octree collisions</title>
+  <title>octree collisions</title>
+  <!-- GAMES FPS FIRST PERSON SHOOTER -->
   <meta charset="utf-8"/>
   <meta content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" name="viewport">
   <link href="/css/main.css" rel="stylesheet" type="text/css">
@@ -14,7 +15,8 @@
 </div>
 <div id="container"></div>
 
-<script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
+<!-- <script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script> -->
+<script async src="/es-module-shims-1.3.6/dist/es-module-shims.js"></script>
 <script type="importmap">
 	{
 		"imports": {
@@ -336,9 +338,8 @@
     }
   }
 
-  let loader = new GLTFLoader().setPath("/models/gltf/");
-
-  loader.load("collision-world.glb", gltf => {
+  // let loader = new GLTFLoader().setPath("/models/gltf/"); // don't do this, unless u have multiple things.
+  new GLTFLoader().load("/models/gltf/collision-world.glb", gltf => {
     scene.add(gltf.scene);
 
     worldOctree.fromGraphNode(gltf.scene);
