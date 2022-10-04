@@ -9,7 +9,6 @@ let clock;
 let container;
 let controls;
 let mixer;
-let model;
 let renderer;
 let scene;
 
@@ -24,17 +23,18 @@ function initScene() {
     0.1,
     1000
   );
-  camera.position.set(0, 9.27, 23.16);
   // camera.position.set(0, 20, 50);
+  camera.position.set(0, 9.27, 23.16);
 
   clock = new THREE.Clock();
   renderer = new THREE.WebGLRenderer();
+
   controls = new OrbitControls(camera, renderer.domElement);
   controls.update();
 
   container = document.getElementById("container");
-
   container.appendChild(renderer.domElement);
+
   renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
@@ -53,12 +53,10 @@ scene.add(light, axesHelper, gridHelper);
 // GLTF START
 let GLTFloader = new GLTFLoader();
 
-GLTFloader.load("https://richardlundquist.github.io/library/alice_TEST2.glb", function (gltf) {
-  model = gltf;
+GLTFloader.load("https://richardlundquist.github.io/library/alice_TEST2.glb", function (model) {
+  mixer = new THREE.AnimationMixer(model.scene);
 
-  mixer = new THREE.AnimationMixer(gltf.scene);
-
-  mixer.clipAction(gltf.animations[0]).play();
+  mixer.clipAction(model.animations[0]).play();
 
   scene.add(model.scene);
 });

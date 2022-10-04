@@ -27,6 +27,7 @@ function initScene() {
 
   clock = new THREE.Clock();
   renderer = new THREE.WebGLRenderer();
+
   controls = new OrbitControls(camera, renderer.domElement);
   controls.update();
 
