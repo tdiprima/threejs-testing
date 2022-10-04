@@ -6,7 +6,6 @@ console.log("%cthree.js rev", "color: #ccff00;", THREE.REVISION);
 
 let camera;
 let clock;
-let container;
 let controls;
 let mixer;
 let model;
