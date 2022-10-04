@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>idk</title>
+  <title>Shadow</title>
   <!-- https://stackoverflow.com/questions/69817153/three-js-typeerror-material-onbeforerender-is-not-a-function -->
   <link href="/css/main.css" rel="stylesheet">
 </head>
@@ -46,7 +46,9 @@
 
   // loader
   let loader = new GLTFLoader();
-  loader.load("/models/gltf/box.glb", function (glb) {
+  let imgSrc = "/models/gltf/honda_shadow_rs_2010.glb";
+  // let imgSrc = "/models/gltf/box.glb";
+  loader.load(imgSrc, function (glb) {
     console.log("%cglb", "color: #ff00cc;", glb);
     scene.add(glb.scene);
   }, function (xhr) {
@@ -61,7 +63,8 @@
   pointLight.intensity = 1;
   scene.add(pointLight);
 
-  let light = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
+  // let light = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
+  let light = new THREE.HemisphereLight();
   scene.add( light );
 
   window.addEventListener("resize", () => {

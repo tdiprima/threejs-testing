@@ -19,6 +19,7 @@
 </script>
 
 <script type="module">
+   // TODO: why blurry?
   import * as THREE from "three";
   import {OrbitControls} from "/jsm/controls/OrbitControls.js";
   import {GLTFLoader} from "/jsm/loaders/GLTFLoader.js";
@@ -34,6 +35,7 @@
   let renderer = new THREE.WebGLRenderer();
   document.body.appendChild(renderer.domElement);
   renderer.setSize(window.innerWidth, window.innerHeight);
+  // renderer.setClearColor("#151515");
 
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
@@ -44,7 +46,8 @@
   pointLight.intensity = 1;
   scene.add(pointLight);
 
-  let hemiLight = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
+  // let hemiLight = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
+  let hemiLight = new THREE.HemisphereLight();
   scene.add(hemiLight);
 
   // Create a SpotLight and turn on shadows for the light
