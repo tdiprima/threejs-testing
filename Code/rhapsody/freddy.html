@@ -78,10 +78,16 @@
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
 
-  let geometry = new THREE.BoxBufferGeometry(1, 1, 1);
-  let material = new THREE.MeshBasicMaterial({color: 0x0000ff});
-  let cube = new THREE.Mesh(geometry, material);
-  scene.add(cube);
+  // let geometry = new THREE.BoxBufferGeometry(1, 1, 1);
+  // let material = new THREE.MeshBasicMaterial({color: 0x0000ff});
+  // let cube = new THREE.Mesh(geometry, material);
+  // scene.add(cube);
+
+  // var geometry = new THREE.SphereGeometry(0.5, 32, 32);
+  // var texture = new THREE.TextureLoader().load( "data:image/jpeg;base64,/9j/4AAQSkZJRgA--(truncated-for-example)--BAgEASABIAAD" );
+  // var material = new THREE.MeshBasicMaterial( { map: texture } );
+  // var mesh = new THREE.Mesh(geometry, material);
+  // scene.add(mesh);
 
   let light = new THREE.HemisphereLight(0xffffbb, 0x080820, 1);
   scene.add(light);
@@ -121,6 +127,12 @@
   // instantiate a loader
   const loader = new THREE.TextureLoader();
 
+  loader.load(resourceURL, (texture) => {
+    console.log("texture", texture);
+    scene.add(texture.image);
+  });
+
+  /*
   // load a resource
   loader.load(
     // resource URL
@@ -142,6 +154,7 @@
       console.error("An error happened.");
     }
   );
+   */
 
   function animate() {
     requestAnimationFrame(animate);
