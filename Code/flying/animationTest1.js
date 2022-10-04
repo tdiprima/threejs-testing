@@ -4,19 +4,28 @@ import { OrbitControls } from "https://threejsfundamentals.org/threejs/resources
 
 console.log("%cthree.js rev", "color: #ccff00;", THREE.REVISION);
 
-let clock, controls, scene, camera, renderer, mixer, model;
+let camera;
+let clock;
+let container;
+let controls;
+let mixer;
+let model;
+let renderer;
+let scene;
 
 initScene();
 animate();
 
 function initScene() {
   scene = new THREE.Scene();
-  camera = new THREE.PerspectiveCamera(
+  camera = window._camera = new THREE.PerspectiveCamera(
     75,
     window.innerWidth / window.innerHeight,
     0.1,
     1000
   );
+  // camera.position.set(0, 20, 50);
+  camera.position.set(-101, 28, 3.8);
 
   clock = new THREE.Clock();
   renderer = new THREE.WebGLRenderer();
@@ -30,21 +39,17 @@ function initScene() {
 scene.background = new THREE.Color("#c7deea");
 
 // LIGHT
-const ambientLight = new THREE.HemisphereLight(
-  'white',
-  'darkslategrey',
-  5,
-);
+let ambientLight = new THREE.HemisphereLight("white", "darkslategrey", 5);
 
-const mainLight = new THREE.DirectionalLight('white', 4);
+let mainLight = new THREE.DirectionalLight("white", 4);
 mainLight.position.set(10, 10, 10);
 
 scene.add(ambientLight, mainLight);
 
 // GLTF START
-const GLTFloader = new GLTFLoader();
+let GLTFloader = new GLTFLoader();
 
-GLTFloader.load("/models/gltf/Parrot.glb", function (gltf) {
+GLTFloader.load("/models/gltf/Parrot.glb", gltf => {
   model = gltf;
 
   mixer = new THREE.AnimationMixer(gltf.scene);
@@ -54,8 +59,6 @@ GLTFloader.load("/models/gltf/Parrot.glb", function (gltf) {
   scene.add(model.scene);
 });
 // GLTF END
-
-camera.position.set(0, 20, 50);
 
 function animate() {
   requestAnimationFrame(animate);
@@ -68,5 +71,4 @@ function animate() {
   }
 
   renderer.render(scene, camera);
-
 }

@@ -4,19 +4,28 @@ import { OrbitControls } from "https://threejsfundamentals.org/threejs/resources
 
 console.log("%cthree.js rev", "color: #ccff00;", THREE.REVISION);
 
-let clock, controls, scene, camera, renderer, mixer, container, model;
+let camera;
+let clock;
+let container;
+let controls;
+let mixer;
+let model;
+let renderer;
+let scene;
 
 initScene();
 animate();
 
 function initScene() {
   scene = new THREE.Scene();
-  camera = new THREE.PerspectiveCamera(
+  camera = window._camera = new THREE.PerspectiveCamera(
     75,
     window.innerWidth / window.innerHeight,
     0.1,
     1000
   );
+  camera.position.set(0, 9.27, 23.16);
+  // camera.position.set(0, 20, 50);
 
   clock = new THREE.Clock();
   renderer = new THREE.WebGLRenderer();
@@ -32,19 +41,17 @@ function initScene() {
 scene.background = new THREE.Color("#f8edeb");
 
 // LIGHT
-const light = new THREE.DirectionalLight(0xffffff, 1);
+let light = new THREE.DirectionalLight(0xffffff, 1);
 light.position.set(2, 2, 5);
 
 // HELPERS
-const axesHelper = new THREE.AxesHelper(5);
+let axesHelper = new THREE.AxesHelper(5);
 let gridHelper = new THREE.GridHelper(30, 30);
 
 scene.add(light, axesHelper, gridHelper);
 
 // GLTF START
-const GLTFloader = new GLTFLoader();
-
-var newMaterial = new THREE.MeshStandardMaterial({color: "#e76f51"});
+let GLTFloader = new GLTFLoader();
 
 GLTFloader.load("https://richardlundquist.github.io/library/alice_TEST2.glb", function (gltf) {
   model = gltf;
@@ -57,8 +64,6 @@ GLTFloader.load("https://richardlundquist.github.io/library/alice_TEST2.glb", fu
 });
 // GLTF END
 
-camera.position.set(0, 20, 50);
-
 function animate() {
   requestAnimationFrame(animate);
 
@@ -66,10 +71,8 @@ function animate() {
   // let time = clock.elapsedTime;
 
   if (mixer) {
-    // mixer.update(clock.getDelta());
     mixer.update(delta);
   }
 
   renderer.render(scene, camera);
-
 }
