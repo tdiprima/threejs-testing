@@ -42,9 +42,26 @@
   let loader = new THREE.TextureLoader();
 
   // Load an image file into a custom material
-  let material = new THREE.MeshLambertMaterial({
-    map: loader.load(resourceURL)
+  // let material = new THREE.MeshLambertMaterial({
+  //   map: loader.load(resourceURL)
+  // });
+
+  // If you use "basic", the "DoubleSide" works :)
+  let material = new THREE.MeshBasicMaterial({
+    map: loader.load(resourceURL),
+    side: THREE.DoubleSide
   });
+
+  // https://stackoverflow.com/questions/51207094/mapping-image-frontside-backside-onto-a-sphere-in-three-js
+  // use material array to apply multiple materials
+  // let material = [
+  //   new THREE.MeshBasicMaterial({
+  //     map: loader.load("https://image.ibb.co/mmsJ7J/logo_front.png")
+  //   }),
+  //   new THREE.MeshBasicMaterial({
+  //     map: loader.load("https://image.ibb.co/bE8i7J/logo_back.png")
+  //   })
+  // ];
 
   // create a plane geometry for the image with a width of 10
   // and a height that preserves the image's aspect ratio
