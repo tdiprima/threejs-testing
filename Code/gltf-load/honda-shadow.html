@@ -36,7 +36,8 @@
   document.body.appendChild(renderer.domElement);
   renderer.setSize(window.innerWidth, window.innerHeight);
 
-  // TODO: LIGHTS
+  // TODO: ENHANCE LIGHTING
+  // How Lighting (Basically) Works in Games https://youtu.be/VXggMZvqSvM
   let ambientLight = new THREE.HemisphereLight("white", "darkslategrey", 5);
   let mainLight = new THREE.DirectionalLight("white", 4);
   mainLight.position.set(10, 10, 10);
