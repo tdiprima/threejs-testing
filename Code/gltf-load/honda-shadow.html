@@ -5,6 +5,7 @@
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Honda Shadow RS 2010</title>
+  <link href="/css/main.css" rel="stylesheet">
   <!-- https://sketchfab.com/3d-models/honda-shadow-rs-2010-2e7cf7bc195044f4a0f60c04581e2691 -->
   <!-- https://sketchfab.com/models/2e7cf7bc195044f4a0f60c04581e2691/embed?autostart=1&internal=1&tracking=0&ui_ar=0&ui_infos=0&ui_snapshots=1&ui_stop=0&ui_theatre=1&ui_watermark=0 -->
 </head>
@@ -39,8 +40,8 @@
 
   // TODO: ENHANCE LIGHTING
   // How Lighting (Basically) Works in Games https://youtu.be/VXggMZvqSvM
-  let ambientLight = new THREE.HemisphereLight("white", "darkslategrey", 5);
-  let mainLight = new THREE.DirectionalLight("white", 4);
+  let ambientLight = new THREE.HemisphereLight("white", "darkslategrey", 1.5);
+  let mainLight = new THREE.DirectionalLight("white", 1.25);
   mainLight.position.set(10, 10, 10);
   scene.add(ambientLight, mainLight);
 
