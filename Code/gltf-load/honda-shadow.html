@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Honda Shadow RS 2010</title>
+  <!-- https://sketchfab.com/3d-models/honda-shadow-rs-2010-2e7cf7bc195044f4a0f60c04581e2691 -->
+</head>
+<body>
+<script type="module">
+  import * as THREE from "https://threejsfundamentals.org/threejs/resources/threejs/r132/build/three.module.js";
+  import { GLTFLoader } from "https://threejsfundamentals.org/threejs/resources/threejs/r132/examples/jsm/loaders/GLTFLoader.js";
+  import { OrbitControls } from "https://threejsfundamentals.org/threejs/resources/threejs/r132/examples/jsm/controls/OrbitControls.js";
+  console.log("%cthree.js rev", "color: #ccff00;", THREE.REVISION);
+
+  let scene = new THREE.Scene();
+  let color1 = new THREE.Color("#686868");
+  let color2 = new THREE.Color("#151515");
+  // TODO: Set texture, with gradient.
+  scene.background = new THREE.Color(color1);
+
+  let camera = window._camera = new THREE.PerspectiveCamera(
+    75,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000
+  );
+  camera.position.set(1.5, 1.5, 2.25);
+
+  let clock = new THREE.Clock();
+  let renderer = new THREE.WebGLRenderer();
+
+  let controls = new OrbitControls(camera, renderer.domElement);
+
+  document.body.appendChild(renderer.domElement);
+  renderer.setSize(window.innerWidth, window.innerHeight);
+
+  // TODO: LIGHTS
+  let ambientLight = new THREE.HemisphereLight("white", "darkslategrey", 5);
+  let mainLight = new THREE.DirectionalLight("white", 4);
+  mainLight.position.set(10, 10, 10);
+  scene.add(ambientLight, mainLight);
+
+  new GLTFLoader().load("/models/gltf/honda_shadow_rs_2010.glb", model => {
+    // console.log("model.animations", model.animations); // empty array; KSD
+    scene.add(model.scene);
+  });
+
+  /* Resize Event */
+  window.addEventListener("resize", function () {
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.render(scene, camera);
+  });
+
+  /* Animate */
+  (function animate() {
+    requestAnimationFrame(animate);
+    controls.update();
+    renderer.render(scene, camera);
+  })();
+</script>
+</body>
+</html>
