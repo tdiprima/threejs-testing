@@ -24,13 +24,13 @@
   import {OrbitControls} from "/jsm/controls/OrbitControls.js";
 
   let scene = new THREE.Scene();
-  let camera = new THREE.PerspectiveCamera(
+  let camera = window._camera = new THREE.PerspectiveCamera(
     75, // Field of view
     window.innerWidth / window.innerHeight, // Aspect ratio
     0.1, // Near
     10000 // Far
   );
-  camera.position.z = 5;
+  camera.position.z = 6.5;
 
   let renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);
