@@ -39,7 +39,7 @@
   });
 
   renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Makes nice & sharp.
   renderer.setClearColor(0xffffff, 0);
   renderer.shadowMap.enabled = true;
   document.body.appendChild(renderer.domElement);
