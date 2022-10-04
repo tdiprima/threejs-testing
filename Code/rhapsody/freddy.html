@@ -6,13 +6,13 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Earth</title>
   <!-- https://www.instagram.com/p/CeWtN3pvYjT/ -->
-  <!-- https://threejs.org/docs/#api/en/loaders/ImageLoader -->
-  <!-- https://github.com/mrdoob/three.js/issues/10439#issuecomment-275785639 -->
   <link href="/css/main.css" rel="stylesheet">
 </head>
 <body>
 <script src="/build/three.min.js"></script>
 <script>
+  /*
+  // https://github.com/mrdoob/three.js/issues/10439#issuecomment-275785639
   THREE.ImageLoader = function (manager) {
     this.manager = (manager !== undefined) ? manager : THREE.DefaultLoadingManager;
   }
@@ -67,8 +67,8 @@
       this.path = value;
       return this;
     }
-
   });
+   */
 
   let scene = new THREE.Scene();
   let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
@@ -83,16 +83,20 @@
   let cube = new THREE.Mesh(geometry, material);
   scene.add(cube);
 
-  let light = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
-  scene.add( light );
+  let light = new THREE.HemisphereLight(0xffffbb, 0x080820, 1);
+  scene.add(light);
 
+  let resourceURL = "simon_dev.jpg";
+
+  /*
+  // https://threejs.org/docs/#api/en/loaders/ImageLoader
   // instantiate a loader
   const loader = new THREE.ImageLoader();
 
   // load a image resource
   loader.load(
     // resource URL
-    "simon_dev.jpg",
+    resourceURL,
 
     // onLoad callback
     function (image) {
@@ -110,6 +114,34 @@
       console.error("An error happened.");
     }
   );
+   */
+
+  // https://threejs.org/docs/#api/en/loaders/TextureLoader
+  // https://github.com/mrdoob/three.js/issues/10439#issuecomment-293260145
+  // instantiate a loader
+  const loader = new THREE.TextureLoader();
+
+  // load a resource
+  loader.load(
+    // resource URL
+    resourceURL,
+
+    // onLoad callback
+    function (texture) {
+      // in this example we create the material when the texture is loaded
+      const material = new THREE.MeshBasicMaterial({
+        map: texture
+      });
+    },
+
+    // onProgress callback currently not supported
+    undefined,
+
+    // onError callback
+    function (err) {
+      console.error("An error happened.");
+    }
+  );
 
   function animate() {
     requestAnimationFrame(animate);
@@ -119,5 +151,4 @@
   animate();
 </script>
 </body>
-
 </html>
