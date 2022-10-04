@@ -5,8 +5,7 @@
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Adding an Image to a Scene</title>
-  <!-- https://codepen.io/duhaime/pen/jaYdLg -->
-  <!-- Douglas Duhaime - Full stack developer @YaleDH -->
+  <!-- code source: see below -->
   <link href="/css/main.css" rel="stylesheet">
 </head>
 <body>
@@ -25,7 +24,12 @@
   import {OrbitControls} from "/jsm/controls/OrbitControls.js";
 
   let scene = new THREE.Scene();
-  let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  let camera = new THREE.PerspectiveCamera(
+    75, // Field of view
+    window.innerWidth / window.innerHeight, // Aspect ratio
+    0.1, // Near
+    10000 // Far
+  );
   camera.position.z = 5;
 
   let renderer = new THREE.WebGLRenderer();
@@ -33,48 +37,6 @@
   document.body.appendChild(renderer.domElement);
 
   let controls = new OrbitControls(camera, renderer.domElement);
-
-  // https://www.instagram.com/p/CeWtN3pvYjT/
-  let resourceURL = "simon_dev.jpg";
-
-  // https://codepen.io/duhaime/pen/jaYdLg
-  // Create a texture loader so that we can load our image file
-  let loader = new THREE.TextureLoader();
-
-  // Load an image file into a custom material
-  // let material = new THREE.MeshLambertMaterial({
-  //   map: loader.load(resourceURL)
-  // });
-
-  // If you use "basic", the "DoubleSide" works :)
-  let material = new THREE.MeshBasicMaterial({
-    map: loader.load(resourceURL),
-    side: THREE.DoubleSide
-  });
-
-  // https://stackoverflow.com/questions/51207094/mapping-image-frontside-backside-onto-a-sphere-in-three-js
-  // use material array to apply multiple materials
-  // let material = [
-  //   new THREE.MeshBasicMaterial({
-  //     map: loader.load("https://image.ibb.co/mmsJ7J/logo_front.png")
-  //   }),
-  //   new THREE.MeshBasicMaterial({
-  //     map: loader.load("https://image.ibb.co/bE8i7J/logo_back.png")
-  //   })
-  // ];
-
-  // create a plane geometry for the image with a width of 10
-  // and a height that preserves the image's aspect ratio
-  let geometry = new THREE.PlaneGeometry(10, 10 * 0.75);
-
-  // combine our image geometry and material into a mesh
-  let mesh = new THREE.Mesh(geometry, material);
-
-  // set the position of the image mesh in the x,y,z dimensions
-  mesh.position.set(0, 0, 0);
-
-  // add the image to the scene
-  scene.add(mesh);
 
   // Add a point light with #fff color, 1 intensity, and 0 distance
   let light = new THREE.PointLight(0xffffff, 1, 0);
@@ -85,12 +47,89 @@
   // Add the light to the scene
   scene.add(light);
 
-  function animate() {
-    requestAnimationFrame(animate);
+  // https://www.instagram.com/p/CeWtN3pvYjT/
+  let resourceURL = "simon_dev.jpg";
+  /* Textures */
+  f();
+  // f1();
+
+  /* Resize Event */
+  window.addEventListener("resize", function () {
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
     renderer.render(scene, camera);
+  });
+
+  /* Animate */
+  (function animate() {
+    requestAnimationFrame(animate);
+    controls.update();
+    renderer.render(scene, camera);
+  })();
+
+  function f() {
+    // https://codepen.io/duhaime/pen/jaYdLg
+    // Create a texture loader so that we can load our image file
+    let loader = new THREE.TextureLoader();
+
+    // Load an image file into a custom material
+    // let material = new THREE.MeshLambertMaterial({
+    //   map: loader.load(resourceURL)
+    // });
+
+    // If you use "basic", the "DoubleSide" works :)
+    let material = new THREE.MeshBasicMaterial({
+      map: loader.load(resourceURL),
+      side: THREE.DoubleSide
+    });
+
+    // https://stackoverflow.com/questions/51207094/mapping-image-frontside-backside-onto-a-sphere-in-three-js
+    // use material array to apply multiple materials
+    // let material = [
+    //   new THREE.MeshBasicMaterial({
+    //     map: loader.load("https://image.ibb.co/mmsJ7J/logo_front.png")
+    //   }),
+    //   new THREE.MeshBasicMaterial({
+    //     map: loader.load("https://image.ibb.co/bE8i7J/logo_back.png")
+    //   })
+    // ];
+
+    // create a plane geometry for the image with a width of 10
+    // and a height that preserves the image's aspect ratio
+    let width = 10;
+    // let height = width * 0.75; <- wrong! aspect ratio is 1.
+    let height = 10;
+    let geometry = new THREE.PlaneGeometry(width, height);
+
+    // combine our image geometry and material into a mesh
+    let mesh = new THREE.Mesh(geometry, material);
+
+    // set the position of the image mesh in the x,y,z dimensions
+    mesh.position.set(0, 0, 0);
+
+    // add the image to the scene
+    scene.add(mesh);
   }
 
-  animate();
+  function f1() {
+    // https://stackoverflow.com/questions/51722754/three-js-image-aspect-ratio
+    let planeGeom = new THREE.PlaneGeometry(10, 10);
+    let mesh;
+    let tex = new THREE.TextureLoader().load(resourceURL, tex => {
+      tex.needsUpdate = true;
+      // console.log("aspect", tex.image.height / tex.image.width);
+      mesh.scale.set(1.0, tex.image.height / tex.image.width, 1.0);
+    });
+
+    let material = new THREE.MeshBasicMaterial({
+      map: tex,
+      side: THREE.DoubleSide
+    });
+
+    mesh = new THREE.Mesh(planeGeom, material);
+    scene.add(mesh);
+  }
 </script>
 </body>
 </html>
