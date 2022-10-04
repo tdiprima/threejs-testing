@@ -8,7 +8,6 @@ let camera;
 let clock;
 let controls;
 let mixer;
-let model;
 let renderer;
 let scene;
 
@@ -48,12 +47,10 @@ scene.add(ambientLight, mainLight);
 // GLTF START
 let GLTFloader = new GLTFLoader();
 
-GLTFloader.load("/models/gltf/Parrot.glb", gltf => {
-  model = gltf;
+GLTFloader.load("/models/gltf/Parrot.glb", model => {
+  mixer = new THREE.AnimationMixer(model.scene);
 
-  mixer = new THREE.AnimationMixer(gltf.scene);
-
-  mixer.clipAction(gltf.animations[0]).play();
+  mixer.clipAction(model.animations[0]).play();
 
   scene.add(model.scene);
 });
