@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Organizing Scenes</title>
+  <!-- https://discoverthreejs.com/book/first-steps/organizing-with-group/ -->
+</head>
+<body>
+<script src="/build/three.min.js"></script>
+<script>
+  let range = 50;
+  let scene, camera, renderer;
+  createScene();
+
+  let geometry, material, cube;
+  createGeometry();
+
+  renderScene();
+
+  /**
+   * Create Scene
+   */
+  function createScene() {
+    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 5;
+
+    renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+  }
+
+  /**
+   * Create Geometry
+   */
+  function createGeometry() {
+    // Adding the spheres to a group instead of the scene allows us to manipulate them as a unit
+    let group = new THREE.Group();
+    scene.add(group);
+
+    let radius = 0.25;
+    let widthSegments = 16;
+    let heightSegments = 16;
+
+    // all geometries are made out of triangles
+    let geometry = new THREE.SphereGeometry(
+      radius,
+      widthSegments,
+      heightSegments
+    );
+
+    let material = new THREE.MeshBasicMaterial({color: 0xff0000, wireframe: true});
+
+    for (let i = 0; i < 21; i++) {
+      let sphere = new THREE.Mesh(geometry, material);
+      sphere.position.set(range * (0.5 - Math.random()), range * (0.5 - Math.random()), range * (0.5 - Math.random()));
+      group.add(sphere);
+    }
+  }
+
+  /**
+   * Render the Scene
+   */
+  function renderScene() {
+    requestAnimationFrame(renderScene);
+    renderer.render(scene, camera);
+  }
+</script>
+</body>
+</html>
