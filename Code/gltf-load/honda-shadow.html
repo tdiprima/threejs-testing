@@ -10,6 +10,9 @@
   <!-- https://sketchfab.com/models/2e7cf7bc195044f4a0f60c04581e2691/embed?autostart=1&internal=1&tracking=0&ui_ar=0&ui_infos=0&ui_snapshots=1&ui_stop=0&ui_theatre=1&ui_watermark=0 -->
 </head>
 <body>
+
+<div id="info">directionalLight &amp; hemisphereLight</div>
+
 <script type="module">
   import * as THREE from "https://threejsfundamentals.org/threejs/resources/threejs/r132/build/three.module.js";
   import { GLTFLoader } from "https://threejsfundamentals.org/threejs/resources/threejs/r132/examples/jsm/loaders/GLTFLoader.js";
@@ -42,9 +45,14 @@
 
   // TODO: ENHANCE LIGHTING
   // How Lighting (Basically) Works in Games https://youtu.be/VXggMZvqSvM
+
+  // skyColor, groundColor, intensity
   let hemisphereLight = new THREE.HemisphereLight("white", "darkslategrey", 1.5);
+
+  // color, intensity
   let mainLight = new THREE.DirectionalLight("white", 1.25);
   mainLight.position.set(10, 10, 10);
+
   scene.add(hemisphereLight, mainLight);
 
   new GLTFLoader().load("/models/gltf/honda_shadow_rs_2010.glb", model => {
