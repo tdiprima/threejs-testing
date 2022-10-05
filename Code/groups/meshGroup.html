@@ -10,11 +10,19 @@
 <body>
 <script src="/build/three.min.js"></script>
 <script>
+  // for (let i = 0; i < 20; i++) {
+  //   console.log('Hello twenty times!');
+  // }
+
+  // for (let i = 0; i < 1; i += 0.05) {
+  //   console.log('Hello twenty times!');
+  // }
+
   let range = 50;
   let scene, camera, renderer;
   createScene();
 
-  let geometry, material, cube;
+  let geometry, material;
   createGeometry();
 
   renderScene();
@@ -51,13 +59,44 @@
       heightSegments
     );
 
+    // let material = new THREE.MeshStandardMaterial({ color: 'indigo' });
     let material = new THREE.MeshBasicMaterial({color: 0xff0000, wireframe: true});
 
-    for (let i = 0; i < 21; i++) {
-      let sphere = new THREE.Mesh(geometry, material);
-      sphere.position.set(range * (0.5 - Math.random()), range * (0.5 - Math.random()), range * (0.5 - Math.random()));
+    let protoSphere = new THREE.Mesh(geometry, material);
+
+    // add the protoSphere to the group
+    group.add(protoSphere);
+
+    // create twenty clones of the protoSphere and add each to the group
+    for (let i = 0; i < 1; i += 0.05) {
+      let sphere = protoSphere.clone();
+
+      // position the spheres on around a circle
+      sphere.position.x = Math.cos(2 * Math.PI * i);
+      sphere.position.y = Math.sin(2 * Math.PI * i);
+
+      sphere.scale.multiplyScalar(0.01 + i);
+
       group.add(sphere);
     }
+
+    // every sphere inside the group will be scaled
+    group.scale.multiplyScalar(2);
+
+    let radiansPerSecond = THREE.MathUtils.degToRad(30);
+
+    // each frame, rotate the entire group of spheres
+    group.tick = delta => {
+      group.rotation.z -= delta * radiansPerSecond;
+    };
+
+    // Randomly position 21 spheres
+    // for (let i = 0; i < 21; i++) {
+    //   let sphere = new THREE.Mesh(geometry, material);
+    //   sphere.position.set(range * (0.5 - Math.random()), range * (0.5 - Math.random()), range * (0.5 - Math.random()));
+    //   group.add(sphere);
+    // }
+
   }
 
   /**
