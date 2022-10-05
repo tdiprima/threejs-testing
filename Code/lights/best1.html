@@ -41,29 +41,29 @@
   renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
 
   // LIGHTS
-  let pointLight = new THREE.DirectionalLight(0xffffff, 1);
-  pointLight.position.set(2, 2, 5);
-  pointLight.intensity = 1;
-  scene.add(pointLight);
+  let directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+  directionalLight.position.set(2, 2, 5);
+  directionalLight.intensity = 1;
+  scene.add(directionalLight);
 
-  // let hemiLight = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
-  let hemiLight = new THREE.HemisphereLight();
-  scene.add(hemiLight);
+  // let hemisphereLight = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
+  let hemisphereLight = new THREE.HemisphereLight();
+  scene.add(hemisphereLight);
 
   // Create a SpotLight and turn on shadows for the light
-  let light = new THREE.SpotLight(0xffffff);
-  light.castShadow = true; // default false
-  scene.add(light);
+  let spotLight = new THREE.SpotLight(0xffffff);
+  spotLight.castShadow = true; // default false
+  scene.add(spotLight);
 
   // Set up shadow properties for the light
-  light.shadow.mapSize.width = 512; // default
-  light.shadow.mapSize.height = 512; // default
-  light.shadow.camera.near = 0.5; // default
-  light.shadow.camera.far = 500; // default
-  light.shadow.focus = 1; // default
+  spotLight.shadow.mapSize.width = 512; // default
+  spotLight.shadow.mapSize.height = 512; // default
+  spotLight.shadow.camera.near = 0.5; // default
+  spotLight.shadow.camera.far = 500; // default
+  spotLight.shadow.focus = 1; // default
 
   // Create a helper for the shadow camera (optional)
-  // let helper = new THREE.CameraHelper(light.shadow.camera);
+  // let helper = new THREE.CameraHelper(spotLight.shadow.camera);
   // scene.add(helper);
 
   try {
