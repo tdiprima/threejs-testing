@@ -42,10 +42,10 @@
 
   // TODO: ENHANCE LIGHTING
   // How Lighting (Basically) Works in Games https://youtu.be/VXggMZvqSvM
-  let ambientLight = new THREE.HemisphereLight("white", "darkslategrey", 1.5);
+  let hemisphereLight = new THREE.HemisphereLight("white", "darkslategrey", 1.5);
   let mainLight = new THREE.DirectionalLight("white", 1.25);
   mainLight.position.set(10, 10, 10);
-  scene.add(ambientLight, mainLight);
+  scene.add(hemisphereLight, mainLight);
 
   new GLTFLoader().load("/models/gltf/honda_shadow_rs_2010.glb", model => {
     // console.log("model.animations", model.animations); // empty array; KSD
