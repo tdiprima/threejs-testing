@@ -63,14 +63,14 @@
   })
 
   // Lights
-  let pointLight = new THREE.DirectionalLight(0xffffff, 1);
-  pointLight.position.set(2, 2, 5);
-  pointLight.intensity = 1;
-  scene.add(pointLight);
+  let directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+  directionalLight.position.set(2, 2, 5);
+  directionalLight.intensity = 1;
+  scene.add(directionalLight);
 
-  // let light = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
-  let light = new THREE.HemisphereLight();
-  scene.add(light);
+  // let hemisphereLight = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 ); // soft light
+  let hemisphereLight = new THREE.HemisphereLight();
+  scene.add(hemisphereLight);
 
   window.addEventListener("resize", () => {
     // Update camera
