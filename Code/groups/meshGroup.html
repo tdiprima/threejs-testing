@@ -19,6 +19,8 @@
   // }
 
   let range = 50;
+  let group = new THREE.Group();
+  let clock = new THREE.Clock();
   let scene, camera, renderer;
   createScene();
 
@@ -45,7 +47,6 @@
    */
   function createGeometry() {
     // Adding the spheres to a group instead of the scene allows us to manipulate them as a unit
-    let group = new THREE.Group();
     scene.add(group);
 
     let radius = 0.25;
@@ -104,6 +105,7 @@
    */
   function renderScene() {
     requestAnimationFrame(renderScene);
+    group.tick(clock.getDelta());
     renderer.render(scene, camera);
   }
 </script>
