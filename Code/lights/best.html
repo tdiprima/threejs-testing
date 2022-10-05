@@ -30,7 +30,7 @@
 
   // Base camera
   let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-  camera.position.z = 2;
+  camera.position.set(1.2, 1.5, 0.12);
   scene.add(camera);
 
   // Renderer
@@ -39,8 +39,12 @@
   });
 
   renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Makes nice & sharp.
-  renderer.setClearColor(0xffffff, 0);
+
+  let smallest = Math.min(window.devicePixelRatio, 2);
+  renderer.setPixelRatio(smallest); // Makes nice & sharp.
+  console.log("%cmin dpr, 2", "color: #ff00cc;", window.devicePixelRatio, smallest);
+
+  renderer.setClearColor(0x151515, 1);
   renderer.shadowMap.enabled = true;
   document.body.appendChild(renderer.domElement);
 
@@ -49,12 +53,13 @@
   let imgSrc = "/models/gltf/honda_shadow_rs_2010.glb";
   // let imgSrc = "/models/gltf/box.glb";
   loader.load(imgSrc, function (glb) {
-    console.log("%cglb", "color: #ff00cc;", glb);
+    // console.log("%cglb", "color: #ff00cc;", glb);
     scene.add(glb.scene);
   }, function (xhr) {
     console.log(`${(xhr.loaded / xhr.total) * 100}% loaded`);
   }, function (error) {
-    console.log("An error has occurred");
+    // console.log("An error has occurred");
+    console.log(`%c${error.message}`, "color: #ff6a5a;");
   })
 
   // Lights
@@ -65,7 +70,7 @@
 
   // let light = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 );
   let light = new THREE.HemisphereLight();
-  scene.add( light );
+  scene.add(light);
 
   window.addEventListener("resize", () => {
     // Update camera
@@ -89,9 +94,10 @@
   let clock = new THREE.Clock();
 
   let tick = () => {
-    let elapsedTime = clock.getElapsedTime();
+    // let elapsedTime = clock.getElapsedTime();
 
     // Update objects
+
     // Update Orbital Controls
     controls.update();
 
