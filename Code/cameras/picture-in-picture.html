@@ -13,9 +13,8 @@
       margin: 0;
     }
   </style>
-  <script src="https://unpkg.com/three@0.100.0/build/three.js"></script>
-  <!-- using 144 puts it at the top! -->
-  <!-- <script src="https://unpkg.com/three@0.144.0/build/three.js"></script> -->
+  <!-- <script src="https://unpkg.com/three@0.100.0/build/three.js"></script> -->
+  <script src="https://unpkg.com/three@0.144.0/build/three.js"></script>
 </head>
 <body>
 <script>
@@ -77,11 +76,11 @@
   }
 
   // https://discourse.threejs.org/t/three-math-undefined/16999
-  // THREE.Math = { // 144 Fix
-  //   degToRad: THREE.MathUtils.degToRad,
-  //   randInt: THREE.MathUtils.randInt,
-  //   randFloat: THREE.MathUtils.randFloat
-  // };
+  THREE.Math = { // 144 Fix
+    degToRad: THREE.MathUtils.degToRad,
+    randInt: THREE.MathUtils.randInt,
+    randFloat: THREE.MathUtils.randFloat
+  };
 
   function render() {
     // Rotate
@@ -93,16 +92,27 @@
     camera.updateMatrixWorld();
 
     // full screen
+
+    // TJD v100: 0, 0, 1792, 913 <- setScissor()
+    // TJD v144: 0, 0, 1792, 913
     renderer.setScissor(0, 0, window.innerWidth, window.innerHeight);
     renderer.setViewport(0, 0, window.innerWidth, window.innerHeight);
     renderer.render(scene, camera);
 
-    // quarter screen
+    // quarter screen (lower right)
     let widthHalf = window.innerWidth / 2;
     let heightHalf = window.innerHeight / 2;
 
-    renderer.setScissor(widthHalf, heightHalf, widthHalf, heightHalf);
-    renderer.setViewport(widthHalf, heightHalf, widthHalf, heightHalf);
+    // TJD v100: 896, 0, 896, 456.5 <- setScissor()
+    // TJD v144: 896, 456.5, 896, 456.5 <- Ends up at the top right
+
+    // Using v100:
+    // renderer.setScissor(widthHalf, heightHalf, widthHalf, heightHalf);
+    // renderer.setViewport(widthHalf, heightHalf, widthHalf, heightHalf);
+
+    // Using v144:
+    renderer.setScissor(widthHalf, 0, widthHalf, heightHalf);
+    renderer.setViewport(widthHalf, 0, widthHalf, heightHalf);
     renderer.render(scene, camera);
   }
 
