@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>stereo effect</title>
+  <!-- https://stackoverflow.com/questions/61052900/can-anyone-explain-what-is-going-on-in-this-code-for-three-js-stereoeffect -->
+  <style>
+    body { margin: 0; }
+
+    #c {
+      display: block;
+      width: 100vw;
+      height: 100vh;
+    }
+  </style>
+</head>
+<body>
+
+<canvas height="605" id="c" width="781"></canvas>
+
+<script async src="/es-module-shims-1.3.6/dist/es-module-shims.js"></script>
+<script type="importmap">
+  {
+  	"imports": {
+  		"three": "/build/three.module.js"
+  	}
+  }
+</script>
+
+<script type="module">
+  import * as THREE from "three";
+  import { GUI } from "/jsm/libs/dat.gui.module.js";
+
+  let canvas = document.querySelector("#c");
+  let renderer = new THREE.WebGLRenderer({canvas});
+  // console.log("%cc === canvas ?", "color: #ff00cc;", renderer.domElement === canvas);
+
+  let camera = new THREE.PerspectiveCamera(75, 2, 0.1, 5);
+  camera.position.z = 2;
+
+  let stereo = new THREE.StereoCamera();
+
+  // GUI
+  let gui = new GUI();
+  gui.add(stereo, "eyeSep", 0, 2, 0.001);
+
+  let scene = new THREE.Scene();
+
+  // LIGHT
+  let light = new THREE.DirectionalLight(0xffffff, 1);
+  light.position.set(-1, 2, 4);
+  scene.add(light);
+
+  // GEOMETRY
+  let geometry = new THREE.SphereGeometry(0.5, 6, 3);
+
+  /**
+   * Geometry make instance
+   * @param {object} geometry - SphereGeometry
+   * @param {number} color
+   * @param {number} x - position
+   * @return {object} - Mesh
+   */
+  function makeInstance(geometry, color, x) {
+    let material = new THREE.MeshPhongMaterial({color, flatShading: true});
+
+    let cube = new THREE.Mesh(geometry, material);
+    scene.add(cube);
+
+    cube.position.x = x;
+
+    return cube;
+  }
+
+  let cubes = [
+    makeInstance(geometry, 0x44aa88, 0),
+    makeInstance(geometry, 0x8844aa, -1),
+    makeInstance(geometry, 0xaa8844, 1),
+  ];
+
+  /**
+   * Resize renderer to display size
+   * @param renderer - WebGLRenderer
+   * @return {boolean} - needResize
+   */
+  function resizeRendererToDisplaySize(renderer) {
+    let canvas = renderer.domElement;
+    let width = canvas.clientWidth;
+    let height = canvas.clientHeight;
+    let needResize = canvas.width !== width || canvas.height !== height;
+    if (needResize) {
+      renderer.setSize(width, height, false);
+    }
+    return needResize;
+  }
+
+  /**
+   * Render
+   * @param {number} time (floating-point)
+   */
+  function render(time) {
+    time *= 0.001;
+
+    if (resizeRendererToDisplaySize(renderer)) {
+      let canvas = renderer.domElement;
+      camera.aspect = canvas.clientWidth / canvas.clientHeight / 2;
+      camera.updateProjectionMatrix();
+    }
+
+    cubes.forEach((cube, ndx) => {
+      let speed = 1 + ndx * 0.1;
+      let rot = time * speed;
+      cube.rotation.x = rot;
+      cube.rotation.y = rot;
+    });
+
+    // we need to manually update camera matrix
+    // because it will not be passed directly to
+    // renderer.render where it would normally be
+    // updated
+
+    camera.updateWorldMatrix();
+    stereo.update(camera);
+
+    let size = new THREE.Vector2();
+    renderer.getSize(size);
+
+    renderer.setScissorTest(true);
+
+    // CAMERA LEFT
+    renderer.setScissor(0, 0, size.width / 2, size.height);
+    renderer.setViewport(0, 0, size.width / 2, size.height);
+    renderer.render(scene, stereo.cameraL);
+
+    // CAMERA RIGHT
+    renderer.setScissor(size.width / 2, 0, size.width / 2, size.height);
+    renderer.setViewport(size.width / 2, 0, size.width / 2, size.height);
+    renderer.render(scene, stereo.cameraR);
+
+    renderer.setScissorTest(false);
+
+    requestAnimationFrame(render);
+  }
+
+  requestAnimationFrame(render);
+</script>
+</body>
+</html>
