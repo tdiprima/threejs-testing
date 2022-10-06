@@ -1,6 +1,7 @@
 # Camera, view, whatever.
 
-**Note to self:** OF COURSE!  This only works with lower version of three.  Because SubdivisionModifier deals only in &ndash; what, again?  Geometry! 💢
+gman<br>
+https://stackoverflow.com/questions/29884485/threejs-canvas-size-based-on-container
 
 `webgl_multiple_canvases_circle.html` 💡
 
@@ -8,7 +9,8 @@
 
 [three.js multiple camera](https://www.google.com/search?q=three.js+multiple+camera&oq=three.js+multiple+camera&aqs=chrome..69i57j0i22i30l2.2131j0j7&sourceid=chrome&ie=UTF-8)
 
-[Brainspell](https://web.archive.org/web/20180206125803/http://brainspell.org/article/24996404)
+[Brainspell](https://web.archive.org/web/20180206125803/http://brainspell.org/article/24996404)<br>
+**Note to self:** OF COURSE!  Brain only works with lower version of three.  Because SubdivisionModifier deals only in &ndash; what, again?  Geometry! 💢
 
 [How To Create A Loading Screen For Your Three.js App](https://www.youtube.com/watch?v=zMzuPIiznQ4)
 
