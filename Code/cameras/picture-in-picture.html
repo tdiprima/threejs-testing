@@ -103,13 +103,11 @@
 
     renderer.setScissor(widthHalf, heightHalf, widthHalf, heightHalf);
     renderer.setViewport(widthHalf, heightHalf, widthHalf, heightHalf);
-
     renderer.render(scene, camera);
   }
 
   function animate() {
     requestAnimationFrame(animate);
-
     render();
   }
 
