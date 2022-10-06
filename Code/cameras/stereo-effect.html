@@ -30,8 +30,11 @@
 </script>
 
 <script type="module">
+  // setScissor and setViewport
+  // Set the area of the canvas to render to.
   import * as THREE from "three";
   import { GUI } from "/jsm/libs/dat.gui.module.js";
+  import { OrbitControls } from "/jsm/controls/OrbitControls.js";
 
   let canvas = document.querySelector("#c");
   let renderer = new THREE.WebGLRenderer({canvas});
@@ -40,7 +43,11 @@
   let camera = new THREE.PerspectiveCamera(75, 2, 0.1, 5);
   camera.position.z = 2;
 
+  // StereoCamera just provides 2 cameras that are eyeSep apart, so you only have to manipulate one camera.
   let stereo = new THREE.StereoCamera();
+  console.log("%cStereoCamera", "color: #ff00cc;", stereo);
+
+  let controls = new OrbitControls(camera, renderer.domElement);
 
   // GUI
   let gui = new GUI();
@@ -66,15 +73,16 @@
   function makeInstance(geometry, color, x) {
     let material = new THREE.MeshPhongMaterial({color, flatShading: true});
 
-    let cube = new THREE.Mesh(geometry, material);
-    scene.add(cube);
+    let shape = new THREE.Mesh(geometry, material);
+    scene.add(shape);
 
-    cube.position.x = x;
+    shape.position.x = x;
 
-    return cube;
+    return shape;
   }
 
-  let cubes = [
+  // Jungle Green, Royal Purple, Driftwood
+  let shapes = [
     makeInstance(geometry, 0x44aa88, 0),
     makeInstance(geometry, 0x8844aa, -1),
     makeInstance(geometry, 0xaa8844, 1),
@@ -86,7 +94,7 @@
    * @return {boolean} - needResize
    */
   function resizeRendererToDisplaySize(renderer) {
-    let canvas = renderer.domElement;
+    // let canvas = renderer.domElement;
     let width = canvas.clientWidth;
     let height = canvas.clientHeight;
     let needResize = canvas.width !== width || canvas.height !== height;
@@ -104,16 +112,16 @@
     time *= 0.001;
 
     if (resizeRendererToDisplaySize(renderer)) {
-      let canvas = renderer.domElement;
+      // let canvas = renderer.domElement;
       camera.aspect = canvas.clientWidth / canvas.clientHeight / 2;
       camera.updateProjectionMatrix();
     }
 
-    cubes.forEach((cube, ndx) => {
+    shapes.forEach((shape, ndx) => {
       let speed = 1 + ndx * 0.1;
       let rot = time * speed;
-      cube.rotation.x = rot;
-      cube.rotation.y = rot;
+      shape.rotation.x = rot;
+      shape.rotation.y = rot;
     });
 
     // we need to manually update camera matrix
@@ -140,6 +148,8 @@
     renderer.render(scene, stereo.cameraR);
 
     renderer.setScissorTest(false);
+
+    controls.update();
 
     requestAnimationFrame(render);
   }
