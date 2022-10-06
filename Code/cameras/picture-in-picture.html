@@ -33,7 +33,7 @@
     // geometry
     let instances = 1000;
 
-    let geometry = new THREE.BoxBufferGeometry(20, 20, 20);
+    let geometry = new THREE.BoxGeometry(20, 20, 20);
 
     for (let i = 0; i < instances; i++) {
       let object = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({color: Math.random() * 0xffffff}));
