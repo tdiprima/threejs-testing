@@ -16,6 +16,7 @@
 <body>
 <script type="module">
   import * as THREE from "/build/three.module.js"
+  import Stats from "/jsm/libs/stats.module.js";
 
   let aspect = window.innerWidth / window.innerHeight; // cam aspect ratio (width:height)
   let insetWidth, insetHeight; // width and height of overhead cam viewport
@@ -101,6 +102,9 @@
 
   renderer.setClearColor(0x016f01); // green
 
+  let stats = Stats();
+  document.body.appendChild(stats.dom);
+
   // RESIZE HANDLER FOR BOTH CAMERAS
   function resize() {
     // for CAM#1 - player cam
@@ -160,6 +164,8 @@
     );
 
     renderer.render(scene, cameraTop); // render scene with CAM#2 - overhead cam
+
+    stats.update();
 
     renderer.setScissorTest(false); // so that it can render CAM#1 - player cam
 
