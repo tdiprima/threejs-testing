@@ -115,34 +115,18 @@
 
     let radius = 200;
 
-    let geometry1 = new THREE.IcosahedronGeometry(radius, 1);
+    let geometry = new THREE.IcosahedronGeometry(radius, 1);
 
-    let count = geometry1.attributes.position.count;
-    geometry1.setAttribute("color", new THREE.BufferAttribute(new Float32Array(count * 3), 3));
-
-    let geometry2 = geometry1.clone();
-    let geometry3 = geometry1.clone();
+    let count = geometry.attributes.position.count;
+    geometry.setAttribute("color", new THREE.BufferAttribute(new Float32Array(count * 3), 3));
 
     let material = new THREE.MeshBasicMaterial({
       color: 0x00ff00,
       wireframe: true
     });
 
-    let mesh = new THREE.Mesh(geometry1, material);
-    let wireframe = new THREE.Mesh(geometry1, material);
-    mesh.add(wireframe);
-    mesh.position.x = -400;
-    mesh.rotation.x = -1.87;
-    scene.add(mesh);
-
-    mesh = new THREE.Mesh(geometry2, material);
-    wireframe = new THREE.Mesh(geometry2, material);
-    mesh.add(wireframe);
-    mesh.position.x = 400;
-    scene.add(mesh);
-
-    mesh = new THREE.Mesh(geometry3, material);
-    wireframe = new THREE.Mesh(geometry3, material);
+    let mesh = new THREE.Mesh(geometry, material);
+    let wireframe = new THREE.Mesh(geometry, material);
     mesh.add(wireframe);
     scene.add(mesh);
 
@@ -177,7 +161,6 @@
   function animate() {
     render();
     stats.update();
-
     requestAnimationFrame(animate);
   }
 
