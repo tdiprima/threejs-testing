@@ -12,7 +12,7 @@
     #c {
       position: absolute;
       z-index: -1;
-      top: 0;
+      top: 100px;
       left: 0;
       display: block;
       width: 100vw;
@@ -41,9 +41,14 @@
       max-width: 500px;
       margin: 1em auto;
     }
+
+    #info {
+      color: yellow;
+    }
   </style>
 </head>
 <body>
+<div id="info">Turn Dark Reader off</div>
 
 <canvas id="c"></canvas>
 
@@ -69,7 +74,7 @@
 </script>
 
 <script type="module">
-  import * as THREE from "/build/three.module.js";
+  import * as THREE from "three";
   import {OrbitControls} from "/jsm/controls/OrbitControls.js";
 
   let canvas = document.querySelector("#c");
