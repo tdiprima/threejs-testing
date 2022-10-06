@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Three.js - Multiple Views</title>
+  <!-- https://r105.threejsfundamentals.org/threejs/lessons/threejs-multiple-scenes.html -->
+  <!-- The solution is one canvas that fills the viewport in the background and some other element to represent each "virtual" canvas. -->
+  <link href="/favicon.ico" rel="icon" type="image/x-icon">
+  <style>
+    #c {
+      position: absolute;
+      z-index: -1;
+      top: 0;
+      left: 0;
+      display: block;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    .diagram {
+      display: inline-block;
+      width: 5em;
+      height: 3em;
+      border: 1px solid black;
+    }
+
+    .left {
+      float: left;
+      margin-right: .25em;
+    }
+
+    .right {
+      float: right;
+      margin-left: .25em;
+    }
+
+    p {
+      font-size: xx-large;
+      max-width: 500px;
+      margin: 1em auto;
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="c"></canvas>
+
+<p>
+  <span class="diagram left" id="box"></span>
+  I love boxes. Presents come in boxes.
+  When I find a new box I'm always excited to find out what's inside.
+</p>
+
+<p>
+  <span class="diagram right" id="pyramid"></span>
+  When I was a kid I dreamed of going on an expedition inside a pyramid
+  and finding a undiscovered tomb full of mummies and treasure.
+</p>
+
+<script async src="/es-module-shims-1.3.6/dist/es-module-shims.js"></script>
+<script type="importmap">
+  {
+    "imports": {
+      "three": "/build/three.module.js"
+    }
+  }
+</script>
+
+<script type="module">
+  import * as THREE from "/build/three.module.js";
+  import {OrbitControls} from "/jsm/controls/OrbitControls.js";
+
+  let canvas = document.querySelector("#c");
+  let renderer = new THREE.WebGLRenderer({canvas, alpha: true});
+
+  /**
+   * Make scene, add light and camera
+   * @param elem
+   * @return {{elem, camera: *, scene: *}}
+   */
+  function makeScene(elem) {
+    let scene = new THREE.Scene();
+
+    let fov = 45;
+    let aspect = 2; // the canvas default
+    let near = 0.1;
+    let far = 5;
+    let camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+    camera.position.set(0, 1, 2);
+    camera.lookAt(0, 0, 0);
+
+    let controls = new OrbitControls(camera, elem);
+    controls.noZoom = true;
+    controls.noPan = true;
+
+    {
+      let color = 0xffffff;
+      let intensity = 1;
+      let light = new THREE.DirectionalLight(color, intensity);
+      light.position.set(-1, 2, 4);
+      scene.add(light);
+    }
+
+    return {scene, camera, elem};
+  }
+
+  // Make 2 scenes, each with a light and a camera
+
+  function setupScene1() {
+    let sceneInfo = makeScene(document.querySelector("#box"));
+    let geometry = new THREE.BoxGeometry(1, 1, 1);
+    let material = new THREE.MeshPhongMaterial({color: "red"});
+
+    let mesh = new THREE.Mesh(geometry, material);
+    sceneInfo.scene.add(mesh);
+    sceneInfo.mesh = mesh;
+    return sceneInfo;
+  }
+
+  function setupScene2() {
+    let sceneInfo = makeScene(document.querySelector("#pyramid"));
+    let radius = 0.8;
+    let widthSegments = 4;
+    let heightSegments = 2;
+
+    let geometry = new THREE.SphereGeometry(radius, widthSegments, heightSegments);
+
+    let material = new THREE.MeshPhongMaterial({
+      color: "blue",
+      flatShading: true,
+    });
+
+    let mesh = new THREE.Mesh(geometry, material);
+    sceneInfo.scene.add(mesh);
+    sceneInfo.mesh = mesh;
+    return sceneInfo;
+  }
+
+  let sceneInfo1 = setupScene1();
+  let sceneInfo2 = setupScene2();
+
+  /**
+   *
+   * @param renderer
+   * @return {boolean}
+   */
+  function resizeRendererToDisplaySize(renderer) {
+    let canvas = renderer.domElement;
+    let width = canvas.clientWidth;
+    let height = canvas.clientHeight;
+
+    let needResize = canvas.width !== width || canvas.height !== height;
+    if (needResize) {
+      renderer.setSize(width, height, false);
+    }
+    return needResize;
+  }
+
+  /**
+   * Render each scene, only if the element is on the screen.
+   * @param sceneInfo
+   */
+  function renderSceneInfo(sceneInfo) {
+    let {scene, camera, elem} = sceneInfo;
+
+    // get the viewport relative position of this element
+    let {left, right, top, bottom, width, height} = elem.getBoundingClientRect();
+
+    let isOffscreen = bottom < 0 || top > renderer.domElement.clientHeight || right < 0 || left > renderer.domElement.clientWidth;
+
+    if (isOffscreen) {
+      return;
+    }
+
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+
+    let positiveYUpBottom = renderer.domElement.clientHeight - bottom;
+
+    // Set both scissor and viewport
+    renderer.setScissor(left, positiveYUpBottom, width, height);
+    renderer.setViewport(left, positiveYUpBottom, width, height);
+
+    renderer.render(scene, camera);
+  }
+
+  /**
+   * Our render function will just first clear the screen and then render each scene.
+   * @param time
+   */
+  function render(time) {
+    time *= 0.001;
+
+    resizeRendererToDisplaySize(renderer);
+
+    renderer.setScissorTest(false);
+    renderer.clear(true, true);
+
+    // We can tell THREE.js to only render to part of the canvas by turning on the scissor test.
+    renderer.setScissorTest(true);
+
+    // Set the canvas's transform to move it so the top of the canvas is at the top of whatever part the page is currently scrolled to.
+    let transform = `translateY(${window.scrollY}px)`;
+    renderer.domElement.style.transform = transform;
+
+    sceneInfo1.mesh.rotation.y = time * 0.1;
+    sceneInfo2.mesh.rotation.y = time * 0.1;
+
+    renderSceneInfo(sceneInfo1);
+    renderSceneInfo(sceneInfo2);
+
+    requestAnimationFrame(render);
+  }
+
+  requestAnimationFrame(render);
+</script>
+</body>
+</html>
