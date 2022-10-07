@@ -182,6 +182,8 @@
   let cubeMat = new THREE.MeshPhongMaterial({color: poloBlue});
   mesh = new THREE.Mesh(cubeGeo, cubeMat);
   mesh.position.set(cubeSize + 1, cubeSize / 2, 0); // 5, 2, 0
+  // x: move it right, from center
+  // y: move it down-field, a bit
   scene.add(mesh);
 
   // SPHERE
