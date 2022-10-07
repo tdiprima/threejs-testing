@@ -6,6 +6,8 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Cameras - Perspective 2 views</title>
   <!-- https://r105.threejsfundamentals.org/threejs/lessons/threejs-cameras.html -->
+  <!-- MULTIPLE CAMERAS -->
+  <!-- https://codepen.io/jdrew1303/pen/poyVOyG -->
   <style>
     html, body {
       height: 100%;
@@ -65,6 +67,11 @@
   // from https://r105.threejsfundamentals.org/threejs/threejs-cameras-perspective-2-scenes.html
   console.log(`%cREVISION ${THREE.REVISION}`, "color: #ccff00;");
 
+  const poloBlue = "#88aacc";
+  const tan = "#ccaa88";
+  const stratos = "#000040";
+  const checker = "https://r105.threejsfundamentals.org/threejs/resources/images/checker.png";
+
   /* global THREE, dat */
   let canvas = document.querySelector("#c");
   let view1Elem = document.querySelector("#view1");
@@ -97,23 +104,19 @@
     }
 
     get min() {
-      // console.log("%cgetMin()", "color: red");
       return this.obj[this.minProp];
     }
 
     set min(v) {
-      // console.log("%csetMin()", "color: orange");
       this.obj[this.minProp] = v;
       this.obj[this.maxProp] = Math.max(this.obj[this.maxProp], v + this.minDif);
     }
 
     get max() {
-      // console.log("%cgetMax()", "color: yellow");
       return this.obj[this.maxProp];
     }
 
     set max(v) {
-      // console.log("%csetMax()", "color: lime");
       this.obj[this.maxProp] = v;
       this.min = this.min; // this will call the min setter
     }
@@ -136,6 +139,7 @@
     0.1, // near
     500, // far
   );
+
   camera2.position.set(40, 10, 30);
   camera2.lookAt(0, 5, 0);
 
@@ -152,11 +156,13 @@
 
   // CHECKER TEXTURE
   let loader = new THREE.TextureLoader();
-  let texture = loader.load("https://r105.threejsfundamentals.org/threejs/resources/images/checker.png");
+
+  let texture = loader.load(checker);
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
   texture.magFilter = THREE.NearestFilter;
-  let repeats = planeSize / 2;
+
+  let repeats = planeSize / 2; // 20
   texture.repeat.set(repeats, repeats);
 
   // PLANE
@@ -167,33 +173,37 @@
   });
 
   let mesh = new THREE.Mesh(planeGeo, planeMat);
-  mesh.rotation.x = Math.PI * -0.5;
+  mesh.rotation.x = Math.PI * -0.5; // -1.57
   scene.add(mesh);
 
   // CUBE
   let cubeSize = 4;
   let cubeGeo = new THREE.BoxBufferGeometry(cubeSize, cubeSize, cubeSize);
-  let cubeMat = new THREE.MeshPhongMaterial({color: "#8AC"});
+  let cubeMat = new THREE.MeshPhongMaterial({color: poloBlue});
   mesh = new THREE.Mesh(cubeGeo, cubeMat);
-  mesh.position.set(cubeSize + 1, cubeSize / 2, 0);
+  mesh.position.set(cubeSize + 1, cubeSize / 2, 0); // 5, 2, 0
   scene.add(mesh);
 
   // SPHERE
   let sphereRadius = 3;
-  let sphereWidthDivisions = 32;
-  let sphereHeightDivisions = 16;
-  let sphereGeo = new THREE.SphereBufferGeometry(sphereRadius, sphereWidthDivisions, sphereHeightDivisions);
-  let sphereMat = new THREE.MeshPhongMaterial({color: "#CA8"});
+  let sphereGeo = new THREE.SphereBufferGeometry(
+    sphereRadius,
+    32, // sphereWidthDivisions,
+    16 // sphereHeightDivisions
+  );
+
+  let sphereMat = new THREE.MeshPhongMaterial({color: tan});
+
   mesh = new THREE.Mesh(sphereGeo, sphereMat);
-  mesh.position.set(-sphereRadius - 1, sphereRadius + 2, 0);
+  mesh.position.set(-sphereRadius - 1, sphereRadius + 2, 0); // -4, 5, 0
+  // mesh.position.set(-3, 3, 0); // I could've just done this. Like, wtf. Anything - 3, 3; 2, 2 - doesn't matter.
   scene.add(mesh);
 
   // LIGHT
-  let color = 0xffffff;
-  let intensity = 1;
-  let light = new THREE.DirectionalLight(color, intensity);
+  let light = new THREE.DirectionalLight(0xffffff, 1);
   light.position.set(0, 10, 0);
   light.target.position.set(-5, 0, 0);
+
   scene.add(light);
   scene.add(light.target);
 
@@ -206,43 +216,57 @@
     let canvas = renderer.domElement;
     let width = canvas.clientWidth;
     let height = canvas.clientHeight;
+
     let needResize = canvas.width !== width || canvas.height !== height;
+
     if (needResize) {
       renderer.setSize(width, height, false);
     }
+
     return needResize;
   }
 
   /**
-   * Set scissor for DIV element
-   * @param elem - view1, view2
-   * @return {number} aspect - (0.981, 0.562)
+   * Take this DIV, and compute the rectangle of that element (that overlaps the canvas).
+   * Then, set the scissor and viewport to that rectangle.
+   * Finally, return the aspect for that size.
+   * @param elem - DIV view1, DIV view2
+   * @return {number} aspect
    */
   function setScissorForElement(elem) {
-    let canvasRect = canvas.getBoundingClientRect();
-    let elemRect = elem.getBoundingClientRect();
+    let canvasRect = canvas.getBoundingClientRect(); // DOMRect
+    let elemRect = elem.getBoundingClientRect(); // DOMRect
+    // console.log(canvasRect, elemRect);
 
-    // compute a canvas relative rectangle
+    // COMPUTE A CANVAS RELATIVE RECTANGLE
+
     let right = Math.min(elemRect.right, canvasRect.right) - canvasRect.left;
     let left = Math.max(0, elemRect.left - canvasRect.left);
     let bottom = Math.min(elemRect.bottom, canvasRect.bottom) - canvasRect.top;
     let top = Math.max(0, elemRect.top - canvasRect.top);
 
-    // TODO: Note - this got screwed up, all because the CSS was missing.
+    // Note - this got screwed up, all because the CSS was missing.
+    // console.log(`bottom ${bottom} - top ${top} = ${bottom - top}`); // ???????
+    // Math.abs(bottom - top); // ensure positive number
     let width = Math.min(canvasRect.width, right - left);
     let height = Math.min(canvasRect.height, bottom - top);
 
-    // console.log(`bottom ${bottom} - top ${top} = ${bottom - top}`); // ???????
-    // Math.abs(bottom - top); // ensure positive number
+    // { width: 896, height: 913, top: 0, right: 896, bottom: 913, left: 0 }
+    // { width: 896, height: 913, top: 0, right: 1792, bottom: 913, left: 896 }
+    // console.log({width: width, height: height, top: top, right: right, bottom: bottom, left: left});
 
-    // set up the scissor to only render to that part of the canvas
-    let positiveYUpBottom = canvasRect.height - bottom;
+    // SET UP THE SCISSOR TO ONLY RENDER TO THAT PART OF THE CANVAS
+
+    let positiveYUpBottom = canvasRect.height - bottom; // should be zero anyway
 
     // x, y, width, height
     renderer.setScissor(left, positiveYUpBottom, width, height);
-
-    // x, y, width, height
     renderer.setViewport(left, positiveYUpBottom, width, height);
+
+    // console.log(left, positiveYUpBottom, width, height);
+    // 0, 0, 896, 913
+    // 896, 0, 896, 913
+    // throw DOMException; // hack, to get the darn thing to stop.
 
     // return the aspect
     return width / height;
@@ -283,7 +307,7 @@
     // draw the camera helper in the 2nd view
     cameraHelper.visible = true;
 
-    scene.background.set(0x000040); // dark blue
+    scene.background.set(stratos); // dark blue
 
     renderer.render(scene, camera2);
 
