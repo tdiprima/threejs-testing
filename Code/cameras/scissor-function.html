@@ -196,7 +196,8 @@
 
   mesh = new THREE.Mesh(sphereGeo, sphereMat);
   mesh.position.set(-sphereRadius - 1, sphereRadius + 2, 0); // -4, 5, 0
-  // mesh.position.set(-3, 3, 0); // I could've just done this. Like, wtf. Anything - 3, 3; 2, 2 - doesn't matter.
+  // y = 0 => the plane cuts it in half. So we *at least* want y = sphereRadius...
+  // x = 0 => puts it in the center of the viewport, so we wanna move it left a bit...
   scene.add(mesh);
 
   // LIGHT
