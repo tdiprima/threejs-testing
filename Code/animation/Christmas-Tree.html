@@ -8,14 +8,14 @@
   <!-- https://www.august.com.au/blog/animating-scenes-with-webgl-three-js/ -->
   <style>
     body {
+      overflow: hidden;
       margin: 0;
       padding: 0;
-      overflow: hidden;
     }
 
     canvas {
       width: 100%;
-      height: 100%
+      height: 100%;
     }
   </style>
 </head>
@@ -29,8 +29,8 @@
   var Leaf = function () {
     THREE.Group.apply(this, arguments);
 
-    var leaf = new THREE.Mesh(
-      new THREE.TorusGeometry(.8, 1.6, 3, 4),
+    let leaf = new THREE.Mesh(
+      new THREE.TorusGeometry(0.8, 1.6, 3, 4),
       new THREE.MeshStandardMaterial({
         color: 0x0b8450,
         shading: THREE.FlatShading,
@@ -39,7 +39,8 @@
         refractionRatio: 0.25
       })
     );
-    //leaf.geometry.vertices[4].y -=1;
+
+    // leaf.geometry.vertices[4].y -=1;
     leaf.rotateX(Math.random() * Math.PI * 2);
     leaf.rotateZ(Math.random() * Math.PI * 2);
     leaf.rotateY(Math.random() * Math.PI * 2);
@@ -47,19 +48,16 @@
     leaf.castShadow = true;
 
     this.add(leaf);
+  };
 
-  }
   Leaf.prototype = Object.create(THREE.Group.prototype);
   Leaf.prototype.constructor = Leaf;
 
-  var ChristmasTree = function () {
-
+  let ChristmasTree = function () {
     THREE.Group.apply(this, arguments);
-    // THREE.Group.apply(new ChristmasTree(), arguments);
-
 
     // A material for the pot
-    var potMaterial = new THREE.MeshStandardMaterial({
+    let potMaterial = new THREE.MeshStandardMaterial({
       color: 0xf97514,
       shading: THREE.FlatShading,
       metalness: 0,
@@ -68,25 +66,28 @@
     });
 
     // The pot
-    var pot = new THREE.Mesh(
+    let pot = new THREE.Mesh(
       addNoise(new THREE.CylinderGeometry(30, 25, 35, 8, 2), 2),
       potMaterial
     );
+
     pot.position.y += 17.5;
     pot.castShadow = true;
     pot.receiveShadow = true;
     this.add(pot);
-    var potRim = new THREE.Mesh(
+
+    let potRim = new THREE.Mesh(
       addNoise(new THREE.CylinderGeometry(38, 35, 10, 8, 1), 2),
       potMaterial
     );
+
     potRim.position.y += 35;
     potRim.castShadow = true;
     potRim.receiveShadow = true;
     this.add(potRim);
 
     // A tree trunk
-    var trunk = new THREE.Mesh(
+    let trunk = new THREE.Mesh(
       addNoise(new THREE.CylinderGeometry(12, 18, 30, 8, 3), 2),
       new THREE.MeshStandardMaterial({
         color: 0x713918,
@@ -96,13 +97,14 @@
         refractionRatio: 0.25
       })
     );
+
     trunk.position.y += 45;
     trunk.castShadow = true;
     trunk.receiveShadow = true;
     this.add(trunk);
 
-    // A shape,
-    var logo = new THREE.Shape();
+    // A shape
+    let logo = new THREE.Shape();
     logo.moveTo(3.43, 96.86);
     logo.bezierCurveTo(2.01, 96.86, 1.38, 95.87, 2.04, 94.63);
     logo.lineTo(9.07, 83.43);
@@ -116,7 +118,7 @@
     logo.lineTo(99.22, 94.63);
     logo.bezierCurveTo(99.22 + 0.65, 94.63 + 1.23, 99.22 + 0.02, 94.63 + 2.23, 97.82, 96.86);
 
-    var extrudeSettings = {
+    let extrudeSettings = {
       steps: 1,
       amount: 16,
       curveSegments: 1,
@@ -126,24 +128,28 @@
       bevelSegments: 1
     };
 
-    var treeGroup = new THREE.Group();
+    let treeGroup = new THREE.Group();
 
-    var logoGeometry = new THREE.ExtrudeGeometry(logo, extrudeSettings);
-    addNoise(logoGeometry, 2, 2, 0.5)
-    var mesh = new THREE.Mesh(logoGeometry, new THREE.MeshStandardMaterial({
-      color: 0x15a46b,
-      shading: THREE.FlatShading,
-      metalness: 0,
-      roughness: 0.8,
-      refractionRatio: 0.25
-    }));
+    let logoGeometry = new THREE.ExtrudeGeometry(logo, extrudeSettings);
+    addNoise(logoGeometry, 2, 2, 0.5);
+
+    let mesh = new THREE.Mesh(
+      logoGeometry,
+      new THREE.MeshStandardMaterial({
+        color: 0x15a46b,
+        shading: THREE.FlatShading,
+        metalness: 0,
+        roughness: 0.8,
+        refractionRatio: 0.25
+      })
+    );
 
     mesh.castShadow = true;
     mesh.receiveShadow = true;
     treeGroup.add(mesh);
 
-    for (var x = 0; x < logoGeometry.vertices.length; x++) {
-      var leaf = new Leaf();
+    for (let x = 0; x < logoGeometry.vertices.length; x++) {
+      let leaf = new Leaf();
       leaf.position.copy(logoGeometry.vertices[x]);
       treeGroup.add(leaf);
     }
@@ -157,7 +163,7 @@
 
     this.add(treeGroup);
 
-    var decorationPositions = [
+    let decorationPositions = [
       [-35, 55, 17, -0.1, 0],
       [35, 59, 17, -0.1, 0],
       [-5, 74, 17, -0.2, 0.2],
@@ -169,32 +175,34 @@
       [25, 67, -17, 0.1, -0],
       [-5, 74, -17, 0.2, -0.2],
       [10, 143, -18, 0.2, 0.3],
-      [50, 85, -15, 0.2, 0.3],
+      [50, 85, -15, 0.2, 0.3]
     ];
+
     this.decorations = [];
-    for (var d = 0; d < decorationPositions.length; d++) {
-      var decoration = new Decoration();
+
+    for (let d = 0; d < decorationPositions.length; d++) {
+      let decoration = new Decoration();
       decoration.position.set(decorationPositions[d][0], decorationPositions[d][1], decorationPositions[d][2]);
       decoration.rotateX(decorationPositions[d][3]);
       decoration.rotateZ(decorationPositions[d][4]);
       this.add(decoration);
       this.decorations.push(decoration);
     }
+  };
 
-  }
   ChristmasTree.prototype = Object.create(THREE.Group.prototype);
   ChristmasTree.prototype.constructor = ChristmasTree;
+
   ChristmasTree.prototype.updatePosition = function () {
-    for (var d = 0; d < this.decorations.length; d++) {
+    for (let d = 0; d < this.decorations.length; d++) {
       this.decorations[d].updatePosition();
     }
   };
 
-  var Star = function () {
-
+  let Star = function () {
     THREE.Group.apply(this, arguments);
 
-    var starShape = new THREE.Shape([
+    let starShape = new THREE.Shape([
       new THREE.Vector2(0, 50),
       new THREE.Vector2(10, 10),
       new THREE.Vector2(40, 10),
@@ -207,7 +215,7 @@
       new THREE.Vector2(-10, 10)
     ]);
 
-    var geometry = new THREE.ExtrudeGeometry(starShape, {
+    let geometry = new THREE.ExtrudeGeometry(starShape, {
       steps: 1,
       amount: 4,
       curveSegments: 1,
@@ -218,31 +226,36 @@
     });
     addNoise(geometry, 0, 0, 2);
 
-    var star = new THREE.Mesh(geometry, new THREE.MeshStandardMaterial({
-      color: 0xffd423,
-      shading: THREE.FlatShading,
-      metalness: 0,
-      roughness: 0.8,
-      refractionRatio: 0.25,
-      emissive: 0xffd423,
-      emissiveIntensity: 0.4
-    }));
-    star.scale.set(.3, .3, .3);
+    let star = new THREE.Mesh(
+      geometry,
+      new THREE.MeshStandardMaterial({
+        color: 0xffd423,
+        shading: THREE.FlatShading,
+        metalness: 0,
+        roughness: 0.8,
+        refractionRatio: 0.25,
+        emissive: 0xffd423,
+        emissiveIntensity: 0.4
+      })
+    );
+
+    star.scale.set(0.3, 0.3, 0.3);
     this.add(star);
 
-    var pointLight = new THREE.DirectionalLight(0xffd423, .4);
+    let pointLight = new THREE.DirectionalLight(0xffd423, 0.4);
     pointLight.position.set(0, 10, 0);
 
     this.add(pointLight);
-  }
+  };
+
   Star.prototype = Object.create(THREE.Group.prototype);
   Star.prototype.constructor = Star;
+
   Star.prototype.updatePosition = function () {
     this.rotateY(0.005);
   };
 
   var Decoration = function () {
-
     // Run the Group constructor with the given arguments
     THREE.Group.apply(this, arguments);
 
@@ -250,9 +263,11 @@
     this.rotationPosition = Math.random();
 
     // A random color assignment
-    var colors = ['#ff0051', '#f56762', '#a53c6c', '#f19fa0', '#72bdbf', '#47689b'];
+    // Red, Bittersweet, Rouge, Sea Pink, Neptune, Waikawa Gray
+    let colors = ["#ff0051", "#f56762", "#a53c6c", "#f19fa0", "#72bdbf", "#47689b"];
 
-    var bauble = new THREE.Mesh(
+    // bauble: a small, showy trinket or decoration; Christmas ornament.
+    let bauble = new THREE.Mesh(
       addNoise(new THREE.OctahedronGeometry(12, 1), 2),
       new THREE.MeshStandardMaterial({
         color: colors[Math.floor(Math.random() * colors.length)],
@@ -262,6 +277,7 @@
         refractionRatio: 0.25
       })
     );
+
     bauble.castShadow = true;
     bauble.receiveShadow = true;
     bauble.rotateZ(Math.random() * Math.PI * 2);
@@ -269,7 +285,7 @@
 
     this.add(bauble);
 
-    var shapeOne = new THREE.Mesh(
+    let shapeOne = new THREE.Mesh(
       addNoise(new THREE.CylinderGeometry(4, 6, 10, 6, 1), 0.5),
       new THREE.MeshStandardMaterial({
         color: 0xf8db08,
@@ -279,43 +295,44 @@
         refractionRatio: 0.25
       })
     );
+
     shapeOne.position.y += 8;
     shapeOne.castShadow = true;
     shapeOne.receiveShadow = true;
     this.add(shapeOne);
 
-
-    var shapeTwo = new THREE.Mesh(
+    let shapeTwo = new THREE.Mesh(
       addNoise(new THREE.TorusGeometry(2, 1, 6, 4, Math.PI), 0.2),
       new THREE.MeshStandardMaterial({
         color: 0xf8db08,
         shading: THREE.FlatShading,
         metalness: 0,
         roughness: 0.8,
-        refractionRatio: 0.25
-
-      })
+        refractionRatio: 0.25,
+      }),
     );
     shapeTwo.position.y += 12.5;
     shapeTwo.castShadow = true;
     shapeTwo.receiveShadow = true;
     this.add(shapeTwo);
 
-    var scale = Math.random() * 0.2 + 0.4;
+    let scale = Math.random() * 0.2 + 0.4;
     this.scale.set(scale, scale, scale);
   };
+
   Decoration.prototype = Object.create(THREE.Group.prototype);
   Decoration.prototype.constructor = Decoration;
+
   Decoration.prototype.updatePosition = function () {
     this.rotationPosition += this.rotationSpeed;
-    this.rotation.y = (Math.sin(this.rotationPosition));
+    this.rotation.y = Math.sin(this.rotationPosition);
   };
 
   var Leaf = function () {
     THREE.Group.apply(this, arguments);
 
-    var leaf = new THREE.Mesh(
-      new THREE.TorusGeometry(.8, 1.6, 3, 4),
+    let leaf = new THREE.Mesh(
+      new THREE.TorusGeometry(0.8, 1.6, 3, 4),
       new THREE.MeshStandardMaterial({
         color: 0x0b8450,
         shading: THREE.FlatShading,
@@ -324,7 +341,8 @@
         refractionRatio: 0.25
       })
     );
-    //leaf.geometry.vertices[4].y -=1;
+
+    // leaf.geometry.vertices[4].y -=1;
     leaf.rotateX(Math.random() * Math.PI * 2);
     leaf.rotateZ(Math.random() * Math.PI * 2);
     leaf.rotateY(Math.random() * Math.PI * 2);
@@ -332,68 +350,75 @@
     leaf.castShadow = true;
 
     this.add(leaf);
+  };
 
-  }
   Leaf.prototype = Object.create(THREE.Group.prototype);
   Leaf.prototype.constructor = Leaf;
 
-
-  var Present = function () {
-
+  let Present = function () {
     THREE.Group.apply(this, arguments);
 
-    // A random color assignment
-    var colors = ['#ff0051', '#a53c6c', '#f19fa0', '#72bdbf', '#47689b'],
-      boxColor = colors.splice(Math.floor(Math.random() * colors.length), 1)[0];
-    colors.push('#393839'),
-      ribbonColor = colors.splice(Math.floor(Math.random() * colors.length), 1)[0],
-      boxMaterial = new THREE.MeshStandardMaterial({
-        color: boxColor,
-        shading: THREE.FlatShading,
-        metalness: 0,
-        roughness: 1
-      }),
-      ribbonMaterial = new THREE.MeshStandardMaterial({
-        color: ribbonColor,
-        shading: THREE.FlatShading,
-        metalness: 0,
-        roughness: 1
-      });
+    // Random box color
+    // Red, Rouge, Sea Pink, Neptune, Waikawa Gray
+    let colors = ["#ff0051", "#a53c6c", "#f19fa0", "#72bdbf", "#47689b"];
+    let boxColor = colors.splice(Math.floor(Math.random() * colors.length), 1)[0];
+    colors.push("#393839"); // Tuatara
 
-    var box = new THREE.Mesh(
+    // Random ribbon color
+    let ribbonColor = colors.splice(Math.floor(Math.random() * colors.length), 1)[0];
+
+    let boxMaterial = new THREE.MeshStandardMaterial({
+      color: boxColor,
+      shading: THREE.FlatShading,
+      metalness: 0,
+      roughness: 1
+    });
+
+    let ribbonMaterial = new THREE.MeshStandardMaterial({
+      color: ribbonColor,
+      shading: THREE.FlatShading,
+      metalness: 0,
+      roughness: 1
+    });
+
+    let box = new THREE.Mesh(
       addNoise(new THREE.BoxGeometry(20, 12, 15), 2, 1, 2),
       boxMaterial
     );
+
     box.position.y += 6;
     box.castShadow = true;
     box.receiveShadow = true;
     this.add(box);
 
     box = new THREE.Mesh(
-      addNoise(new THREE.BoxGeometry(22, 14, 2), .5),
+      addNoise(new THREE.BoxGeometry(22, 14, 2), 0.5),
       ribbonMaterial
     );
+
     box.position.y += 6;
     box.castShadow = true;
     box.receiveShadow = true;
     this.add(box);
 
     box = new THREE.Mesh(
-      addNoise(new THREE.BoxGeometry(2, 14, 17), .5),
+      addNoise(new THREE.BoxGeometry(2, 14, 17), 0.5),
       ribbonMaterial
     );
+
     box.position.y += 6;
     box.castShadow = true;
     box.receiveShadow = true;
     this.add(box);
 
-    var bow = new THREE.Mesh(
+    let bow = new THREE.Mesh(
       addNoise(new THREE.TorusGeometry(2, 1, 4, 4), 0.5),
       ribbonMaterial
     );
+
     bow.position.x -= 2;
     bow.position.y += 14;
-    bow.rotateZ(-1 * Math.PI / 1.5);
+    bow.rotateZ((-1 * Math.PI) / 1.5);
 
     bow.castShadow = true;
     bow.receiveShadow = true;
@@ -403,6 +428,7 @@
       addNoise(new THREE.TorusGeometry(2, 1, 4, 4), 0.5),
       ribbonMaterial
     );
+
     bow.position.x += 2;
     bow.rotateZ(Math.PI / 1.5);
     bow.position.y += 14;
@@ -411,30 +437,30 @@
     this.add(bow);
 
     this.scale.set(2, 2, 2);
+  };
 
-  }
   Present.prototype = Object.create(THREE.Group.prototype);
   Present.prototype.constructor = Present;
 
   // Create a scene which will hold all our meshes to be rendered
-  var scene = new THREE.Scene();
+  let scene = new THREE.Scene();
 
   // Create and position a camera
-  var camera = new THREE.PerspectiveCamera(
-    70,                                   // Field of view
+  let camera = new THREE.PerspectiveCamera(
+    70, // Field of view
     window.innerWidth / window.innerHeight, // Aspect ratio
-    0.1,                                  // Near clipping pane
-    1000                                  // Far clipping pane
+    0.1, // Near clipping pane
+    1000 // Far clipping pane
   );
 
   // Reposition the camera
   camera.position.set(-60, 80, 210);
 
   // Point the camera at a given coordinate
-  camera.lookAt(new THREE.Vector3(0, 80, 0))
+  camera.lookAt(new THREE.Vector3(0, 80, 0));
 
   // Create a renderer
-  var renderer = new THREE.WebGLRenderer({antialias: true});
+  let renderer = new THREE.WebGLRenderer({antialias: true});
 
   // Size should be the same as the window
   renderer.setSize(window.innerWidth, window.innerHeight);
@@ -450,11 +476,11 @@
   document.body.appendChild(renderer.domElement);
 
   // Add an ambient lights
-  var ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+  let ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
   scene.add(ambientLight);
 
   // Add a point light that will cast shadows
-  var pointLight = new THREE.PointLight(0xffffff, .8);
+  let pointLight = new THREE.PointLight(0xffffff, 0.8);
   pointLight.position.set(80, 160, 120);
   pointLight.castShadow = true;
   pointLight.shadow.mapSize.width = 1024;
@@ -462,37 +488,39 @@
   scene.add(pointLight);
 
   // A basic material that shows the geometry wireframe.
-  var shadowMaterial = new THREE.ShadowMaterial({color: 0xffffff});
+  let shadowMaterial = new THREE.ShadowMaterial({color: 0xffffff});
   shadowMaterial.opacity = 0.5;
-  var groundMesh = new THREE.Mesh(
-    new THREE.BoxGeometry(1000, .1, 1000),
+
+  let groundMesh = new THREE.Mesh(
+    new THREE.BoxGeometry(1000, 0.1, 1000),
     shadowMaterial
   );
+
   groundMesh.receiveShadow = true;
   scene.add(groundMesh);
 
   // Add the tree
-  var tree = new ChristmasTree();
+  let tree = new ChristmasTree();
   scene.add(tree);
 
   // A star on top
-  var star = new Star();
+  let star = new Star();
   star.position.y += 200;
   scene.add(star);
 
   // Loop around the tree, adding presents every 20 to 40 degrees.
-  for (var angle = 0; angle < 360; angle += Math.random() * 20 + 20) {
-    var p = new Present();
-    var radius = Math.random() * 40 + 50;
-    p.position.x = Math.cos(angle * Math.PI / 180) * radius;
-    p.position.z = Math.sin(angle * Math.PI / 180) * radius;
+  for (let angle = 0; angle < 360; angle += Math.random() * 20 + 20) {
+    let p = new Present();
+    let radius = Math.random() * 40 + 50;
+    p.position.x = Math.cos((angle * Math.PI) / 180) * radius;
+    p.position.z = Math.sin((angle * Math.PI) / 180) * radius;
     p.scale.set(Math.random() + 1, Math.random() + 1, Math.random() + 1);
     scene.add(p);
   }
 
   // Add an orbit control which allows us to move around the scene. See the three.js example for more details
   // https://github.com/mrdoob/three.js/blob/dev/examples/js/controls/OrbitControls.
-  var controls = new THREE.OrbitControls(camera, renderer.domElement);
+  let controls = new THREE.OrbitControls(camera, renderer.domElement);
   controls.target = new THREE.Vector3(0, 80, 0);
   controls.maxPolarAngle = Math.PI / 2;
   controls.minDistance = 100;
@@ -507,7 +535,7 @@
     tree.updatePosition();
     star.updatePosition();
 
-    // Render the scene/camera combnation
+    // Render the scene/camera combination
     renderer.render(scene, camera);
 
     // Repeat...
@@ -515,7 +543,7 @@
   }
 
   /**
-   * Helper function to add random noise to geometry vertixes
+   * Helper function to add random noise to geometry vertices
    *
    * @param geometry The geometry to alter
    * @param noiseX Amount of noise on the X axis
@@ -524,13 +552,12 @@
    * @returns the geometry object
    */
   function addNoise(geometry, noiseX, noiseY, noiseZ) {
-
     var noiseX = noiseX || 2;
     var noiseY = noiseY || noiseX;
     var noiseZ = noiseZ || noiseY;
 
-    for (var i = 0; i < geometry.vertices.length; i++) {
-      var v = geometry.vertices[i];
+    for (let i = 0; i < geometry.vertices.length; i++) {
+      let v = geometry.vertices[i];
       v.x += -noiseX / 2 + Math.random() * noiseX;
       v.y += -noiseY / 2 + Math.random() * noiseY;
       v.z += -noiseZ / 2 + Math.random() * noiseZ;
@@ -539,20 +566,19 @@
     return geometry;
   }
 
-  function addShapeNoise(shapes, noiseX, noiseY) {
-
-    var noiseX = noiseX || 2;
-    var noiseY = noiseY || noiseX;
-
-    for (var i = 0; i < shapes.length; i++) {
-      var v = shapes[i];
-      v.x += -noiseX / 2 + Math.random() * noiseX;
-      v.y += -noiseY / 2 + Math.random() * noiseY;
-      shapes[i] = v;
-    }
-
-    return shapes;
-  }
+  // function addShapeNoise(shapes, noiseX, noiseY) {
+  //   var noiseX = noiseX || 2;
+  //   var noiseY = noiseY || noiseX;
+  //
+  //   for (let i = 0; i < shapes.length; i++) {
+  //     let v = shapes[i];
+  //     v.x += -noiseX / 2 + Math.random() * noiseX;
+  //     v.y += -noiseY / 2 + Math.random() * noiseY;
+  //     shapes[i] = v;
+  //   }
+  //
+  //   return shapes;
+  // }
 </script>
 </body>
 </html>
