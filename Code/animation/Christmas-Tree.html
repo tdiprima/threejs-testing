@@ -467,8 +467,8 @@
   // Size should be the same as the window
   renderer.setSize(window.innerWidth, window.innerHeight);
 
-  // Set a near white clear color (default is black)
-  renderer.setClearColor(0xfff6e6);
+  // Set a near white clear color
+  renderer.setClearColor(0xfff6e6); // scene is old-lace
 
   // Enable shadow mapping
   renderer.shadowMap.enabled = true;
@@ -490,7 +490,12 @@
   scene.add(pointLight);
 
   // A basic material that shows the geometry wireframe.
-  let shadowMaterial = new THREE.ShadowMaterial({color: 0xffffff});
+
+  // Ground shadow (is actually lighter than the scene)
+  // let shadowMaterial = new THREE.ShadowMaterial({color: 0xffffff});
+
+  // Let's see what's really going on...
+  let shadowMaterial = new THREE.ShadowMaterial({color: 0xaaaaaa});
   shadowMaterial.opacity = 0.5;
 
   let groundMesh = new THREE.Mesh(
