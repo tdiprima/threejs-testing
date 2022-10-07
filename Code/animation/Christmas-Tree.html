@@ -27,6 +27,15 @@
 
 <script>
   console.log("%cthree.js rev", "color: #f414e1;", THREE.REVISION); // F414E1 (Purple Pizzazz)
+  const white = 0xffffff;
+  const salem = 0x0b8450;
+  const ecstasy = 0xf97514;
+  const walnut = 0x713918;
+  const greenHaze = 0x15a46b;
+  const candlelight = 0xffd423;
+  const candlelight1 = 0xf8db08;
+  const oldLace = 0xfff6e6;
+  const shade = 0xaaaaaa;
 
   var Leaf = function () {
     THREE.Group.apply(this, arguments);
@@ -34,8 +43,8 @@
     let leaf = new THREE.Mesh(
       new THREE.TorusGeometry(0.8, 1.6, 3, 4),
       new THREE.MeshStandardMaterial({
-        color: 0x0b8450,
-        shading: THREE.FlatShading,
+        color: salem,
+        flatShading: true,
         metalness: 0,
         roughness: 0.8,
         refractionRatio: 0.25
@@ -60,8 +69,8 @@
 
     // A material for the pot
     let potMaterial = new THREE.MeshStandardMaterial({
-      color: 0xf97514,
-      shading: THREE.FlatShading,
+      color: ecstasy,
+      flatShading: true,
       metalness: 0,
       roughness: 0.8,
       refractionRatio: 0.25
@@ -92,8 +101,8 @@
     let trunk = new THREE.Mesh(
       addNoise(new THREE.CylinderGeometry(12, 18, 30, 8, 3), 2),
       new THREE.MeshStandardMaterial({
-        color: 0x713918,
-        shading: THREE.FlatShading,
+        color: walnut,
+        flatShading: true,
         metalness: 0,
         roughness: 0.8,
         refractionRatio: 0.25
@@ -122,7 +131,7 @@
 
     let extrudeSettings = {
       steps: 1,
-      amount: 16,
+      depth: 16, // amount
       curveSegments: 1,
       bevelEnabled: true,
       bevelThickness: 5,
@@ -138,8 +147,8 @@
     let mesh = new THREE.Mesh(
       logoGeometry,
       new THREE.MeshStandardMaterial({
-        color: 0x15a46b,
-        shading: THREE.FlatShading,
+        color: greenHaze,
+        flatShading: true,
         metalness: 0,
         roughness: 0.8,
         refractionRatio: 0.25
@@ -219,24 +228,25 @@
 
     let geometry = new THREE.ExtrudeGeometry(starShape, {
       steps: 1,
-      amount: 4,
+      depth: 4, // amount
       curveSegments: 1,
       bevelEnabled: true,
       bevelThickness: 10,
       bevelSize: 10,
       bevelSegments: 1
     });
+
     addNoise(geometry, 0, 0, 2);
 
     let star = new THREE.Mesh(
       geometry,
       new THREE.MeshStandardMaterial({
-        color: 0xffd423,
-        shading: THREE.FlatShading,
+        color: candlelight,
+        flatShading: true,
         metalness: 0,
         roughness: 0.8,
         refractionRatio: 0.25,
-        emissive: 0xffd423,
+        emissive: candlelight,
         emissiveIntensity: 0.4
       })
     );
@@ -244,7 +254,7 @@
     star.scale.set(0.3, 0.3, 0.3);
     this.add(star);
 
-    let pointLight = new THREE.DirectionalLight(0xffd423, 0.4);
+    let pointLight = new THREE.DirectionalLight(candlelight, 0.4);
     pointLight.position.set(0, 10, 0);
 
     this.add(pointLight);
@@ -264,16 +274,23 @@
     this.rotationSpeed = Math.random() * 0.01 + 0.003;
     this.rotationPosition = Math.random();
 
-    // A random color assignment
+    // Random ornament colors
     // Red, Bittersweet, Rouge, Sea Pink, Neptune, Waikawa Gray
-    let colors = ["#ff0051", "#f56762", "#a53c6c", "#f19fa0", "#72bdbf", "#47689b"];
+    let colors = [
+      "#ff0051",
+      "#f56762",
+      "#a53c6c",
+      "#f19fa0",
+      "#72bdbf",
+      "#47689b"
+    ];
 
     // bauble: a small, showy trinket or decoration; Christmas ornament.
     let bauble = new THREE.Mesh(
       addNoise(new THREE.OctahedronGeometry(12, 1), 2),
       new THREE.MeshStandardMaterial({
         color: colors[Math.floor(Math.random() * colors.length)],
-        shading: THREE.FlatShading,
+        flatShading: true,
         metalness: 0,
         roughness: 0.8,
         refractionRatio: 0.25
@@ -290,8 +307,8 @@
     let shapeOne = new THREE.Mesh(
       addNoise(new THREE.CylinderGeometry(4, 6, 10, 6, 1), 0.5),
       new THREE.MeshStandardMaterial({
-        color: 0xf8db08,
-        shading: THREE.FlatShading,
+        color: candlelight1,
+        flatShading: true,
         metalness: 0,
         roughness: 0.8,
         refractionRatio: 0.25
@@ -306,8 +323,8 @@
     let shapeTwo = new THREE.Mesh(
       addNoise(new THREE.TorusGeometry(2, 1, 6, 4, Math.PI), 0.2),
       new THREE.MeshStandardMaterial({
-        color: 0xf8db08,
-        shading: THREE.FlatShading,
+        color: candlelight1,
+        flatShading: true,
         metalness: 0,
         roughness: 0.8,
         refractionRatio: 0.25,
@@ -336,8 +353,8 @@
     let leaf = new THREE.Mesh(
       new THREE.TorusGeometry(0.8, 1.6, 3, 4),
       new THREE.MeshStandardMaterial({
-        color: 0x0b8450,
-        shading: THREE.FlatShading,
+        color: salem,
+        flatShading: true,
         metalness: 0,
         roughness: 0.8,
         refractionRatio: 0.25
@@ -361,8 +378,13 @@
     THREE.Group.apply(this, arguments);
 
     // Random box color
-    // Red, Rouge, Sea Pink, Neptune, Waikawa Gray
-    let colors = ["#ff0051", "#a53c6c", "#f19fa0", "#72bdbf", "#47689b"];
+    let colors = [
+      "#ff0051",
+      "#a53c6c",
+      "#f19fa0",
+      "#72bdbf",
+      "#47689b"
+    ];
     let boxColor = colors.splice(Math.floor(Math.random() * colors.length), 1)[0];
     colors.push("#393839"); // Tuatara
 
@@ -371,14 +393,14 @@
 
     let boxMaterial = new THREE.MeshStandardMaterial({
       color: boxColor,
-      shading: THREE.FlatShading,
+      flatShading: true,
       metalness: 0,
       roughness: 1
     });
 
     let ribbonMaterial = new THREE.MeshStandardMaterial({
       color: ribbonColor,
-      shading: THREE.FlatShading,
+      flatShading: true,
       metalness: 0,
       roughness: 1
     });
@@ -468,7 +490,7 @@
   renderer.setSize(window.innerWidth, window.innerHeight);
 
   // Set a near white clear color
-  renderer.setClearColor(0xfff6e6); // scene is old-lace
+  renderer.setClearColor(oldLace);
 
   // Enable shadow mapping
   renderer.shadowMap.enabled = true;
@@ -478,11 +500,11 @@
   document.body.appendChild(renderer.domElement);
 
   // Add an ambient lights
-  let ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+  let ambientLight = new THREE.AmbientLight(white, 0.3);
   scene.add(ambientLight);
 
   // Add a point light that will cast shadows
-  let pointLight = new THREE.PointLight(0xffffff, 0.8);
+  let pointLight = new THREE.PointLight(white, 0.8);
   pointLight.position.set(80, 160, 120);
   pointLight.castShadow = true;
   pointLight.shadow.mapSize.width = 1024;
@@ -492,10 +514,10 @@
   // A basic material that shows the geometry wireframe.
 
   // Ground shadow (is actually lighter than the scene)
-  // let shadowMaterial = new THREE.ShadowMaterial({color: 0xffffff});
+  // let shadowMaterial = new THREE.ShadowMaterial({color: white});
 
   // Let's see what's really going on...
-  let shadowMaterial = new THREE.ShadowMaterial({color: 0xaaaaaa});
+  let shadowMaterial = new THREE.ShadowMaterial({color: shade});
   shadowMaterial.opacity = 0.5;
 
   let groundMesh = new THREE.Mesh(
