@@ -46,14 +46,18 @@ mainLight.position.set(10, 10, 10);
 scene.add(ambientLight, mainLight);
 
 // GLTF START
-let GLTFloader = new GLTFLoader();
+let loader = new GLTFLoader();
 
-GLTFloader.load("/models/gltf/Parrot.glb", model => {
-  mixer = new THREE.AnimationMixer(model.scene);
+loader.load("/models/gltf/Parrot.glb", data => {
+  let model = data.scene; // data.scene.children[0]
+  let clip = data.animations[0];
 
-  mixer.clipAction(model.animations[0]).play();
+  mixer = new THREE.AnimationMixer(model);
 
-  scene.add(model.scene);
+  let action = mixer.clipAction(clip);
+  action.play();
+
+  scene.add(data.scene);
 });
 // GLTF END
 
@@ -61,7 +65,6 @@ function animate() {
   requestAnimationFrame(animate);
 
   let delta = clock.getDelta();
-  // console.log("delta", delta);
 
   if (mixer) {
     mixer.update(delta);
