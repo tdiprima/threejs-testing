@@ -7,8 +7,7 @@
   <title>Aligning HTML Elements to 3D</title>
   <!-- http://127.0.0.1:5500/manual/#en/align-html-elements-to-3d -->
   <style>
-    html,
-    body {
+    html, body {
       height: 100%;
       margin: 0;
     }
@@ -88,7 +87,6 @@
     let aspect = 2; // the canvas default
     let near = 1.1;
     let far = 50;
-    // let far = 20;
     let camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
     camera.position.z = 7;
 
@@ -139,6 +137,9 @@
       return {cube, elem};
     }
 
+    // They love this stupid jungle green 44aa88
+    // Royal purple 8844aa
+    // Driftwood aa8844
     let cubes = [
       makeInstance(geometry, 0x44aa88, 0, "Aqua"),
       makeInstance(geometry, 0x8844aa, -2, "Purple"),
@@ -146,7 +147,7 @@
     ];
 
     /**
-     * Magic.
+     * RESIZE.
      * @param renderer
      * @return {boolean}
      */
@@ -164,9 +165,8 @@
     let tempV = new THREE.Vector3();
     let raycaster = new THREE.Raycaster();
 
-
     /**
-     * And... render!
+     * RENDER.
      */
     function render(time) {
       time *= 0.001;
@@ -177,7 +177,7 @@
         camera.updateProjectionMatrix();
       }
 
-      // ROTTATE CUBES
+      // ROTATE CUBES
       cubes.forEach((cubeInfo, ndx) => {
         let {cube, elem} = cubeInfo;
         let speed = 1 + ndx * 0.1;
@@ -198,16 +198,17 @@
         // ask the raycaster for all the objects that intersect
         // from the eye toward this object's position
         raycaster.setFromCamera(tempV, camera);
-        const intersectedObjects = raycaster.intersectObjects(scene.children);
+        let intersectedObjects = raycaster.intersectObjects(scene.children);
+
         // We're visible if the first intersection is this object.
-        const show = intersectedObjects.length && cube === intersectedObjects[0].object;
+        let show = intersectedObjects.length && cube === intersectedObjects[0].object;
 
         if (!show || Math.abs(tempV.z) > 1) {
           // hide the label
-          elem.style.display = 'none';
+          elem.style.display = "none";
         } else {
           // show the label
-          elem.style.display = ''; // how about block?
+          elem.style.display = ""; // how about block?
 
           // convert the normalized position to CSS coordinates
           let x = (tempV.x * 0.5 + 0.5) * canvas.clientWidth;
