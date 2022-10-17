@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Optimize Lots of Objects</title>
+  <!-- http://127.0.0.1:5500/manual/#en/optimize-lots-of-objects -->
+  <style>
+    body {
+      background-color: #444444;
+    }
+  </style>
+</head>
+<body>
+<canvas></canvas>
+<script>
+  // let url = "https://globe.chromeexperiments.com/population909500.json";
+  // https://sedac.ciesin.columbia.edu/data/set/gpw-v4-population-count-rev11/data-download;
+  let url = "gpw_v4_population_count_rev11_2020_1_deg.asc";
+
+  /**
+   * Load the text file
+   * Returns a Promise with the contents of the file at url
+   * @param url
+   * @return {Promise<string>}
+   */
+  async function loadFile(url) {
+    const res = await fetch(url);
+    return res.text();
+  }
+
+  /**
+   * Parse the file
+   * Returns an object with all the key/value pairs from the file, as well as a data property
+   * with all the data in one large array, and the min and max values found in the data.
+   * @param text
+   * @return {{data: *[]} & {min, max}}
+   */
+  function parseData(text) {
+    let data = [];
+    let settings = {data};
+    let max;
+    let min;
+    // split into lines
+    text.split("\n").forEach(line => {
+      // split the line by whitespace
+      let parts = line.trim().split(/\s+/);
+      if (parts.length === 2) {
+        // only 2 parts, must be a key/value pair
+        settings[parts[0]] = parseFloat(parts[1]);
+      } else if (parts.length > 2) {
+        // more than 2 parts, must be data
+        let values = parts.map(v => {
+          let value = parseFloat(v);
+          if (value === settings.NODATA_value) {
+            return undefined;
+          }
+          max = Math.max(max === undefined ? value : max, value);
+          min = Math.min(min === undefined ? value : min, value);
+          return value;
+        });
+        data.push(values);
+      }
+    });
+    return Object.assign(settings, {min, max});
+  }
+
+  /**
+   * Draw the data
+   * @param file
+   */
+  function drawData(file) {
+    // let { min, max, data } = file;
+    const {min, max, ncols, nrows, data} = file;
+    let range = max - min;
+    let ctx = document.querySelector("canvas").getContext("2d");
+    // make the canvas the same size as the data
+    ctx.canvas.width = ncols;
+    ctx.canvas.height = nrows;
+    // but display it double size so that it's not too small
+    ctx.canvas.style.width = px(ncols * 2);
+    ctx.canvas.style.height = px(nrows * 2);
+    // fill the canvas to dark gray
+    ctx.fillStyle = "#444";
+    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    // draw each data point
+    data.forEach((row, latNdx) => {
+      row.forEach((value, lonNdx) => {
+        if (value === undefined) {
+          return;
+        }
+        let amount = (value - min) / range;
+        let hue = 1;
+        let saturation = 1;
+        let lightness = amount;
+        ctx.fillStyle = hsl(hue, saturation, lightness);
+        ctx.fillRect(lonNdx, latNdx, 1, 1);
+      });
+    });
+  }
+
+  function px(v) {
+    return `${v | 0}px`;
+  }
+
+  function hsl(h, s, l) {
+    return `hsl(${(h * 360) | 0},${(s * 100) | 0}%,${(l * 100) | 0}%)`;
+  }
+
+  // function parseData1(text) {
+  // 	console.log(text);
+  // }
+
+  loadFile(url)
+    .then(parseData)
+    .then(drawData);
+</script>
+</body>
+</html>
