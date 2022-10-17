@@ -4,117 +4,230 @@
   <meta charset="UTF-8">
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Optimize Lots of Objects</title>
-  <!-- http://127.0.0.1:5500/manual/#en/optimize-lots-of-objects -->
+  <title>Population Count 2020</title>
   <style>
-    body {
-      background-color: #444444;
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+
+    #c {
+      display: block;
+      width: 100%;
+      height: 100%;
     }
   </style>
 </head>
 <body>
-<canvas></canvas>
-<script>
-  // let url = "https://globe.chromeexperiments.com/population909500.json";
-  // https://sedac.ciesin.columbia.edu/data/set/gpw-v4-population-count-rev11/data-download;
-  let url = "gpw_v4_population_count_rev11_2020_1_deg.asc";
-
-  /**
-   * Load the text file
-   * Returns a Promise with the contents of the file at url
-   * @param url
-   * @return {Promise<string>}
-   */
-  async function loadFile(url) {
-    const res = await fetch(url);
-    return res.text();
+<canvas id="c"></canvas>
+<script  type="importmap">{
+  "imports": {
+    "three": "/build/three.module.js",
+    "three/addons/": "/jsm/"
   }
+}</script>
+<!-- <script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script> -->
+<script async src="/es-module-shims-1.3.6/dist/es-module-shims.js"></script>
 
-  /**
-   * Parse the file
-   * Returns an object with all the key/value pairs from the file, as well as a data property
-   * with all the data in one large array, and the min and max values found in the data.
-   * @param text
-   * @return {{data: *[]} & {min, max}}
-   */
-  function parseData(text) {
-    let data = [];
-    let settings = {data};
-    let max;
-    let min;
-    // split into lines
-    text.split("\n").forEach(line => {
-      // split the line by whitespace
-      let parts = line.trim().split(/\s+/);
-      if (parts.length === 2) {
-        // only 2 parts, must be a key/value pair
-        settings[parts[0]] = parseFloat(parts[1]);
-      } else if (parts.length > 2) {
-        // more than 2 parts, must be data
-        let values = parts.map(v => {
-          let value = parseFloat(v);
-          if (value === settings.NODATA_value) {
-            return undefined;
-          }
-          max = Math.max(max === undefined ? value : max, value);
-          min = Math.min(min === undefined ? value : min, value);
-          return value;
-        });
-        data.push(values);
-      }
-    });
-    return Object.assign(settings, {min, max});
-  }
+<script type="module">
+  import * as THREE from "three";
+  import * as BufferGeometryUtils from "three/addons/utils/BufferGeometryUtils.js";
+  import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
-  /**
-   * Draw the data
-   * @param file
-   */
-  function drawData(file) {
-    // let { min, max, data } = file;
-    const {min, max, ncols, nrows, data} = file;
-    let range = max - min;
-    let ctx = document.querySelector("canvas").getContext("2d");
-    // make the canvas the same size as the data
-    ctx.canvas.width = ncols;
-    ctx.canvas.height = nrows;
-    // but display it double size so that it's not too small
-    ctx.canvas.style.width = px(ncols * 2);
-    ctx.canvas.style.height = px(nrows * 2);
-    // fill the canvas to dark gray
-    ctx.fillStyle = "#444";
-    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    // draw each data point
-    data.forEach((row, latNdx) => {
-      row.forEach((value, lonNdx) => {
-        if (value === undefined) {
-          return;
+  function main() {
+    let canvas = document.querySelector("#c");
+    let renderer = new THREE.WebGLRenderer({ canvas });
+
+    let fov = 60;
+    let aspect = 2; // the canvas default
+    let near = 0.1;
+    let far = 10;
+    let camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+    camera.position.z = 2.5;
+
+    let controls = new OrbitControls(camera, canvas);
+    controls.enableDamping = true;
+    controls.enablePan = false;
+    controls.minDistance = 1.2;
+    controls.maxDistance = 4;
+    controls.update();
+
+    let scene = new THREE.Scene();
+    scene.background = new THREE.Color("black");
+
+    {
+      let loader = new THREE.TextureLoader();
+      let texture = loader.load("world.jpg", render);
+      let geometry = new THREE.SphereGeometry(1, 64, 32);
+      let material = new THREE.MeshBasicMaterial({ map: texture });
+      scene.add(new THREE.Mesh(geometry, material));
+    }
+
+    async function loadFile(url) {
+      let req = await fetch(url);
+      return req.text();
+    }
+
+    function parseData(text) {
+      let data = [];
+      let settings = { data };
+      let max;
+      let min;
+      // split into lines
+      text.split("\n").forEach(line => {
+        // split the line by whitespace
+        let parts = line.trim().split(/\s+/);
+        if (parts.length === 2) {
+          // only 2 parts, must be a key/value pair
+          settings[parts[0]] = parseFloat(parts[1]);
+        } else if (parts.length > 2) {
+          // more than 2 parts, must be data
+          let values = parts.map(v => {
+            let value = parseFloat(v);
+            if (value === settings.NODATA_value) {
+              return undefined;
+            }
+            max = Math.max(max === undefined ? value : max, value);
+            min = Math.min(min === undefined ? value : min, value);
+            return value;
+          });
+          data.push(values);
         }
-        let amount = (value - min) / range;
-        let hue = 1;
-        let saturation = 1;
-        let lightness = amount;
-        ctx.fillStyle = hsl(hue, saturation, lightness);
-        ctx.fillRect(lonNdx, latNdx, 1, 1);
       });
+      return Object.assign(settings, { min, max });
+    }
+
+    function addBoxes(file) {
+      let { min, max, data } = file;
+      let range = max - min;
+
+      // these helpers will make it easy to position the boxes
+      // We can rotate the lon helper on its Y axis to the longitude
+      let lonHelper = new THREE.Object3D();
+      scene.add(lonHelper);
+
+      // We rotate the latHelper on its X axis to the latitude
+      let latHelper = new THREE.Object3D();
+      lonHelper.add(latHelper);
+
+      // The position helper moves the object to the edge of the sphere
+      let positionHelper = new THREE.Object3D();
+      positionHelper.position.z = 1;
+      latHelper.add(positionHelper);
+
+      // Used to move the center of the cube so it scales from the position Z axis
+      let originHelper = new THREE.Object3D();
+      originHelper.position.z = 0.5;
+      positionHelper.add(originHelper);
+
+    let color = new THREE.Color();
+
+      let lonFudge = Math.PI * 0.5;
+      let latFudge = Math.PI * -0.135;
+      let geometries = [];
+      data.forEach((row, latNdx) => {
+        row.forEach((value, lonNdx) => {
+          if (value === undefined) {
+            return;
+          }
+          let amount = (value - min) / range;
+
+          let boxWidth = 1;
+          let boxHeight = 1;
+          let boxDepth = 1;
+          let geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
+
+          // adjust the helpers to point to the latitude and longitude
+          lonHelper.rotation.y = THREE.MathUtils.degToRad(lonNdx + file.xllcorner) + lonFudge;
+          latHelper.rotation.x = THREE.MathUtils.degToRad(latNdx + file.yllcorner) + latFudge;
+
+          // use the world matrix of the origin helper to
+          // position this geometry
+          positionHelper.scale.set(0.005, 0.005, THREE.MathUtils.lerp(0.01, 0.5, amount));
+          originHelper.updateWorldMatrix(true, false);
+          geometry.applyMatrix4(originHelper.matrixWorld);
+
+        // compute a color
+        let hue = THREE.MathUtils.lerp(0.7, 0.3, amount);
+        let saturation = 1;
+        let lightness = THREE.MathUtils.lerp(0.4, 1.0, amount);
+        color.setHSL(hue, saturation, lightness);
+        // get the colors as an array of values from 0 to 255
+        let rgb = color.toArray().map(v => v * 255);
+
+        // make an array to store colors for each vertex
+        let numVerts = geometry.getAttribute("position").count;
+        let itemSize = 3;  // r, g, b
+        let colors = new Uint8Array(itemSize * numVerts);
+
+        // copy the color into the colors array for each vertex
+        colors.forEach((v, ndx) => {
+          colors[ndx] = rgb[ndx % 3];
+        });
+
+        let normalized = true;
+        let colorAttrib = new THREE.BufferAttribute(colors, itemSize, normalized);
+        geometry.setAttribute("color", colorAttrib);
+
+          geometries.push(geometry);
+        });
+      });
+
+      let mergedGeometry = BufferGeometryUtils.mergeBufferGeometries(geometries, false);
+    // let material = new THREE.MeshBasicMaterial({ color: "red" });
+    let material = new THREE.MeshBasicMaterial({
+      vertexColors: true,
     });
+      let mesh = new THREE.Mesh(mergedGeometry, material);
+      scene.add(mesh);
+    }
+
+    // let dataUrl = "gpw_v4_basic_demographic_characteristics_rev10_a000_014mt_2010_cntm_1_deg.asc";
+    let dataUrl = "gpw_v4_population_count_rev11_2020_1_deg.asc";
+    loadFile(dataUrl)
+      .then(parseData)
+      .then(addBoxes)
+      .then(render);
+
+    function resizeRendererToDisplaySize(renderer) {
+      let canvas = renderer.domElement;
+      let width = canvas.clientWidth;
+      let height = canvas.clientHeight;
+      let needResize = canvas.width !== width || canvas.height !== height;
+      if (needResize) {
+        renderer.setSize(width, height, false);
+      }
+      return needResize;
+    }
+
+    let renderRequested = false;
+
+    function render() {
+      renderRequested = undefined;
+
+      if (resizeRendererToDisplaySize(renderer)) {
+        let canvas = renderer.domElement;
+        camera.aspect = canvas.clientWidth / canvas.clientHeight;
+        camera.updateProjectionMatrix();
+      }
+
+      controls.update();
+      renderer.render(scene, camera);
+    }
+    render();
+
+    function requestRenderIfNotRequested() {
+      if (!renderRequested) {
+        renderRequested = true;
+        requestAnimationFrame(render);
+      }
+    }
+
+    controls.addEventListener("change", requestRenderIfNotRequested);
+    window.addEventListener("resize", requestRenderIfNotRequested);
   }
 
-  function px(v) {
-    return `${v | 0}px`;
-  }
-
-  function hsl(h, s, l) {
-    return `hsl(${(h * 360) | 0},${(s * 100) | 0}%,${(l * 100) | 0}%)`;
-  }
-
-  // function parseData1(text) {
-  // 	console.log(text);
-  // }
-
-  loadFile(url)
-    .then(parseData)
-    .then(drawData);
+  main();
 </script>
 </body>
 </html>
