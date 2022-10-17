@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Aligning HTML Elements to 3D</title>
+  <!-- http://127.0.0.1:5500/manual/#en/align-html-elements-to-3d -->
+  <style>
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+    }
+
+    /* Make canvas and labels overlap (inside parent container) */
+    #c {
+      display: block;
+      width: 100%; /* let our container decide our size */
+      height: 100%;
+    }
+
+    #container {
+      position: relative; /* makes this the origin of its children */
+      overflow: hidden;
+      width: 100%;
+      height: 100%;
+    }
+
+    #labels {
+      position: absolute; /* let us position ourself inside the container */
+      top: 0;
+      left: 0; /* make our position the top left of the container */
+      color: white;
+    }
+
+    /* some CSS for the labels themselves */
+    #labels > div {
+      font-size: large;
+      position: absolute; /* let us position them inside the container */
+      top: 0;
+      left: 0; /* make their default position the top left of the container */
+      cursor: pointer; /* change the cursor to a hand when over us */
+      user-select: none; /* don't let the text get selected */
+      text-shadow: /* create a black outline */ -1px -1px 0 #000,
+      0 -1px 0 #000,
+      1px -1px 0 #000,
+      1px 0 0 #000,
+      1px 1px 0 #000,
+      0 1px 0 #000,
+      -1px 1px 0 #000,
+      -1px 0 0 #000;
+    }
+
+    #labels > div:hover {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+<!-- By putting both the canvas and the labels div inside a parent container,
+   we can make them overlap with CSS -->
+<div id="container">
+  <canvas id="c"></canvas>
+  <!-- provide an HTML element to contain our label elements -->
+  <div id="labels"></div>
+</div>
+
+<script type="importmap">{
+  "imports": {
+    "three": "/build/three.module.js",
+    "three/addons/": "/jsm/"
+  }
+}
+</script>
+<script async src="/es-module-shims-1.3.6/dist/es-module-shims.js"></script>
+
+<script type="module">
+  import * as THREE from "three";
+  import {OrbitControls} from "three/addons/controls/OrbitControls.js";
+
+  function main() {
+    let canvas = document.querySelector("#c");
+    let renderer = new THREE.WebGLRenderer({canvas});
+
+    let fov = 75;
+    let aspect = 2; // the canvas default
+    let near = 1.1;
+    let far = 50;
+    // let far = 20;
+    let camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+    camera.position.z = 7;
+
+    let controls = new OrbitControls(camera, canvas);
+    controls.target.set(0, 0, 0);
+    controls.update();
+
+    let scene = new THREE.Scene();
+
+    {
+      // ADD LIGHT
+      let color = 0xffffff;
+      let intensity = 1;
+      let light = new THREE.DirectionalLight(color, intensity);
+      light.position.set(-1, 2, 4);
+      scene.add(light);
+    }
+
+    let boxWidth = 1;
+    let boxHeight = 1;
+    let boxDepth = 1;
+    let geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
+
+    let labelContainerElem = document.querySelector("#labels");
+
+    /**
+     * Generate cubes
+     * @param geometry
+     * @param color
+     * @param x
+     * @param name
+     * @return {{elem: HTMLDivElement, cube: Mesh}}
+     */
+    function makeInstance(geometry, color, x, name) {
+      let material = new THREE.MeshPhongMaterial({color});
+
+      // add a cube
+      let cube = new THREE.Mesh(geometry, material);
+      scene.add(cube);
+
+      cube.position.x = x;
+
+      // add a label element
+      let elem = document.createElement("div");
+      elem.textContent = name;
+      labelContainerElem.appendChild(elem);
+
+      return {cube, elem};
+    }
+
+    let cubes = [
+      makeInstance(geometry, 0x44aa88, 0, "Aqua"),
+      makeInstance(geometry, 0x8844aa, -2, "Purple"),
+      makeInstance(geometry, 0xaa8844, 2, "Gold")
+    ];
+
+    /**
+     * Magic.
+     * @param renderer
+     * @return {boolean}
+     */
+    function resizeRendererToDisplaySize(renderer) {
+      let canvas = renderer.domElement;
+      let width = canvas.clientWidth;
+      let height = canvas.clientHeight;
+      let needResize = canvas.width !== width || canvas.height !== height;
+      if (needResize) {
+        renderer.setSize(width, height, false);
+      }
+      return needResize;
+    }
+
+    let tempV = new THREE.Vector3();
+    let raycaster = new THREE.Raycaster();
+
+
+    /**
+     * And... render!
+     */
+    function render(time) {
+      time *= 0.001;
+
+      if (resizeRendererToDisplaySize(renderer)) {
+        let canvas = renderer.domElement;
+        camera.aspect = canvas.clientWidth / canvas.clientHeight;
+        camera.updateProjectionMatrix();
+      }
+
+      // ROTTATE CUBES
+      cubes.forEach((cubeInfo, ndx) => {
+        let {cube, elem} = cubeInfo;
+        let speed = 1 + ndx * 0.1;
+        let rot = time * speed;
+        cube.rotation.x = rot;
+        cube.rotation.y = rot;
+
+        // get the position of the center of the cube
+        cube.updateWorldMatrix(true, false);
+        cube.getWorldPosition(tempV);
+
+        // get the normalized screen coordinate of that position
+        // x and y will be in the -1 to +1 range with x = -1 being
+        // on the left and y = -1 being on the bottom
+        tempV.project(camera);
+
+        // NO OVERLAPPING LABELS
+        // ask the raycaster for all the objects that intersect
+        // from the eye toward this object's position
+        raycaster.setFromCamera(tempV, camera);
+        const intersectedObjects = raycaster.intersectObjects(scene.children);
+        // We're visible if the first intersection is this object.
+        const show = intersectedObjects.length && cube === intersectedObjects[0].object;
+
+        if (!show || Math.abs(tempV.z) > 1) {
+          // hide the label
+          elem.style.display = 'none';
+        } else {
+          // show the label
+          elem.style.display = ''; // how about block?
+
+          // convert the normalized position to CSS coordinates
+          let x = (tempV.x * 0.5 + 0.5) * canvas.clientWidth;
+          let y = (tempV.y * -0.5 + 0.5) * canvas.clientHeight;
+
+          // move the elem to that position
+          elem.style.transform = `translate(-50%, -50%) translate(${x}px,${y}px)`;
+        }
+      });
+
+      renderer.render(scene, camera);
+
+      requestAnimationFrame(render);
+    }
+
+    requestAnimationFrame(render);
+  }
+
+  main();
+</script>
+</body>
+</html>
