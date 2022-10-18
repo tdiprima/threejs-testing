@@ -21,11 +21,13 @@
   import * as THREE from "three";
   import {OrbitControls} from "/jsm/controls/OrbitControls.js";
   import {GLTFLoader} from "/jsm/loaders/GLTFLoader.js";
-  
+
   console.clear();
   console.log("%cthree.js rev", "color: #ccff00;", THREE.REVISION);
 
   let scene = new THREE.Scene();
+  scene.background = new THREE.Color("#d7ffff");
+
   let camera = window._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
   // window._camera.position
   // let p = {x: -1839, y: 600, z: -1810};
