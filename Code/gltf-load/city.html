@@ -41,6 +41,7 @@
     let canvas = document.querySelector("#c");
     let renderer = new THREE.WebGLRenderer({ canvas });
     renderer.outputEncoding = THREE.sRGBEncoding;
+    renderer.shadowMap.enabled = true; // SHADOWS
 
     let fov = 45;
     let aspect = 2; // the canvas default
@@ -93,12 +94,55 @@
     }
 
     {
-      let color = 0xffffff;
-      let intensity = 0.8;
-      let light = new THREE.DirectionalLight(color, intensity);
-      light.position.set(5, 10, 2);
+      // LIGHT
+      let light = new THREE.DirectionalLight(
+        0xffffff, // color
+        0.8 // intensity
+      );
+
+      // SHADOW
+      light.castShadow = true;
+      // light.position.set(5, 10, 2);
+      light.position.set(-250, 800, -850);
+      light.target.position.set(-550, 40, -450);
+
+      light.shadow.bias = -0.004;
+      light.shadow.mapSize.width = 2048;
+      light.shadow.mapSize.height = 2048;
+
       scene.add(light);
       scene.add(light.target);
+
+      // Light shadow camera?
+      const cam = light.shadow.camera;
+      cam.near = 1;
+      cam.far = 2000;
+      cam.left = -1500;
+      cam.right = 1500;
+      cam.top = 1500;
+      cam.bottom = -1500;
+
+      // Camera helper
+      const cameraHelper = new THREE.CameraHelper(cam);
+      scene.add(cameraHelper);
+      cameraHelper.visible = false;
+
+      const helper = new THREE.DirectionalLightHelper(light, 100);
+      scene.add(helper);
+      helper.visible = false;
+
+      function updateCamera() {
+        // update the light target's matrixWorld because it's needed by the helper
+        light.updateMatrixWorld();
+        light.target.updateMatrixWorld();
+        helper.update();
+        // update the light's shadow camera's projection matrix
+        light.shadow.camera.updateProjectionMatrix();
+        // and now update the camera helper we're using to show the light's shadow camera
+        cameraHelper.update();
+      }
+
+      updateCamera();
     }
 
     function frameArea(sizeToFitOnScreen, boxSize, boxCenter, camera) {
@@ -159,6 +203,15 @@
 
           cars = root.getObjectByName("Cars");
 
+          root.traverse((obj) => {
+            if (obj.castShadow !== undefined) {
+              obj.castShadow = true;
+              obj.receiveShadow = true;
+            }
+          });
+
+          root.updateMatrixWorld();
+
           // compute the box that contains all the stuff
           // from root and below
           let box = new THREE.Box3().setFromObject(root);
@@ -178,7 +231,7 @@
     }
 
     function resizeRendererToDisplaySize(renderer) {
-      let canvas = renderer.domElement;
+      const canvas = renderer.domElement;
       let width = canvas.clientWidth;
       let height = canvas.clientHeight;
       let needResize = canvas.width !== width || canvas.height !== height;
@@ -191,7 +244,7 @@
     function render(time) {
       // time *= 0.001;  // convert to seconds
       if (resizeRendererToDisplaySize(renderer)) {
-        let canvas = renderer.domElement;
+        const canvas = renderer.domElement;
         camera.aspect = canvas.clientWidth / canvas.clientHeight;
         camera.updateProjectionMatrix();
       }
