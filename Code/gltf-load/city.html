@@ -146,6 +146,7 @@
       return lines;
     }
 
+    let cars;
     {
       // https://sketchfab.com/3d-models/cartoon-lowpoly-small-city-free-pack-edd1c604e1e045a0a2a552ddd9a293e6
       new GLTFLoader().load(
@@ -155,6 +156,8 @@
           scene.add(root);
 
           console.log(dumpObject(root).join('\n'));
+
+          cars = root.getObjectByName("Cars");
 
           // compute the box that contains all the stuff
           // from root and below
@@ -185,12 +188,20 @@
       return needResize;
     }
 
-    function render() {
+    function render(time) {
+      // time *= 0.001;  // convert to seconds
       if (resizeRendererToDisplaySize(renderer)) {
         let canvas = renderer.domElement;
         camera.aspect = canvas.clientWidth / canvas.clientHeight;
         camera.updateProjectionMatrix();
       }
+
+      // if (cars) {
+      //   for (const car of cars.children) {
+      //     // Just a dummy test
+      //     car.rotation.y = time;
+      //   }
+      // }
 
       renderer.render(scene, camera);
 
