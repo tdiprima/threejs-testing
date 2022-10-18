@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Document</title>
+  <!-- http://127.0.0.1:5500/manual/#en/billboards -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<canvas id="c"></canvas>
+
+<script  type="importmap">{
+  "imports": {
+    "three": "/build/three.module.js",
+    "three/addons/": "/jsm/"
+  }
+}</script>
+<script async src="/es-module-shims-1.3.6/dist/es-module-shims.js"></script>
+
+<script type="module">
+  import * as THREE from "three";
+  import {OrbitControls} from "three/addons/controls/OrbitControls.js";
+
+  function main() {
+    let canvas = document.querySelector("#c");
+    let renderer = new THREE.WebGLRenderer({canvas});
+
+    let fov = 75;
+    let aspect = 2; // the canvas default
+    let near = 0.1;
+    let far = 1000;
+    let camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+    camera.position.set(0, 2, 5);
+
+    let controls = new OrbitControls(camera, canvas);
+    controls.target.set(0, 2, 0);
+    controls.minPolarAngle = 0;
+    controls.maxPolarAngle = Math.PI / 2;
+    controls.update();
+
+    let scene = new THREE.Scene();
+    scene.background = new THREE.Color("lightblue");
+
+    function addLight(position) {
+      let color = 0xffffff;
+      let intensity = 1;
+      let light = new THREE.DirectionalLight(color, intensity);
+      light.position.set(...position);
+      scene.add(light);
+      scene.add(light.target);
+    }
+
+    addLight([-3, 1, 1]);
+    addLight([2, 1, 0.5]);
+
+    // First we make the cone and cylinder geometry and materials that all the trees will share
+    let trunkRadius = 0.2;
+    let trunkHeight = 1;
+    let trunkGeometry = new THREE.CylinderGeometry(
+      trunkRadius,
+      trunkRadius,
+      trunkHeight,
+      12 // trunkRadialSegments
+    );
+
+    let topHeight = trunkHeight * 2;
+    let topGeometry = new THREE.ConeGeometry(
+      trunkRadius * 4, // topRadius
+      topHeight,
+      12 // topSegments
+    );
+
+    let trunkMaterial = new THREE.MeshPhongMaterial({color: "brown"});
+    let topMaterial = new THREE.MeshPhongMaterial({color: "green"});
+
+    // Then we'll make a function that makes a Mesh each for the trunk and top of a tree and parents both to an Object3D.
+    function makeTree(x, z) {
+      let root = new THREE.Object3D();
+      let trunk = new THREE.Mesh(trunkGeometry, trunkMaterial);
+      trunk.position.y = trunkHeight / 2;
+      root.add(trunk);
+
+      let top = new THREE.Mesh(topGeometry, topMaterial);
+      top.position.y = trunkHeight + topHeight / 2;
+      root.add(top);
+
+      root.position.set(x, 0, z);
+      scene.add(root);
+
+      return root;
+    }
+
+    // Then we'll make a loop to place a grid of trees.
+    for (let z = -50; z <= 50; z += 10) {
+      for (let x = -50; x <= 50; x += 10) {
+        makeTree(x, z);
+      }
+    }
+
+    // Let's also add a ground plane while we're at it
+    {
+      let size = 400;
+      let geometry = new THREE.PlaneGeometry(size, size);
+      let material = new THREE.MeshPhongMaterial({color: "gray"});
+      let mesh = new THREE.Mesh(geometry, material);
+      mesh.rotation.x = Math.PI * -0.5;
+      scene.add(mesh);
+    }
+
+    // and change the background to light blue
+    scene.background = new THREE.Color("lightblue");
+
+    function resizeRendererToDisplaySize(renderer) {
+      let canvas = renderer.domElement;
+      let width = canvas.clientWidth;
+      let height = canvas.clientHeight;
+      let needResize = canvas.width !== width || canvas.height !== height;
+      if (needResize) {
+        renderer.setSize(width, height, false);
+      }
+      return needResize;
+    }
+
+    function render() {
+      if (resizeRendererToDisplaySize(renderer)) {
+        let canvas = renderer.domElement;
+        camera.aspect = canvas.clientWidth / canvas.clientHeight;
+        camera.updateProjectionMatrix();
+      }
+
+      renderer.render(scene, camera);
+
+      requestAnimationFrame(render);
+    }
+
+    requestAnimationFrame(render);
+  }
+
+  main();
+</script>
+</body>
+</html>
