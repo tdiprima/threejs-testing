@@ -13,3 +13,6 @@ function dumpObject(obj, lines = [], isLast = true, prefix = '') {
   });
   return lines;
 }
+
+// And then right after scene.add(gltf.scene);
+console.log(dumpObject(gltf.scene).join('\n'));
