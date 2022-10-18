@@ -6,18 +6,20 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Document</title>
   <!-- http://127.0.0.1:5500/manual/#en/billboards -->
-  <link rel="stylesheet" href="style.css">
+  <link href="style.css" rel="stylesheet">
 </head>
 <body>
 
+<div id="info">If you use facade, it cuts down on things to render. But it looks like crap.<br>Play with lines 189 &amp; 190 to see.</div>
 <canvas id="c"></canvas>
 
-<script  type="importmap">{
+<script type="importmap">{
   "imports": {
     "three": "/build/three.module.js",
     "three/addons/": "/jsm/"
   }
-}</script>
+}
+</script>
 <script async src="/es-module-shims-1.3.6/dist/es-module-shims.js"></script>
 
 <script type="module">
@@ -42,7 +44,6 @@
     controls.update();
 
     let scene = new THREE.Scene();
-    scene.background = new THREE.Color("lightblue");
 
     function addLight(position) {
       let color = 0xffffff;
@@ -56,7 +57,8 @@
     addLight([-3, 1, 1]);
     addLight([2, 1, 0.5]);
 
-    // First we make the cone and cylinder geometry and materials that all the trees will share
+    // First we make the cone and cylinder geometry and materials that all the trees
+    // will share
     let trunkRadius = 0.2;
     let trunkHeight = 1;
     let trunkGeometry = new THREE.CylinderGeometry(
@@ -76,7 +78,8 @@
     let trunkMaterial = new THREE.MeshPhongMaterial({color: "brown"});
     let topMaterial = new THREE.MeshPhongMaterial({color: "green"});
 
-    // Then we'll make a function that makes a Mesh each for the trunk and top of a tree and parents both to an Object3D.
+    // Then we'll make a function that makes a Mesh each for the trunk and top of a tree
+    // and parents both to an Object3D.
     function makeTree(x, z) {
       let root = new THREE.Object3D();
       let trunk = new THREE.Mesh(trunkGeometry, trunkMaterial);
@@ -93,14 +96,105 @@
       return root;
     }
 
-    // Then we'll make a loop to place a grid of trees.
+    // Render an object to a texture using a RenderTarget.
+    function frameArea(sizeToFitOnScreen, boxSize, boxCenter, camera) {
+      // Compute how far the camera needs to be away from the object
+      // given its field of view to contain the object.
+      let halfSizeToFitOnScreen = sizeToFitOnScreen * 0.5;
+      let halfFovY = THREE.MathUtils.degToRad(camera.fov * .5);
+      let distance = halfSizeToFitOnScreen / Math.tan(halfFovY);
+
+      camera.position.copy(boxCenter);
+      // Then position the camera -z that distance from the center of the box that
+      // contains the object.
+      camera.position.z += distance;
+
+      // pick some near and far values for the frustum that
+      // will contain the box.
+      camera.near = boxSize / 100;
+      camera.far = boxSize * 100;
+
+      camera.updateProjectionMatrix();
+    }
+
+    function makeSpriteTexture(textureSize, obj) {
+      let rt = new THREE.WebGLRenderTarget(textureSize, textureSize);
+
+      let aspect = 1;  // because the render target is square
+      let camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+
+      scene.add(obj);
+
+      // compute the box that contains obj
+      let box = new THREE.Box3().setFromObject(obj);
+
+      let boxSize = box.getSize(new THREE.Vector3());
+      let boxCenter = box.getCenter(new THREE.Vector3());
+
+      // set the camera to frame the box
+      let fudge = 1.1;
+      // make sure the tree fits completely in the render target
+      let size = Math.max(...boxSize.toArray()) * fudge;
+      frameArea(size, size, boxCenter, camera);
+
+      // render to the render target
+      renderer.autoClear = false;
+      renderer.setRenderTarget(rt);
+      renderer.render(scene, camera);
+      renderer.setRenderTarget(null);
+      renderer.autoClear = true;
+
+      // remove the object from the scene
+      scene.remove(obj);
+
+      // return the texture, position, and scale
+      return {
+        // position: boxCenter.multiplyScalar(fudge),
+        offset: boxCenter.multiplyScalar(fudge),
+        scale: size,
+        texture: rt.texture,
+      };
+    }
+
+    // We then make a tree
+    let tree = makeTree(0, 0);
+    let facadeSize = 64;
+    let treeSpriteInfo = makeSpriteTexture(facadeSize, tree);
+
+    // We can then make a grid of facades instead of a grid of tree models
+    function makeSprite(spriteInfo, x, z) {
+      let {texture, offset, scale} = spriteInfo;
+
+      let mat = new THREE.SpriteMaterial({
+        map: texture,
+        transparent: true,
+      });
+
+      let sprite = new THREE.Sprite(mat);
+      scene.add(sprite);
+
+      // Apply the offset and scale needed to position the facade
+      // so that it appears in the same place the original tree would have appeared.
+      sprite.position.set(
+        offset.x + x,
+        offset.y,
+        offset.z + z);
+
+      sprite.scale.set(scale, scale, scale);
+    }
+
+    // Make a loop to place a grid of trees.
     for (let z = -50; z <= 50; z += 10) {
       for (let x = -50; x <= 50; x += 10) {
         makeTree(x, z);
+        // makeSprite(treeSpriteInfo, x, z);
       }
     }
 
-    // Let's also add a ground plane while we're at it
+    // Now that we're done making the tree facade texture we can set the background again
+    scene.background = new THREE.Color("lightblue");
+
+    // Add a ground plane
     {
       let size = 400;
       let geometry = new THREE.PlaneGeometry(size, size);
@@ -109,9 +203,6 @@
       mesh.rotation.x = Math.PI * -0.5;
       scene.add(mesh);
     }
-
-    // and change the background to light blue
-    scene.background = new THREE.Color("lightblue");
 
     function resizeRendererToDisplaySize(renderer) {
       let canvas = renderer.domElement;
