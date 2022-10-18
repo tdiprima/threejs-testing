@@ -85,25 +85,28 @@
     return shape;
   }
 
-  // Jungle Green, Royal Purple, Driftwood
+  // Jungle Green 0x44aa88, Royal Purple 0x8844aa, Driftwood 0xaa8844
+  // Make Aqua, Purple, and Gold.
   let shapes = [
-    makeInstance(geometry, 0x44aa88, 0),
-    makeInstance(geometry, 0x8844aa, -1),
-    makeInstance(geometry, 0xaa8844, 1),
+    makeInstance(geometry, 0x00ffff, 0),
+    makeInstance(geometry, 0xa020f0, -1),
+    makeInstance(geometry, 0xffd700, 1)
   ];
 
   /**
-   * Resize renderer to display size
+   * Resize renderer's canvas
+   * See http://127.0.0.1:5500/manual/#en/responsive
    * @param renderer - WebGLRenderer
    * @return {boolean} - needResize
    */
   function resizeRendererToDisplaySize(renderer) {
-    // let canvas = renderer.domElement;
+    const canvas = renderer.domElement;
     let width = canvas.clientWidth;
     let height = canvas.clientHeight;
+    // Check if the canvas actually needs to be resized.
     let needResize = canvas.width !== width || canvas.height !== height;
     if (needResize) {
-      renderer.setSize(width, height, false);
+      renderer.setSize(width, height, false); // pass false to not update CSS size
     }
     return needResize;
   }
@@ -115,8 +118,9 @@
   function render(time) {
     time *= 0.001;
 
+    // If the canvas was resized, there are other things we should update too:
     if (resizeRendererToDisplaySize(renderer)) {
-      // let canvas = renderer.domElement;
+      const canvas = renderer.domElement;
       camera.aspect = canvas.clientWidth / canvas.clientHeight / 2;
       camera.updateProjectionMatrix();
     }
