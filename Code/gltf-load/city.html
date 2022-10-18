@@ -30,8 +30,7 @@
     "three": "/build/three.module.js",
     "three/addons/": "/jsm/"
   }
-}
-</script>
+}</script>
 
 <script type="module">
   import * as THREE from "three";
@@ -64,18 +63,22 @@
       let planeSize = 40;
 
       let loader = new THREE.TextureLoader();
+
       let texture = loader.load("./assets/checker.png");
       texture.wrapS = THREE.RepeatWrapping;
       texture.wrapT = THREE.RepeatWrapping;
       texture.magFilter = THREE.NearestFilter;
+
       let repeats = planeSize / 2;
       texture.repeat.set(repeats, repeats);
 
       let planeGeo = new THREE.PlaneGeometry(planeSize, planeSize);
+
       let planeMat = new THREE.MeshPhongMaterial({
         map: texture,
         side: THREE.DoubleSide,
       });
+
       let mesh = new THREE.Mesh(planeGeo, planeMat);
       mesh.rotation.x = Math.PI * -0.5;
       scene.add(mesh);
@@ -102,6 +105,7 @@
       let halfSizeToFitOnScreen = sizeToFitOnScreen * 0.5;
       let halfFovY = THREE.MathUtils.degToRad(camera.fov * 0.5);
       let distance = halfSizeToFitOnScreen / Math.tan(halfFovY);
+
       // compute a unit vector that points in the direction the camera is now
       // in the xz plane from the center of the box
       let direction = new THREE.Vector3()
@@ -124,6 +128,24 @@
       camera.lookAt(boxCenter.x, boxCenter.y, boxCenter.z);
     }
 
+    /**
+     * Dump the scenegraph to the JavaScript console.
+     */
+    function dumpObject(obj, lines = [], isLast = true, prefix = '') {
+      const localPrefix = isLast ? '└─' : '├─';
+      lines.push(`${prefix}${prefix ? localPrefix : ''}${obj.name || '*no-name*'} [${obj.type}]`);
+
+      const newPrefix = prefix + (isLast ? '  ' : '│ ');
+      const lastNdx = obj.children.length - 1;
+
+      obj.children.forEach((child, ndx) => {
+        const isLast = ndx === lastNdx;
+        dumpObject(child, lines, isLast, newPrefix);
+      });
+
+      return lines;
+    }
+
     {
       // https://sketchfab.com/3d-models/cartoon-lowpoly-small-city-free-pack-edd1c604e1e045a0a2a552ddd9a293e6
       new GLTFLoader().load(
@@ -131,6 +153,8 @@
         gltf => {
           let root = gltf.scene;
           scene.add(root);
+
+          console.log(dumpObject(root).join('\n'));
 
           // compute the box that contains all the stuff
           // from root and below
