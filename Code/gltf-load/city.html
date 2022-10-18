@@ -30,11 +30,9 @@
 
   let camera = window._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
   // window._camera.position
-  // let p = {x: -1839, y: 600, z: -1810};
-  let p = {x: 0, y: 600, z: 2650};
-  camera.position.x = p.x;
-  camera.position.y = p.y;
-  camera.position.z = p.z;
+  camera.position.x = 545;
+  camera.position.y = 1090;
+  camera.position.z = 315;
 
   let renderer = new THREE.WebGLRenderer({antialias: true});
   renderer.setSize(window.innerWidth, window.innerHeight);
@@ -50,6 +48,7 @@
   let gltfLoader = new GLTFLoader();
   // https://sketchfab.com/3d-models/cartoon-lowpoly-small-city-free-pack-edd1c604e1e045a0a2a552ddd9a293e6
   gltfLoader.load("./assets/cartoon_lowpoly_small_city_free_pack.glb", function (gltf) {
+    gltf.scene.position.y = -0.5;
     scene.add(gltf.scene);
   }, undefined, function (error) {
     console.error(error);
