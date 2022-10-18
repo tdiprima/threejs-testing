@@ -69,19 +69,28 @@
     addLight([-3, 1, 1]);
     addLight([2, 1, 0.5]);
 
+    // CYLINDER
     let bodyRadiusTop = 0.4;
-    let bodyRadiusBottom = 0.2;
     let bodyHeight = 2;
-    let bodyRadialSegments = 6;
-    let bodyGeometry = new THREE.CylinderGeometry(bodyRadiusTop, bodyRadiusBottom, bodyHeight, bodyRadialSegments);
+    let bodyGeometry = new THREE.CylinderGeometry(
+      bodyRadiusTop, // bodyRadiusTop
+      0.2, // bodyRadiusBottom
+      bodyHeight, // bodyHeight
+      6 // bodyRadialSegments
+    );
 
+    // SPHERE
     let headRadius = bodyRadiusTop * 0.8;
-    let headLonSegments = 12;
-    let headLatSegments = 5;
-    let headGeometry = new THREE.SphereGeometry(headRadius, headLonSegments, headLatSegments);
+    let headGeometry = new THREE.SphereGeometry(
+      headRadius,
+      12, // headLonSegments
+      5 // headLatSegments
+    );
 
+    // PLANE
     let labelGeometry = new THREE.PlaneGeometry(1, 1);
 
+    // CONTEXT
     let ctx = document.createElement("canvas").getContext("2d");
 
     /**
@@ -95,8 +104,12 @@
       let borderSize = 2;
       let font = `${size}px bold sans-serif`;
       ctx.font = font;
+
       // measure how long the name will be
-      let textWidth = ctx.measureText(name).width;
+      let textMetrics = ctx.measureText(name);
+      let textWidth = textMetrics.width;
+      // console.log("%ctext", "color: deeppink", textMetrics);
+      // console.log("%ctextWidth", "color: #ff00cc;", textWidth);
 
       let doubleBorderSize = borderSize * 2;
       let width = baseWidth + doubleBorderSize;
@@ -175,6 +188,7 @@
       let root = new THREE.Object3D();
       root.position.x = x;
 
+      // NOTE THE POSITIONING
       let body = new THREE.Mesh(bodyGeometry, bodyMaterial);
       root.add(body);
       body.position.y = bodyHeight / 2;
@@ -203,7 +217,7 @@
     makePerson(+3, 150, 32, "Red Menace", "red");
 
     /**
-     * Magic.
+     * Resize
      * @param renderer
      * @return {boolean}
      */
@@ -219,7 +233,7 @@
     }
 
     /**
-     * And... render!
+     * Render
      */
     function render() {
       if (resizeRendererToDisplaySize(renderer)) {
