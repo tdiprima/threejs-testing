@@ -6,68 +6,177 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Cute City</title>
   <!-- https://threejs.org/docs/#manual/en/introduction/Loading-3D-models -->
+  <!-- http://127.0.0.1:5500/manual/#en/load-gltf -->
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+
+    #c {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
 </head>
 <body>
+
+<canvas id="c"></canvas>
+
 <script async src="/es-module-shims-1.3.6/dist/es-module-shims.js"></script>
-<script type="importmap">
-  {
-  	"imports": {
-  		"three": "/build/three.module.js"
-  	}
+<script type="importmap">{
+  "imports": {
+    "three": "/build/three.module.js",
+    "three/addons/": "/jsm/"
   }
+}
 </script>
 
 <script type="module">
   import * as THREE from "three";
-  import {OrbitControls} from "/jsm/controls/OrbitControls.js";
-  import {GLTFLoader} from "/jsm/loaders/GLTFLoader.js";
+  import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+  import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
-  console.clear();
-  console.log("%cthree.js rev", "color: #ccff00;", THREE.REVISION);
+  function main() {
+    let canvas = document.querySelector("#c");
+    let renderer = new THREE.WebGLRenderer({ canvas });
+    renderer.outputEncoding = THREE.sRGBEncoding;
 
-  let scene = new THREE.Scene();
-  scene.background = new THREE.Color("#d7ffff");
+    let fov = 45;
+    let aspect = 2; // the canvas default
+    let near = 0.1;
+    let far = 100;
+    let camera = (window._camera = new THREE.PerspectiveCamera(fov, aspect, near, far));
 
-  let camera = window._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
-  // window._camera.position
-  camera.position.x = 545;
-  camera.position.y = 1090;
-  camera.position.z = 315;
+    camera.position.set(0, 10, 20);
+    // window._camera.position
+    // { x: 657, y: 1327, z: -1340 }
 
-  let renderer = new THREE.WebGLRenderer({antialias: true});
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  document.body.appendChild(renderer.domElement);
+    let controls = new OrbitControls(camera, canvas);
+    controls.target.set(0, 5, 0);
+    controls.update();
 
-  let controls = new OrbitControls(camera, renderer.domElement);
+    let scene = new THREE.Scene();
+    scene.background = new THREE.Color("#d7ffff");
 
-  // let light = new THREE.HemisphereLight(0xffffbb, 0x080820, 1);
-  let light = new THREE.HemisphereLight(0xffffff, 0xffffff, 1);
-  scene.add(light);
+    {
+      let planeSize = 40;
 
-  // Add city model
-  let gltfLoader = new GLTFLoader();
-  // https://sketchfab.com/3d-models/cartoon-lowpoly-small-city-free-pack-edd1c604e1e045a0a2a552ddd9a293e6
-  gltfLoader.load("./assets/cartoon_lowpoly_small_city_free_pack.glb", function (gltf) {
-    gltf.scene.position.y = -0.5;
-    scene.add(gltf.scene);
-  }, undefined, function (error) {
-    console.error(error);
-  });
+      let loader = new THREE.TextureLoader();
+      let texture = loader.load("./assets/checker.png");
+      texture.wrapS = THREE.RepeatWrapping;
+      texture.wrapT = THREE.RepeatWrapping;
+      texture.magFilter = THREE.NearestFilter;
+      let repeats = planeSize / 2;
+      texture.repeat.set(repeats, repeats);
 
-  function animate() {
-    requestAnimationFrame(animate);
-    renderer.render(scene, camera);
+      let planeGeo = new THREE.PlaneGeometry(planeSize, planeSize);
+      let planeMat = new THREE.MeshPhongMaterial({
+        map: texture,
+        side: THREE.DoubleSide,
+      });
+      let mesh = new THREE.Mesh(planeGeo, planeMat);
+      mesh.rotation.x = Math.PI * -0.5;
+      scene.add(mesh);
+    }
+
+    {
+      let skyColor = 0xb1e1ff; // light blue
+      let groundColor = 0xb97a20; // brownish orange
+      let intensity = 0.6;
+      let light = new THREE.HemisphereLight(skyColor, groundColor, intensity);
+      scene.add(light);
+    }
+
+    {
+      let color = 0xffffff;
+      let intensity = 0.8;
+      let light = new THREE.DirectionalLight(color, intensity);
+      light.position.set(5, 10, 2);
+      scene.add(light);
+      scene.add(light.target);
+    }
+
+    function frameArea(sizeToFitOnScreen, boxSize, boxCenter, camera) {
+      let halfSizeToFitOnScreen = sizeToFitOnScreen * 0.5;
+      let halfFovY = THREE.MathUtils.degToRad(camera.fov * 0.5);
+      let distance = halfSizeToFitOnScreen / Math.tan(halfFovY);
+      // compute a unit vector that points in the direction the camera is now
+      // in the xz plane from the center of the box
+      let direction = new THREE.Vector3()
+        .subVectors(camera.position, boxCenter)
+        .multiply(new THREE.Vector3(1, 0, 1))
+        .normalize();
+
+      // move the camera to a position distance units way from the center
+      // in whatever direction the camera was from the center already
+      camera.position.copy(direction.multiplyScalar(distance).add(boxCenter));
+
+      // pick some near and far values for the frustum that
+      // will contain the box.
+      camera.near = boxSize / 100;
+      camera.far = boxSize * 100;
+
+      camera.updateProjectionMatrix();
+
+      // point the camera to look at the center of the box
+      camera.lookAt(boxCenter.x, boxCenter.y, boxCenter.z);
+    }
+
+    {
+      // https://sketchfab.com/3d-models/cartoon-lowpoly-small-city-free-pack-edd1c604e1e045a0a2a552ddd9a293e6
+      new GLTFLoader().load(
+        "./assets/cartoon_lowpoly_small_city_free_pack.glb",
+        gltf => {
+          let root = gltf.scene;
+          scene.add(root);
+
+          // compute the box that contains all the stuff
+          // from root and below
+          let box = new THREE.Box3().setFromObject(root);
+
+          let boxSize = box.getSize(new THREE.Vector3()).length();
+          let boxCenter = box.getCenter(new THREE.Vector3());
+
+          // set the camera to frame the box
+          frameArea(boxSize * 0.5, boxSize, boxCenter, camera);
+
+          // update the Trackball controls to handle the new size
+          controls.maxDistance = boxSize * 10;
+          controls.target.copy(boxCenter);
+          controls.update();
+        }
+      );
+    }
+
+    function resizeRendererToDisplaySize(renderer) {
+      let canvas = renderer.domElement;
+      let width = canvas.clientWidth;
+      let height = canvas.clientHeight;
+      let needResize = canvas.width !== width || canvas.height !== height;
+      if (needResize) {
+        renderer.setSize(width, height, false);
+      }
+      return needResize;
+    }
+
+    function render() {
+      if (resizeRendererToDisplaySize(renderer)) {
+        let canvas = renderer.domElement;
+        camera.aspect = canvas.clientWidth / canvas.clientHeight;
+        camera.updateProjectionMatrix();
+      }
+
+      renderer.render(scene, camera);
+
+      requestAnimationFrame(render);
+    }
+
+    requestAnimationFrame(render);
   }
 
-  animate();
-
-  window.addEventListener("resize", onWindowResize);
-
-  function onWindowResize() {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-  }
+  main();
 </script>
 </body>
 </html>
