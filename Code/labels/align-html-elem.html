@@ -137,9 +137,6 @@
       return {cube, elem};
     }
 
-    // They love this stupid jungle green 44aa88
-    // Royal purple 8844aa
-    // Driftwood aa8844
     let cubes = [
       makeInstance(geometry, 0x00ffff, 0, "Aqua"),
       makeInstance(geometry, 0xa020f0, -2, "Purple"),
@@ -162,7 +159,7 @@
       return needResize;
     }
 
-    let tempV = new THREE.Vector3();
+    let tempV = new THREE.Vector3(); // hold position of cube
     let raycaster = new THREE.Raycaster();
 
     /**
