@@ -115,12 +115,15 @@
     let moonMaterial = new THREE.MeshPhongMaterial({color: 0x888888, emissive: 0x222222});
     let moonMesh = new THREE.Mesh(sphereGeometry, moonMaterial);
     moonMesh.name = "Moon";
+    // moonMesh.position.x = 2;
     moonMesh.scale.set(.5, .5, .5);
     moonOrbit.add(moonMesh);
     objects.push(moonMesh);
 
-    console.log(dumpObject(solarSystem).join('\n'));
+    // console.log(dumpObject(solarSystem).join('\n'));
     // console.log(dumpObject(scene).join('\n'));
+    console.log(`%c${dumpObject(scene).join('\n')}`, "color: #00ff00; font-size: large;");
+
 
     function resizeRendererToDisplaySize(renderer) {
       const canvas = renderer.domElement;
