@@ -8,6 +8,7 @@
   <!-- http://127.0.0.1:5500/manual/#en/scenegraph -->
   <!-- We're using sun, earth, moon as a demonstration of how to use a scene graph. -->
   <link rel="stylesheet" href="/css/manual.css">
+  <script src="../misc/dumpObject.js"></script>
 </head>
 <body>
 
@@ -23,6 +24,7 @@
 
 <script type="module">
   import * as THREE from "three";
+  import {OrbitControls} from "three/addons/controls/OrbitControls.js";
 
   function main() {
     let canvas = document.querySelector("#c");
@@ -40,9 +42,12 @@
     camera.up.set(0, 0, 1); // (which way is "up")
     camera.lookAt(0, 0, 0);
 
+    let controls = new OrbitControls(camera, canvas);
+
     let scene = new THREE.Scene();
 
     {
+      // Put a single point light in the center of the scene.
       let color = 0xffffff;
       let intensity = 3;
       let light = new THREE.PointLight(color, intensity);
@@ -64,30 +69,32 @@
       heightSegments
     );
 
+    const solarSystem = new THREE.Object3D();
+    scene.add(solarSystem);
+    solarSystem.name = "Solar System";
+    objects.push(solarSystem);
+
     // SUN
     // A phong material's emissive property is the color that will be drawn with no light hitting the surface.
     let sunMaterial = new THREE.MeshPhongMaterial({ emissive: 0xffff00 });
     let sunMesh = new THREE.Mesh(sphereGeometry, sunMaterial);
     sunMesh.scale.set(5, 5, 5); // make the sun large
-    scene.add(sunMesh);
+    sunMesh.name = "Sun";
+    solarSystem.add(sunMesh);
     objects.push(sunMesh);
 
     // EARTH
     // Give it a small amount of emissive blue so that it will show up against our black background.
-    let earthMaterial = new THREE.MeshPhongMaterial({color: 0x2233FF, emissive: 0x112244});
+    let earthMaterial = new THREE.MeshPhongMaterial({color: 0x2233ff, emissive: 0x112244});
     let earthMesh = new THREE.Mesh(sphereGeometry, earthMaterial);
     // Position it 10 units to the left of the sun
     earthMesh.position.x = 10;
-    scene.add(earthMesh);
+    earthMesh.name = "Earth";
+    solarSystem.add(earthMesh);
     objects.push(earthMesh);
 
-    // Put a single point light in the center of the scene.
-    // {
-    //   let color = 0xffffff;
-    //   let intensity = 3;
-    //   let light = new THREE.PointLight(color, intensity);
-    //   scene.add(light);
-    // }
+    console.log(dumpObject(solarSystem).join('\n'));
+    // console.log(dumpObject(scene).join('\n'));
 
     function resizeRendererToDisplaySize(renderer) {
       const canvas = renderer.domElement;
