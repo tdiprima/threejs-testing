@@ -47,13 +47,21 @@
     let cubes = []; // just an array we can use to rotate the cubes
     let loader = new THREE.TextureLoader();
 
-    let material = new THREE.MeshBasicMaterial({
-      map: loader.load("/textures/wall.jpg"),
-    });
+    // let material = new THREE.MeshBasicMaterial({
+    //   map: loader.load("/textures/wall.jpg")
+    // });
+    // let cube = new THREE.Mesh(geometry, material);
+    // scene.add(cube);
+    // cubes.push(cube); // add to our list of cubes to rotate
 
-    let cube = new THREE.Mesh(geometry, material);
-    scene.add(cube);
-    cubes.push(cube); // add to our list of cubes to rotate
+    loader.load("resources/images/wall.jpg", texture => {
+      let material = new THREE.MeshBasicMaterial({
+        map: texture
+      });
+      let cube = new THREE.Mesh(geometry, material);
+      scene.add(cube);
+      cubes.push(cube); // add to our list of cubes to rotate
+    });
 
     function resizeRendererToDisplaySize(renderer) {
       let canvas = renderer.domElement;
