@@ -6,8 +6,8 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Textures</title>
   <!-- http://127.0.0.1:5500/manual/#en/textures -->
-  <!-- https://youtu.be/8jP4xpga6yY -->
-  <!-- https://codepen.io/bradtraversy/pen/VOpZvp -->
+  <!-- textures take width * height * 4 * 1.33 bytes of memory. -->
+  <!-- Small in file size = fast to download. Small in dimensions = takes less memory. -->
   <link href="/css/manual.css" rel="stylesheet">
 </head>
 <body>
@@ -44,17 +44,20 @@
       1 // boxDepth
     );
 
+    let img = "/textures/wall.jpg";
+    // let img = "/textures/mip-low-res-enlarged.png";
+
     let cubes = []; // just an array we can use to rotate the cubes
     let loader = new THREE.TextureLoader();
 
     // let material = new THREE.MeshBasicMaterial({
-    //   map: loader.load("/textures/wall.jpg")
+    //   map: loader.load(img)
     // });
     // let cube = new THREE.Mesh(geometry, material);
     // scene.add(cube);
     // cubes.push(cube); // add to our list of cubes to rotate
 
-    loader.load("resources/images/wall.jpg", texture => {
+    loader.load(img, texture => {
       let material = new THREE.MeshBasicMaterial({
         map: texture
       });
