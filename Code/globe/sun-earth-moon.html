@@ -20,6 +20,7 @@
     "three/addons/": "/jsm/"
   }
 }
+
 </script>
 <script async src="/es-module-shims-1.3.6/dist/es-module-shims.js"></script>
 
@@ -46,12 +47,14 @@
     let controls = new OrbitControls(camera, canvas);
 
     let scene = new THREE.Scene();
+    scene.name = "Scene";
 
     {
       // Put a single point light in the center of the scene.
       let color = 0xffffff;
       let intensity = 3;
       let light = new THREE.PointLight(color, intensity);
+      light.name = "Lumiere";
       scene.add(light);
     }
 
@@ -122,6 +125,14 @@
 
     // console.log(dumpObject(solarSystem).join('\n'));
     console.log(`%c${dumpObject(scene).join('\n')}`, "color: #00ff00; font-size: large;");
+
+    // add an AxesHelper to each node
+    // objects.forEach((node) => {
+    //   const axes = new THREE.AxesHelper();
+    //   axes.material.depthTest = false; // Don't check to see if they are drawing behind something else.
+    //   axes.renderOrder = 1; // They get drawn after all the spheres.
+    //   node.add(axes);
+    // });
 
     function resizeRendererToDisplaySize(renderer) {
       const canvas = renderer.domElement;
