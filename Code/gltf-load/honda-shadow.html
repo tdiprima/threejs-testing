@@ -7,6 +7,7 @@
   <title>Honda Shadow RS 2010</title>
   <!-- https://stackoverflow.com/questions/69817153/three-js-typeerror-material-onbeforerender-is-not-a-function -->
   <link href="/css/main.css" rel="stylesheet">
+  <script src="../misc/dumpObject.js"></script>
   <!-- https://sketchfab.com/3d-models/honda-shadow-rs-2010-2e7cf7bc195044f4a0f60c04581e2691 -->
   <!-- https://sketchfab.com/models/2e7cf7bc195044f4a0f60c04581e2691/embed?autostart=1&internal=1&tracking=0&ui_ar=0&ui_infos=0&ui_snapshots=1&ui_stop=0&ui_theatre=1&ui_watermark=0 -->
   <!-- Yeah, you're gonna need shadows & light and stuff. -->
@@ -65,13 +66,7 @@
   directionalLight.intensity = 1;
   scene.add(directionalLight);
 
-  // Too soft.
-  // let hemisphereLight = new THREE.HemisphereLight(
-  //   0xffffbb, // skyColor
-  //   0x080820, // groundColor
-  //   1 // intensity
-  // );
-  let hemisphereLight = new THREE.HemisphereLight();
+  let hemisphereLight = new THREE.HemisphereLight(0xffffff, 1.5);
   scene.add(hemisphereLight);
 
   // Create a SpotLight and turn on shadows for the light
@@ -80,10 +75,10 @@
   scene.add(spotLight);
 
   let imgSrc = "/models/gltf/honda_shadow_rs_2010.glb";
-  // let imgSrc = "/models/gltf/box.glb";
 
   new GLTFLoader().load(imgSrc, gltf => {
     // console.log("gltf.animations", gltf.animations); // empty array; KSD
+    console.log(`%c${dumpObject(gltf.scene).join('\n')}`, "color: #00ff00;");
     const mesh = gltf.scene.children[0];
     mesh.position.y = -0.5;
 
