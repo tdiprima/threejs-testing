@@ -65,31 +65,24 @@
   directionalLight.intensity = 1;
   scene.add(directionalLight);
 
-  // skyColor, groundColor, intensity
-  // let hemisphereLight = new THREE.HemisphereLight( 0xffffbb, 0x080820, 1 ); // soft light
+  // Too soft.
+  // let hemisphereLight = new THREE.HemisphereLight(
+  //   0xffffbb, // skyColor
+  //   0x080820, // groundColor
+  //   1 // intensity
+  // );
   let hemisphereLight = new THREE.HemisphereLight();
   scene.add(hemisphereLight);
 
   // Create a SpotLight and turn on shadows for the light
-  let spotLight = new THREE.SpotLight(0xffffff); // color
-  spotLight.castShadow = true; // default false
+  let spotLight = new THREE.SpotLight(0xffffff);
+  spotLight.castShadow = true;
   scene.add(spotLight);
-
-  // Set up shadow properties for the light
-  spotLight.shadow.mapSize.width = 512; // default
-  spotLight.shadow.mapSize.height = 512; // default
-  spotLight.shadow.camera.near = 0.5; // default
-  spotLight.shadow.camera.far = 500; // default
-  spotLight.shadow.focus = 1; // default
-
-  // Create a helper for the shadow camera (optional)
-  // let helper = new THREE.CameraHelper(spotLight.shadow.camera);
-  // scene.add(helper);
 
   let imgSrc = "/models/gltf/honda_shadow_rs_2010.glb";
   // let imgSrc = "/models/gltf/box.glb";
 
-  new GLTFLoader().load("/models/gltf/honda_shadow_rs_2010.glb", gltf => {
+  new GLTFLoader().load(imgSrc, gltf => {
     // console.log("gltf.animations", gltf.animations); // empty array; KSD
     const mesh = gltf.scene.children[0];
     mesh.position.y = -0.5;
