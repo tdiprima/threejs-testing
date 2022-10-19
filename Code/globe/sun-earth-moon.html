@@ -16,8 +16,7 @@
 
 <script type="importmap">{
   "imports": {
-    "three": "/build/three.module.js",
-    "three/addons/": "/jsm/"
+    "three": "/build/three.module.js"
   }
 }
 
@@ -26,25 +25,22 @@
 
 <script type="module">
   import * as THREE from "three";
-  import {OrbitControls} from "three/addons/controls/OrbitControls.js";
 
   function main() {
     let canvas = document.querySelector("#c");
     let renderer = new THREE.WebGLRenderer({canvas});
 
-    let fov = 40;
-    let aspect = 2; // the canvas default
-    let near = 0.1;
-    let far = 1000;
-
     // Put the camera directly above the origin looking down.
-    let camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+    let camera = new THREE.PerspectiveCamera(
+      40, // fov
+      2, // aspect
+      0.1, // near
+      1000 // far
+    );
     camera.position.set(0, 50, 0);
     // Tell the camera which way the top of the camera is facing.
     camera.up.set(0, 0, 1); // (which way is "up")
     camera.lookAt(0, 0, 0);
-
-    let controls = new OrbitControls(camera, canvas);
 
     let scene = new THREE.Scene();
     scene.name = "Scene";

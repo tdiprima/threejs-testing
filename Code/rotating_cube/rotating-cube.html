@@ -2,126 +2,95 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Basic Three.js Example</title>
-  <!-- WEBGL = POWERFUL ANIMATIONS -->
-  <!-- VIDEO - https://youtu.be/8jP4xpga6yY -->
-  <!-- CODE - https://codepen.io/bradtraversy/pen/VOpZvp -->
-  <!-- TEXTURES - https://github.com/mrdoob/three.js/tree/master/examples/textures -->
-  <!-- SEE - https://threejs.org/docs/index.html?q=scene#manual/en/introduction/Creating-a-scene -->
-  <style>
-    body {
-      margin: 0;
-    }
-    canvas {
-      width: 50%;
-      height: 100%;
-    }
-  </style>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Textures</title>
+  <!-- http://127.0.0.1:5500/manual/#en/textures -->
+  <!-- https://youtu.be/8jP4xpga6yY -->
+  <!-- https://codepen.io/bradtraversy/pen/VOpZvp -->
+  <link href="/css/manual.css" rel="stylesheet">
 </head>
 <body>
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/104/three.js"></script> -->
-<script src="/build/three.min.js"></script>
-<script>
-  let camera;
-  let scene;
-  let renderer;
-  let cube;
 
-  // Cube
-  function qBert() {
-    // https://threejs.org/docs/index.html?q=geometr#api/en/geometries/BoxGeometry
-    let geometry = new THREE.BoxGeometry( 1, 1, 1 );
-    let material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-    return new THREE.Mesh( geometry, material ); // small green cube
+<canvas id="c"></canvas>
+
+<script type="importmap">{
+  "imports": {
+    "three": "/build/three.module.js"
   }
+}</script>
+<script async src="/es-module-shims-1.3.6/dist/es-module-shims.js"></script>
 
-  function qBert1() {
-    let geometry = new THREE.BoxGeometry( 2, 2, 2 );
-    let material = new THREE.MeshBasicMaterial({ color: 0x0000ff });
-    return new THREE.Mesh(geometry, material); // larger blue cube
-  }
+<script type="module">
+  import * as THREE from "three";
 
-  function qBert2() {
-    let geometry = new THREE.BoxGeometry(3, 3, 3);
-    let texture;
-    texture = new THREE.TextureLoader().load("textures/crate.gif");
-    // texture = new THREE.TextureLoader().load("textures/golfball.jpg");
-    let material = new THREE.MeshBasicMaterial({ map: texture });
-    return new THREE.Mesh(geometry, material); // large textured cube
-  }
+  function main() {
+    let canvas = document.querySelector("#c");
+    let renderer = new THREE.WebGLRenderer({canvas});
 
-  /**
-   * init
-   */
-  function init() {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
+    let camera = new THREE.PerspectiveCamera(
+      75, // fov
+      2, // aspect
+      0.1, // near
+      5 // far
+    );
+    camera.position.z = 2;
 
-    // https://threejs.org/docs/index.html#api/en/scenes/Scene
-    scene = new THREE.Scene();
+    let scene = new THREE.Scene();
 
-    // https://threejs.org/docs/index.html#api/en/cameras/PerspectiveCamera
-    camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+    let geometry = new THREE.BoxGeometry(
+      1, // boxWidth
+      1, // boxHeight
+      1 // boxDepth
+    );
 
-    renderer = new THREE.WebGLRenderer({ antialias: true });
+    let cubes = []; // just an array we can use to rotate the cubes
+    let loader = new THREE.TextureLoader();
 
-    // Set size (whole window)
-    renderer.setSize(width, height);
+    let material = new THREE.MeshBasicMaterial({
+      map: loader.load("/textures/wall.jpg"),
+    });
 
-    // Render to canvas element
-    document.body.appendChild(renderer.domElement);
-
-    // Init BoxGeometry object (rectangular cuboid)
-    // cube = qBert();
-    // cube = qBert1();
-    cube = qBert2();
-
-    // Add to scene
+    let cube = new THREE.Mesh(geometry, material);
     scene.add(cube);
+    cubes.push(cube); // add to our list of cubes to rotate
 
-    // Position camera
-    camera.position.z = 5;
+    function resizeRendererToDisplaySize(renderer) {
+      let canvas = renderer.domElement;
+      let width = canvas.clientWidth;
+      let height = canvas.clientHeight;
+      let needResize = canvas.width !== width || canvas.height !== height;
+      if (needResize) {
+        renderer.setSize(width, height, false);
+      }
+      return needResize;
+    }
+
+    function render(time) {
+      time *= 0.001;
+
+      if (resizeRendererToDisplaySize(renderer)) {
+        let canvas = renderer.domElement;
+        camera.aspect = canvas.clientWidth / canvas.clientHeight;
+        camera.updateProjectionMatrix();
+      }
+
+      cubes.forEach((cube, ndx) => {
+        let speed = 0.2 + ndx * 0.1;
+        let rot = time * speed;
+        cube.rotation.x = rot;
+        cube.rotation.y = rot;
+      });
+
+      renderer.render(scene, camera);
+
+      requestAnimationFrame(render);
+    }
+
+    requestAnimationFrame(render);
   }
 
-  /**
-   * Draw the scene every time the screen is refreshed
-   */
-  function animate() {
-    requestAnimationFrame(animate);
-
-    // Rotate cube (Change values to change speed)
-    cube.rotation.x += 0.01;
-    cube.rotation.y += 0.01;
-
-    renderer.render(scene, camera);
-  }
-
-  /**
-   * Window: resize event.
-   * Keep box centered.
-   */
-  function onWindowResize() {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-
-    // Set camera frustum aspect ratio
-    camera.aspect = width / height;
-
-    // Update camera
-    camera.updateProjectionMatrix();
-
-    // Set renderer size
-    renderer.setSize(width, height);
-  }
-
-  // Listen for window resize
-  window.addEventListener('resize', onWindowResize, false);
-
-  init();
-  animate();
-
+  main();
 </script>
 </body>
 </html>
