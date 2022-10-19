@@ -8,3 +8,13 @@ html, body {
   width: 100%;
   height: 100%;
 }
+
+#info {
+  font-family: monospace;
+  position: absolute;
+  top: 1em;
+  left: 1em;
+  padding: .5em;
+  color: white;
+  background: rgba(0, 0, 0, .8);
+}
