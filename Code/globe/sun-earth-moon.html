@@ -7,19 +7,20 @@
   <title>Sun Earth Moon</title>
   <!-- http://127.0.0.1:5500/manual/#en/scenegraph -->
   <!-- We're using sun, earth, moon as a demonstration of how to use a scene graph. -->
-  <link rel="stylesheet" href="/css/manual.css">
+  <link href="/css/manual.css" rel="stylesheet">
   <script src="../misc/dumpObject.js"></script>
 </head>
 <body>
 
 <canvas id="c"></canvas>
 
-<script  type="importmap">{
+<script type="importmap">{
   "imports": {
     "three": "/build/three.module.js",
     "three/addons/": "/jsm/"
   }
-}</script>
+}
+</script>
 <script async src="/es-module-shims-1.3.6/dist/es-module-shims.js"></script>
 
 <script type="module">
@@ -28,7 +29,7 @@
 
   function main() {
     let canvas = document.querySelector("#c");
-    let renderer = new THREE.WebGLRenderer({ canvas });
+    let renderer = new THREE.WebGLRenderer({canvas});
 
     let fov = 40;
     let aspect = 2; // the canvas default
@@ -69,29 +70,54 @@
       heightSegments
     );
 
+    // SOLAR SYSTEM
     const solarSystem = new THREE.Object3D();
-    scene.add(solarSystem);
     solarSystem.name = "Solar System";
+    scene.add(solarSystem);
     objects.push(solarSystem);
 
     // SUN
     // A phong material's emissive property is the color that will be drawn with no light hitting the surface.
-    let sunMaterial = new THREE.MeshPhongMaterial({ emissive: 0xffff00 });
+    let sunMaterial = new THREE.MeshPhongMaterial({emissive: 0xffff00});
     let sunMesh = new THREE.Mesh(sphereGeometry, sunMaterial);
-    sunMesh.scale.set(5, 5, 5); // make the sun large
     sunMesh.name = "Sun";
+    sunMesh.scale.set(5, 5, 5); // make the sun large
     solarSystem.add(sunMesh);
     objects.push(sunMesh);
+
+    // EARTH ORBIT
+    const earthOrbit = new THREE.Object3D();
+    earthOrbit.name = "Earth Orbit";
+    // Position it 10 units to the left of the sun
+    earthOrbit.position.x = 10;
+    solarSystem.add(earthOrbit);
+    objects.push(earthOrbit);
 
     // EARTH
     // Give it a small amount of emissive blue so that it will show up against our black background.
     let earthMaterial = new THREE.MeshPhongMaterial({color: 0x2233ff, emissive: 0x112244});
     let earthMesh = new THREE.Mesh(sphereGeometry, earthMaterial);
-    // Position it 10 units to the left of the sun
-    earthMesh.position.x = 10;
     earthMesh.name = "Earth";
-    solarSystem.add(earthMesh);
+    earthOrbit.add(earthMesh);
     objects.push(earthMesh);
+
+    // MOON ORBIT
+    let moonOrbit = new THREE.Object3D();
+    moonOrbit.name = "Moon Orbit";
+    // Position it 2 units to the left of the Earth
+    moonOrbit.position.x = 2;
+    earthOrbit.add(moonOrbit);
+    objects.push(moonOrbit); // (He didn't push the moon orbit; yet, he pushed the Earth orbit?)
+    // What if I don't push either of them; just the earth and moon?
+    // They seem to spin slower if I do that.
+
+    // MOON
+    let moonMaterial = new THREE.MeshPhongMaterial({color: 0x888888, emissive: 0x222222});
+    let moonMesh = new THREE.Mesh(sphereGeometry, moonMaterial);
+    moonMesh.name = "Moon";
+    moonMesh.scale.set(.5, .5, .5);
+    moonOrbit.add(moonMesh);
+    objects.push(moonMesh);
 
     console.log(dumpObject(solarSystem).join('\n'));
     // console.log(dumpObject(scene).join('\n'));
@@ -125,6 +151,7 @@
 
       requestAnimationFrame(render);
     }
+
     requestAnimationFrame(render);
   }
 

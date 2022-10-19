@@ -15,4 +15,4 @@ function dumpObject(obj, lines = [], isLast = true, prefix = '') {
 }
 
 // And then right after scene.add(gltf.scene);
-console.log(dumpObject(gltf.scene).join('\n'));
+// console.log(dumpObject(gltf.scene).join('\n'));
