@@ -6,6 +6,7 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Cameras - Perspective 2 views</title>
   <!-- https://r105.threejsfundamentals.org/threejs/lessons/threejs-cameras.html -->
+  <!-- https://threejs.org/manual/#en/cameras -->
   <!-- MULTIPLE CAMERAS -->
   <!-- https://codepen.io/jdrew1303/pen/poyVOyG -->
   <style>
@@ -58,11 +59,19 @@
   <div id="view2" tabindex="2">view2</div>
 </div>
 
-<script src="https://r105.threejsfundamentals.org/threejs/resources/threejs/r105/three.min.js"></script>
-<script src="https://r105.threejsfundamentals.org/threejs/resources/threejs/r105/js/controls/OrbitControls.js"></script>
-<script src="https://r105.threejsfundamentals.org/3rdparty/dat.gui.min.js"></script>
+<script async src="/es-module-shims-1.3.6/dist/es-module-shims.js"></script>
+<script type="importmap">{
+  "imports": {
+    "three": "/build/three.module.js",
+    "three/addons/": "/jsm/"
+  }
+}</script>
 
-<script>
+<script type="module">
+  import * as THREE from "three";
+  import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+  import { GUI } from "three/addons/libs/lil-gui.module.min.js";
+
   // Three.js - Cameras - Perspective 2 views
   // from https://r105.threejsfundamentals.org/threejs/threejs-cameras-perspective-2-scenes.html
   console.log(`%cREVISION ${THREE.REVISION}`, "color: #ccff00;");
@@ -70,13 +79,13 @@
   const poloBlue = "#88aacc";
   const tan = "#ccaa88";
   const stratos = "#000040";
-  const checker = "https://r105.threejsfundamentals.org/threejs/resources/images/checker.png";
+  const checker = "../gltf-load/assets/checker.png";
 
   /* global THREE, dat */
   let canvas = document.querySelector("#c");
   let view1Elem = document.querySelector("#view1");
   let view2Elem = document.querySelector("#view2");
-  let renderer = new THREE.WebGLRenderer({canvas});
+  let renderer = new THREE.WebGLRenderer({ canvas });
 
   let fov = 45;
   let aspect = 2; // the canvas default
@@ -122,14 +131,14 @@
     }
   }
 
-  let gui = new dat.GUI();
+  let gui = new GUI();
   gui.add(camera, "fov", 1, 180);
 
   let minMaxGUIHelper = new MinMaxGUIHelper(camera, "near", "far", 0.1);
   gui.add(minMaxGUIHelper, "min", 0.1, 50, 0.1).name("near");
   gui.add(minMaxGUIHelper, "max", 0.1, 50, 0.1).name("far");
 
-  let controls = new THREE.OrbitControls(camera, view1Elem);
+  let controls = new OrbitControls(camera, view1Elem);
   controls.target.set(0, 5, 0);
   controls.update();
 
@@ -143,7 +152,7 @@
   camera2.position.set(40, 10, 30);
   camera2.lookAt(0, 5, 0);
 
-  let controls2 = new THREE.OrbitControls(camera2, view2Elem);
+  let controls2 = new OrbitControls(camera2, view2Elem);
   controls2.target.set(0, 5, 0);
   controls2.update();
 
@@ -162,33 +171,33 @@
   texture.wrapT = THREE.RepeatWrapping;
   texture.magFilter = THREE.NearestFilter;
 
-  let repeats = planeSize / 2; // 20
+  let repeats = planeSize / 2;
   texture.repeat.set(repeats, repeats);
 
   // PLANE
-  let planeGeo = new THREE.PlaneBufferGeometry(planeSize, planeSize);
+  let planeGeo = new THREE.PlaneGeometry(planeSize, planeSize);
   let planeMat = new THREE.MeshPhongMaterial({
     map: texture,
     side: THREE.DoubleSide,
   });
 
   let mesh = new THREE.Mesh(planeGeo, planeMat);
-  mesh.rotation.x = Math.PI * -0.5; // -1.57
+  mesh.rotation.x = Math.PI * -0.5;
   scene.add(mesh);
 
   // CUBE
   let cubeSize = 4;
-  let cubeGeo = new THREE.BoxBufferGeometry(cubeSize, cubeSize, cubeSize);
+  let cubeGeo = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);
   let cubeMat = new THREE.MeshPhongMaterial({color: poloBlue});
   mesh = new THREE.Mesh(cubeGeo, cubeMat);
-  mesh.position.set(cubeSize + 1, cubeSize / 2, 0); // 5, 2, 0
+  mesh.position.set(cubeSize + 1, cubeSize / 2, 0);
   // x: move it right, from center
   // y: move it down-field, a bit
   scene.add(mesh);
 
   // SPHERE
   let sphereRadius = 3;
-  let sphereGeo = new THREE.SphereBufferGeometry(
+  let sphereGeo = new THREE.SphereGeometry(
     sphereRadius,
     32, // sphereWidthDivisions,
     16 // sphereHeightDivisions
