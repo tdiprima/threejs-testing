@@ -60,11 +60,10 @@
 
   let controls = new OrbitControls(camera, renderer.domElement); // listen to dom events on mouse
 
-  // Animation Loop
-
+  // Put the call to requestAnimationFrame at the bottom
+  // http://threejs.org/manual/#en/debugging-javascript
   function animate() {
-    requestAnimationFrame(animate);
-
+    // -- do stuff --
     torus.rotation.x += 0.01;
     torus.rotation.y += 0.005;
     torus.rotation.z += 0.01;
@@ -72,6 +71,7 @@
     controls.update();
 
     renderer.render(scene, camera);
+    requestAnimationFrame(animate);
   }
   animate();
 </script>
