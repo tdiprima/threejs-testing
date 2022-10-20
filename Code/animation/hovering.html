@@ -4,87 +4,107 @@
   <meta charset="UTF-8">
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Animate!</title>
+  <title>Works in Chrome</title>
+  <!-- https://www.sololearn.com/compiler-playground/W8GR26TztP9t/?ref=app -->
+  <!-- WebGL warning: getUniformLocation -->
+  <!-- String matches reserved GLSL prefix pattern -->
+  <!-- So maybe it's hovering because the model itself was designed with 132 or less in mind. -->
   <link rel="stylesheet" href="/css/main.css">
   <!-- https://discoverthreejs.com/book/first-steps/load-models/ -->
   <!-- https://discoverthreejs.com/book/first-steps/animation-system/ -->
   <!-- https://discoverthreejs.com/book/appendix/asynchronous-javascript/ -->
 </head>
 <body>
+
+<canvas id="canvas"></canvas>
+
 <script async src="/es-module-shims-1.3.6/dist/es-module-shims.js"></script>
 <script type="importmap">
   {
-  	"imports": {
-  		"three": "/build/three.module.js"
-  	}
+    "imports": {
+      "three": "/build/three.module.js"
+    }
   }
 </script>
 
 <script type="module">
-  import * as THREE from "three";
+  import * as THREE from "/build/three.module.js";
   import {OrbitControls} from "/jsm/controls/OrbitControls.js";
   import {GLTFLoader} from "/jsm/loaders/GLTFLoader.js";
 
-  console.clear();
-  console.log("%cthree.js rev", "color: #ccff00;", THREE.REVISION);
+  let fov = 60;
+  let aspectRatio = window.innerWidth / window.innerHeight;
+  let near = 1;
+  let far = 2000;
+
+  let mixer;
 
   let scene = new THREE.Scene();
-  scene.background = new THREE.Color(0xc7deea);
+  scene.background = new THREE.Color("#c7deea");
 
-  let camera = window._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
+  let camera = window._camera = new THREE.PerspectiveCamera(fov, aspectRatio, near, far);
   // window._camera.position
+  camera.position.set(-40 / 2, 5, 50 / 2);
+  camera.lookAt(0, 0, 0);
+  scene.add(camera);
 
-  let p = {x: -93.91188531607672, y: 22.037651253352788, z: 8.740520894388773 };
-  camera.position.x = p.x;
-  camera.position.y = p.y;
-  camera.position.z = p.z;
-
-  let renderer = new THREE.WebGLRenderer();
+  // Don't use "antialias: true" in renderer
+  let renderer = new THREE.WebGLRenderer({canvas: document.getElementById("canvas")});
   renderer.setSize(window.innerWidth, window.innerHeight);
-  document.body.appendChild(renderer.domElement);
 
-  let controls = new OrbitControls(camera, renderer.domElement);
+  // https://discourse.threejs.org/t/why-is-gammafactor-deprecated-in-webglrenderer-dev-branch/8140/6
+  // renderer.gammaOutput = true;
+  // renderer.gammaFactor = 2.0;
 
-  let light = new THREE.HemisphereLight(0xffffff, 0xffffff, 1);
-  scene.add(light);
+  let orbitControl = new OrbitControls(camera, renderer.domElement);
 
   // The "await" keyword means "wait here until the model has loaded".
-  let loader = new GLTFLoader();
+  // let loadedData = await loader.loadAsync("/models/gltf/Parrot.glb");
+  // console.log("%cloadedData", "color: #ff00cc;", loadedData);
 
-  let loadedData = await loader.loadAsync("/models/gltf/Parrot.glb");
-  console.log("%cloadedData", "color: #ff00cc;", loadedData);
+  // Need to point to your local Parrot.glb
+  new GLTFLoader().load("/models/gltf/Parrot.glb", function (object) {
+    object.scene.scale.set(0.1, 0.1, 0.1);
 
-  scene.add(loadedData.scene);
+    object.scene.traverse(function (child) {
+      console.log(child);
+    });
 
-  const model = loadedData.scene.children[0];
-  const clip = loadedData.animations[0];
+    // let model = object.scene;
+    let model = object.scene.children[0];
+    let clip = object.animations[0];
 
-  const mixer = new THREE.AnimationMixer(model);
-  const action = mixer.clipAction(clip);
-  action.play();
+    mixer = new THREE.AnimationMixer(model);
 
-  // model.tick = (delta) => mixer.update(delta);
+    let action = mixer.clipAction(clip);
+    action.play();
+
+    scene.add(object.scene);
+  });
+
+  let basicLight = new THREE.AmbientLight();
+  scene.add(basicLight);
 
   let clock = new THREE.Clock();
-  function animate() {
+
+  /* Resize Event */
+  window.addEventListener("resize", function () {
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.render(scene, camera);
+  });
+
+  /* Animate */
+  (function animate() {
     requestAnimationFrame(animate);
     let delta = clock.getDelta();
-
     if (mixer) {
       mixer.update(delta);
     }
+    orbitControl.update();
     renderer.render(scene, camera);
-  }
-
-  animate();
-
-  window.addEventListener("resize", onWindowResize);
-
-  function onWindowResize() {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-  }
+  })();
 </script>
 </body>
 </html>
