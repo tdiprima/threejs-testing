@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>r132</title>
+  <title>X</title>
   <!-- https://discoverthreejs.com/book/first-steps/animation-system/ -->
   <!-- https://stackoverflow.com/questions/71848021/gltf-animation-is-not-working-in-three-js -->
   <style>
@@ -33,6 +33,7 @@
 
   let camera;
   let clock;
+  let container;
   let controls;
   let mixer;
   let renderer;
@@ -50,7 +51,7 @@
       1000
     );
     // camera.position.set(0, 20, 50);
-    camera.position.set(-101, 28, 3.8);
+    camera.position.set(0, 9.27, 23.16);
 
     clock = new THREE.Clock();
     renderer = new THREE.WebGLRenderer();
@@ -58,33 +59,33 @@
     controls = new OrbitControls(camera, renderer.domElement);
     controls.update();
 
-    document.body.appendChild(renderer.domElement);
+    container = document.getElementById("container");
+    container.appendChild(renderer.domElement);
+
     renderer.setSize(window.innerWidth, window.innerHeight);
   }
 
-  scene.background = new THREE.Color("#c7deea");
+  scene.background = new THREE.Color("#f8edeb");
 
   // LIGHT
-  let ambientLight = new THREE.HemisphereLight("white", "darkslategrey", 5);
+  let light = new THREE.DirectionalLight(0xffffff, 1);
+  light.position.set(2, 2, 5);
 
-  let mainLight = new THREE.DirectionalLight("white", 4);
-  mainLight.position.set(10, 10, 10);
+  // HELPERS
+  let axesHelper = new THREE.AxesHelper(5);
+  let gridHelper = new THREE.GridHelper(30, 30);
 
-  scene.add(ambientLight, mainLight);
+  scene.add(light, axesHelper, gridHelper);
 
   // GLTF START
-  let loader = new GLTFLoader();
+  let GLTFloader = new GLTFLoader();
 
-  loader.load("/models/gltf/Parrot.glb", data => {
-    let model = data.scene; // data.scene.children[0]
-    let clip = data.animations[0];
+  GLTFloader.load("https://richardlundquist.github.io/library/alice_TEST2.glb", function (model) {
+    mixer = new THREE.AnimationMixer(model.scene);
 
-    mixer = new THREE.AnimationMixer(model);
+    mixer.clipAction(model.animations[0]).play();
 
-    let action = mixer.clipAction(clip);
-    action.play();
-
-    scene.add(data.scene);
+    scene.add(model.scene);
   });
 
   // GLTF END
@@ -92,7 +93,8 @@
   function animate() {
     requestAnimationFrame(animate);
 
-    let delta = clock.getDelta();
+    let delta = clock.getDelta() * 4;
+    // let time = clock.elapsedTime;
 
     if (mixer) {
       mixer.update(delta);
