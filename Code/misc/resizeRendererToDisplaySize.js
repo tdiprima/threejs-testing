@@ -1,4 +1,4 @@
-// http://127.0.0.1:5500/manual/#en/responsive
+// https://threejs.org/manual/#en/responsive
 // https://r105.threejsfundamentals.org/threejs/lessons/threejs-responsive.html
 function resizeRendererToDisplaySize(renderer) {
   const canvas = renderer.domElement;
