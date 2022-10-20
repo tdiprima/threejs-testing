@@ -1,6 +1,6 @@
 import {
   AmbientLight,
-  BoxBufferGeometry,
+  BoxGeometry,
   Color,
   Mesh,
   MeshBasicMaterial,
@@ -54,7 +54,7 @@ function createLights() {
 
 function createMeshes() {
   // create a geometry
-  const geometry = new BoxBufferGeometry(1.5, 1.5, 1.5);
+  const geometry = new BoxGeometry(1.5, 1.5, 1.5);
 
   // create a purple Standard material
   const materialA = new MeshStandardMaterial({color: "purple"});
