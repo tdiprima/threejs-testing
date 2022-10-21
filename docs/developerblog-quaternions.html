@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Myo | How I learned to Stop Worrying and Love Quaternions</title>
+  <!-- https://web.archive.org/web/20180321062740/http://developerblog.myo.com/quaternions/ -->
+  <style>
+    :root {
+      color-scheme: light dark;
+    }
+    body {
+      font-family: "Roboto", sans-serif;
+      line-height: 23px;
+    }
+    code {
+      padding: 2px 4px;
+      font-size: 90%;
+      color: #c7254e;
+      background-color: #f9f2f4;
+      border-radius: 4px;
+    }
+    code, kbd, pre, samp {
+      font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    }
+    img {
+      width: 512px;
+    }
+  </style>
+</head>
+<body>
+<div class="post-content">
+  <div class="top-meta clearfix">
+    <div class="post-time">
+      <time datetime="2015-05-15">
+        May 15, 2015
+      </time>
+    </div>
+  </div>
+  <div class="content-area">
+    <p>So you meet this cool API online somewhere. It looks pretty fun, pretty powerful. Like just what you've been
+      looking for. You dive in, you're having a good time, things are going great, when all of a sudden, BAM, it whips
+      out a quaternion. </p>
+
+    <p></p>
+    <!-- <center><br>
+      <img
+        alt="Uh-oh"
+        src="https://web.archive.org/web/20180321062740im_/http://developerblog.myo.com/content/images/2015/07/uh-oh.gif" title="">
+    </center> -->
+    <p>&nbsp;</p>
+
+    <p><em>Uh-oh</em></p>
+
+    <p>You want to be cool and use it, but you don't really know what you're doing. You panic, you start fiddling
+      around, but everything falls apart. You're left frustrated, with a broken mess that doesn't make any sense.</p>
+
+    <p>Don't worry. We've all been there.</p>
+
+    <p>It doesn't have to be like that though. I'm <a
+      href="https://web.archive.org/web/20180321062740/https://twitter.com/pbernhardt" target="_blank">Paul
+      Bernhardt</a>, and I'm here to help. Come with me.</p>
+
+    <p></p>
+    <!-- <center><img
+      alt="Come with me"
+      src="https://web.archive.org/web/20180321062740im_/http://developerblog.myo.com/content/images/2015/05/doctor-who-come-with-me.gif" title="">
+    </center> -->
+    <p>&nbsp;</p>
+
+    <h1 id="whatisaquaternion">What is a Quaternion?</h1>
+
+    <p>I was once like you. For a while it seemed like everywhere I looked there was a quaternion staring back at me.
+      You'll find them representing the orientation of every object in <a
+        href="https://web.archive.org/web/20180321062740/http://unity3d.com/" target="_blank">Unity</a>. The <a
+        href="https://web.archive.org/web/20180321062740/https://www.thalmic.com/makers/" target="_blank">Myo
+        armband</a> gives you a quaternion whenever you ask for its <a
+        href="https://web.archive.org/web/20180321062740/https://developer.thalmic.com/docs/api_reference/platform/classmyo_1_1_device_listener.html#adaee14d3c4f9df61899ac8aa95b6bbc6"
+        target="_blank">orientation</a> as well. In fact any time you have an orientation or rotation, you are very
+      likely to run into a quaternion. Here's the thing though: It turns out, quaternions really aren't that scary.</p>
+
+    <p>You can think of one as simply a <strong>rotation delta</strong>. It represents the shortest path to get from one
+      orientation to another. Either from some "forward" origin direction (in which case, it's an orientation) or the
+      direction and magnitude to rotate another orientation (ie, you could have a quaternion that represents rotating 90
+      degrees clockwise about the Y axis), in which case, it's a rotation.</p>
+
+    <p>And that's it. You can stop right there and skip to the next section if you want. Treat them as a magic blob and
+      use a library to handle everything. Do you handcraft each IP packet in binary before you send it out through the
+      network? No. Who cares. We're computer scientists and the entire field is built on layers upon layers of
+      abstraction.</p>
+
+    <p></p>
+    <center><img
+      alt="Abstraction"
+      src="https://web.archive.org/web/20180321062740im_/http://developerblog.myo.com/content/images/2015/07/computer_programming_101.png" title=""></center>
+    <p></p>
+
+    <p></p>
+    <center><em>Source: <a href="https://web.archive.org/web/20180321062740/http://abstrusegoose.com/98"
+                           target="_blank">http://abstrusegoose.com/98</a></em></center>
+    <p></p>
+
+    <p>Both the Myo SDK and Unity come with the functions you need, and most other platforms will as well. Don't try and
+      unpack the secret sauce, just enjoy the burger.</p>
+
+    <p></p>
+    <center><img
+      alt="Magic"
+      src="https://web.archive.org/web/20180321062740im_/http://developerblog.myo.com/content/images/2015/07/quick_answer.png" title=""> <br>
+    </center>
+    <p></p>
+
+    <p>That's not going to be enough for everyone, of course. Just don't forget you can pull the ripcord any time and
+      skip to the next section if you want.</p>
+
+    <p>Now, you're probably used to dealing with rotations in <a
+      href="https://web.archive.org/web/20180321062740/http://en.wikipedia.org/wiki/Euler_angles" target="_blank">Euler
+      angles</a> (roll, pitch and yaw). Those can be thought of as a sequence of steps. A rotational path, or journey,
+      if you will. Pitch X degrees, roll Y degrees, then yaw Z (or whatever). Those are nice and intuitive, but they
+      have a few flaws. Gimbal lock is a big one. That's basically when two of your axis line up and you lose a degree
+      of freedom.</p>
+
+    <p></p>
+    <center>
+      <div class="fluid-width-video-wrapper" style="padding-top: 56.25%;">
+        <iframe allow="autoplay 'self'; fullscreen 'self'"
+                allowfullscreen="" frameborder="0" id="fitvid254149"
+                src="https://web.archive.org/web/20180321062740if_/https://www.youtube.com/embed/N5PDboNJwks"></iframe>
+      </div>
+    </center>
+    <p></p>
+
+    <p>Gimbal lock is annoying, but that "or whatever" bit I mentioned in the last paragraph is actually another flaw.
+      Are you pitching or yawing first? What's your frame of reference? Do you have a left or right handed coordinate
+      space? Sure, you can pick answers for all of those choices easily enough, but as soon as you start talking to
+      someone else, or looking at their code, you need to make sure you're on the same page. And for whatever you pick,
+      there are going to be certain combinations of values where things just don't work well.</p>
+
+    <p>What I mean is that converting to Euler angles can go all... squirrely near the extremes. The problem is that
+      there are multiple solutions for a given orientation. For example, imagine my arm starts here:</p>
+
+    <p></p>
+    <center><img
+      alt="Arm parallel to the floor"
+      src="https://web.archive.org/web/20180321062740im_/http://developerblog.myo.com/content/images/2015/07/Start.png" title=""></center>
+    <p></p>
+
+    <p>and ends up like this</p>
+
+    <p></p>
+    <center><img
+      alt="Arm up perpendicular to the floor"
+      src="https://web.archive.org/web/20180321062740im_/http://developerblog.myo.com/content/images/2015/07/Stop.png" title=""></center>
+    <p></p>
+
+    <p>Now, you and I know the shortest path is to move it like this:</p>
+
+    <p></p>
+    <center><img
+      alt="Pivot arm up 90 degrees"
+      src="https://web.archive.org/web/20180321062740im_/http://developerblog.myo.com/content/images/2015/07/Short-Path.gif" title=""></center>
+    <p></p>
+
+    <p>But it's not the only way. You can also do this:</p>
+
+    <p></p>
+    <center><img
+      alt="Pivot down 90 degrees, yaw 180 degrees, roll 180 degrees"
+      src="https://web.archive.org/web/20180321062740im_/http://developerblog.myo.com/content/images/2015/07/Long-Path.gif" title=""></center>
+    <p></p>
+
+    <p>At some point, depending on the angles involved and how you are doing the conversion, you will flip from the
+      first path to the second. There is always going to be some place where expressing rotations with Eulers breaks
+      down like that. You may not even notice a problem when this happens, as the resulting position is the same, but if
+      you're graphing the individual components you'll see points where they go crazy.</p>
+
+    <p>Rotations with quaternions are nice and unambiguous.</p>
+
+    <p>Ok, so they represent an orientation or rotation delta, and don't have the problems of Euler angles. But what ARE
+      they, under the hood? Well, they are four dimensional vectors of the following form: <code>[x, y, z, w]</code>
+      (generally, sometimes it's <code>[w, x, y, z]</code>).</p>
+
+    <p>There's more to it than that, but I know right now a bunch of you are thinking something like "Oh, so that's
+      basically like a vector representing Euler angles, plus some <code>w</code> parameter that I can just figure out
+      later."</p>
+
+    <p></p>
+    <center><br>
+      <img
+        alt="Ha ha ha, no"
+        src="https://web.archive.org/web/20180321062740im_/http://developerblog.myo.com/content/images/2015/07/hahaha-no-transformers.gif" title=""></center>
+    <p></p>
+
+    <p><strong>NO</strong></p>
+
+    <p>Forget that noise. If you try and use a quaternion like that, you're going to have a bad time. x, y and z are
+      actually factors of complex numbers, and w is a scalar. We could spend all day (or several days) explaining how
+      exactly that works, but we're rapidly getting away from the point of this article, which is how you can use a
+      quaternion.</p>
+
+    <p>I wouldn't recommend poking around inside a quaternion, but if you do, keep in mind that for it to be a valid
+      rotation it always needs to be normalized (ie, x<sup>2</sup> + y<sup>2</sup> + z<sup>2</sup> + w<sup>2</sup> = 1).
+      If you really want to know all the math, I'd recommend starting at <a
+        href="http://mathworld.wolfram.com/Quaternion.html" target="_blank">Wolfram</a>.
+      But like I said, best to just not mess with the secret sauce.</p>
+
+    <h2 id="whatcanyoudowiththem">What can you do with them?</h2>
+
+    <p>So you told the Myo armband you wanted orientation information and it gave you a quaternion. Now what? What can
+      you do with it?</p>
+
+    <h3 id="eulerangles">Euler Angles</h3>
+
+    <p>Firstly, you can turn it into a set of Euler angles (roll, pitch and yaw). Yes, I just said they can be bad, but
+      there are a few reasons you may still want to use them. For example, you might convert to Eulers if you only care
+      about a certain axis of movement, or want to use each axis for a different thing. So you might use yaw to <a
+        href="https://web.archive.org/web/20180321062740/https://market.myo.com/app/5478fb74e4b05772f1d76920/race-the-sun-connector"
+        target="_blank">fly a ship left and right</a>, with pitch controlling speed, and roll not doing anything. For
+      that the easiest way is to convert your Quaternion to Euler angles.</p>
+
+    <p>You can also use them as an understandable way of expressing orientation (or a rotation) to a user. They aren't
+      going to want to see a raw quaternion.</p>
+
+    <p>Most libraries will have a function to do this for you, but if you're stuck our <a
+      href="https://web.archive.org/web/20180321062740/https://developer.thalmic.com/docs/api_reference/platform/hello-myo_8cpp-example.html"
+      target="_blank">HelloMyo sample</a> gives you a reasonable implementation you can use.</p>
+
+    <p>When converting to Euler angles though, it's important to wait until the <strong>LAST</strong> possible moment.
+      Do as much with quaternions as you can and then convert to Eulers right at the end. Otherwise, you may run into
+      one of the problems we discussed earlier.</p>
+
+    <h3 id="rotatinganotherquaternion">Rotating another Quaternion</h3>
+
+    <p>At some point you are going to want to rotate something. In a game engine like Unity, every transform has an
+      orientation property stored as a quaternion. Outside of a game engine, you may want to store a certain orientation
+      of a user's arm as "centered" or “forward” and calculate any rotations relative to that.</p>
+
+    <p>This is really the biggest benefit to quaternions. Rotating smoothly and directly from one set of Euler angles to
+      another is a pain. With quaternions, it's as simple as <a
+        href="https://web.archive.org/web/20180321062740/https://developer.thalmic.com/docs/api_reference/platform/classmyo_1_1_quaternion.html#a32c9121b395c4da10325006985e3404e"
+        target="_blank">multiplication</a>. Typically you will take the orientation you have (as a quaternion) and just
+      multiply by the rotation (another quaternion) you want to apply.</p>
+
+    <p>This is also probably the <strong>most important feature</strong> to call out, because your library may not even
+      have a "rotate" function, expecting you to know to just use the normal multiplication operator. That's how to
+      rotate our Quaternion class, and that's how it works in Unity as well.</p>
+
+    <p>Note that rotation is not commutative, meaning <code>A * B</code> is different from <code>B * A</code>. So for
+      example, yawing and then rolling leaves you pointing in one direction:</p>
+
+    <p></p>
+    <center><img
+      alt="Yaw then roll"
+      src="https://web.archive.org/web/20180321062740im_/http://developerblog.myo.com/content/images/2015/07/YawRoll.gif" title=""></center>
+    <p></p>
+
+    <p>Whereas rolling and then yawing leaves you pointing somewhere completely different:</p>
+
+    <p></p>
+    <center><img
+      alt="Roll then yaw"
+      src="https://web.archive.org/web/20180321062740im_/http://developerblog.myo.com/content/images/2015/05/RollYaw.gif" title=""></center>
+    <p></p>
+
+    <p>Remember that a quaternion can be both an orientation and a rotation. In <code>A * B</code>, <code>A</code> is
+      the base orientation and <code>B</code> is the rotation you apply to it. If you used <code>B</code> as a base and
+      applied <code>A</code> as a rotation, you get something different.</p>
+
+    <h3 id="centringyourframeofreference">Centring your frame of reference</h3>
+
+    <p>You may want to calculate all orientations in reference to some "<code>centre</code>" (ie, if the user were
+      wearing a Myo armband and pointed their arm at the screen, you may want to determine every new orientation in that
+      frame of reference). So, you instruct the user to point their arm at the screen and make a gesture. You take that
+      orientation, invert it, and store it as the “<code>centre</code>”. Inverting a quaternion is not very hard. Your
+      library will probably have an <code>invert</code> function, but be on the lookout for <code>conjugate</code>
+      instead. For a unit quaternion (which is what all valid orientations are) it's the same operation. The Myo SDK
+      only provides <a
+        href="https://web.archive.org/web/20180321062740/https://www.google.com/url?q=https%3A%2F%2Fdeveloper.thalmic.com%2Fdocs%2Fapi_reference%2Fplatform%2Fclassmyo_1_1_quaternion.html%23a76dc234322c0cdecd0dc87bad8819345&amp;sa=D&amp;sntz=1&amp;usg=AFQjCNHWE5qiVo7CuPvVNKtCcg3gxLrkSQ"
+        target="_blank">conjugate</a>.</p>
+
+    <p>Anyway, once you have your inverted centre and you want use it figure out which way the user's arm is pointing,
+      just multiply <code>Current Rotation</code> by <code>Centre</code> to cancel out the difference, giving you an
+      orientation in your desired frame of reference.</p>
+
+    <h3 id="rotatingavector">Rotating a Vector</h3>
+
+    <p>You can use a quaternion to rotate more than other quaternions. For example, the acceleration
+      <code>Vector3</code> you get from the Myo armband's <code>onAccelerationData</code> is actually in "Myo space"
+      (meaning that the vector's “up” is perpendicular to the pod with the logo). That's not always the most useful, and
+      you may want to determine what the acceleration is in “world space” (ie, up being parallel to gravity and
+      therefore perpendicular to the ground). There will probably be some kind of <a
+        href="https://web.archive.org/web/20180321062740/https://developer.thalmic.com/docs/api_reference/platform/classmyo_1_1_quaternion.html#a23b8c84385a2486f37abd14a07ee6c65"
+        target="_blank">rotate function</a> like the one we provide, but if not you just need to multiply your
+      quaternion by your vector, and then again by your quaternion's inverse. It's possible your library may have
+      overloaded multiplication again to make <code>quaternion * vector</code> do the entire rotation though, so just
+      make sure you read the docs.</p>
+
+    <h3 id="otheroperations">Other Operations</h3>
+
+    <p>Those are the big, non-intuitive operations I wanted to explain. If your interest in quaternions begins and ends
+      with what the <a href="https://web.archive.org/web/20180321062740/https://developer.thalmic.com/start/"
+                       target="_blank">Myo SDK</a> gives you, that's probably all you need. See you later! If you are
+      using another library or SDK like Unity, there are two weird little functions you may still be wondering about:
+      <code>lerp</code> and <code>slerp</code>.</p>
+
+    <p>Basically, they stand for <strong>l</strong>inear int<strong>erp</strong>oloation and <strong>s</strong>pherical
+      <strong>l</strong>inear int<strong>erp</strong>olation respectively, and it lets you smoothly transition between
+      two rotations (or other things, lerp and slerp are applicable beyond quaternions). The idea is that it lets you
+      say "Here are my start and end rotations, give me a rotation that's X% of the way through", where the percentage
+      would change with time (ie, with every frame).</p>
+
+    <p>Lerp is very fast, but slerp will look better for rotations (since they happen on a sphere). If you want more
+      information, check out this great post about <a
+        href="https://web.archive.org/web/20180321062740/https://chicounity3d.wordpress.com/2014/05/23/how-to-lerp-like-a-pro/"
+        target="_blank">lerping like a pro</a>.</p>
+
+    <p>As I said, you'll often see these in other libraries, but not the Myo SDK. The reason is that there's no
+      "interpolation" needed, because the orientation you get from the Myo armband is already getting updated at 50Hz
+      based on the user's own arm movements. That should be plenty smooth enough for real time updates. “Real time” is
+      key though, if you are just storing orientation frames to display in slow motion later, yeah, you'll probably need
+      slerp at that point.</p>
+
+    <p>There are a few other functions you may see in libraries, like calculating the magnitude of the angle between two
+      quaternions, or converting them to other representations, but they should be pretty clearly labeled and self
+      explanatory. If not, your library sucks.</p>
+
+    <p>And that's it! Quaternions aren't really that scary. As I said, just use a library. The <a
+      href="https://web.archive.org/web/20180321062740/https://developer.thalmic.com/docs/api_reference/platform/classmyo_1_1_quaternion.html"
+      target="_blank">Quaternion</a> class used in the <a
+      href="https://web.archive.org/web/20180321062740/https://developer.thalmic.com/login/?next=/downloads"
+      target="_blank">Myo SDK</a> comes with pretty much all you really need to use it with our <a
+      href="https://web.archive.org/web/20180321062740/https://www.thalmic.com/en/myo/" target="_blank">Myo armband</a>,
+      and engines like Unity have pretty comprehensive solutions as well.</p>
+
+    <p>So next time you see a quaternion, don't be scared. Be awesome instead!</p>
+
+    <p></p>
+    <center><img
+      alt="Awesome"
+      src="https://web.archive.org/web/20180321062740im_/http://developerblog.myo.com/content/images/2015/07/awesome-nph.gif" title=""></center>
+    <p></p>
+
+    <p>Good luck, and happy coding!</p>
+  </div>
+</div>
+</body>
+</html>
