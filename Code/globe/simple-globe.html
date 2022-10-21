@@ -5,7 +5,7 @@
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>three.js app</title>
-  <link rel="stylesheet" href="/css/main.css">
+  <link href="/css/main.css" rel="stylesheet">
   <!-- http://127.0.0.1:5500/manual/#en/indexed-textures -->
 </head>
 <body>
@@ -35,11 +35,21 @@
   document.body.appendChild(renderer.domElement);
 
   let loader = new THREE.TextureLoader();
+
+  // FLAT EARTH
+  // let material = new THREE.MeshBasicMaterial({
+  //   map: loader.load("country-index-texture.png"),
+  //   side: THREE.DoubleSide
+  // });
+  // let geometry = new THREE.PlaneGeometry(10, 10);
+
+  // CUBE
   // let geometry = new THREE.BoxGeometry(3, 3, 3);
+
+  // SPHERE
   let geometry = new THREE.SphereGeometry(2, 132, 64);
   let texture = loader.load("country-index-texture.png");
-  // http://127.0.0.1:5500/manual/#en/textures
-  // "Filtering and Mips"
+  // http://127.0.0.1:5500/manual/#en/textures // "Filtering and Mips"
   texture.minFilter = THREE.NearestFilter;
   texture.magFilter = THREE.NearestFilter;
   let material = new THREE.MeshBasicMaterial({map: texture});
@@ -47,7 +57,7 @@
   scene.add(mesh);
 
   let controls = new OrbitControls(camera, renderer.domElement);
-  controls.enableDamping = true;
+  controls.enableDamping = true; // Simon's Cat
   controls.update();
 
   camera.position.z = 5;
