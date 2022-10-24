@@ -20,6 +20,7 @@
   let renderer = new THREE.WebGLRenderer({antialias: true});
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
+  // renderer.setPixelRatio(window.devicePixelRatio);
 
   // Create a directional light to show off the object
   let light = new THREE.DirectionalLight(0xffffff, 1.25);
@@ -28,9 +29,11 @@
 
   let img = "/textures/cut-the-rope.jpg";
   let loader = new THREE.TextureLoader();
-  // let material = new THREE.MeshBasicMaterial({ map: loader.load(img) });
+  let texture = loader.load(img);
+  // texture.magFilter = THREE.NearestFilter;
+  // let material = new THREE.MeshBasicMaterial({ map: texture });
   // TODO: Notice how much shinier it is -
-  let material = new THREE.MeshPhongMaterial({ map: loader.load(img) });
+  let material = new THREE.MeshPhongMaterial({ map: texture });
   let geometry = new THREE.BoxGeometry(2.5, 2.5, 2.5);
   let cube = new THREE.Mesh(geometry, material);
   scene.add(cube);
