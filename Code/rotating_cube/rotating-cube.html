@@ -44,7 +44,9 @@
       1 // boxDepth
     );
 
-    let img = "/textures/wall.jpg";
+    // TODO: Play with images :)
+    // let img = "/textures/wall.jpg";
+    let img = "/textures/cut-the-rope.jpg";
     // let img = "/textures/mip-low-res-enlarged.png";
 
     let cubes = []; // just an array we can use to rotate the cubes
@@ -91,6 +93,9 @@
         let rot = time * speed;
         cube.rotation.x = rot;
         cube.rotation.y = rot;
+        // Rotate cube (Change values to change speed)
+        // cube.rotation.x += 0.01;
+        // cube.rotation.y += 0.01;
       });
 
       renderer.render(scene, camera);

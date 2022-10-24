@@ -4,6 +4,8 @@
  * To adapt the animation to the framerate, we need to know how much time it's been since the last tick.
  * When we base our rotation on how much time was spent since the last frame, this rotation speed will be the same
  * on every screen and every computer regardless of the frame rate.
+ * https://sbcode.net/threejs/animation-loop/
+ * The callback routine must itself call requestAnimationFrame() if you want to animate another frame at the next repaint.
  */
 let time = Date.now();
 
