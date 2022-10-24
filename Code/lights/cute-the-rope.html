@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>three.js app</title>
+  <!-- I keep wanting to say "cute" -->
+  <!-- https://apprize.best/html5/3d/3.html -->
+  <!-- https://stackoverflow.com/questions/19086690/three-js-does-not-render-must-have-requestanimationframe -->
+  <link href="/css/main.css" rel="stylesheet">
+</head>
+<body>
+<script src="/build/three.min.js"></script>
+<script>
+  let scene = new THREE.Scene();
+  let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.z = 5;
+
+  let renderer = new THREE.WebGLRenderer({antialias: true});
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
+
+  // Create a directional light to show off the object
+  let light = new THREE.DirectionalLight(0xffffff, 1.25);
+  light.position.set(0, 0, 1);
+  scene.add(light);
+
+  let img = "/textures/cut-the-rope.jpg";
+  let loader = new THREE.TextureLoader();
+  // let material = new THREE.MeshBasicMaterial({ map: loader.load(img) });
+  // TODO: Notice how much shinier it is -
+  let material = new THREE.MeshPhongMaterial({ map: loader.load(img) });
+  let geometry = new THREE.BoxGeometry(2.5, 2.5, 2.5);
+  let cube = new THREE.Mesh(geometry, material);
+  scene.add(cube);
+
+  /* Resize Event */
+  window.addEventListener("resize", function () {
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.render(scene, camera);
+  });
+
+  /* Animate */
+  (function animate() {
+    requestAnimationFrame(animate);
+    cube.rotation.x += 0.01;
+    cube.rotation.y += 0.01;
+    renderer.render(scene, camera);
+  })();
+</script>
+</body>
+</html>
+
