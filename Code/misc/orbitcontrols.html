@@ -10,10 +10,7 @@
   <script src="https://unpkg.com/three@0.85.0/examples/js/controls/OrbitControls.js"></script>
   <style>
     body {
-      /* margin: 0; */
-      /* padding: 0; */
       background: #012345;
-      /* overflow: hidden; */
     }
 
     #canvas {
@@ -56,9 +53,9 @@
 
   document.getElementById('canvas').appendChild(renderer.domElement);
 
+  // orbit controls --> zoom in/out with scroll, pan with right-click, and drag to orbit
   let controls = new THREE.OrbitControls(camera, renderer.domElement);
   controls.target.z = 100;
-  // first parameter is the camera and second parameter is the canvas or renderer.domElement
 
   let particles = new THREE.Object3D();
   scene.add(particles);
@@ -88,17 +85,19 @@
     camera.updateProjectionMatrix();
   });
 
-  requestAnimationFrame(animate);
-  renderer.render(scene, camera);
-
   function animate() {
+    // call the animate() function every frame - creates a loop
+    requestAnimationFrame(animate);
+
     cube.rotation.x += 0.005;
     cube.rotation.y += 0.005;
     particles.rotation.y += 0.004;
 
-    requestAnimationFrame(animate);
+    // render the updated scene and camera
     renderer.render(scene, camera);
   }
+  // call the animate() function
+  animate();
 </script>
 </body>
 </html>
