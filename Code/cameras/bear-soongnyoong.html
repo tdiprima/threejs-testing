@@ -17,6 +17,7 @@
 		"three/addons/": "/jsm/"
 	}
 }
+
 </script>
 
 <script type="module">
@@ -42,27 +43,37 @@
   light.position.set(1, 1, 100);
   scene.add(light);
 
-  // https://stackoverflow.com/questions/49111431/how-to-get-texture-dimensions-with-three-js
   let loader = new THREE.TextureLoader();
+
+  // let material = new THREE.MeshBasicMaterial({
+  //   map: loader.load(img),
+  //   side: THREE.DoubleSide
+  // });
+  // let geometry = new THREE.PlaneGeometry(10, 10);
+  // let mesh = new THREE.Mesh(geometry, material);
+  // mesh.position.set(0, 0, 0);
+  // scene.add(mesh);
+
+  // https://stackoverflow.com/questions/49111431/how-to-get-texture-dimensions-with-three-js
+  // let texture = loader.load(img, function (tex) {
+  //   // tex and texture are the same in this example, but that might not always be the case
+  //   console.log(tex.image.width, tex.image.height);
+  //   console.log(texture.image.width, texture.image.height);
+  // });
+
   let texture = loader.load(img, function (tex) {
     tex.needsUpdate = true;
-
     let material = new THREE.MeshBasicMaterial({
       map: texture,
       side: THREE.DoubleSide
     });
-
     let geometry = new THREE.PlaneGeometry();
     let mesh = new THREE.Mesh(geometry, material);
     mesh.scale.set(1.0, tex.image.height / tex.image.width, 1.0);
     scene.add(mesh);
-
   });
-  camera.position.set(0, -0.002, 0.36);
-  // camera.position.set(0.04, 0.05, 6.5);
-  // camera.position.z = 6.5;
-
-  renderer.render(scene, camera); // OK WEIRDLY MY IMAGE ISN'T SHOWING UP AT FIRST
+  camera.position.set(-0.02, 0.04, 0.54);
+  // OK WEIRDLY MY IMAGE ISN'T SHOWING UP AT FIRST**
 
   window.addEventListener("resize", onWindowResize, false);
 
@@ -78,6 +89,14 @@
   }
 
   render();
+
+  // ** That's just cuz I didn't put a f'in animate function.
+  // But I'm rendering on demand; this isn't animating.
+  (function animate() {
+    requestAnimationFrame(animate);
+    controls.update();
+    renderer.render(scene, camera);
+  })();
 </script>
 </body>
 </html>
