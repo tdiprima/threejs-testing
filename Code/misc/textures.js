@@ -12,8 +12,8 @@ let loader = new THREE.TextureLoader();
 
 // GET DIMENSIONS.
 // https://stackoverflow.com/questions/49111431/how-to-get-texture-dimensions-with-three-js
-  var loader = new THREE.TextureLoader();
-  var texture = loader.load( "./img.png", function ( tex ) {
+  let loader = new THREE.TextureLoader();
+  let texture = loader.load(img, function ( tex ) {
     // tex and texture are the same in this example, but that might not always be the case
     console.log( tex.image.width, tex.image.height );
     console.log( texture.image.width, texture.image.height );
