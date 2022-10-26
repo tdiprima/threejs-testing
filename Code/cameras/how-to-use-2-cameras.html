@@ -18,6 +18,8 @@
   import * as THREE from "/build/three.module.js"
   import Stats from "/jsm/libs/stats.module.js";
 
+  const laurel = "#016f01";
+
   let aspect = window.innerWidth / window.innerHeight; // cam aspect ratio (width:height)
   let insetWidth, insetHeight; // width and height of overhead cam viewport
 
@@ -100,7 +102,7 @@
   // render, or 'create a still image', of the scene
   renderer.render(scene, camera);
 
-  renderer.setClearColor(0x016f01); // green
+  renderer.setClearColor(laurel); // green
 
   let stats = Stats();
   document.body.appendChild(stats.dom);

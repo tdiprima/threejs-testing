@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Views: Front, Side, Back</title>
+  <style>
+    body {
+      font-family: Monospace;
+      background-color: #f0f0f0;
+      margin: 0;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+<button id="frontView">Front View</button>
+<button id="sideView">Side View</button>
+<button id="backView">Back View</button>
+
+<script type="importmap">{
+  "imports": {
+    "three": "/build/three.module.js",
+    "three/addons/": "/jsm/"
+  }
+}
+
+</script>
+<script async src="/es-module-shims-1.3.6/dist/es-module-shims.js"></script>
+
+<script type="module">
+  import * as THREE from "three";
+  import {OrbitControls} from "three/addons/controls/OrbitControls.js";
+
+  let camera, scene, renderer;
+
+  init();
+  animate();
+
+  function init() {
+    camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 10);
+    camera.position.z = 1;
+
+    scene = new THREE.Scene();
+
+    let geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2);
+
+    let mesh = new THREE.Mesh(geometry, [
+      new THREE.MeshBasicMaterial({color: 0xffffff * Math.random()}),
+      new THREE.MeshBasicMaterial({color: 0xffffff * Math.random()}),
+      new THREE.MeshBasicMaterial({color: 0xffffff * Math.random()}),
+      new THREE.MeshBasicMaterial({color: 0xffffff * Math.random()}),
+      new THREE.MeshBasicMaterial({color: 0xffffff * Math.random()}),
+      new THREE.MeshBasicMaterial({color: 0xffffff * Math.random()})
+    ]);
+    scene.add(mesh);
+
+    scene.add(new THREE.AxesHelper());
+
+    renderer = new THREE.WebGLRenderer({antialias: true});
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    let controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+
+    document.querySelector("#frontView").addEventListener("click", () => {
+      console.log("Front View");
+      camera.position.x = 0;
+      camera.position.y = 0;
+      camera.position.z = 1;
+      controls.update();
+    });
+
+    document.querySelector("#sideView").addEventListener("click", () => {
+      console.log("Side View");
+      camera.position.x = 1;
+      camera.position.y = 1;
+      camera.position.z = 1;
+      controls.update();
+    });
+
+    document.querySelector("#backView").addEventListener("click", () => {
+      console.log("Back View");
+      camera.position.x = 0;
+      camera.position.y = 0;
+      camera.position.z = -1;
+      controls.update();
+    });
+  }
+
+  function animate() {
+    requestAnimationFrame(animate);
+    renderer.render(scene, camera);
+  }
+</script>
+</body>
+</html>
