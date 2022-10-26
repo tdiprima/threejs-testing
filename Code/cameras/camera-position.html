@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>6. Camera position in Three JS | Three js tutorial</title>
+  <!-- https://youtu.be/lSkC-EeStyQ -->
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+  <script src="/build/three.js"></script>
+</head>
+<body>
+<script>
+  // Container where we will have the 3D elements shown
+  const scene = new THREE.Scene();
+
+  // Camera defines the view or the FOV field of view
+  // Seeing it from a human eye point-of-view; angle 75, 55 60 degrees.
+  const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+  const helper = new THREE.CameraHelper( camera );
+  scene.add(helper);
+
+  // Render to draw
+  const renderer = new THREE.WebGLRenderer();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+
+  // Draw by appending it to canvas
+  document.body.appendChild(renderer.domElement);
+  console.log(renderer.domElement);
+
+  const geometry = new THREE.BoxGeometry(1, 1, 1);
+  const material = new THREE.MeshBasicMaterial({ color: "#0000ff" });
+  const cube = new THREE.Mesh(geometry, material);
+  scene.add(cube);
+
+  const geometry2 = new THREE.CircleGeometry(1, 100);
+  const material2 = new THREE.MeshBasicMaterial({ color: "#A020F0" });
+  const circle = new THREE.Mesh(geometry2, material2);
+  scene.add(circle);
+
+  // x = width / left and right // horizontal movement
+  // y = height / top and bottom // vertical movement
+  // z = depth / zoom (in or out)
+
+  // camera.position.x = 1; // moves *object* left 1; camera moves right 1
+  // camera.position.y = 1; // object moves down 1; camera moves up 1
+  camera.position.z = 5; // camera moves out, the higher the number
+
+  // camera.lookAt(1, 1, 1);
+
+  const animate = function () {
+    requestAnimationFrame(animate);
+    // barbeque skewer
+    // cube.rotation.x += 0.01;
+    // cube.rotation.y += 0.01;
+    cube.rotation.z += 0.01;
+    // https://discourse.threejs.org/t/camerahelper-not-linked/2319/2
+    helper.update();
+    renderer.render(scene, camera);
+  }
+  animate();
+</script>
+</body>
+</html>
