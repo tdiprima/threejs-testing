@@ -16,8 +16,7 @@
 		"three": "/build/three.module.js",
 		"three/addons/": "/jsm/"
 	}
-}
-</script>
+}</script>
 
 <script type="module">
   import * as THREE from "three";
@@ -84,8 +83,12 @@
   function onWindowResize() {
     camera1.aspect = window.innerWidth / window.innerHeight;
     camera1.updateProjectionMatrix();
-    camera2.aspect = window.innerWidth / window.innerHeight;
+
+    insetWidth = window.innerHeight / 2; // control width of mini viewer
+    insetHeight = window.innerHeight / 2; // control height of mini viewer
+    camera2.aspect = insetWidth / insetHeight;
     camera2.updateProjectionMatrix();
+
     renderer.setSize(window.innerWidth, window.innerHeight);
     render();
   }
