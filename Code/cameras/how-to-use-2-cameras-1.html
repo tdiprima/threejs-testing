@@ -51,27 +51,10 @@
   const helper = new THREE.CameraHelper(camera);
   scene.add(helper);
 
-  let geometry = new THREE.BoxGeometry(10.2, 0.2, 0.2);
+  let geometry = new THREE.BoxGeometry(2, 2, 2);
   let material = new THREE.MeshNormalMaterial();
-
   let mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
-
-  geometry = new THREE.BoxGeometry(1, 1, 1);
-  material = new THREE.MeshBasicMaterial({color: 0x00ff00});
-
-  let cube3 = new THREE.Mesh(geometry, material);
-  scene.add(cube3);
-  material = new THREE.MeshBasicMaterial({color: 0x0000ff});
-
-  let cube2 = new THREE.Mesh(geometry, material);
-  cube2.position.set(-5, 0, 0);
-  scene.add(cube2);
-  material = new THREE.MeshBasicMaterial({color: 0xff0000});
-
-  let cube1 = new THREE.Mesh(geometry, material);
-  cube1.position.set(5, 0, 0);
-  scene.add(cube1);
 
   let renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.clientWidth, window.clientHeight);
@@ -81,6 +64,7 @@
   renderer.setClearColor(laurel);
 
   let controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableZoom = true;
 
   function resize() {
     camera.aspect = window.innerWidth / window.innerHeight;
@@ -97,10 +81,10 @@
 
   function animate() {
     requestAnimationFrame(animate);
-    camera.position.x = cube3.position.x;
-    camera.position.z = cube3.position.z + 10;
+    camera.position.x = mesh.position.x;
+    camera.position.z = mesh.position.z + 10;
 
-    mesh.rotation.y += 0.01;
+    // mesh.rotation.y += 0.01;
 
     renderer.setViewport(0, 0, window.innerWidth, window.innerHeight);
     renderer.render(scene, camera);
