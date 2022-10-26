@@ -5,9 +5,15 @@
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Views: Front, Side, Back</title>
+  <!-- https://stackoverflow.com/questions/58092014/how-to-change-multiple-views-in-button-click-in-three-js -->
+  <!--
+    x = width / left and right // horizontal movement
+    y = height / top and bottom // vertical movement
+    z = depth / zoom (in or out)
+  -->
   <style>
     body {
-      font-family: Monospace;
+      font-family: Monospace, sans-serif;
       background-color: #f0f0f0;
       margin: 0;
       overflow: hidden;
@@ -67,14 +73,14 @@
       console.log("Front View");
       camera.position.x = 0;
       camera.position.y = 0;
-      camera.position.z = 1;
+      camera.position.z = 1; // pull camera back one
       controls.update();
     });
 
     document.querySelector("#sideView").addEventListener("click", () => {
       console.log("Side View");
-      camera.position.x = 1;
-      camera.position.y = 1;
+      camera.position.x = 1; // right 1
+      camera.position.y = 1; // top 1
       camera.position.z = 1;
       controls.update();
     });
@@ -83,7 +89,7 @@
       console.log("Back View");
       camera.position.x = 0;
       camera.position.y = 0;
-      camera.position.z = -1;
+      camera.position.z = -1; // go around the back
       controls.update();
     });
   }

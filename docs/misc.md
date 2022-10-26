@@ -1,11 +1,55 @@
 # Camera, view, whatever.
 
+[Camera position in Three JS](https://youtu.be/lSkC-EeStyQ)
+
+```text
+x = width / left and right // horizontal movement
+y = height / top and bottom // vertical movement
+z = depth / zoom (in or out)
+```
+
 gman<br>
-https://stackoverflow.com/questions/29884485/threejs-canvas-size-based-on-container
+[https://stackoverflow.com/questions/29884485/threejs-canvas-size-based-on-container](https://stackoverflow.com/questions/29884485/threejs-canvas-size-based-on-container)
 
-`webgl_multiple_canvases_circle.html` 💡
+```js
+// There's no reason to set the aspect here because we're going
+// to set it every frame anyway so we'll set it to 2 since 2
+// is the the aspect for the canvas default size (300w/150h = 2)
+const camera = new THREE.PerspectiveCamera(70, 2, 1, 1000);
 
-[a pen by captain dumbo](https://codepen.io/anon/pen/EwrbGZ)
+// Then we need some code that will resize the canvas to match its display size
+function resizeCanvasToDisplaySize() {
+  const canvas = renderer.domElement;
+  // look up the size the canvas is being displayed
+  const width = canvas.clientWidth;
+  const height = canvas.clientHeight;
+
+  // adjust displayBuffer size to match
+  if (canvas.width !== width || canvas.height !== height) {
+    // you must pass false here or three.js sadly fights the browser
+    renderer.setSize(width, height, false);
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+
+    // update any render target sizes here
+  }
+}
+
+// Call this in your render loop before rendering
+function animate(time) {
+  time *= 0.001;  // seconds
+
+  resizeCanvasToDisplaySize();
+
+  mesh.rotation.x = time * 0.5;
+  mesh.rotation.y = time * 1;
+
+  renderer.render(scene, camera);
+  requestAnimationFrame(animate);
+}
+
+requestAnimationFrame(animate);
+```
 
 [three.js multiple camera](https://www.google.com/search?q=three.js+multiple+camera&oq=three.js+multiple+camera&aqs=chrome..69i57j0i22i30l2.2131j0j7&sourceid=chrome&ie=UTF-8)
 
@@ -37,28 +81,3 @@ JS IS STRUCTURED IN AN ACCESSIBLE WAY. The way that Three. js structures its ren
 Three. js you can use any way you could use canvas, including full-screen animations, so long as the device supports WebGL. The prospects that Three. js suggest out of the package without any skills in 3D are very important when we want to create some multi-dimensional projects in no time issue.Jan 16, 2018
 
 [Why to Use ThreeJS in Web Application Development? - Cmarix](https://www.cmarix.com/blog/why-to-use-threejs-in-web-application-development/)
-
-# [wtf is scissorTest??](https://gamedev.stackexchange.com/questions/40704/what-is-the-purpose-of-glscissor)
-
-### I like this kind of things explained visually.
-
-In OpenGL we have 2D coordinates that go from -1 to +1 for both the X and Y axis.
-
-![](YB4pb.png)
-
-Then this image needs to be mapped to window coordinates.
-
-## Picture in picture
-
-[codepen.io](https://codepen.io/anon/pen/EwrbGZ)
-
-```js
-/**
- * @author alteredq / http://alteredqualia.com/
- * @authod mrdoob / http://mrdoob.com/
- * @authod arodic / http://aleksandarrodic.com/
- * @authod fonserbc / http://fonserbc.github.io/
-*/
-
-THREE.StereoEffect = function ( renderer ) {
-```
