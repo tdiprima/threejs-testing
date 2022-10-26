@@ -23,7 +23,8 @@
   // Seeing it from a human eye point-of-view; angle 75, 55 60 degrees.
   const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-  const helper = new THREE.CameraHelper( camera );
+  // The premise of using CameraHelper is to use at least two cameras, so that they will appear on the screen completely.
+  const helper = new THREE.CameraHelper(camera);
   scene.add(helper);
 
   // Render to draw

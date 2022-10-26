@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>How to use 2 cameras three.js</title>
+  <link href="/css/main.css" rel="stylesheet">
+</head>
+<body>
+<script type="importmap">{
+  "imports": {
+    "three": "/build/three.module.js",
+    "three/addons/": "/jsm/"
+  }
+}
+</script>
+<script async src="/es-module-shims-1.3.6/dist/es-module-shims.js"></script>
+<script type="module">
+  import * as THREE from "three";
+  import {OrbitControls} from "three/addons/controls/OrbitControls.js";
+
+  const laurel = "#016f01";
+  let aspect = window.innerWidth / window.innerHeight;
+  let insetWidth, insetHeight;
+  let scene = new THREE.Scene();
+
+  let camera = new THREE.PerspectiveCamera(
+    70,
+    aspect,
+    0.01,
+    500
+  );
+  camera.position.z = 10;
+  camera.position.y = 2;
+  camera.lookAt(0, 0, 0);
+  camera.name = "PlayerCam";
+
+  let cameraTop = new THREE.PerspectiveCamera(
+    90,
+    aspect,
+    0.01,
+    500
+  );
+  cameraTop.position.set(0, 10, 0);
+  cameraTop.lookAt(0, 0, -10);
+  cameraTop.name = "OverheadCam";
+  camera.add(cameraTop);
+  scene.add(camera);
+
+  const helper = new THREE.CameraHelper(camera);
+  scene.add(helper);
+
+  let geometry = new THREE.BoxGeometry(10.2, 0.2, 0.2);
+  let material = new THREE.MeshNormalMaterial();
+
+  let mesh = new THREE.Mesh(geometry, material);
+  scene.add(mesh);
+
+  geometry = new THREE.BoxGeometry(1, 1, 1);
+  material = new THREE.MeshBasicMaterial({color: 0x00ff00});
+
+  let cube3 = new THREE.Mesh(geometry, material);
+  scene.add(cube3);
+  material = new THREE.MeshBasicMaterial({color: 0x0000ff});
+
+  let cube2 = new THREE.Mesh(geometry, material);
+  cube2.position.set(-5, 0, 0);
+  scene.add(cube2);
+  material = new THREE.MeshBasicMaterial({color: 0xff0000});
+
+  let cube1 = new THREE.Mesh(geometry, material);
+  cube1.position.set(5, 0, 0);
+  scene.add(cube1);
+
+  let renderer = new THREE.WebGLRenderer();
+  renderer.setSize(window.clientWidth, window.clientHeight);
+  renderer.setPixelRatio(window.devicePixelRatio);
+  document.body.append(renderer.domElement);
+  renderer.render(scene, camera);
+  renderer.setClearColor(laurel);
+
+  let controls = new OrbitControls(camera, renderer.domElement);
+
+  function resize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    insetWidth = window.innerHeight / 4;
+    insetHeight = window.innerHeight / 4;
+    cameraTop.aspect = insetWidth / insetHeight;
+    cameraTop.updateProjectionMatrix();
+  }
+
+  resize();
+  window.addEventListener("resize", resize);
+
+  function animate() {
+    requestAnimationFrame(animate);
+    camera.position.x = cube3.position.x;
+    camera.position.z = cube3.position.z + 10;
+
+    mesh.rotation.y += 0.01;
+
+    renderer.setViewport(0, 0, window.innerWidth, window.innerHeight);
+    renderer.render(scene, camera);
+    renderer.clearDepth();
+
+    renderer.setScissorTest(true);
+
+    renderer.setScissor(
+      window.innerWidth - insetWidth - 16,
+      window.innerHeight - insetHeight - 16,
+      insetWidth,
+      insetHeight
+    );
+
+    renderer.setViewport(
+      window.innerWidth - insetWidth - 16,
+      window.innerHeight - insetHeight - 16,
+      insetWidth,
+      insetHeight
+    );
+    renderer.render(scene, cameraTop);
+
+    controls.update();
+    helper.update();
+    renderer.setScissorTest(false);
+  }
+
+  animate();
+</script>
+</body>
+</html>
