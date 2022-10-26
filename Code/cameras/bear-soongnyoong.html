@@ -29,15 +29,16 @@
   let scene = new THREE.Scene();
   scene.background = new THREE.Color(midnight_blue);
 
-  let camera = window._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  let camera1 = window._camera1 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  let camera2 = window._camera2 = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
   let renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setScissorTest(true);
   document.body.appendChild(renderer.domElement);
 
-  let controls = new OrbitControls(camera, renderer.domElement);
-  // controls.addEventListener("change", render); // this line is unnecessary if you are re-rendering within the animation loop
+  let controls1 = new OrbitControls(camera1, renderer.domElement);
+  let controls2 = new OrbitControls(camera2, renderer.domElement);
 
   let light = new THREE.PointLight(0xffffff, 1, 0);
   light.position.set(1, 1, 100);
@@ -72,14 +73,16 @@
     mesh.scale.set(1.0, tex.image.height / tex.image.width, 1.0);
     scene.add(mesh);
   });
-  camera.position.z = 0.39;
+  camera1.position.z = 0.39;
   // OK WEIRDLY MY IMAGE ISN'T SHOWING UP AT FIRST**
 
   window.addEventListener("resize", onWindowResize, false);
 
   function onWindowResize() {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
+    camera1.aspect = window.innerWidth / window.innerHeight;
+    camera1.updateProjectionMatrix();
+    camera2.aspect = window.innerWidth / window.innerHeight;
+    camera2.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
     render();
   }
@@ -88,7 +91,7 @@
     // Full screen
     renderer.setScissor(0, 0, window.innerWidth, window.innerHeight);
     renderer.setViewport(0, 0, window.innerWidth, window.innerHeight);
-    renderer.render(scene, camera);
+    renderer.render(scene, camera1);
 
     renderer.setScissorTest(true);
 
@@ -96,20 +99,23 @@
     let widthHalf = window.innerWidth / 2;
     let heightHalf = window.innerHeight / 2;
 
-    // camera.lookAt(-0.338, 0.024, 0.19);
-    // camera.position.set(-0.03, 0.005, 0.168);
+    // camera2.lookAt(-0.5, 0.5, 0.1); // ******
+    // camera2.position.set(-0.03, 0.005, 0.168);
+    camera2.position.set(-0.02, 0, 0.13);
+    // camera2.position.set(-0.2, 0.06, 0.193);
     renderer.setScissor(widthHalf, 0, widthHalf, heightHalf);
     renderer.setViewport(widthHalf, 0, widthHalf, heightHalf);
-    renderer.render(scene, camera);
+    renderer.render(scene, camera2);
 
     renderer.setScissorTest(false);
   }
 
-  // ** That's just cuz I didn't put a f'in animate function.
-  // But I'm rendering on demand; this isn't animating.
+  // ** That's just cuz I didn't put an animate function.
+  // But I'm rendering on demand; this isn't animating. Eh...
   (function animate() {
     requestAnimationFrame(animate);
-    controls.update();
+    controls1.update();
+    controls2.update();
     render();
   })();
 </script>
