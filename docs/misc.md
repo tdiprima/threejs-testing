@@ -8,6 +8,10 @@ y = height / top and bottom // vertical movement
 z = depth / zoom (in or out)
 ```
 
+[visualization and camera](https://observablehq.com/@grantcuster/understanding-scale-and-the-three-js-perspective-camera)
+
+[3D Camera Movement in Three.js – I Learned the Hard Way So You Don’t Have To](https://blogs.perficient.com/2020/05/21/3d-camera-movement-in-three-js-i-learned-the-hard-way-so-you-dont-have-to/)
+
 gman<br>
 [https://stackoverflow.com/questions/29884485/threejs-canvas-size-based-on-container](https://stackoverflow.com/questions/29884485/threejs-canvas-size-based-on-container)
 
