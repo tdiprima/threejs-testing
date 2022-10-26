@@ -6,7 +6,9 @@
   <!-- https://discourse.threejs.org/t/cdn-only-approach-not-so-satisfying/35498/5 -->
   <!-- Also: https://github.com/Sean-Bradley/Three.js-TypeScript-Boilerplate/blob/master/src/client/client.ts -->
   <style>
-    body { margin: 0; }
+    body {
+      margin: 0;
+    }
   </style>
 
   <script
@@ -23,6 +25,7 @@
         "dat.gui": "https://cdn.skypack.dev/dat.gui"
       }
     }
+
   </script>
 </head>
 <body>
@@ -117,26 +120,21 @@
   cameraFolder.add(camera.position, "z", 0, 10, 0.01);
   cameraFolder.open();
 
-  let animate = function () {
-    requestAnimationFrame(animate);
-    // If you want it movin' by itself...
-    /*
-    stats.begin();
-    cube.rotation.x += 0.01;
-    cube.rotation.y += 0.01;
-    stats.end();
-    */
-    // trackballControls.update();
-    controls.update();
-    render();
-    stats.update();
-  };
-
   function render() {
     renderer.render(scene, camera);
   }
 
-  animate();
+  // https://www.paulirish.com/2011/requestanimationframe-for-smart-animating/
+  (function animLoop() {
+    requestAnimationFrame(animLoop);
+    stats.begin();
+    cube.rotation.x += 0.01;
+    cube.rotation.y += 0.01;
+    stats.end();
+    controls.update();
+    stats.update();
+    render();
+  })();
 </script>
 </body>
 </html>
