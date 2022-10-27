@@ -27,13 +27,7 @@
   let scene = new THREE.Scene();
 
   const createCamera = (fov, name) => {
-    let camera = new THREE.PerspectiveCamera(
-      fov,
-      aspect,
-      0.01,
-      500
-    );
-
+    let camera = new THREE.PerspectiveCamera(fov, aspect, 0.01, 500);
     if (name) {
       camera.name = name;
     }
