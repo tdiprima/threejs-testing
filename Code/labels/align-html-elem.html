@@ -83,10 +83,13 @@
     let canvas = document.querySelector("#c");
     let renderer = new THREE.WebGLRenderer({canvas});
 
-    let fov = 75;
+    // The height of the near and far planes are determined by the field of view.
+    // The width of both planes is determined by the field of view and the aspect.
+    let fov = 75; // 75 degrees in the vertical dimension
     let aspect = 2; // the canvas default
-    let near = 1.1;
-    let far = 50;
+    let near = 1.1; // Our frustum starts 1.1 units from the front of the camera
+    let far = 50; // and goes to 50 units in front of the camera.
+
     let camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
     camera.position.z = 7;
 

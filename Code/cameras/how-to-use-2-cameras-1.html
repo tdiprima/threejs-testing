@@ -25,26 +25,31 @@
   let insetWidth, insetHeight;
   let scene = new THREE.Scene();
 
-  let camera = new THREE.PerspectiveCamera(
-    70,
-    aspect,
-    0.01,
-    500
-  );
+  const createCamera = (fov, name) => {
+    let camera = new THREE.PerspectiveCamera(
+      fov,
+      aspect,
+      0.01,
+      500
+    );
+
+    if (name) {
+      camera.name = name;
+    }
+    console.log("camera", camera);
+    return camera;
+  };
+
+
+  const camera = createCamera(70, "PlayerCam");
   camera.position.z = 10;
   camera.position.y = 2;
   camera.lookAt(0, 0, 0);
-  camera.name = "PlayerCam";
 
-  let cameraTop = new THREE.PerspectiveCamera(
-    90,
-    aspect,
-    0.01,
-    500
-  );
+  const cameraTop = createCamera(90, "OverheadCam");
   cameraTop.position.set(0, 10, 0);
   cameraTop.lookAt(0, 0, -10);
-  cameraTop.name = "OverheadCam";
+
   camera.add(cameraTop);
   scene.add(camera);
 
