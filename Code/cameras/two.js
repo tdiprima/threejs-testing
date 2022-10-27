@@ -7,8 +7,9 @@ function main() {
   const stratos = "#000040";
   const checker = "../3d-model-load/assets/checker.png";
 
-  let canvas = document.querySelector("#c");
   document.querySelector("#info").innerHTML = "scissor function - draw 2 scenes with 2 cameras side by side";
+
+  let canvas = document.querySelector("#c");
   let view1Elem = document.querySelector("#view1");
   let view2Elem = document.querySelector("#view2");
   let renderer = new THREE.WebGLRenderer({ canvas });
