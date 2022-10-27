@@ -50,9 +50,17 @@
   let helper = new THREE.CameraHelper(camera);
   scene.add(helper);
 
-  let geometry = new THREE.BoxGeometry(2, 2, 2);
-  let material = new THREE.MeshNormalMaterial();
-  let mesh = new THREE.Mesh(geometry, material);
+  let geometry = new THREE.BoxGeometry(3, 3, 3);
+  // let material = new THREE.MeshNormalMaterial();
+  // let mesh = new THREE.Mesh(geometry, material);
+  let mesh = new THREE.Mesh(geometry, [
+    new THREE.MeshBasicMaterial({color: 0xff0000}),
+    new THREE.MeshBasicMaterial({color: 0xff7f00}),
+    new THREE.MeshBasicMaterial({color: 0xffff00}),
+    new THREE.MeshBasicMaterial({color: 0x00ff00}),
+    new THREE.MeshBasicMaterial({color: 0x0000ff}),
+    new THREE.MeshBasicMaterial({color: 0x9400d3})
+  ]);
   scene.add(mesh);
 
   let renderer = new THREE.WebGLRenderer();
@@ -90,7 +98,7 @@
     renderer.clearDepth();
 
     renderer.setScissorTest(true);
-    
+
     // The inset one
     const x = window.innerWidth - insetWidth - 16;
     const y = window.innerHeight - insetHeight - 16;
