@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Animate!</title>
+  <link rel="stylesheet" href="/css/main.css">
+  <!-- https://discoverthreejs.com/book/first-steps/load-models/ -->
+  <!-- https://discoverthreejs.com/book/first-steps/animation-system/ -->
+  <!-- https://discoverthreejs.com/book/appendix/asynchronous-javascript/ -->
+</head>
+<body>
+<script async src="/es-module-shims-1.3.6/dist/es-module-shims.js"></script>
+<script type="importmap">
+  {
+    "imports": {
+      "three": "/build/three.module.js"
+    }
+  }
+</script>
+
+<script type="module">
+  import * as THREE from "three";
+  import {OrbitControls} from "/jsm/controls/OrbitControls.js";
+  import {GLTFLoader} from "/jsm/loaders/GLTFLoader.js";
+
+  console.clear();
+  console.log("%cthree.js rev", "color: #ccff00;", THREE.REVISION);
+
+  let scene = new THREE.Scene();
+  scene.background = new THREE.Color(0xc7deea);
+
+  let camera = window._camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
+  // window._camera.position
+
+  let p = {x: -93.91188531607672, y: 22.037651253352788, z: 8.740520894388773 };
+  camera.position.x = p.x;
+  camera.position.y = p.y;
+  camera.position.z = p.z;
+
+  let renderer = new THREE.WebGLRenderer();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
+
+  let controls = new OrbitControls(camera, renderer.domElement);
+
+  let light = new THREE.HemisphereLight(0xffffff, 0xffffff, 1);
+  scene.add(light);
+
+  // The "await" keyword means "wait here until the model has loaded".
+  let loader = new GLTFLoader();
+
+  let loadedData = await loader.loadAsync("/models/gltf/Parrot.glb");
+  console.log("%cloadedData", "color: #ff00cc;", loadedData);
+
+  scene.add(loadedData.scene);
+
+  const model = loadedData.scene.children[0];
+  const clip = loadedData.animations[0];
+
+  const mixer = new THREE.AnimationMixer(model);
+  const action = mixer.clipAction(clip);
+  action.play();
+
+  // model.tick = (delta) => mixer.update(delta);
+
+  let clock = new THREE.Clock();
+  function animate() {
+    requestAnimationFrame(animate);
+    let delta = clock.getDelta();
+
+    if (mixer) {
+      mixer.update(delta);
+    }
+    renderer.render(scene, camera);
+  }
+
+  animate();
+
+  window.addEventListener("resize", onWindowResize);
+
+  function onWindowResize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  }
+</script>
+</body>
+</html>
