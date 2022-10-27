@@ -24,10 +24,10 @@ function main() {
 
   let cameraHelper = new THREE.CameraHelper(camera);
 
-  // Set OrbitControls to respond to the first view element only.
-  let controls = new OrbitControls(camera, view1Elem);
-  controls.target.set(0, 5, 0);
-  controls.update();
+  // Set OrbitControls #1 to respond to the first view element.
+  let controls1 = new OrbitControls(camera, view1Elem);
+  controls1.target.set(0, 5, 0); // Notice: 0, 5, 0
+  controls1.update();
 
   let camera2 = new THREE.PerspectiveCamera(
     60, // fov
@@ -35,12 +35,12 @@ function main() {
     0.1, // near
     500, // far
   );
-  camera2.position.set(40, 10, 30);
-  camera2.lookAt(0, 5, 0);
+  camera2.position.set(40, 10, 30); // 40 left, 10 up, 30 back
+  camera2.lookAt(0, 5, 0); // 0, 5, 0
 
   // The second OrbitControls is tied to the second camera and gets input from the second view element.
   let controls2 = new OrbitControls(camera2, view2Elem);
-  controls2.target.set(0, 5, 0);
+  controls2.target.set(0, 5, 0); // 0, 5, 0
   controls2.update();
 
   let scene = new THREE.Scene();
