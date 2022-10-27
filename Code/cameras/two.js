@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import {OrbitControls} from "three/addons/controls/OrbitControls.js";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
 function main() {
   const poloBlue = "#88aacc";
@@ -10,20 +10,21 @@ function main() {
   document.querySelector("#info").innerHTML = "scissor function - draw 2 scenes with 2 cameras side by side";
 
   let canvas = document.querySelector("#c");
+  let renderer = new THREE.WebGLRenderer({ canvas });
   let view1Elem = document.querySelector("#view1");
   let view2Elem = document.querySelector("#view2");
-  let renderer = new THREE.WebGLRenderer({ canvas });
 
-  let fov = 45;
-  let aspect = 2; // the canvas default
-  let near = 5;
-  let far = 100;
-
-  let camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-  camera.position.set(0, 10, 20);
+  let camera = new THREE.PerspectiveCamera(
+    45, // fov
+    2, // aspect
+    5, // near
+    100 // far
+  );
+  camera.position.set(0, 10, 20); // 10 up, 20 back
 
   let cameraHelper = new THREE.CameraHelper(camera);
 
+  // Set OrbitControls to respond to the first view element only.
   let controls = new OrbitControls(camera, view1Elem);
   controls.target.set(0, 5, 0);
   controls.update();
@@ -34,10 +35,10 @@ function main() {
     0.1, // near
     500, // far
   );
-
   camera2.position.set(40, 10, 30);
   camera2.lookAt(0, 5, 0);
 
+  // The second OrbitControls is tied to the second camera and gets input from the second view element.
   let controls2 = new OrbitControls(camera2, view2Elem);
   controls2.target.set(0, 5, 0);
   controls2.update();
@@ -95,11 +96,10 @@ function main() {
   }
 
   {
-    let color = 0xffffff;
-    let intensity = 1;
-    let light = new THREE.DirectionalLight(color, intensity);
-    light.position.set(0, 10, 0);
-    light.target.position.set(-5, 0, 0);
+    // https://r105.threejsfundamentals.org/threejs/threejs-lights-directional.html
+    let light = new THREE.DirectionalLight(0xffffff, 1);
+    light.position.set(0, 10, 0); // 10 up
+    light.target.position.set(-5, 0, 0); // shine from right to left
     scene.add(light);
     scene.add(light.target);
 
@@ -108,11 +108,6 @@ function main() {
     helper.update();
   }
 
-  /**
-   * Resize renderer to display size
-   * @param {object} renderer - WebGLRenderer
-   * @return {boolean}
-   */
   function resizeRendererToDisplaySize(renderer) {
     const canvas = renderer.domElement;
     let width = canvas.clientWidth;
@@ -124,13 +119,7 @@ function main() {
     return needResize;
   }
 
-  /**
-   * Take this DIV, and compute the rectangle of that element (that overlaps the canvas).
-   * Then, set the scissor and viewport to that rectangle.
-   * Finally, return the aspect for that size.
-   * @param elem - DIV view1, DIV view2
-   * @return {number} aspect
-   */
+  // Set the scissor and viewport to each div.
   function setScissorForElement(elem) {
     let canvasRect = canvas.getBoundingClientRect();
     let elemRect = elem.getBoundingClientRect();
@@ -160,7 +149,9 @@ function main() {
   }
 
   /**
-   * Render - draw the scene twice!
+   * Render the scene from the point of view of each camera,
+   * using the scissor function
+   * to only render to part of the canvas.
    */
   function render() {
     resizeRendererToDisplaySize(renderer);

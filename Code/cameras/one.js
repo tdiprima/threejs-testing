@@ -5,18 +5,21 @@ function main() {
   let canvas = document.querySelector("#c");
   let renderer = new THREE.WebGLRenderer({ canvas });
 
-  let fov = 45;
-  let aspect = 2; // the canvas default
-  let near = 0.1;
-  let far = 100;
-  let camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-  camera.position.set(0, 10, 20);
+  let camera = new THREE.PerspectiveCamera(
+    45, // field of view 45 degrees
+    2,
+    0.1,
+    100 // far plane 100 units
+  );
+  camera.position.set(0, 10, 20); // move the camera 10 units up and 20 units back
 
+  // A CameraHelper draws the frustum for a Camera.
   let cameraHelper = new THREE.CameraHelper(camera);
 
+  // OrbitControls let the user spin or orbit the camera around some point.
   let controls = new OrbitControls(camera, canvas);
-  controls.target.set(0, 5, 0);
-  controls.update();
+  controls.target.set(0, 5, 0); // set the target to orbit around to 5 units above the origin
+  controls.update(); // call controls.update so the controls will use the new target
 
   let scene = new THREE.Scene();
   scene.background = new THREE.Color("black");
@@ -40,7 +43,7 @@ function main() {
       side: THREE.DoubleSide,
     });
     let mesh = new THREE.Mesh(planeGeo, planeMat);
-    mesh.rotation.x = Math.PI * -0.5;
+    mesh.rotation.x = Math.PI * -0.5; // Planes default to being in the XY plane, but the ground is in the XZ plane; so we rotate it.
     scene.add(mesh);
   }
 
@@ -65,11 +68,10 @@ function main() {
   }
 
   {
-    let color = 0xffffff;
-    let intensity = 1;
-    let light = new THREE.DirectionalLight(color, intensity);
+    // A DirectionalLight is often used to represent the sun.
+    let light = new THREE.DirectionalLight(0xffffff, 1);
     light.position.set(0, 10, 0);
-    light.target.position.set(-5, 0, 0);
+    light.target.position.set(-5, 0, 0); // shines in the direction of its target
     scene.add(light);
     scene.add(light.target);
 
@@ -93,6 +95,7 @@ function main() {
     if (resizeRendererToDisplaySize(renderer)) {
       const canvas = renderer.domElement;
       camera.aspect = canvas.clientWidth / canvas.clientHeight;
+      // Anytime the camera's settings change we need to call the camera's updateProjectionMatrix function.
       camera.updateProjectionMatrix();
     }
 
