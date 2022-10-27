@@ -64,14 +64,13 @@
 
   renderer.render(scene, cameraTop);
 
-  const width = window.innerWidth;
-  const height = window.innerHeight;
-
   function animate() {
     requestAnimationFrame(animate);
 
     let left = 0;
     const bottom = 0;
+    const width = window.innerWidth;
+    const height = window.innerHeight;
 
     renderer.setViewport(left, bottom, Math.floor(width / 2), height);
     renderer.setScissor(left, bottom, Math.floor(width / 2), height);
