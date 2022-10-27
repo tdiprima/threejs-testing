@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>2CylinderEngine</title>
+  <!-- https://observablehq.com/@vicapow/threejs-example-of-multiple-camera-viewports -->
+</head>
+<body>
+
+<script async src="/es-module-shims-1.3.6/dist/es-module-shims.js"></script>
+<script type="importmap">{
+  "imports": {
+    "three": "/build/three.module.js"
+  }
+}</script>
+
+<script type="module">
+  import * as THREE from "three";
+  import {OrbitControls} from "/jsm/controls/OrbitControls.js";
+  import {GLTFLoader} from "/jsm/loaders/GLTFLoader.js";
+
+  let scene = new THREE.Scene();
+
+  const createCamera = (name) => {
+    const fov = 45;
+    const aspect = window.innerWidth / window.innerHeight;
+    const near = 1;
+    const far = 100000;
+    const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+    if (name) {
+      camera.name = name;
+    }
+    console.log("camera", camera);
+    return camera;
+  };
+
+  const cameraTop = createCamera("cameraTop");
+  cameraTop.position.z = -0.1;
+  cameraTop.position.y = 1500;
+  cameraTop.lookAt(new THREE.Vector3(0, 0, 0));
+
+  const cameraFront = createCamera("cameraFront");
+  cameraFront.position.x = 800;
+  cameraFront.lookAt(new THREE.Vector3(0, 0, 0));
+
+  let renderer = new THREE.WebGLRenderer({antialias: true});
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
+
+  let controls = new OrbitControls(cameraFront, renderer.domElement);
+  let controls1 = new OrbitControls(cameraTop, renderer.domElement);
+
+  const hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff, 0.6);
+  hemiLight.color.setHSL(1, 1, 1);
+  hemiLight.groundColor.setHSL(0, 1, 0);
+  hemiLight.position.set(0, 50, 0);
+  scene.add(hemiLight);
+
+  new GLTFLoader().load("/models/2CylinderEngine.glb", (gltfScene) => {
+    scene.add(gltfScene.scene);
+  });
+
+  renderer.render(scene, cameraTop);
+
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+
+  function animate() {
+    requestAnimationFrame(animate);
+
+    let left = 0;
+    const bottom = 0;
+
+    renderer.setViewport(left, bottom, Math.floor(width / 2), height);
+    renderer.setScissor(left, bottom, Math.floor(width / 2), height);
+    renderer.setClearColor(new THREE.Color(1, 1, 1));
+    cameraTop.aspect = Math.floor(width / 2) / height;
+    cameraTop.updateProjectionMatrix();
+    renderer.render(scene, cameraTop);
+
+    renderer.setScissorTest(true);
+
+    left = Math.floor(width / 2);
+    renderer.setViewport(left, bottom, Math.floor(width / 2), height);
+    renderer.setScissor(left, bottom, Math.floor(width / 2), height);
+    renderer.setClearColor(new THREE.Color(1, 1, 1));
+    cameraFront.aspect = Math.floor(width / 2) / height;
+    cameraFront.updateProjectionMatrix();
+    renderer.render(scene, cameraFront);
+
+    renderer.setScissorTest(false);
+
+  }
+  animate();
+</script>
+</body>
+</html>
