@@ -49,7 +49,8 @@
     scene = new THREE.Scene();
 
     let geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2);
-
+    // let material = new THREE.MeshNormalMaterial();
+    // let mesh = new THREE.Mesh(geometry, material);
     let mesh = new THREE.Mesh(geometry, [
       new THREE.MeshBasicMaterial({color: 0xffffff * Math.random()}),
       new THREE.MeshBasicMaterial({color: 0xffffff * Math.random()}),
