@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Document</title>
+  <!-- https://discourse.threejs.org/t/three-meshfacematerial-has-been-removed-use-an-array-instead-doesnt-work/7020 -->
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+<script type="module">
+  // import * as THREE from "https://threejsfundamentals.org/threejs/resources/threejs/r132/build/three.module.js";
+  import * as THREE from "https://unpkg.com/three@0.120.0/build/three.module.js";
+
+  let camera,
+    scene,
+    renderer;
+  const materials = [];
+
+  init();
+  animate();
+
+  function init() {
+    camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000);
+    camera.position.z = 500;
+
+    scene = new THREE.Scene();
+    scene.background = new THREE.Color("#e6e6e6");
+
+    // width - Width along the X axis. Default is 1.
+    // height - Height along the Y axis. Default is 1.
+    // widthSegments - Optional. Default is 1.
+    // heightSegments - Optional. Default is 1.
+    const geometry = new THREE.PlaneGeometry(300, 150, 5, 3);
+
+    const materials = [];
+    let green = 0;
+    const length = geometry.faces.length / 2;
+    for (let y = 0; y < length; ++y) {
+      const j = 2 * y; // j = vertex index
+      // It's supposed to go from green to yellow
+      // const colorname = `rgb(200, ${green}, 40)`; // This is red to yellow.
+      // First square should be: rgba(0, 253, 110, 1)
+      // const colorname = `rgb(0, ${green}, 40)`;
+      // const colorname = `rgb(0, ${green}, 200)`; // nice blue
+      const colorname = `rgb(${green}, 200, 40)`; // Close. Not bad. At least I'm in the ballpark!
+
+      const colorvar = new THREE.Color(colorname);
+      const material = new THREE.MeshBasicMaterial({ color: colorvar, side: THREE.DoubleSide });
+      materials.push(material);
+      geometry.faces[j].materialIndex = y;
+      geometry.faces[j + 1].materialIndex = y;
+      green += 15;
+    }
+
+    // THREE.MeshFaceMaterial has been removed. Use an Array instead.
+    const multiMaterial = new THREE.MeshFaceMaterial(materials);
+    const mesh = new THREE.Mesh(geometry, multiMaterial);
+    // const mesh = new THREE.Mesh(geometry, materials);
+    scene.add(mesh);
+
+    renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+  }
+
+  function animate() {
+    requestAnimationFrame(animate);
+    renderer.render(scene, camera);
+  }
+</script>
+</body>
+</html>
