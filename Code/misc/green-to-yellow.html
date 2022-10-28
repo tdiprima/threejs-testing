@@ -55,9 +55,9 @@
     }
 
     // THREE.MeshFaceMaterial has been removed. Use an Array instead.
-    const multiMaterial = new THREE.MeshFaceMaterial(materials);
-    const mesh = new THREE.Mesh(geometry, multiMaterial);
-    // const mesh = new THREE.Mesh(geometry, materials);
+    // const multiMaterial = new THREE.MeshFaceMaterial(materials);
+    // const mesh = new THREE.Mesh(geometry, multiMaterial);
+    const mesh = new THREE.Mesh(geometry, materials);
     scene.add(mesh);
 
     renderer = new THREE.WebGLRenderer({ antialias: true });
