@@ -5,7 +5,7 @@ function main() {
   const poloBlue = "#88aacc";
   const tan = "#ccaa88";
   const stratos = "#000040";
-  const checker = "../3d-model-load/assets/checker.png";
+  const checker = "/textures/images/checker.png";
 
   document.querySelector("#info").innerHTML = "scissor function - draw 2 scenes with 2 cameras side by side";
 

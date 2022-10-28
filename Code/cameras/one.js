@@ -30,7 +30,7 @@ function main() {
     let planeSize = 40;
 
     let loader = new THREE.TextureLoader();
-    let texture = loader.load("../3d-model-load/assets/checker.png");
+    let texture = loader.load("/textures/images/checker.png");
     texture.wrapS = THREE.RepeatWrapping;
     texture.wrapT = THREE.RepeatWrapping;
     texture.magFilter = THREE.NearestFilter;
