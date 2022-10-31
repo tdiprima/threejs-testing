@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Helpers</title>
+  <!-- https://github.com/stemkoski/stemkoski.github.com.git -->
+  <link href="/css/main.css" rel=stylesheet/>
+</head>
+<body>
+
+<div id="ThreeJS" style="z-index: 1; position: absolute; left:0; top:0"></div>
+
+<script type="importmap">{
+  "imports": {
+    "three": "/build/three.module.js",
+    "three/addons/": "/jsm/"
+  }
+}</script>
+<script async src="/es-module-shims-1.3.6/dist/es-module-shims.js"></script>
+
+<script src="/js/THREEx.KeyboardState.js"></script>
+<script src="/js/THREEx.FullScreen.js"></script>
+<script src="/js/THREEx.WindowResize.js"></script>
+
+<script type="module">
+  import * as THREE from "three";
+  import {OrbitControls} from "three/addons/controls/OrbitControls.js";
+
+  /*
+	Three.js "tutorials by example"
+	Author: Lee Stemkoski
+	Date: July 2013 (three.js v59dev)
+  */
+
+  // MAIN
+
+  // standard global variables
+  let container,
+    scene,
+    camera,
+    renderer,
+    controls,
+    stats;
+  const keyboard = new THREEx.KeyboardState();
+  const clock = new THREE.Clock();
+
+  // custom global variables
+  let mesh;
+  // let localToCameraAxesPlacement;
+  // let axisHelper;
+  const chetwode_blue = '#9999ff';
+  const dark_blue = '#000088';
+  const dark_green = '#006600';
+  const arapawa = '#000066';
+  const lonestar = '#660000';
+  const korma = '#884400';
+
+  init();
+  animate();
+
+  // FUNCTIONS
+  function init() {
+    // SCENE
+    scene = new THREE.Scene();
+
+    // CAMERA
+    let SCREEN_WIDTH = window.innerWidth,
+      SCREEN_HEIGHT = window.innerHeight;
+
+    let VIEW_ANGLE = 45,
+      ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT,
+      NEAR = 0.1,
+      FAR = 20000;
+
+    camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
+    scene.add(camera);
+    camera.position.set(0, 150, 400);
+    camera.lookAt(scene.position);
+
+    // RENDERER
+    renderer = new THREE.WebGLRenderer({antialias: true});
+
+    renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
+    container = document.getElementById('ThreeJS');
+    container.appendChild(renderer.domElement);
+
+    // EVENTS
+    THREEx.WindowResize(renderer, camera);
+    THREEx.FullScreen.bindKey({charCode: 'm'.charCodeAt(0)});
+
+    // CONTROLS
+    controls = new OrbitControls(camera, renderer.domElement);
+
+    // LIGHT
+    const light = new THREE.PointLight(0xffffff);
+    light.position.set(100, 250, 100);
+    scene.add(light);
+
+    // FLOOR
+    // const floorTexture = new THREE.ImageUtils.loadTexture('images/checkerboard.jpg');
+    // floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping;
+    // floorTexture.repeat.set(10, 10);
+    // const floorMaterial = new THREE.MeshBasicMaterial({ map: floorTexture, side: THREE.DoubleSide });
+    // const floorGeometry = new THREE.PlaneGeometry(1000, 1000, 10, 10);
+    // const floor = new THREE.Mesh(floorGeometry, floorMaterial);
+    // floor.position.y = -0.5;
+    // floor.rotation.x = Math.PI / 2;
+    // scene.add(floor);
+
+    // SKYBOX
+    const skyBoxGeometry = new THREE.BoxGeometry(10000, 10000, 10000);
+    // var skyBoxMaterial = new THREE.MeshBasicMaterial( { color: chetwode_blue, side: THREE.BackSide } );
+    const skyBoxMaterial = new THREE.MeshBasicMaterial({color: 0xffffff, side: THREE.BackSide});
+    const skyBox = new THREE.Mesh(skyBoxGeometry, skyBoxMaterial);
+    scene.add(skyBox);
+
+    ////////////
+    // CUSTOM //
+    ////////////
+
+    const geometry = new THREE.SphereGeometry(30, 32, 16);
+    const material = new THREE.MeshLambertMaterial({color: dark_blue});
+    mesh = new THREE.Mesh(geometry, material);
+    mesh.position.set(40, 40, 40);
+    scene.add(mesh);
+
+    const axes = new THREE.AxesHelper(50);
+    console.log(mesh.position)
+    console.log(axes)
+    // axes.position = mesh.position; // It's read-only now.
+    scene.add(axes);
+
+    // https://stackoverflow.com/questions/63194674/how-to-change-axeshelper-x-y-z-line-width-and-add-arrow-point-in-three-js
+    // http://jsfiddle.net/b97zd1a3/16/
+
+    // https://stackoverflow.com/questions/16226693/three-js-show-world-coordinate-axes-in-corner-of-scene
+    // axisHelper = new THREE.AxesHelper(0.1)
+    // localToCameraAxesPlacement = new THREE.Vector3(0.45 * camera.aspect,-0.45, -2); // make sure to update this on window resize
+    // scene.add(axisHelper)
+
+    // constructor(size = 10, divisions = 10, centerLines = 0x444444, grid = 0x888888)
+    const gridXZ = new THREE.GridHelper(100, 10, dark_green, dark_green);
+    // THREE.GridHelper: setColors() has been deprecated, pass them in the constructor instead. from r76
+    // gridXZ.setColors(new THREE.Color(0x006600), new THREE.Color(dark_green));
+    gridXZ.position.set(100, 0, 100);
+    scene.add(gridXZ);
+
+    const gridXY = new THREE.GridHelper(100, 10, arapawa, arapawa);
+    gridXY.position.set(100, 100, 0);
+    gridXY.rotation.x = Math.PI / 2;
+    // gridXY.setColors(new THREE.Color(0x000066), new THREE.Color(arapawa));
+    scene.add(gridXY);
+
+    const gridYZ = new THREE.GridHelper(100, 10, lonestar, lonestar);
+    gridYZ.position.set(0, 100, 100);
+    gridYZ.rotation.z = Math.PI / 2;
+    // gridYZ.setColors(new THREE.Color(0x660000), new THREE.Color(lonestar));
+    scene.add(gridYZ);
+
+    // direction (normalized), origin, length, color(hex)
+    const origin = new THREE.Vector3(50, 100, 50);
+    const terminus = new THREE.Vector3(75, 75, 75);
+    const direction = new THREE.Vector3().subVectors(terminus, origin).normalize();
+    const arrow = new THREE.ArrowHelper(direction, origin, 50, korma);
+    scene.add(arrow);
+  }
+
+  function animate() {
+    requestAnimationFrame(animate);
+    render();
+    update();
+  }
+
+  function update() {
+    if (keyboard.pressed('z')) {
+      // do something
+      console.log("z pressed");
+    }
+
+    controls.update();
+  }
+
+  function render() {
+    // let axesPlacement = camera.localToWorld(localToCameraAxesPlacement.clone())
+    // axisHelper.position.copy(axesPlacement);
+    renderer.render(scene, camera);
+  }
+</script>
+</body>
+</html>
