@@ -8,6 +8,70 @@ y = Math.sin
 z = Math.sin
 ```
 
+# Math.sin and Math.cos — The creative coder's best friend
+
+Sine waves are great to build oscillators. `Math.sin()` will always oscillate between the values of -1, 1. We multiply this by an amplitude variable to get an oscillating wave effect.
+
+```js
+ball.amplitude = random(h / 10, h / 4)
+
+ball.y = h / 2 + Math.sin(radians(ball.angle_y)) * ball.amplitude;
+```
+
+[The most common thing](https://medium.com/hackernoon/math-sin-and-math-cos-the-creative-coders-best-friend-597d69000644) I use `Math.sin()` and `Math.cos()` for is to draw things in circles.
+
+It's pretty simple. We just create an angle variable for the particle, and then use `Math.cos(angle)` to get the x position and `Math.sin(angle)` to get the y position. We multiply this by our radius, and voilà; we have circular movement.
+
+```js
+function moveBall() {
+  for (var i = 0; i < balls.length; i++) {
+    var b = balls[i];
+    // move the angle to rotate the balls
+    b.angle += b.speed;
+    // plot the ball's x to cos and y to sin 
+    b.x = w/2 + Math.cos(radians(b.angle)) * radius;
+    b.y = h/2 + Math.sin(radians(b.angle)) * radius;
+  }
+}
+```
+
+Take into account the individual ball's size, so that the balls are rolling on the circle. Pretty simple to do - we just add half the ball's size to the radius:
+
+```js
+var b = balls[i];
+b.x = w/2 + Math.cos(radians(b.angle)) * (radius+b.size/2);
+b.y = h/2 + Math.sin(radians(b.angle)) * (radius+b.size/2);
+```
+
+Say we wanted to distribute the balls evenly on the circle. We could just use a formula like so:
+
+```js
+ball_number / total_number_of_balls * 360;
+```
+
+I've made a function for this:
+
+```js
+function distributeAngles(me, total) {
+  return me / total * 360;
+}
+```
+
+Creative coding, is often, just a combination of simple concepts, to make something slightly more complicated.
+
+```js
+function addParticle(_i, _object) {
+  var _angle = radians(distributeAngles(i, _object.count));
+  var particle = {
+    x: 0,
+    y: 0,
+    speed: _object.speed,
+    angle: _angle,
+    radius: _object.radius
+  }
+  _object.particles.push(particle);
+}
+```
 # What does math sin do?
 
 The [Math.sin()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/sin) function returns the sine of a number in radians.
