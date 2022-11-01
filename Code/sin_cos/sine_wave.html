@@ -28,6 +28,11 @@
       const blueDianne = "#2e4952";
       const robinsEggBlue = "#0bc9c7"; // Robin's Egg Blue
 
+      // get the angle as radians
+      const toRadians = function(angle) {
+        return angle * (Math.PI / 180.0);
+      }
+
       let counter = 0;
       let r = 4;
       let s_r = r / 20 + (Math.sin(0) * r) / 20;
@@ -59,10 +64,10 @@
         let obj = create_mesh(colors[i], 1 + lineWidth * 0.8 * i, all_vertices, i);
         objects.push(obj);
         sub_group.add(obj);
-        obj.rotation.y = (Math.PI / 180) * 180;
+        obj.rotation.y = toRadians(180);
       }
 
-      group.rotation.x = sub_group.rotation.x = (Math.PI / 180) * 360;
+      group.rotation.x = sub_group.rotation.x = toRadians(360);
       scene.add(group);
       scene.add(sub_group);
 
@@ -116,7 +121,7 @@
 
             if (wave_type == 2)
               radius_addon =
-                wave_height * smooth_pct * Math.cos((angle + (Math.PI / 180) * 120 + speed_incrementer) * anim_shape);
+                wave_height * smooth_pct * Math.cos((angle + toRadians(120) + speed_incrementer) * anim_shape);
           }
 
           // Here you go! x,y positions with cos and sin:

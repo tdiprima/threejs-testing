@@ -28,7 +28,7 @@ function moveBall() {
     var b = balls[i];
     // move the angle to rotate the balls
     b.angle += b.speed;
-    // plot the ball's x to cos and y to sin 
+    // plot the ball's x to cos and y to sin
     b.x = w/2 + Math.cos(radians(b.angle)) * radius;
     b.y = h/2 + Math.sin(radians(b.angle)) * radius;
   }
@@ -134,7 +134,7 @@ function radToDeg(radians) {
 // code example usage
 
 // get the angle as radians
-const toRadians = function() {
+const toRadians = function(angle) {
   return angle * (Math.PI / 180.0);
 }
 
@@ -163,7 +163,7 @@ camera.position.x = radius * Math.sin(THREE.MathUtils.degToRad(theta));
 
 # [What radian?](https://www.essai.in/blog/2019/2/25/what-exactly-is-a-radian)
 
-Now most of us are used to using the conversion formula for degrees to radians and vice versa but ever wondered how it came about? It's actually fairly simple. The **circumference** of a circle is **2 times π times r** which means that there are approximately 6.28 Radians in a full circle. 
+Now most of us are used to using the conversion formula for degrees to radians and vice versa but ever wondered how it came about? It's actually fairly simple. The **circumference** of a circle is **2 times π times r** which means that there are approximately 6.28 Radians in a full circle.
 
 Another way of thinking about this is to imagine you are standing in a circular park and you go for a walk around the outside of the park. You can either calculate this as walking the circumference of the park (which is 6.28 Radians) or walking  360 Degrees around it which in a way is the exact same thing
 
