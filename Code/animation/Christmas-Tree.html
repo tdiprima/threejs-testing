@@ -21,11 +21,10 @@
 </head>
 <body>
 
-<!-- https://cdnjs.cloudflare.com/ajax/libs/three.js/108/three.js -->
-<script src="https://r105.threejsfundamentals.org/threejs/resources/threejs/r105/three.min.js"></script>
-<script src="https://r105.threejsfundamentals.org/threejs/resources/threejs/r105/js/controls/OrbitControls.js"></script>
+<script type="module">
+  import * as THREE from 'https://cdn.rawgit.com/mrdoob/three.js/r124/build/three.module.js';
+  import { OrbitControls } from 'https://cdn.rawgit.com/mrdoob/three.js/r124/examples/jsm/controls/OrbitControls.js';
 
-<script>
   console.log("%cthree.js rev", "color: #f414e1;", THREE.REVISION); // F414E1 (Purple Pizzazz)
   const white = 0xffffff;
   const salem = 0x0b8450;
@@ -555,7 +554,7 @@
 
   // Add an orbit control which allows us to move around the scene. See the three.js example for more details
   // https://github.com/mrdoob/three.js/blob/dev/examples/js/controls/OrbitControls.
-  let controls = new THREE.OrbitControls(camera, renderer.domElement);
+  let controls = new OrbitControls(camera, renderer.domElement);
   controls.target = new THREE.Vector3(0, 80, 0);
   controls.maxPolarAngle = Math.PI / 2;
   controls.minDistance = 100;
