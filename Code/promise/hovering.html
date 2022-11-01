@@ -25,8 +25,7 @@
   import {OrbitControls} from "/jsm/controls/OrbitControls.js";
   import {GLTFLoader} from "/jsm/loaders/GLTFLoader.js";
 
-  console.clear();
-  console.log("%cthree.js rev", "color: #ccff00;", THREE.REVISION);
+  console.log(`%cREV: ${THREE.REVISION}`, "color: #ccff00;");
 
   let scene = new THREE.Scene();
   scene.background = new THREE.Color(0xc7deea);
