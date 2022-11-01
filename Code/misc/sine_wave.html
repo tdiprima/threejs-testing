@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Sine Wave</title>
+  <!-- https://gist.github.com/jskye/d7f982691405f7153f7a6b507c0c1025 -->
+  <style>
+    body {
+      overflow: hidden;
+      margin: 0;
+      background-color: #221f26;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r71/three.min.js"></script>
+</head>
+<body>
+
+<div id="webgl_canvas"></div>
+
+<script>
+  window.addEventListener(
+    'load',
+    () => {
+      const balticSea = "#221f26";
+      const lochinvar = "#379392";
+      const blueDianne = "#2e4952";
+      const robinsEggBlue = "#0bc9c7"; // Robin's Egg Blue
+
+      let counter = 0;
+      let r = 4;
+      let s_r = r / 20 + (Math.sin(0) * r) / 20;
+      let num_of_corners = 7;
+      let obj_resolution = 360;
+      let lineWidth = 0.04;
+
+      let _w = window.innerWidth;
+      let _h = window.innerHeight;
+
+      let scene = new THREE.Scene();
+      let camera = new THREE.PerspectiveCamera(65, _w / _h, 0.1, 1000);
+      camera.position.z = 10;
+
+      let renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setClearColor(new THREE.Color(balticSea, 1.0));
+      renderer.setSize(_w, _h);
+      document.getElementById('webgl_canvas').appendChild(renderer.domElement);
+
+      let group = new THREE.Object3D();
+      let sub_group = new THREE.Object3D();
+      let all_vertices = [];
+
+      let objects = [];
+      let num = 3;
+      let colors = [lochinvar, blueDianne, robinsEggBlue];
+
+      for (let i = 0; i < num; i++) {
+        let obj = create_mesh(colors[i], 1 + lineWidth * 0.8 * i, all_vertices, i);
+        objects.push(obj);
+        sub_group.add(obj);
+        obj.rotation.y = (Math.PI / 180) * 180;
+      }
+
+      group.rotation.x = sub_group.rotation.x = (Math.PI / 180) * 360;
+      scene.add(group);
+      scene.add(sub_group);
+
+      function create_mesh(clr, r_coof, ver_arr, wave_type) {
+        let geometry = new THREE.BufferGeometry();
+        let points = generate_points(r, s_r, 5, wave_type);
+        let points2 = generate_points(r * (1 - lineWidth), s_r, 5, wave_type);
+
+        let vertices = generate_vertices(points, points2);
+        ver_arr.push(vertices);
+
+        geometry.addAttribute('position', new THREE.BufferAttribute(vertices, 3));
+
+        let material = new THREE.MeshBasicMaterial({ color: clr, wireframe: false });
+
+        let mesh = new THREE.Mesh(geometry, material);
+        mesh.anim_shape = num_of_corners;
+        mesh.anim = -1;
+        mesh.r_coof = r_coof;
+        mesh.wave_type = wave_type;
+
+        return mesh;
+      }
+
+      function generate_points(radius, wave_height, anim_shape, wave_type) {
+        let new_positions = [];
+
+        for (let i = 0; i <= obj_resolution; i++) {
+          let angle = ((2 * Math.PI) / obj_resolution) * i;
+          let radius_addon = 0;
+          let speed_incrementer = counter / 40;
+          let sine_pct = 0.5;
+
+          if (i < sine_pct * obj_resolution || i == obj_resolution) {
+            let smoothing_amount = 0.14;
+            let smooth_pct = 1;
+
+            if (i < sine_pct * obj_resolution * smoothing_amount)
+              smooth_pct = i / (sine_pct * obj_resolution * smoothing_amount);
+
+            if (i > sine_pct * obj_resolution * (1 - smoothing_amount) && i <= sine_pct * obj_resolution)
+              smooth_pct = (sine_pct * obj_resolution - i) / (sine_pct * obj_resolution * smoothing_amount);
+
+            if (i == obj_resolution) smooth_pct = 0;
+
+            if (wave_type == 1)
+              radius_addon = wave_height * smooth_pct * Math.cos((angle + speed_incrementer) * anim_shape);
+
+            if (wave_type == 0)
+              radius_addon = wave_height * smooth_pct * Math.sin((angle + speed_incrementer) * anim_shape);
+
+            if (wave_type == 2)
+              radius_addon =
+                wave_height * smooth_pct * Math.cos((angle + (Math.PI / 180) * 120 + speed_incrementer) * anim_shape);
+          }
+
+          // Here you go! x,y positions with cos and sin:
+          let x = (radius + radius_addon) * Math.cos(angle + speed_incrementer);
+          let y = (radius + radius_addon) * Math.sin(angle + speed_incrementer);
+          let z = 0;
+
+          new_positions.push([x, y, z]);
+        }
+
+        return new_positions;
+      }
+
+      function generate_vertices(points, points2) {
+        let vertexPositions = [];
+
+        for (let i = 0; i < points.length - 1; i++) {
+          vertexPositions.push(points[i], points2[i], points[i + 1]);
+          vertexPositions.push(points2[i], points2[i + 1], points[i + 1]);
+        }
+
+        vertexPositions.push(points[points.length - 1], points2[points.length - 1], points[0]);
+
+        let vertices = new Float32Array(vertexPositions.length * 3);
+
+        for (let i = 0; i < vertexPositions.length; i++) {
+          vertices[i * 3 + 0] = vertexPositions[i][0];
+          vertices[i * 3 + 1] = vertexPositions[i][1];
+          vertices[i * 3 + 2] = vertexPositions[i][2];
+        }
+
+        return vertices;
+      }
+
+      function update_vertices_v_2(points, points2, my_arr) {
+        let vertexPositions = [];
+
+        for (let i = 0; i < points.length - 1; i++) {
+          vertexPositions.push(points[i], points2[i], points[i + 1]);
+          vertexPositions.push(points2[i], points2[i + 1], points[i + 1]);
+        }
+
+        vertexPositions.push(points[points.length - 1], points2[points.length - 1], points[0]);
+
+        for (let i = 0; i < vertexPositions.length; i++) {
+          my_arr[i * 3 + 0] = vertexPositions[i][0];
+          my_arr[i * 3 + 1] = vertexPositions[i][1];
+          my_arr[i * 3 + 2] = vertexPositions[i][2];
+        }
+      }
+
+      let loop = function loop() {
+        requestAnimationFrame(loop);
+
+        for (let k = 0; k < objects.length; k++) {
+          // let time = (counter + k) / 60;
+          // let time_sin = Math.sin(time * 4);
+
+          let obj = objects[k];
+          let rad = r * obj.r_coof;
+          s_r = rad / 15;
+
+          let points = generate_points(rad, s_r, obj.anim_shape, obj.wave_type);
+          let points2 = generate_points(rad * (1 - lineWidth), s_r, obj.anim_shape, obj.wave_type);
+
+          update_vertices_v_2(points, points2, all_vertices[k]);
+          obj.geometry.attributes.position.needsUpdate = true;
+        }
+
+        renderer.render(scene, camera);
+        counter++;
+      };
+
+      loop();
+    },
+    false
+  );
+</script>
+</body>
+</html>
