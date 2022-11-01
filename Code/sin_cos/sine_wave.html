@@ -13,7 +13,7 @@
       background-color: #221f26;
     }
   </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r71/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r124/three.min.js"></script>
 </head>
 <body>
 
@@ -21,7 +21,7 @@
 
 <script>
   window.addEventListener(
-    'load',
+    "load",
     () => {
       const balticSea = "#221f26";
       const lochinvar = "#379392";
@@ -48,9 +48,9 @@
       camera.position.z = 10;
 
       let renderer = new THREE.WebGLRenderer({ antialias: true });
-      renderer.setClearColor(new THREE.Color(balticSea, 1.0));
+      // renderer.setClearColor(new THREE.Color(balticSea, 1.0));
       renderer.setSize(_w, _h);
-      document.getElementById('webgl_canvas').appendChild(renderer.domElement);
+      document.getElementById("webgl_canvas").appendChild(renderer.domElement);
 
       let group = new THREE.Object3D();
       let sub_group = new THREE.Object3D();
@@ -79,7 +79,8 @@
         let vertices = generate_vertices(points, points2);
         ver_arr.push(vertices);
 
-        geometry.addAttribute('position', new THREE.BufferAttribute(vertices, 3));
+        // addAttribute renamed to setAttribute
+        geometry.setAttribute("position", new THREE.BufferAttribute(vertices, 3));
 
         let material = new THREE.MeshBasicMaterial({ color: clr, wireframe: false });
 
@@ -101,7 +102,7 @@
           let speed_incrementer = counter / 40;
           let sine_pct = 0.5;
 
-          if (i < sine_pct * obj_resolution || i == obj_resolution) {
+          if (i < sine_pct * obj_resolution || i === obj_resolution) {
             let smoothing_amount = 0.14;
             let smooth_pct = 1;
 
@@ -111,15 +112,15 @@
             if (i > sine_pct * obj_resolution * (1 - smoothing_amount) && i <= sine_pct * obj_resolution)
               smooth_pct = (sine_pct * obj_resolution - i) / (sine_pct * obj_resolution * smoothing_amount);
 
-            if (i == obj_resolution) smooth_pct = 0;
+            if (i === obj_resolution) smooth_pct = 0;
 
-            if (wave_type == 1)
+            if (wave_type === 1)
               radius_addon = wave_height * smooth_pct * Math.cos((angle + speed_incrementer) * anim_shape);
 
-            if (wave_type == 0)
+            if (wave_type === 0)
               radius_addon = wave_height * smooth_pct * Math.sin((angle + speed_incrementer) * anim_shape);
 
-            if (wave_type == 2)
+            if (wave_type === 2)
               radius_addon =
                 wave_height * smooth_pct * Math.cos((angle + toRadians(120) + speed_incrementer) * anim_shape);
           }
