@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>shadow.bias example</title>
+  <!-- https://jsfiddle.net/ovjka67h/ -->
+  <!-- SEE ALSO: three.js-r146/examples/webgl_shadowmap_pointlight.html -->
+  <style>
+    body {
+      margin: 0;
+    }
+
+    canvas {
+      display: block;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.116.1/build/three.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.116.1/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+<script>
+  console.log(`%cREV: ${THREE.REVISION}`, "color: #997fff;"); // Medium slate blue
+
+  class App {
+    constructor() {
+    }
+
+    init() {
+      this.camera = new THREE.PerspectiveCamera(
+        45,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
+      );
+
+      this.camera.position.x = 30;
+      this.camera.position.z = 30;
+      this.camera.position.y = 30;
+
+      this.scene = new THREE.Scene();
+
+      let geometry1 = new THREE.PlaneBufferGeometry(100, 100, 1);
+      geometry1.rotateX(-Math.PI * 0.5); // this is how you can do it
+
+      // 'lights' and 'diffuse' are not properties of MeshLambertMaterial
+      let material = new THREE.MeshLambertMaterial({
+        // diffuse: 0x888800, // Olive
+        side: THREE.DoubleSide,
+        // lights: true
+      });
+
+      let plane = new THREE.Mesh(geometry1, material);
+      plane.receiveShadow = true;
+      this.scene.add(plane);
+
+      let light = new THREE.AmbientLight("#808080"); // Gray
+      let light2 = new THREE.DirectionalLight("#ff4040", 1, 200); // Coral Red
+      // let pointLightHelper = new THREE.PointLightHelper(light2, 1.0);
+      light2.position.set(10, 20, 10);
+
+      light2.castShadow = true;
+      light2.shadow.camera.near = 1;
+      light2.shadow.camera.far = 100;
+      light2.shadow.bias = -0.005; // reduces self-shadowing on double-sided objects
+      light2.shadow.mapSize.width = 2048;  // default
+      light2.shadow.mapSize.height = 2048; // default
+
+      light2.shadow.camera.left = -100;
+      light2.shadow.camera.right = 100;
+      light2.shadow.camera.top = 100;
+      light2.shadow.camera.bottom = -100;
+
+      this.scene.add(light, light2);
+
+      let geometry2 = new THREE.BoxBufferGeometry(2, 2, 2);
+
+      let instancedGeometry = new THREE.InstancedBufferGeometry();
+
+      let offset = new THREE.InstancedBufferAttribute(new Float32Array(300), 3);
+      let orientation = new THREE.InstancedBufferAttribute(
+        new Float32Array(400),
+        4
+      );
+
+      instancedGeometry.maxInstancedCount = 100;
+      instancedGeometry.setAttribute("offset", offset);
+      instancedGeometry.setAttribute("orientation", orientation);
+
+      for (let i = 0; i < 100; i++) {
+        offset.setXYZ(
+          i,
+          50 - Math.random() * 100,
+          Math.random() * 10,
+          50 - Math.random() * 100
+        );
+      }
+      offset.needsUpdate = true;
+
+      // we have to copy the meat - geometry into this wrapper
+      Object.keys(geometry2.attributes).forEach(attributeName => {
+        instancedGeometry.attributes[attributeName] =
+          geometry2.attributes[attributeName];
+      });
+
+      // along with the index
+      instancedGeometry.index = geometry2.index;
+
+      /*
+        CREATING THE MATERIAL USING PHONG FROM SHADERLIB
+      */
+
+      let wVertex = THREE.ShaderLib["lambert"].vertexShader;
+      let wFragment = THREE.ShaderLib["lambert"].fragmentShader;
+      let wUniforms = THREE.ShaderLib["lambert"].uniforms;
+      wVertex =
+        `
+
+            attribute vec3 offset;
+            attribute vec4 orientation;
+
+            vec3 applyQuaternionToVector( vec4 q, vec3 v ){
+               return v + 2.0 * cross( q.xyz, cross( q.xyz, v ) + q.w * v );
+            }
+
+         ` + wVertex;
+
+      wVertex = wVertex.replace(
+        "#include <project_vertex>",
+        `
+            vec3 vPosition = applyQuaternionToVector( orientation, transformed );
+
+            vec4 mvPosition = modelViewMatrix * vec4( vPosition, 1.0 );
+            gl_Position = projectionMatrix * modelViewMatrix * vec4( offset + vPosition, 1.0 );
+
+         `
+      );
+
+      // 'depthPacking' is not a property of ShaderMaterial
+      let instanceMaterial = new THREE.ShaderMaterial({
+        uniforms: wUniforms,
+        vertexShader: wVertex,
+        fragmentShader: wFragment,
+        lights: true,
+        // depthPacking: THREE.RGBADepthPacking,
+        name: "detail-material",
+        fog: true
+      });
+
+      instanceMaterial.color = new THREE.Color("#4400ff"); // Blue
+      let object = new THREE.Mesh(instancedGeometry, instanceMaterial);
+
+      object.customDepthMaterial = new THREE.MeshDepthMaterial({
+        depthPacking: THREE.RGBADepthPacking,
+        alphaTest: 0.5
+      });
+
+      object.customDepthMaterial.onBeforeCompile = shader => {
+        // app specific instancing shader code
+        shader.vertexShader =
+          `#define DEPTH_PACKING 3201
+            attribute vec3 offset;
+            attribute vec4 orientation;
+
+            vec3 applyQuaternionToVector( vec4 q, vec3 v ){
+               return v + 2.0 * cross( q.xyz, cross( q.xyz, v ) + q.w * v );
+            }
+` + shader.vertexShader;
+        shader.vertexShader = shader.vertexShader.replace(
+          "#include <project_vertex>",
+          `
+            vec3 vPosition = applyQuaternionToVector( orientation, transformed );
+
+            vec4 mvPosition = modelViewMatrix * vec4( vPosition, 1.0 );
+            gl_Position = projectionMatrix * modelViewMatrix * vec4( offset + vPosition, 1.0 );`
+        );
+
+        shader.fragmentShader =
+          "#define DEPTH_PACKING 3201" + "\n" + shader.fragmentShader;
+      };
+
+      object.castShadow = true;
+      object.receiveShadow = true;
+
+      this.scene.add(object);
+
+      this.renderer = new THREE.WebGLRenderer({
+        antialias: true
+      });
+
+      this.renderer.setPixelRatio(window.devicePixelRatio);
+      this.renderer.setSize(window.innerWidth, window.innerHeight);
+
+      this.renderer.shadowMap.enabled = true;
+      this.renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
+
+      document.body.appendChild(this.renderer.domElement);
+
+
+      this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
+
+      this.animate();
+    }
+
+    animate() {
+      requestAnimationFrame(() => this.animate());
+      this.update();
+      this.render();
+    }
+
+    update() {
+      // update orbit controls
+      if (this.controls) {
+        this.controls.update();
+      }
+    }
+
+    render() {
+      this.renderer.render(this.scene, this.camera);
+    }
+  }
+
+  let app = new App();
+  app.init();
+</script>
+</body>
+</html>
