@@ -2,9 +2,6 @@ import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
 function main() {
-  const poloBlue = "#88aacc";
-  const tan = "#ccaa88";
-  const stratos = "#000040";
   const checker = "/textures/images/checker.png";
 
   document.querySelector("#info").innerHTML = "scissor function - draw 2 scenes with 2 cameras side by side";
@@ -72,7 +69,7 @@ function main() {
   {
     let cubeSize = 4;
     let cubeGeo = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);
-    let cubeMat = new THREE.MeshPhongMaterial({ color: "#8AC" });
+    let cubeMat = new THREE.MeshPhongMaterial({ color: "#8AC" }); // Polo Blue 88aacc
     let mesh = new THREE.Mesh(cubeGeo, cubeMat);
     mesh.position.set(cubeSize + 1, cubeSize / 2, 0);
     // x: move it right, from center
@@ -85,7 +82,7 @@ function main() {
     let sphereWidthDivisions = 32;
     let sphereHeightDivisions = 16;
     let sphereGeo = new THREE.SphereGeometry(sphereRadius, sphereWidthDivisions, sphereHeightDivisions);
-    let sphereMat = new THREE.MeshPhongMaterial({ color: "#CA8" });
+    let sphereMat = new THREE.MeshPhongMaterial({ color: "#CA8" }); // Tan ccaa88
 
     let mesh = new THREE.Mesh(sphereGeo, sphereMat);
     mesh.position.set(-sphereRadius - 1, sphereRadius + 2, 0); // -4, 5, 0
@@ -188,7 +185,7 @@ function main() {
       // draw the camera helper in the 2nd view
       cameraHelper.visible = true;
 
-      scene.background.set(stratos);
+      scene.background.set("#000040"); // stratos
 
       renderer.render(scene, camera2);
     }

@@ -63,6 +63,12 @@
         data.push(values);
       }
     });
+
+    // TODO: Important!
+    // Object.assign() is used for cloning an object,
+    // or to merge object with same properties.
+
+    // returnedTarget = Object.assign(target, source);
     return Object.assign(settings, {min, max});
   }
 
