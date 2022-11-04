@@ -1,3 +1,9 @@
+# What is the purpose of glScissor?
+
+[gamedev.stackexchange.com](https://gamedev.stackexchange.com/questions/40704/what-is-the-purpose-of-glscissor)
+
+<br>
+
 # Camera, view, whatever.
 
 [Camera position in Three JS](https://youtu.be/lSkC-EeStyQ)

@@ -59,19 +59,19 @@ The view space is the result of transforming your world-space coordinates to coo
 
 [Glossary:Field of view (FOV)](https://www.pcgamingwiki.com/wiki/Glossary:Field_of_view_%28FOV%29)
 
-![](img/Fov_diagram.png)
+![](../img/Fov_diagram.png)
 
 <br>
 
 <!--https://www.wikiwand.com/en/Field_of_view-->
-![](img/440px-Vertical_FOV.svg.png)
+![](../img/440px-Vertical_FOV.svg.png)
 
 
 [What is Field of View?](https://perception28.wordpress.com/2017/02/04/vision-field-of-view/)
 
 Field of view is the angular extent of what can be seen with the eye. Various animals have different visual fields. Predators generally have more **forward facing** with **binocular** oriented vision, whereas prey have side facing visual fields with greater range (for defensive vision).
 
-![](img/human.png)
+![](../img/human.png)
 
 <br>
 
@@ -87,7 +87,7 @@ This forward-facing orientation of the eye means each eye has a rather similar v
 
 [What is a normal visual field?](https://www.vision-and-eye-health.com/visual-field.html)
 
-![](img/xVisualFieldHoriz.webp)
+![](../img/xVisualFieldHoriz.webp)
 
 <br>
 
@@ -97,35 +97,8 @@ This forward-facing orientation of the eye means each eye has a rather similar v
 
 ![](https://i.stack.imgur.com/wkv8x.png)
 
-![Look At](http://tanrobby.github.io/note/opengl/gluLookAt.jpg)
+<br><!-- http://tanrobby.github.io/note/opengl/gluLookAt.jpg -->
 
-[ViewFrustum.svg](https://en.wikipedia.org/wiki/Viewing_frustum#/media/File:ViewFrustum.svg)
-
-# Coordinates
-
-[Soledad Penadés object-picking](https://soledadpenades.com/articles/three-js-tutorials/object-picking/)
-
-```js
-let container = document.getElementById( "container" );
-let containerWidth = container.clientWidth;
-let containerHeight = container.clientHeight;
-
-mouseVector.x = 2 * (e.clientX / containerWidth) - 1;
-mouseVector.y = 1 - 2 * ( e.clientY / containerHeight );
-
-// otherwise, it's window.innerWidth, window.innerHeight
-```
-
-They convert the mouse coordinates, which go from 0 to containerWidth, and from 0 to containerHeight, to (-1, 1) in both axes.
-
-Did you notice that the calculations for the y coordinate are negated? That's because in the classic DOM coordinate system, the Y axis grows from top to bottom (i.e. top is 0), whereas in 3D it grows from bottom to top (i.e. bottom is 0).
+![Look At](../img/gluLookAt.jpg)
 
 <br>
-
-[Transformations &amp; Coordinate System](https://discoverthreejs.com/book/first-steps/transformations/)
-
-![coordinate_system](https://discoverthreejs.com/images/first-steps/coordinate_system.svg)
-
-<br>
-
-![my img](img/mouse-coords.jpg)
