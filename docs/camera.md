@@ -37,7 +37,7 @@ camera.position.z = 5; // zoom in or out
 Specified in **degrees**!  Other angles use **radians** (hence the conversions, such as):
 
 ```js
-function degToRad(degrees) {
+function degreesToRadians(degrees) {
   return degrees * (Math.PI / 180);
 }
 ```
