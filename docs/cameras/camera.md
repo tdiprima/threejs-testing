@@ -44,4 +44,4 @@ function degreesToRadians(degrees) {
 
 Call **update()**: if you change fov, near, or far, you need to call **`camera.updateProjectionMatrix()`** in order to have these changes take effect.
 
-![Perspective Camera](img/perspective.jpg)
+![Perspective Camera](../img/perspective.jpg)
