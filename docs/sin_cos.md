@@ -1,12 +1,16 @@
 # Math.sin
 
-Calculating the path for an arc of a circle.  That's what it's for.
+Calculating the **path** for the **arc of a circle.**  That's what it's for.
+
+**Positioning:**
 
 ```js
 x = Math.cos
 y = Math.sin
 z = Math.sin
 ```
+
+<br>
 
 # Math.sin and Math.cos — The creative coder's best friend
 
@@ -17,6 +21,8 @@ ball.amplitude = random(h / 10, h / 4)
 
 ball.y = h / 2 + Math.sin(radians(ball.angle_y)) * ball.amplitude;
 ```
+
+<br>
 
 [The most common thing](https://medium.com/hackernoon/math-sin-and-math-cos-the-creative-coders-best-friend-597d69000644) I use `Math.sin()` and `Math.cos()` for is to draw things in circles.
 
@@ -43,13 +49,15 @@ b.x = w/2 + Math.cos(radians(b.angle)) * (radius+b.size/2);
 b.y = h/2 + Math.sin(radians(b.angle)) * (radius+b.size/2);
 ```
 
-Say we wanted to distribute the balls evenly on the circle. We could just use a formula like so:
+<br>
+
+Say we wanted to **distribute the balls evenly** on the circle. We could just use a formula like so:
 
 ```js
 ball_number / total_number_of_balls * 360;
 ```
 
-I've made a function for this:
+I've made a **function** for this:
 
 ```js
 function distributeAngles(me, total) {
@@ -57,7 +65,7 @@ function distributeAngles(me, total) {
 }
 ```
 
-Creative coding, is often, just a combination of simple concepts, to make something slightly more complicated.
+Creative coding, is often, just a **combination of simple concepts**, to make something slightly more complicated.
 
 ```js
 function addParticle(_i, _object) {
@@ -72,9 +80,12 @@ function addParticle(_i, _object) {
   _object.particles.push(particle);
 }
 ```
+
+<br>
+
 # What does math sin do?
 
-The [Math.sin()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/sin) function returns the sine of a number in radians.
+The [Math.sin()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/sin) function returns the sine of a number in **radians**.
 
 Pass argument: A number representing an angle in radians.
 
@@ -103,6 +114,8 @@ console.log("Y coord at 180 degree", getCircleY(Math.PI, 100));
 console.log("X coord at 180 degree", getCircleX(Math.PI, 100));
 ```
 
+<br>
+
 # Radian
 [Radian](https://www.mathsisfun.com/geometry/radians.html): the angle made when we take the radius and wrap it round the circle.
 
@@ -113,6 +126,8 @@ In a half circle there are `π` radians, which is also 180°.
 So 1 radian = 180°/π
 = 57.2958...°
 ```
+
+<br>
 
 **To go from degrees to radians:** multiply by π, divide by 180.
 
@@ -154,12 +169,13 @@ for (let angle = 0; angle < 360; angle += Math.random() * 20 + 20) {
   scene.add(p);
 }
 
-
 position.z = Math.sin((angle * Math.PI) / 180) * radius;
 
 camera.position.x = radius * Math.sin(THREE.MathUtils.degToRad(theta));
 
 ```
+
+<br>
 
 # [What radian?](https://www.essai.in/blog/2019/2/25/what-exactly-is-a-radian)
 
@@ -168,6 +184,8 @@ Now most of us are used to using the conversion formula for degrees to radians a
 Another way of thinking about this is to imagine you are standing in a circular park and you go for a walk around the outside of the park. You can either calculate this as walking the circumference of the park (which is 6.28 Radians) or walking  360 Degrees around it which in a way is the exact same thing
 
 It is from this relationship that we say `2*π*r = 360` Degrees or that 1 Radian = `180/π` Degrees and 1 Degree = `π/180` Radians.
+
+<br>
 
 # Sine, Cosine and Tangent
 
@@ -186,6 +204,8 @@ Sine, Cosine and Tangent (often shortened to sin, cos and tan) are each a ratio 
 To calculate them:
 
 Divide the length of one side by another side.
+
+<br>
 
 # Why do we call the angle theta?
 

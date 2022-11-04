@@ -2,16 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>6. Camera position in Three JS | Three js tutorial</title>
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Camera position</title>
+  <!-- Scroll to line 57. -->
   <!-- https://youtu.be/lSkC-EeStyQ -->
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-    }
-  </style>
+  <link href="/css/main.css" rel="stylesheet">
   <script src="/build/three.js"></script>
 </head>
 <body>
@@ -19,9 +15,13 @@
   // Container where we will have the 3D elements shown
   const scene = new THREE.Scene();
 
-  // Camera defines the view or the FOV field of view
-  // Seeing it from a human eye point-of-view; angle 75, 55 60 degrees.
-  const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 1000);
+  // Camera defines the field of view
+  const camera = new THREE.PerspectiveCamera(
+    55, // fov angle (in degrees)
+    window.innerWidth / window.innerHeight, // aspect ratio
+    0.1, // near plane
+    1000 // far plane
+  );
 
   // The premise of using CameraHelper is to use at least two cameras, so that they will appear on the screen completely.
   const helper = new THREE.CameraHelper(camera);
@@ -35,13 +35,21 @@
   document.body.appendChild(renderer.domElement);
   console.log(renderer.domElement);
 
-  const geometry = new THREE.BoxGeometry(1, 1, 1);
-  const material = new THREE.MeshBasicMaterial({ color: "#0000ff" });
+  // "Cube" or "Frinkahedron", named after its discoverer. ;)
+  const geometry = new THREE.BoxGeometry(
+    1, // width
+    1, // height
+    1 // Depth; that is, the length of the edges parallel to the Z axis.
+  );
+  const material = new THREE.MeshBasicMaterial({color: "#0000ff"});
   const cube = new THREE.Mesh(geometry, material);
   scene.add(cube);
 
-  const geometry2 = new THREE.CircleGeometry(1, 100);
-  const material2 = new THREE.MeshBasicMaterial({ color: "#A020F0" });
+  const geometry2 = new THREE.CircleGeometry(
+    1, // Radius of the circle
+    100 // Number of segments
+  );
+  const material2 = new THREE.MeshBasicMaterial({color: "#A020F0"});
   const circle = new THREE.Mesh(geometry2, material2);
   scene.add(circle);
 
