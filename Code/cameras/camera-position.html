@@ -4,76 +4,69 @@
   <meta charset="UTF-8">
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Camera position</title>
-  <!-- Scroll to line 57. -->
-  <!-- https://youtu.be/lSkC-EeStyQ -->
-  <link href="/css/main.css" rel="stylesheet">
-  <script src="/build/three.js"></script>
+  <title>update-perspective-camera</title>
+  <!-- https://stackoverflow.com/questions/12619211/how-to-add-datgui-controls-for-camera-in-threejs -->
+  <link rel="stylesheet" href="/css/main.css">
+  <script src="https://cdn.jsdelivr.net/npm/three@0.129.0/build/three.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.129.0/examples/js/libs/dat.gui.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.129.0/examples/js/controls/OrbitControls.js"></script>
 </head>
 <body>
-<script>
-  // Container where we will have the 3D elements shown
-  const scene = new THREE.Scene();
+<script type="module">
+  import * as THREE from "/build/three.module.js";
+  import { GUI } from "/jsm/libs/dat.gui.module.js";
 
-  // Camera defines the field of view
-  const camera = new THREE.PerspectiveCamera(
-    55, // fov angle (in degrees)
-    window.innerWidth / window.innerHeight, // aspect ratio
-    0.1, // near plane
-    1000 // far plane
-  );
+  let camera,
+    scene,
+    renderer,
+    geometry,
+    material,
+    mesh;
 
-  // The premise of using CameraHelper is to use at least two cameras, so that they will appear on the screen completely.
-  const helper = new THREE.CameraHelper(camera);
-  scene.add(helper);
+  init();
+  animate();
 
-  // Render to draw
-  const renderer = new THREE.WebGLRenderer();
-  renderer.setSize(window.innerWidth, window.innerHeight);
+  function addDatGui() {
+    const gui = new GUI();
 
-  // Draw by appending it to canvas
-  document.body.appendChild(renderer.domElement);
-  console.log(renderer.domElement);
+    gui.add(camera.position, 'x', -500, 500).step(5);
+    gui.add(camera.position, 'y', -500, 500).step(5);
+    gui.add(camera.position, 'z', 1000, 5000).step(5);
+  }
 
-  // "Cube" or "Frinkahedron", named after its discoverer. ;)
-  const geometry = new THREE.BoxGeometry(
-    1, // width
-    1, // height
-    1 // Depth; that is, the length of the edges parallel to the Z axis.
-  );
-  const material = new THREE.MeshBasicMaterial({color: "#0000ff"});
-  const cube = new THREE.Mesh(geometry, material);
-  scene.add(cube);
+  function init() {
+    camera = new THREE.PerspectiveCamera(
+      75,
+      window.innerWidth / window.innerHeight,
+      1,
+      10000
+    );
+    camera.position.z = 1000;
 
-  const geometry2 = new THREE.CircleGeometry(
-    1, // Radius of the circle
-    100 // Number of segments
-  );
-  const material2 = new THREE.MeshBasicMaterial({color: "#A020F0"});
-  const circle = new THREE.Mesh(geometry2, material2);
-  scene.add(circle);
+    scene = new THREE.Scene();
 
-  // x = width / left and right // horizontal movement
-  // y = height / top and bottom // vertical movement
-  // z = depth / zoom (in or out)
+    geometry = new THREE.BoxGeometry(200, 200, 200);
+    material = new THREE.MeshBasicMaterial({ color: "#ff0000", wireframe: true });
 
-  // camera.position.x = 1; // moves *object* left 1; camera moves right 1
-  // camera.position.y = 1; // object moves down 1; camera moves up 1
-  camera.position.z = 5; // camera moves out, the higher the number
+    mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
 
-  // camera.lookAt(1, 1, 1);
+    renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
 
-  const animate = function () {
+    document.body.appendChild(renderer.domElement);
+
+    addDatGui();
+  }
+
+  function animate() {
     requestAnimationFrame(animate);
-    // barbeque skewer
-    // cube.rotation.x += 0.01;
-    // cube.rotation.y += 0.01;
-    cube.rotation.z += 0.01;
-    // https://discourse.threejs.org/t/camerahelper-not-linked/2319/2
-    helper.update();
+
+    mesh.rotation.x += 0.01;
+    mesh.rotation.y += 0.02;
+
     renderer.render(scene, camera);
   }
-  animate();
 </script>
 </body>
 </html>

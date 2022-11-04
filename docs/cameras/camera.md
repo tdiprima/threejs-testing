@@ -48,5 +48,26 @@ Call **update()**: if you change fov, near, or far, you need to call **`camera.u
 
 <br>
 
+### [this got me off track a bit](https://discourse.threejs.org/t/how-to-control-camera-position-x-from-dat-gui/27467)
+
+But I learned something.
+
+```js
+camera.updateMatrixWorld();
+```
+
+<mark>TODO: difference between updateMatrixWorld() and updateProjectionMatrix()</mark>
+
+Also, they rolled their own [axis helper](https://jsfiddle.net/fiddleuser01/rezcpgh4/7/).
+
+<br>
+
+[CameraHelper not linked?](https://discourse.threejs.org/t/camerahelper-not-linked/2319/2)
+  
+Solution: `helper.update();`
+
+<br>
+
 # Cameras 🎥 🎥
 
+Plural.

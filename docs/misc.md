@@ -1,3 +1,28 @@
+```js
+// Camera defines the field of view
+const camera = new THREE.PerspectiveCamera(
+  55, // fov angle (in degrees)
+  window.innerWidth / window.innerHeight, // aspect ratio
+  0.1, // near plane
+  1000 // far plane
+);
+
+// "Cube" or "Frinkahedron", named after its discoverer. ;)
+const geometry = new THREE.BoxGeometry(
+  1, // width
+  1, // height
+  1 // Depth; that is, the length of the edges parallel to the Z axis.
+);
+
+const geometry2 = new THREE.CircleGeometry(
+  1, // Radius of the circle
+  100 // Number of segments
+);
+```
+
+
+
+
 # What is the purpose of glScissor?
 
 [gamedev.stackexchange.com](https://gamedev.stackexchange.com/questions/40704/what-is-the-purpose-of-glscissor)
