@@ -68,29 +68,118 @@ function animate(time) {
 requestAnimationFrame(animate);
 ```
 
-<br>
+# Examples
 
-# Resize canvas from resize() 🤔
-Why do the existing suggestions involve resizing the canvas from within the animation loop?
+Notice `window.innerWidth` and `window.innerHeight` are never referenced in the code; and yet, it works for all cases.
 
-You'd want your animation loop to do as little as possible, as it will ideally be repeated 30+ times a second, and should be optimized to run as efficiently as possible - affording the maximum fps to the slowest system running it.
-
-I think there's no harm in calling the resize function from within the resize event listener.
-
-Something like this:
+### Full screen
 
 ```js
-var container = renderer.domElement.parentElement;
-container.addEventListener('resize', onContainerResize);
+// We make the canvasconst renderer = new THREE.WebGLRenderer({
+  canvas: document.querySelector("canvas")
+});
+```
 
-function onContainerResize() {
-  var box = container.getBoundingClientRect();
-  renderer.setSize(box.width, box.height);
+```js
+// three.js makes the canvas
+const renderer = new THREE.WebGLRenderer();document.body.appendChild(renderer.domElement);
+```
 
-  camera.aspect = box.width / box.height
-  camera.updateProjectionMatrix()
-  // optional animate/renderloop call put here for render-on-changes
+CSS:
+
+```css
+/* Full screen */
+body { margin: 0; }
+canvas { width: 100vw; height: 100vh; display: block; }
+```
+
+<br>
+
+### Inline canvas
+
+```js
+// Put canvas in middle of normal page
+const renderer = new THREE.WebGLRenderer({
+  canvas: document.querySelector(".diagram canvas")
+});```
+
+HTML:
+
+```html
+<p>
+Pretend this is a diagram in a physics lesson and it's inline. Notice we didn't have to change the code to handle this case.
+<span class="diagram"><canvas></canvas></span>
+The same code that handles fullscreen handles this case as well. The only difference is the CSS and how we look up the canvas. Otherwise it just works. We didn't have to change the code because we cooperated with the browser instead of fighting it.
+</p>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/85/three.min.js"></script>
+```
+
+CSS:
+
+```css
+body { font-size: x-large; }
+
+.diagram { width: 150px; height: 150px; float: left; margin: 1em; }
+
+canvas { width: 100%; height: 100%; }
+```
+
+<br>
+
+### 50% width canvas (like a live editor)
+
+```js
+const renderer = new THREE.WebGLRenderer({
+  canvas: document.querySelector(".diagram canvas")
+});
+```
+
+HTML:
+
+```html
+<div class="frame">
+  <div id="result">
+    <canvas></canvas>
+  </div>
+  <div id="editor">
+  explaintion of example on left or the code for it would go here
+  </div>
+</div>
+```
+
+CSS:
+
+```css
+html { box-sizing: border-box; }
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body { margin: 0; }
+
+.outer {}
+
+.frame {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+}
+
+.frame>* {
+  flex: 1 1 50%;
+}
+
+#editor {
+  font-family: monospace;
+  padding: .5em;
+  background: #444;
+  color: white;
+}
+
+canvas {
+  width: 100%;
+  height: 100%;
 }
 ```
 
-If you have some kind of render-only-on-changes set up, you can call the render function at the end of the resize function. Otherwise the next time the render loop does fire it should just render with the new settings.
