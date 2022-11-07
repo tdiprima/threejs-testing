@@ -54,6 +54,10 @@
     scene = new THREE.Scene();
     scene.name = "scene";
 
+    // If you do it this way, you have no control over the size of it.
+    // const axes = new THREE.AxesHelper(50);
+    // scene.add(axes);
+
     function resize() {
       renderer.setSize(window.innerWidth, window.innerHeight);
       camera.aspect = window.innerWidth / window.innerHeight;
