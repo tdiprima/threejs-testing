@@ -80,9 +80,9 @@
       let yAxisMaterial = new THREE.LineBasicMaterial({ color: GREEN });
       let zAxisMaterial = new THREE.LineBasicMaterial({ color: BLUE });
 
-      makeAxis(new THREE.Vector3(-LIMIT, 0, 0), new THREE.Vector3(LIMIT, 0, 0), xAxisMaterial, 'xAxis');
-      makeAxis(new THREE.Vector3(0, -LIMIT, 0), new THREE.Vector3(0, LIMIT, 0), yAxisMaterial, 'yAxis');
-      makeAxis(new THREE.Vector3(0, 0, -LIMIT), new THREE.Vector3(0, 0, LIMIT), zAxisMaterial, 'zAxis');
+      makeAxis(new THREE.Vector3(-LIMIT, 0, 0), new THREE.Vector3(LIMIT, 0, 0), xAxisMaterial, "xAxis");
+      makeAxis(new THREE.Vector3(0, -LIMIT, 0), new THREE.Vector3(0, LIMIT, 0), yAxisMaterial, "yAxis");
+      makeAxis(new THREE.Vector3(0, 0, -LIMIT), new THREE.Vector3(0, 0, LIMIT), zAxisMaterial, "zAxis");
     }
 
     // Does changing near & far plane of a PerspectiveCamera, via gui, mess up fov? No.
@@ -150,13 +150,13 @@
       let perspectiveCameraFolder = gui.addFolder("testPerspectiveCamera");
 
       // controls
-      perspectiveCameraFolder.add(controls, 'near', 0, 50);
-      perspectiveCameraFolder.add(controls, 'far', 0, 200);
-      perspectiveCameraFolder.add(controls, 'aspect', 0, 4);
-      perspectiveCameraFolder.add(controls, 'fov', 0, 100);
-      perspectiveCameraFolder.add(controls, 'positionX', -LIMIT, LIMIT);
-      perspectiveCameraFolder.add(controls, 'positionY', -LIMIT, LIMIT);
-      perspectiveCameraFolder.add(controls, 'positionZ', -LIMIT, LIMIT);
+      perspectiveCameraFolder.add(controls, "near", 0, 50);
+      perspectiveCameraFolder.add(controls, "far", 0, 200);
+      perspectiveCameraFolder.add(controls, "aspect", 0, 4);
+      perspectiveCameraFolder.add(controls, "fov", 0, 100);
+      perspectiveCameraFolder.add(controls, "positionX", -LIMIT, LIMIT);
+      perspectiveCameraFolder.add(controls, "positionY", -LIMIT, LIMIT);
+      perspectiveCameraFolder.add(controls, "positionZ", -LIMIT, LIMIT);
 
       perspectiveCameraFolder.open(); // This sparks joy!
       // gui.open(); // This one, does not spark joy.
@@ -191,7 +191,7 @@
 
     function initLight() {
       let ambientLight = new THREE.AmbientLight(0xffffff, 1);
-      ambientLight.name = 'ambientLight';
+      ambientLight.name = "ambientLight";
       scene.add(ambientLight);
     }
 

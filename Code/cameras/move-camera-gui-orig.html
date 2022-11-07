@@ -19,13 +19,13 @@
 </head>
 <body>
 
-<canvas id='canvasId'></canvas>
+<canvas id="canvasId"></canvas>
 
-<!-- <script type='module'> -->
+<!-- <script type="module"> -->
 <script>
-  // import * as THREE from '../lib/three-js-129/build/three.module.js';
-  // import { GUI } from '../lib/three-js-129/examples/jsm/libs/dat.gui.module.js';
-  // import { OrbitControls } from '../lib/three-js-129/examples/jsm/controls/OrbitControls.js';
+  // import * as THREE from "../lib/three-js-129/build/three.module.js";
+  // import { GUI } from "../lib/three-js-129/examples/jsm/libs/dat.gui.module.js";
+  // import { OrbitControls } from "../lib/three-js-129/examples/jsm/controls/OrbitControls.js";
 
   const RED = 0xff0000;
   const GREEN = 0x00ff00;
@@ -36,24 +36,24 @@
 
   function initAxes() {
     function makeAxis(start, finish, material, name) {
-      const points = [start, finish];
-      const axisGeometry = new THREE.BufferGeometry().setFromPoints(points);
-      const newAxis = new THREE.Line(axisGeometry, material);
+      let points = [start, finish];
+      let axisGeometry = new THREE.BufferGeometry().setFromPoints(points);
+      let newAxis = new THREE.Line(axisGeometry, material);
       newAxis.name = name;
       scene.add(newAxis);
     }
 
-    const xAxisMaterial = new THREE.LineBasicMaterial({color: RED});
-    const yAxisMaterial = new THREE.LineBasicMaterial({color: GREEN});
-    const zAxisMaterial = new THREE.LineBasicMaterial({color: BLUE});
-    makeAxis(new THREE.Vector3(-LIMIT, 0, 0), new THREE.Vector3(LIMIT, 0, 0), xAxisMaterial, 'xAxis');
-    makeAxis(new THREE.Vector3(0, -LIMIT, 0), new THREE.Vector3(0, LIMIT, 0), yAxisMaterial, 'yAxis');
-    makeAxis(new THREE.Vector3(0, 0, -LIMIT), new THREE.Vector3(0, 0, LIMIT), zAxisMaterial, 'zAxis');
+    let xAxisMaterial = new THREE.LineBasicMaterial({color: RED});
+    let yAxisMaterial = new THREE.LineBasicMaterial({color: GREEN});
+    let zAxisMaterial = new THREE.LineBasicMaterial({color: BLUE});
+    makeAxis(new THREE.Vector3(-LIMIT, 0, 0), new THREE.Vector3(LIMIT, 0, 0), xAxisMaterial, "xAxis");
+    makeAxis(new THREE.Vector3(0, -LIMIT, 0), new THREE.Vector3(0, LIMIT, 0), yAxisMaterial, "yAxis");
+    makeAxis(new THREE.Vector3(0, 0, -LIMIT), new THREE.Vector3(0, 0, LIMIT), zAxisMaterial, "zAxis");
   }
 
   // Does changing near & far plane of a PerspectiveCamera, via gui, mess up fov? No.
   function initGui() {
-    const controls = {
+    let controls = {
       get near() {
         return testPerspectiveCamera.near;
       },
@@ -108,16 +108,16 @@
         testPerspectiveCamera.updateMatrixWorld();
       }
     };
-    // const gui = new GUI();
-    const gui = new dat.GUI();
-    const perspectiveCameraFolder = gui.addFolder('testPerspectiveCamera');
-    perspectiveCameraFolder.add(controls, 'near', 0, 50);
-    perspectiveCameraFolder.add(controls, 'far', 0, 200);
-    perspectiveCameraFolder.add(controls, 'aspect', 0, 4);
-    perspectiveCameraFolder.add(controls, 'fov', 0, 100);
-    perspectiveCameraFolder.add(controls, 'positionX', -LIMIT, LIMIT);
-    perspectiveCameraFolder.add(controls, 'positionY', -LIMIT, LIMIT);
-    perspectiveCameraFolder.add(controls, 'positionZ', -LIMIT, LIMIT);
+    // let gui = new GUI();
+    let gui = new dat.GUI();
+    let perspectiveCameraFolder = gui.addFolder("testPerspectiveCamera");
+    perspectiveCameraFolder.add(controls, "near", 0, 50);
+    perspectiveCameraFolder.add(controls, "far", 0, 200);
+    perspectiveCameraFolder.add(controls, "aspect", 0, 4);
+    perspectiveCameraFolder.add(controls, "fov", 0, 100);
+    perspectiveCameraFolder.add(controls, "positionX", -LIMIT, LIMIT);
+    perspectiveCameraFolder.add(controls, "positionY", -LIMIT, LIMIT);
+    perspectiveCameraFolder.add(controls, "positionZ", -LIMIT, LIMIT);
   }
 
   function render() {
@@ -128,7 +128,7 @@
 
   function initCamera() {
     camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 1, 10000);
-    camera.name = 'camera';
+    camera.name = "camera";
     camera.position.set(60, 40, 150);
     scene.add(camera);
   }
@@ -140,34 +140,34 @@
   }
 
   function initLight() {
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1);
-    ambientLight.name = 'ambientLight';
+    let ambientLight = new THREE.AmbientLight(0xffffff, 1);
+    ambientLight.name = "ambientLight";
     scene.add(ambientLight);
   }
 
   function initTestPerspectiveCamera() {
     //  fov, aspect, near, far
     testPerspectiveCamera = new THREE.PerspectiveCamera(45, 2, 20, 100);
-    testPerspectiveCamera.name = 'testPerspectiveCamera';
+    testPerspectiveCamera.name = "testPerspectiveCamera";
     testPerspectiveCamera.position.set(40, 0, 0);
     testPerspectiveCamera.lookAt(0, 100, 0); // lookAt is a method of Object#D
     testPerspectiveCameraHelper = new THREE.CameraHelper(testPerspectiveCamera);
-    testPerspectiveCameraHelper.name = 'testPerspectiveCameraHelper';
+    testPerspectiveCameraHelper.name = "testPerspectiveCameraHelper";
     testPerspectiveCamera.updateMatrixWorld();
     scene.add(testPerspectiveCameraHelper);
   }
 
   function listSceneObjects() {
     console.log(`id: ${scene.id}, name: ${scene.name}, parent.id: ${scene?.parent?.id}`);
-    for (const obj of scene.children) {
+    for (let obj of scene.children) {
       console.log(`id: ${obj.id}, name: ${obj.name}, parent.id: ${obj.parent.id}`);
     }
   }
 
   window.onload = function () {
-    canvas = document.getElementById('canvasId');
+    canvas = document.getElementById("canvasId");
     scene = new THREE.Scene();
-    scene.name = 'scene';
+    scene.name = "scene";
     initCamera();
     initRenderer();
     initLight();
