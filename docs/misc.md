@@ -1,12 +1,6 @@
-```js
-// Camera defines the field of view
-const camera = new THREE.PerspectiveCamera(
-  55, // fov angle (in degrees)
-  window.innerWidth / window.innerHeight, // aspect ratio
-  0.1, // near plane
-  1000 // far plane
-);
+# Geometry parameters
 
+```js
 // "Cube" or "Frinkahedron", named after its discoverer. ;)
 const geometry = new THREE.BoxGeometry(
   1, // width
@@ -20,76 +14,10 @@ const geometry2 = new THREE.CircleGeometry(
 );
 ```
 
-
-
-
-# What is the purpose of glScissor?
-
-[gamedev.stackexchange.com](https://gamedev.stackexchange.com/questions/40704/what-is-the-purpose-of-glscissor)
-
 <br>
 
-# Camera, view, whatever.
-
-[Camera position in Three JS](https://youtu.be/lSkC-EeStyQ)
-
-```text
-x = width / left and right // horizontal movement
-y = height / top and bottom // vertical movement
-z = depth / zoom (in or out)
-```
-
-[visualization and camera](https://observablehq.com/@grantcuster/understanding-scale-and-the-three-js-perspective-camera)
-
-[3D Camera Movement in Three.js – I Learned the Hard Way So You Don’t Have To](https://blogs.perficient.com/2020/05/21/3d-camera-movement-in-three-js-i-learned-the-hard-way-so-you-dont-have-to/)
-
-gman<br>
-[https://stackoverflow.com/questions/29884485/threejs-canvas-size-based-on-container](https://stackoverflow.com/questions/29884485/threejs-canvas-size-based-on-container)
-
-```js
-// There's no reason to set the aspect here because we're going
-// to set it every frame anyway so we'll set it to 2 since 2
-// is the the aspect for the canvas default size (300w/150h = 2)
-const camera = new THREE.PerspectiveCamera(70, 2, 1, 1000);
-
-// Then we need some code that will resize the canvas to match its display size
-function resizeCanvasToDisplaySize() {
-  const canvas = renderer.domElement;
-  // look up the size the canvas is being displayed
-  const width = canvas.clientWidth;
-  const height = canvas.clientHeight;
-
-  // adjust displayBuffer size to match
-  if (canvas.width !== width || canvas.height !== height) {
-    // you must pass false here or three.js sadly fights the browser
-    renderer.setSize(width, height, false);
-    camera.aspect = width / height;
-    camera.updateProjectionMatrix();
-
-    // update any render target sizes here
-  }
-}
-
-// Call this in your render loop before rendering
-function animate(time) {
-  time *= 0.001;  // seconds
-
-  resizeCanvasToDisplaySize();
-
-  mesh.rotation.x = time * 0.5;
-  mesh.rotation.y = time * 1;
-
-  renderer.render(scene, camera);
-  requestAnimationFrame(animate);
-}
-
-requestAnimationFrame(animate);
-```
-
-[three.js multiple camera](https://www.google.com/search?q=three.js+multiple+camera&oq=three.js+multiple+camera&aqs=chrome..69i57j0i22i30l2.2131j0j7&sourceid=chrome&ie=UTF-8)
-
 [Brainspell](https://web.archive.org/web/20180206125803/http://brainspell.org/article/24996404)<br>
-**Note to self:** OF COURSE!  Brain only works with lower version of three.  Because SubdivisionModifier deals only in &ndash; what, again?  Geometry! 💢
+**Note to self:** OF COURSE!  Brain only works with lower version of three.  Because `SubdivisionModifier` deals only in &ndash; what, again?  Geometry! 💢
 
 [How To Create A Loading Screen For Your Three.js App](https://www.youtube.com/watch?v=zMzuPIiznQ4)
 
