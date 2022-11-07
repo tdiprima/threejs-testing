@@ -25,7 +25,12 @@
   const BLUE = "#0000ff";
   const LIMIT = 100;
 
-  let canvas, scene, camera, renderer, testPerspectiveCamera, testPerspectiveCameraHelper;
+  let canvas,
+    scene,
+    camera,
+    renderer,
+    testPerspectiveCamera,
+    testPerspectiveCameraHelper;
 
   function initAxes() {
     function makeAxis(start, finish, material, name) {
@@ -132,7 +137,7 @@
     renderer = new THREE.WebGLRenderer({ canvas });
     // renderer = new THREE.WebGLRenderer({canvas: canvas});
     // renderer.shadowMap.enabled = true;
-    renderer.setSize(canvas.width, canvas.height, false); // todo:defer until initial doWindowResize
+    renderer.setSize(canvas.width, canvas.height, false); // TODO: defer until initial doWindowResize
   }
 
   function initLight() {
@@ -142,11 +147,12 @@
   }
 
   function initTestPerspectiveCamera() {
-    //  fov, aspect, near, far
+    //  THREE.PerspectiveCamera(fov, aspect, near, far);
     testPerspectiveCamera = new THREE.PerspectiveCamera(45, 2, 20, 100);
     testPerspectiveCamera.name = 'testPerspectiveCamera';
     testPerspectiveCamera.position.set(40, 0, 0);
-    testPerspectiveCamera.lookAt(0, 100, 0); // lookAt is a method of Object#D
+    testPerspectiveCamera.lookAt(0, 100, 0); // lookAt is a method of Object3D
+
     testPerspectiveCameraHelper = new THREE.CameraHelper(testPerspectiveCamera);
     testPerspectiveCameraHelper.name = 'testPerspectiveCameraHelper';
     testPerspectiveCamera.updateMatrixWorld();
@@ -154,18 +160,38 @@
   }
 
   function listSceneObjects() {
-    console.log(`id: ${scene.id}, name: ${scene.name}, parent.id: ${scene?.parent?.id}`);
+    let parentId = scene?.parent?.id;
+    console.log("Scene", {
+      id: scene.id,
+      name: scene.name,
+      parentId: parentId
+    })
+    // console.log(`Scene:\nid: ${scene.id}, name: ${scene.name}, parent.id: ${scene?.parent?.id}`);
+
+    console.log("Children:");
+
     // iterators/generators require regenerator-runtime, which is too heavyweight
     // TODO: loops should be avoided in favor of array iterations
-    for (let obj of scene.children) {
-      console.log(`id: ${obj.id}, name: ${obj.name}, parent.id: ${obj.parent.id}`);
+    // for (let obj of scene.children) {
+    //   console.log(`id: ${obj.id}, name: ${obj.name}, parent.id: ${obj.parent.id}`);
+    // }
+
+    // Array.forEach is also slower than for() loop in JavaScript, so:
+    let objects = scene.children;
+    for (let i = 0; i < objects.length; i++) {
+      // console.log(`id: ${objects[i].id}, name: ${objects[i].name}, parent.id: ${objects[i].parent.id}`);
+      console.log({
+        id: objects[i].id,
+        name: objects[i].name,
+        parentId: objects[i].parent.id
+      });
     }
   }
 
   window.onload = function () {
-    canvas = document.getElementById('canvasId');
+    canvas = document.getElementById("canvasId");
     scene = new THREE.Scene();
-    scene.name = 'scene';
+    scene.name = "scene";
 
     initCamera();
     initRenderer();
@@ -175,10 +201,13 @@
     initGui();
 
     new THREE.OrbitControls(camera, canvas);
-    // listSceneObjects();
+    listSceneObjects();
 
-    console.log(`%ctestPerspectiveCamera: ${JSON.stringify(testPerspectiveCamera)}`, "color: deeppink;");
-    console.log(`%ctestPerspectiveCameraHelper.matrixAutoUpdate: ${testPerspectiveCameraHelper.matrixAutoUpdate}, "color: #ccff00;"`);
+    // console.log(`%ctestPerspectiveCamera: ${JSON.stringify(testPerspectiveCamera)}`, "color: deeppink;");
+    // console.log(`%ctestPerspectiveCameraHelper.matrixAutoUpdate: ${testPerspectiveCameraHelper.matrixAutoUpdate}, "color: #ccff00;"`);
+
+    console.log("%ctestPerspectiveCamera:", "color: deeppink;", testPerspectiveCamera);
+    console.log("%ccamera helper matrixAutoUpdate:", "color: #ccff00;", testPerspectiveCameraHelper.matrixAutoUpdate);
 
     render();
   };
