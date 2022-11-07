@@ -154,7 +154,8 @@
       perspectiveCameraFolder.add(controls, 'positionY', -LIMIT, LIMIT);
       perspectiveCameraFolder.add(controls, 'positionZ', -LIMIT, LIMIT);
 
-      gui.open(); // crap; didn't work.
+      perspectiveCameraFolder.open(); // This sparks joy!
+      // gui.open(); // This one, does not spark joy.
     }
 
     function render() {
