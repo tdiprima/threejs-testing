@@ -17,9 +17,11 @@
 </head>
 <body>
 
-<canvas id='canvasId'></canvas>
+<canvas id="canvasId"></canvas>
 
 <script>
+  // import {gui as dat} from "../../jsm/libs/dat.gui.module";
+
   const RED = "#ff0000";
   const GREEN = "#00ff00";
   const BLUE = "#0000ff";
@@ -53,38 +55,38 @@
   // Does changing near & far plane of a PerspectiveCamera, via gui, mess up fov? No.
   function initGui() {
     let controls = {
-      // get near() {
-      //   return testPerspectiveCamera.near;
-      // },
-      // set near(value) {
-      //   testPerspectiveCamera.near = value;
-      //   testPerspectiveCamera.updateProjectionMatrix();
-      //   testPerspectiveCameraHelper.update();
-      // },
-      // get far() {
-      //   return testPerspectiveCamera.far;
-      // },
-      // set far(value) {
-      //   testPerspectiveCamera.far = value;
-      //   testPerspectiveCamera.updateProjectionMatrix();
-      //   testPerspectiveCameraHelper.update();
-      // },
-      // get aspect() {
-      //   return testPerspectiveCamera.aspect;
-      // },
-      // set aspect(value) {
-      //   testPerspectiveCamera.aspect = value;
-      //   testPerspectiveCamera.updateProjectionMatrix();
-      //   testPerspectiveCameraHelper.update();
-      // },
-      // get fov() {
-      //   return testPerspectiveCamera.fov;
-      // },
-      // set fov(value) {
-      //   testPerspectiveCamera.fov = value;
-      //   testPerspectiveCamera.updateProjectionMatrix();
-      //   testPerspectiveCameraHelper.update();
-      // },
+      get near() {
+        return testPerspectiveCamera.near;
+      },
+      set near(value) {
+        testPerspectiveCamera.near = value;
+        testPerspectiveCamera.updateProjectionMatrix();
+        testPerspectiveCameraHelper.update();
+      },
+      get far() {
+        return testPerspectiveCamera.far;
+      },
+      set far(value) {
+        testPerspectiveCamera.far = value;
+        testPerspectiveCamera.updateProjectionMatrix();
+        testPerspectiveCameraHelper.update();
+      },
+      get aspect() {
+        return testPerspectiveCamera.aspect;
+      },
+      set aspect(value) {
+        testPerspectiveCamera.aspect = value;
+        testPerspectiveCamera.updateProjectionMatrix();
+        testPerspectiveCameraHelper.update();
+      },
+      get fov() {
+        return testPerspectiveCamera.fov;
+      },
+      set fov(value) {
+        testPerspectiveCamera.fov = value;
+        testPerspectiveCamera.updateProjectionMatrix();
+        testPerspectiveCameraHelper.update();
+      },
       get positionX() {
         return testPerspectiveCamera.position.x;
       },
@@ -111,10 +113,10 @@
     // let gui = new GUI();
     let gui = new dat.GUI();
     let perspectiveCameraFolder = gui.addFolder('testPerspectiveCamera');
-    // perspectiveCameraFolder.add(controls, 'near', 0, 50);
-    // perspectiveCameraFolder.add(controls, 'far', 0, 200);
-    // perspectiveCameraFolder.add(controls, 'aspect', 0, 4);
-    // perspectiveCameraFolder.add(controls, 'fov', 0, 100);
+    perspectiveCameraFolder.add(controls, 'near', 0, 50);
+    perspectiveCameraFolder.add(controls, 'far', 0, 200);
+    perspectiveCameraFolder.add(controls, 'aspect', 0, 4);
+    perspectiveCameraFolder.add(controls, 'fov', 0, 100);
     perspectiveCameraFolder.add(controls, 'positionX', -LIMIT, LIMIT);
     perspectiveCameraFolder.add(controls, 'positionY', -LIMIT, LIMIT);
     perspectiveCameraFolder.add(controls, 'positionZ', -LIMIT, LIMIT);
@@ -127,15 +129,22 @@
   }
 
   function initCamera() {
-    camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 1, 10000);
-    camera.name = 'camera';
+    camera = new THREE.PerspectiveCamera(
+      75,
+      canvas.clientWidth / canvas.clientHeight,
+      1,
+      10000
+    );
+    camera.name = "camera";
     camera.position.set(60, 40, 150);
     scene.add(camera);
   }
 
   function initRenderer() {
-    renderer = new THREE.WebGLRenderer({ canvas });
-    // renderer = new THREE.WebGLRenderer({canvas: canvas});
+    // renderer = new THREE.WebGLRenderer({ canvas });
+    renderer = new THREE.WebGLRenderer({
+      canvas: canvas
+    });
     // renderer.shadowMap.enabled = true;
     renderer.setSize(canvas.width, canvas.height, false); // TODO: defer until initial doWindowResize
   }
@@ -147,14 +156,20 @@
   }
 
   function initTestPerspectiveCamera() {
-    //  THREE.PerspectiveCamera(fov, aspect, near, far);
-    testPerspectiveCamera = new THREE.PerspectiveCamera(45, 2, 20, 100);
-    testPerspectiveCamera.name = 'testPerspectiveCamera';
+    // Our test camera
+    testPerspectiveCamera = new THREE.PerspectiveCamera(
+      45, // fov
+      2, // aspect
+      20, // near
+      100 // far
+    );
+    testPerspectiveCamera.name = "testPerspectiveCamera";
     testPerspectiveCamera.position.set(40, 0, 0);
     testPerspectiveCamera.lookAt(0, 100, 0); // lookAt is a method of Object3D
 
+    // Camera helper
     testPerspectiveCameraHelper = new THREE.CameraHelper(testPerspectiveCamera);
-    testPerspectiveCameraHelper.name = 'testPerspectiveCameraHelper';
+    testPerspectiveCameraHelper.name = "testPerspectiveCameraHelper";
     testPerspectiveCamera.updateMatrixWorld();
     scene.add(testPerspectiveCameraHelper);
   }
