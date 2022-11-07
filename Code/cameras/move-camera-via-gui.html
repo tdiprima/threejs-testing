@@ -18,6 +18,13 @@
       width: 100%;
     }
   </style>
+
+<!--
+As soon as I added resize(), that's when things went haywire.
+I tested adding the resize() to the original, and it borked. That's how I know.
+I moved everything into window.onload because once I made some changes, the browser wasn't happy with it.
+The script became a module script, because I wanted to use local, updated (relatively speaking) three.js code.
+-->
 </head>
 <body>
 
