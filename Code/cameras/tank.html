@@ -69,7 +69,7 @@
     }
 
     let groundGeometry = new THREE.PlaneGeometry(50, 50);
-    let groundMaterial = new THREE.MeshPhongMaterial({color: 0xcc8866});
+    let groundMaterial = new THREE.MeshPhongMaterial({color: "#cc8866"}); // Antique Brass
     let groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
     groundMesh.rotation.x = Math.PI * -0.5;
     groundMesh.receiveShadow = true;
