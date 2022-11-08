@@ -60,7 +60,7 @@ The scissor rectangle can be used to **temporarily restrict drawing to a sub-rec
 
 <br>
 
-**[Controls.target vs camera.lookAt](https://discourse.threejs.org/t/controls-target-vs-camera-lookat/5086/6)**
+## [Controls.target vs camera.lookAt](https://discourse.threejs.org/t/controls-target-vs-camera-lookat/5086/6)
 
 I used `camera.lookAt()` to set direction in which camera looks.
 
