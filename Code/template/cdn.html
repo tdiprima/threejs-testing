@@ -69,7 +69,7 @@
   document.body.appendChild(renderer.domElement);
 
   let controls = new OrbitControls(camera, renderer.domElement);
-  controls.enableDamping = true;
+  controls.enableDamping = true; // disable inertia; enable momentum
   // If using trackball, then need controls.update(); in animate function.
 
   let geometry = new THREE.BoxGeometry();
