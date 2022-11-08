@@ -13,8 +13,6 @@ camera.position.z = 5; // zoom in or out
 * Negative = left
 * Positive = right
 
-**NOTE!** The *object* moves in the opposite direction.
-
 ### Y
 
 * Negative = down
@@ -25,6 +23,8 @@ camera.position.z = 5; // zoom in or out
 * The lower the number, the closer it is.
 * The higher, the further away.
 * If it's negative, it's behind the object
+
+<mark>**NOTE!** The *object* moves in the opposite direction.</mark>
 
 <br>
 
@@ -56,7 +56,7 @@ But I learned something.
 camera.updateMatrixWorld();
 ```
 
-<mark>TODO: difference between updateMatrixWorld() and updateProjectionMatrix()</mark>
+<mark>**TODO:** difference between updateMatrixWorld() and updateProjectionMatrix()</mark>
 
 Also, they rolled their own [axis helper](https://jsfiddle.net/fiddleuser01/rezcpgh4/7/).
 
