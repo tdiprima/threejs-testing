@@ -22,12 +22,11 @@
   import * as THREE from "three";
   import {OrbitControls} from "/jsm/controls/OrbitControls.js";
 
-  const blue_zodiac = "#182141";
   const width = window.innerWidth;
   const height = window.innerHeight;
 
   let scene = new THREE.Scene();
-  scene.background = new THREE.Color(blue_zodiac);
+  scene.background = new THREE.Color("#182141"); // Blue Zodiac
   let camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
 
   let renderer = new THREE.WebGLRenderer({antialias: true});
