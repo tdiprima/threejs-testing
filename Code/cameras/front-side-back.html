@@ -68,7 +68,7 @@
     document.body.appendChild(renderer.domElement);
 
     let controls = new OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true;
+    controls.enableDamping = true; // disable inertia; enable momentum
 
     document.querySelector("#frontView").addEventListener("click", () => {
       console.log("Front View");
