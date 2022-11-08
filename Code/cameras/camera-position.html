@@ -7,9 +7,6 @@
   <title>update-perspective-camera</title>
   <!-- https://stackoverflow.com/questions/12619211/how-to-add-datgui-controls-for-camera-in-threejs -->
   <link rel="stylesheet" href="/css/main.css">
-  <script src="https://cdn.jsdelivr.net/npm/three@0.129.0/build/three.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.129.0/examples/js/libs/dat.gui.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.129.0/examples/js/controls/OrbitControls.js"></script>
 </head>
 <body>
 <script type="module">
@@ -26,6 +23,7 @@
   init();
   animate();
 
+  // Simple, easy, dat gui.
   function addDatGui() {
     const gui = new GUI();
 
