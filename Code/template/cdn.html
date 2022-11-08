@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
+  <meta charset="utf-8" />
   <title>Test</title>
   <!-- https://discourse.threejs.org/t/cdn-only-approach-not-so-satisfying/35498/5 -->
   <!-- Also: https://github.com/Sean-Bradley/Three.js-TypeScript-Boilerplate/blob/master/src/client/client.ts -->
@@ -25,10 +25,10 @@
         "dat.gui": "https://cdn.skypack.dev/dat.gui"
       }
     }
-
   </script>
 </head>
 <body>
+
 <script type="module">
   // Or you can go:
   // import * as THREE from "https://unpkg.com/three@0.126.1/build/three.module.js";
@@ -37,10 +37,9 @@
   // import {GUI} from "https://unpkg.com/three@0.126.1/examples/jsm/libs/dat.gui.module";
 
   import * as THREE from "three";
-  import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
-  // import {TrackballControls} from '/jsm/controls/TrackballControls.js';
+  import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
   import Stats from "three/examples/jsm/libs/stats.module";
-  import {GUI} from "dat.gui";
+  import { GUI } from "dat.gui";
 
   console.log(`%cREV: ${THREE.REVISION}`, "color: #ccff00;");
 
@@ -71,7 +70,6 @@
 
   let controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
-  // let trackballControls = new TrackballControls(camera, renderer.domElement);
   // If using trackball, then need controls.update(); in animate function.
 
   let geometry = new THREE.BoxGeometry();
@@ -79,6 +77,7 @@
     color: 0x00ff00,
     wireframe: true
   });
+
   let cube = new THREE.Mesh(geometry, material);
   scene.add(cube);
 
@@ -101,22 +100,14 @@
 
   let gui = new GUI();
 
-  let cubeFolder = gui.addFolder("Cube");
+  let cubeFolder = gui.addFolder("Cube position");
 
-  // https://www.livescience.com/14836-pi-wrong-tau.html
-  /*
-  cubeFolder.add(cube.rotation, 'x', 0, tau);
-  cubeFolder.add(cube.rotation, 'y', 0, tau);
-  cubeFolder.add(cube.rotation, 'z', 0, tau);
-  */
-
-  cubeFolder.add(cube.rotation, "x", 0, tau, 0.01);
-  cubeFolder.add(cube.rotation, "y", 0, tau, 0.01);
-  cubeFolder.add(cube.rotation, "z", 0, tau, 0.01);
+  cubeFolder.add(cube.position, "x", -tau, tau, 0.01);
+  cubeFolder.add(cube.position, "y", -tau, tau, 0.01);
+  cubeFolder.add(cube.position, "z", -tau, tau, 0.01);
   cubeFolder.open();
 
-  let cameraFolder = gui.addFolder("Camera");
-  // cameraFolder.add(camera.position, 'z', 0, 10);
+  let cameraFolder = gui.addFolder("Camera position");
   cameraFolder.add(camera.position, "z", 0, 10, 0.01);
   cameraFolder.open();
 
@@ -128,8 +119,8 @@
   (function animLoop() {
     requestAnimationFrame(animLoop);
     stats.begin();
-    cube.rotation.x += 0.01;
-    cube.rotation.y += 0.01;
+    // cube.rotation.x += 0.01;
+    // cube.rotation.y += 0.01;
     stats.end();
     controls.update();
     stats.update();

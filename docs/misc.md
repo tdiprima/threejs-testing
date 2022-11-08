@@ -1,4 +1,4 @@
-# Geometry parameters
+## Geometry parameters
 
 ```js
 // "Cube" or "Frinkahedron", named after its discoverer. ;)
@@ -13,6 +13,10 @@ const geometry2 = new THREE.CircleGeometry(
   100 // Number of segments
 );
 ```
+
+## tau
+**[Mathematicians Want to Say Goodbye to Pi](https://www.livescience.com/14836-pi-wrong-tau.html)**
+
 
 <br>
 
