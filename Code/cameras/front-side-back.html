@@ -14,7 +14,7 @@
   <style>
     body {
       font-family: Monospace, sans-serif;
-      background-color: #f0f0f0;
+      background-color: #f0f0f0; /* Seashell */
       margin: 0;
       overflow: hidden;
     }
@@ -37,20 +37,25 @@
   import * as THREE from "three";
   import {OrbitControls} from "three/addons/controls/OrbitControls.js";
 
-  let camera, scene, renderer;
+  let camera, scene, renderer, controls;
 
   init();
   animate();
 
   function init() {
-    camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 10);
+    camera = new THREE.PerspectiveCamera(
+      70,
+      window.innerWidth / window.innerHeight,
+      0.01,
+      10
+    );
+    camera.position.y = 1;
     camera.position.z = 1;
 
     scene = new THREE.Scene();
 
     let geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2);
-    // let material = new THREE.MeshNormalMaterial();
-    // let mesh = new THREE.Mesh(geometry, material);
+
     let mesh = new THREE.Mesh(geometry, [
       new THREE.MeshBasicMaterial({color: 0xffffff * Math.random()}),
       new THREE.MeshBasicMaterial({color: 0xffffff * Math.random()}),
@@ -67,15 +72,13 @@
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
-    let controls = new OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true; // disable inertia; enable momentum
+    controls = new OrbitControls(camera, renderer.domElement);
 
     document.querySelector("#frontView").addEventListener("click", () => {
       console.log("Front View");
       camera.position.x = 0;
-      camera.position.y = 0;
+      camera.position.y = 1; // changed it to 1 so you can see better
       camera.position.z = 1; // pull camera back one
-      controls.update();
     });
 
     document.querySelector("#sideView").addEventListener("click", () => {
@@ -83,20 +86,19 @@
       camera.position.x = 1; // right 1
       camera.position.y = 1; // top 1
       camera.position.z = 1;
-      controls.update();
     });
 
     document.querySelector("#backView").addEventListener("click", () => {
       console.log("Back View");
       camera.position.x = 0;
-      camera.position.y = 0;
+      camera.position.y = 1;
       camera.position.z = -1; // go around the back
-      controls.update();
     });
   }
 
   function animate() {
     requestAnimationFrame(animate);
+    controls.update();
     renderer.render(scene, camera);
   }
 </script>
