@@ -116,7 +116,8 @@
 
     // for CAM#2 - overhead cam
     // ***** dimensions of overhead cam viewport (length & width = 25% of height)
-    insetWidth = window.innerHeight / 4; // control width of mini viewer
+    // insetWidth = window.innerHeight / 4; // Ah, no. Don't smoosh it.
+    insetWidth = window.innerWidth / 4; // control width of mini viewer
     insetHeight = window.innerHeight / 4; // control height of mini viewer
 
     cameraTop.aspect = insetWidth / insetHeight; // aspect ratio of CAM#2 - overhead cam
