@@ -60,6 +60,32 @@ The scissor rectangle can be used to **temporarily restrict drawing to a sub-rec
 
 <br>
 
+**[Controls.target vs camera.lookAt](https://discourse.threejs.org/t/controls-target-vs-camera-lookat/5086/6)**
+
+I used `camera.lookAt()` to set direction in which camera looks.
+
+Reading on OrbitControls, I learned that `camera.lookAt()` should be replaced by<br>
+`controls.target`.
+
+What's the difference?
+
+OrbitControls internally uses `Object3D.lookAt()` in order to look at the defined<br>
+target location of focus (`OrbitControls.target`).
+
+> When I use it, panning becomes an issue.<br>
+> Target object doesn't pan with rest of the scene,<br>
+> and is static while panning.<br>
+
+That's the intended behavior since panning transforms the `OrbitControls.target` vector.<br>
+Or in other words, the location of focus.
+
+You also have to call `controls.update()` after changing the target.
+
+OrbitControls ensures that the camera orbits (rotates) around the target.<br>
+Rotation and zooming also happens with focus on target. (Focused on the defined target vector.)
+
+<br>
+
 # Articles
 
 [visualization and camera](https://observablehq.com/@grantcuster/understanding-scale-and-the-three-js-perspective-camera)

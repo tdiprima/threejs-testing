@@ -11,37 +11,45 @@ function main() {
   let view1Elem = document.querySelector("#view1");
   let view2Elem = document.querySelector("#view2");
 
+  // CAMERA 1
   let camera = new THREE.PerspectiveCamera(
-    45, // fov
-    2, // aspect
-    5, // near
-    100 // far
+    45, // field of view 45 degrees
+    2,
+    5,
+    100 // far plane 100 units
   );
+
   camera.position.set(0, 10, 20); // 10 up, 20 back
 
   let cameraHelper = new THREE.CameraHelper(camera);
+
+  // ORBIT CONTROL 1
 
   // Set OrbitControls #1 to respond to the first view element.
   let controls1 = new OrbitControls(camera, view1Elem);
   controls1.target.set(0, 5, 0); // Notice: 0, 5, 0
   controls1.update();
 
+  // CAMERA 2
   let camera2 = new THREE.PerspectiveCamera(
-    60, // fov
-    2, // aspect
-    0.1, // near
-    500, // far
+    60, // 60 degrees
+    2,
+    0.1,
+    500
   );
-  camera2.position.set(40, 10, 30); // 40 left, 10 up, 30 back
-  camera2.lookAt(0, 5, 0); // 0, 5, 0
 
-  // The second OrbitControls is tied to the second camera and gets input from the second view element.
+  camera2.position.set(40, 10, 30); // 40 right, 10 up, 30 back
+  camera2.lookAt(0, 5, 0); // 5 up
+
+  // ORBIT CONTROL 2
+  // The second OrbitControls is tied to the second camera and gets input from
+  // the second view element.
   let controls2 = new OrbitControls(camera2, view2Elem);
-  controls2.target.set(0, 5, 0); // 0, 5, 0
+  controls2.target.set(0, 5, 0); // 5 up
   controls2.update();
 
   let scene = new THREE.Scene();
-  scene.background = new THREE.Color("black");
+  scene.background = new THREE.Color("#000");
 
   scene.add(cameraHelper);
 
@@ -49,58 +57,84 @@ function main() {
     let planeSize = 40;
 
     let loader = new THREE.TextureLoader();
+
     let texture = loader.load(checker);
     texture.wrapS = THREE.RepeatWrapping;
     texture.wrapT = THREE.RepeatWrapping;
     texture.magFilter = THREE.NearestFilter;
+
     let repeats = planeSize / 2;
     texture.repeat.set(repeats, repeats);
 
     let planeGeo = new THREE.PlaneGeometry(planeSize, planeSize);
+
     let planeMat = new THREE.MeshPhongMaterial({
       map: texture,
       side: THREE.DoubleSide,
     });
+
     let mesh = new THREE.Mesh(planeGeo, planeMat);
+
+    // Planes default to being in the XY plane,
+    // but the ground is in the XZ plane; so we rotate it.
     mesh.rotation.x = Math.PI * -0.5;
+
     scene.add(mesh);
   }
 
   {
     let cubeSize = 4;
-    let cubeGeo = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);
-    let cubeMat = new THREE.MeshPhongMaterial({ color: "#8AC" }); // Polo Blue 88aacc
+    let cubeGeo = new THREE.BoxGeometry(
+      4,
+      4,
+      4
+    );
+
+    let cubeMat = new THREE.MeshPhongMaterial({ color: "#8AC" }); // Polo Blue #88aacc
     let mesh = new THREE.Mesh(cubeGeo, cubeMat);
-    mesh.position.set(cubeSize + 1, cubeSize / 2, 0);
-    // x: move it right, from center
-    // y: move it down-field, a bit
+    mesh.position.set(
+      cubeSize + 1,
+      cubeSize / 2,
+      0
+    );
+
     scene.add(mesh);
   }
 
   {
     let sphereRadius = 3;
-    let sphereWidthDivisions = 32;
-    let sphereHeightDivisions = 16;
-    let sphereGeo = new THREE.SphereGeometry(sphereRadius, sphereWidthDivisions, sphereHeightDivisions);
-    let sphereMat = new THREE.MeshPhongMaterial({ color: "#CA8" }); // Tan ccaa88
+    let sphereGeo = new THREE.SphereGeometry(
+      3,
+      32,
+      16
+    );
+
+    let sphereMat = new THREE.MeshPhongMaterial({ color: "#CA8" }); // Tan #ccaa88
 
     let mesh = new THREE.Mesh(sphereGeo, sphereMat);
-    mesh.position.set(-sphereRadius - 1, sphereRadius + 2, 0); // -4, 5, 0
-    // y = 0 => the plane cuts it in half. So we *at least* want y = sphereRadius...
-    // x = 0 => puts it in the center of the viewport, so we wanna move it left a bit...
+    mesh.position.set(
+      -sphereRadius - 1,
+      sphereRadius + 2,
+      0
+    );
 
     scene.add(mesh);
   }
 
   {
     // https://r105.threejsfundamentals.org/threejs/threejs-lights-directional.html
-    let light = new THREE.DirectionalLight(0xffffff, 1);
-    light.position.set(0, 10, 0); // 10 up
+    let light = new THREE.DirectionalLight("#fff", 1);
+
+    light.position.set(0, 10, 0); // hang it from 10 units above
+
+    // shines in the direction of its target
     light.target.position.set(-5, 0, 0); // shine from right to left
+
     scene.add(light);
     scene.add(light.target);
 
-    let helper = new THREE.DirectionalLightHelper(light);
+    // LIGHT HELPER
+    let helper = new THREE.DirectionalLightHelper(light, 1, "#ffff00");
     scene.add(helper);
     helper.update();
   }
@@ -116,7 +150,7 @@ function main() {
     return needResize;
   }
 
-  // Set the scissor and viewport to each div.
+  // Set the SCISSOR and VIEWPORT to each div.
   function setScissorForElement(elem) {
     let canvasRect = canvas.getBoundingClientRect();
     let elemRect = elem.getBoundingClientRect();
@@ -141,7 +175,7 @@ function main() {
     // console.log(left, positiveYUpBottom, width, height);
     // throw DOMException; // hack, to get the darn thing to stop.
 
-    // return the aspect
+    // return the ASPECT
     return width / height;
   }
 
@@ -153,10 +187,10 @@ function main() {
   function render() {
     resizeRendererToDisplaySize(renderer);
 
-    // turn on the scissor
+    // turn on the SCISSOR
     renderer.setScissorTest(true);
 
-    // render the original view
+    // render the ORIGINAL VIEW
     {
       let aspect = setScissorForElement(view1Elem);
 
@@ -168,13 +202,13 @@ function main() {
       // don't draw the camera helper in the original view
       cameraHelper.visible = false;
 
-      scene.background.set(0x000000);
+      scene.background.set("#000");
 
       // render
       renderer.render(scene, camera);
     }
 
-    // render from the 2nd camera
+    // render from the 2ND CAMERA
     {
       let aspect = setScissorForElement(view2Elem);
 
@@ -185,7 +219,7 @@ function main() {
       // draw the camera helper in the 2nd view
       cameraHelper.visible = true;
 
-      scene.background.set("#000040"); // stratos
+      scene.background.set("#000040"); // Stratos
 
       renderer.render(scene, camera2);
     }
