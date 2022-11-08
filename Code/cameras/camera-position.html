@@ -22,6 +22,7 @@
 
   const initZ = 1000;
   const halfZ = 500;
+  const farPlane = initZ * 10;
 
   init();
   animate();
@@ -32,7 +33,7 @@
 
     gui.add(camera.position, 'x', -halfZ, halfZ).step(5);
     gui.add(camera.position, 'y', -halfZ, halfZ).step(5);
-    gui.add(camera.position, 'z', initZ, 5000).step(5);
+    gui.add(camera.position, 'z', initZ, farPlane / 2).step(5);
   }
 
   function init() {
@@ -40,7 +41,7 @@
       75,
       window.innerWidth / window.innerHeight,
       1,
-      initZ * 10
+      farPlane
     );
     camera.position.z = initZ;
 
