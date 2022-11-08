@@ -19,26 +19,28 @@
 
 <script type="module">
   import * as THREE from "three";
-  import {OrbitControls} from "three/addons/controls/OrbitControls.js";
+  import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+  // import { OrbitControls } from "three/addons/loaders/TextureLoader.js";
 
-  const laurel = "#016f01";
   let aspect = window.innerWidth / window.innerHeight;
   let insetWidth, insetHeight;
   let scene = new THREE.Scene();
+
+  let loader = new THREE.TextureLoader();
+  let bgTexture = loader.load("/textures/sky/daikanyama.jpg");
+  scene.background = bgTexture;
 
   const createCamera = (fov, name) => {
     let camera = new THREE.PerspectiveCamera(fov, aspect, 0.01, 500);
     if (name) {
       camera.name = name;
     }
-    console.log("camera", camera);
+    console.log(`%c${name}`, "color: #ccff00;", camera);
     return camera;
   };
 
-  let camera = createCamera(70, "PlayerCam");
-  camera.position.z = 10;
-  camera.position.y = 2;
-  camera.lookAt(0, 0, 0);
+  let camera = window._camera = createCamera(70, "PlayerCam");
+  camera.position.set(5, 6, 5);
 
   let cameraTop = createCamera(90, "OverheadCam");
   cameraTop.position.set(0, 10, 0);
@@ -54,34 +56,46 @@
   // let material = new THREE.MeshNormalMaterial();
   // let mesh = new THREE.Mesh(geometry, material);
   let mesh = new THREE.Mesh(geometry, [
-    new THREE.MeshBasicMaterial({color: 0xff0000}),
-    new THREE.MeshBasicMaterial({color: 0xff7f00}),
-    new THREE.MeshBasicMaterial({color: 0xffff00}),
-    new THREE.MeshBasicMaterial({color: 0x00ff00}),
-    new THREE.MeshBasicMaterial({color: 0x0000ff}),
-    new THREE.MeshBasicMaterial({color: 0x9400d3})
+    new THREE.MeshBasicMaterial({color: "#00eb00"}), // Side R, Electric Lime
+    new THREE.MeshBasicMaterial({color: "#17289a"}), // Side L, Torea Bay
+    new THREE.MeshBasicMaterial({color: "#415af7"}), // Top, Blue Ribbon
+    new THREE.MeshBasicMaterial({color: "#719a5c"}), // Bottom, Asparagus
+    new THREE.MeshBasicMaterial({color: "#ff006b"}), // Front, Razzmatazz
+    new THREE.MeshBasicMaterial({color: "#d5b700"})  // Back, Gold Tips
   ]);
+  mesh.position.y = 2;
   scene.add(mesh);
+  // #ff7f00 Flush Orange (I woulda called it Tangerine or something...)
 
   let renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.clientWidth, window.clientHeight);
   renderer.setPixelRatio(window.devicePixelRatio);
   document.body.append(renderer.domElement);
   renderer.render(scene, camera);
-  renderer.setClearColor(laurel);
+  // renderer.setClearColor("#016f01"); // Laurel
+
+  // GROUND
+  let groundGeometry = new THREE.PlaneGeometry(50, 50);
+  let groundMaterial = new THREE.MeshBasicMaterial({color: "#016f01"}); // Laurel
+  let groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
+  groundMesh.rotation.x = Math.PI * -0.5; // flat
+  scene.add(groundMesh);
 
   let controls = new OrbitControls(camera, renderer.domElement);
-  controls.enableZoom = true;
 
   function resize() {
+    // CAMERA
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
 
+    // RENDERER
     renderer.setSize(window.innerWidth, window.innerHeight);
 
-    insetWidth = window.innerHeight / 4;
+    // INSET CAMERA (scale to quarter screen)
+    insetWidth = window.innerWidth / 4;
     insetHeight = window.innerHeight / 4;
-
+    // inner w, h = 1037, 913
+    // inset w, h = 259.25, 228.25
     cameraTop.aspect = insetWidth / insetHeight;
     cameraTop.updateProjectionMatrix();
   }
@@ -94,22 +108,23 @@
 
     // The whole viewport
     renderer.setViewport(0, 0, window.innerWidth, window.innerHeight);
-    renderer.render(scene, camera);
+    renderer.render(scene, camera); // RENDER IT
     renderer.clearDepth();
 
-    renderer.setScissorTest(true);
+    renderer.setScissorTest(true); // SCISSOR ON
 
     // The inset one
     const x = window.innerWidth - insetWidth - 16;
     const y = window.innerHeight - insetHeight - 16;
+    // x, y = 761.75, 668.75
     renderer.setScissor(x, y, insetWidth, insetHeight);
     renderer.setViewport(x, y, insetWidth, insetHeight);
-
-    renderer.render(scene, cameraTop);
+    renderer.render(scene, cameraTop); // RENDER IT
 
     controls.update();
     helper.update();
-    renderer.setScissorTest(false);
+
+    renderer.setScissorTest(false); // SCISSOR OFF
   }
 
   animate();
