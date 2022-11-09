@@ -15,7 +15,7 @@
 <div id="info">To rotate, uncomment update().</div>
 
 <script src="./js/three.min.js"></script>
-<script src='./js/SubdivisionModifier.js'></script>
+<script src="./js/SubdivisionModifier.js"></script>
 <script src="./js/PLYLoader.js"></script>
 <script src="./js/OrbitControls.js"></script>
 
@@ -28,7 +28,10 @@
   let renderer;
   let scene;
   // bogus init mesh
-  let meshA = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial({color: 0xf5f5f5}));
+  let meshA = new THREE.Mesh(
+    new THREE.BoxGeometry(1, 1, 1),
+    new THREE.MeshBasicMaterial({ color: 0xf5f5f5 }) // Whitesmoke
+  );
 
   function createScene() {
     scene = new THREE.Scene();
@@ -42,14 +45,14 @@
     //   1000 // far clipping plane
     // );
 
-    camera = window._camera = new THREE.PerspectiveCamera(40,
+    camera = window._camera = new THREE.PerspectiveCamera(
+      40,
       window.innerWidth / window.innerHeight,
       25,
       50
     );
 
     camera.position.set(0, 0, 40);
-
     // _camera.position
   }
 
@@ -64,7 +67,7 @@
     let oReq = new XMLHttpRequest();
     oReq.open("GET", "./data/lrh3.ply", true);
     oReq.responseType = "text";
-    // todo: async function to load the model
+
     oReq.onload = function () {
       let tmp = this.response;
       let modifier = new THREE.SubdivisionModifier(1);
@@ -85,27 +88,27 @@
             value: new THREE.Color("grey")
           },
         },
-        vertexShader: ['varying vec3	vVertexWorldPosition;',
-          'varying vec3	vVertexNormal;',
-          'void main(){',
-          '	vVertexNormal	= normalize(normalMatrix * normal);',
-          '	vVertexWorldPosition	= (modelMatrix * vec4(position, 1.0)).xyz;',
-          '	gl_Position	= projectionMatrix * modelViewMatrix * vec4(position, 1.0);',
-          '}',
-        ].join('\n'),
-        fragmentShader: ['uniform vec3	glowColor;',
-          'uniform float	coeficient;',
-          'uniform float	power;',
-          'varying vec3	vVertexNormal;',
-          'varying vec3	vVertexWorldPosition;',
-          'void main(){',
-          '	vec3 worldCameraToVertex=vVertexWorldPosition - cameraPosition;',
-          '	vec3 viewCameraToVertex=(viewMatrix * vec4(worldCameraToVertex, 0.0)).xyz;',
-          '	viewCameraToVertex=normalize(viewCameraToVertex);',
-          '	float intensity=pow(coeficient + dot(vVertexNormal, viewCameraToVertex), power);',
-          '	gl_FragColor=vec4(glowColor, intensity);',
-          '}',
-        ].join('\n'),
+        vertexShader: ["varying vec3	vVertexWorldPosition;",
+          "varying vec3	vVertexNormal;",
+          "void main(){",
+          "	vVertexNormal	= normalize(normalMatrix * normal);",
+          "	vVertexWorldPosition	= (modelMatrix * vec4(position, 1.0)).xyz;",
+          "	gl_Position	= projectionMatrix * modelViewMatrix * vec4(position, 1.0);",
+          "}",
+        ].join("\n"),
+        fragmentShader: ["uniform vec3	glowColor;",
+          "uniform float	coeficient;",
+          "uniform float	power;",
+          "varying vec3	vVertexNormal;",
+          "varying vec3	vVertexWorldPosition;",
+          "void main(){",
+          "	vec3 worldCameraToVertex=vVertexWorldPosition - cameraPosition;",
+          "	vec3 viewCameraToVertex=(viewMatrix * vec4(worldCameraToVertex, 0.0)).xyz;",
+          "	viewCameraToVertex=normalize(viewCameraToVertex);",
+          "	float intensity=pow(coeficient + dot(vVertexNormal, viewCameraToVertex), power);",
+          "	gl_FragColor=vec4(glowColor, intensity);",
+          "}",
+        ].join("\n"),
         transparent: true,
         depthWrite: false,
       });
@@ -141,7 +144,7 @@
 
     renderer.setPixelRatio(window.devicePixelRatio ? window.devicePixelRatio : 1);
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setClearColor(0xf5f5f5);
+    renderer.setClearColor("#f5f5f5"); // Whitesmoke
 
     // add the automatically created <canvas> element to the page
     document.body.appendChild(renderer.domElement);
@@ -156,7 +159,7 @@
     meshA.rotation.y += 0.01;
   }
 
-  // render, or 'draw a still image', of the scene
+  // render, or "draw a still image", of the scene
   function render() {
     renderer.render(scene, camera);
   }

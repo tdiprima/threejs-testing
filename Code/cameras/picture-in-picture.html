@@ -31,16 +31,24 @@
   import * as THREE from "three";
   import Stats from "/jsm/libs/stats.module.js";
 
+  console.log(`%cREV: ${THREE.REVISION}`, "color: #ccff00;");
+
   let radius = 100, theta = 0;
 
   let stats = Stats();
   document.body.appendChild(stats.dom);
 
-  let camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 10000);
-  let scene = new THREE.Scene();
-  scene.background = new THREE.Color(0xf0f0f0);
+  let camera = new THREE.PerspectiveCamera(
+    70,
+    window.innerWidth / window.innerHeight,
+    1,
+    10000
+  );
 
-  let light = new THREE.DirectionalLight(0xffffff, 1);
+  let scene = new THREE.Scene();
+  scene.background = new THREE.Color(0xf0f0f0); // Seashell
+
+  let light = new THREE.DirectionalLight(0xffffff, 1); // White light
   light.position.set(1, 1, 1).normalize();
   scene.add(light);
 
@@ -50,15 +58,23 @@
   let geometry = new THREE.BoxGeometry(20, 20, 20);
 
   for (let i = 0; i < instances; i++) {
-    let object = new THREE.Mesh(geometry, new THREE.MeshLambertMaterial({color: Math.random() * 0xffffff}));
+    // OBJECT - RANDOM COLOR
+    let object = new THREE.Mesh(
+      geometry,
+      new THREE.MeshLambertMaterial({ color: Math.random() * 0xffffff })
+    );
+
+    // POSITION - random
     object.position.x = Math.random() * 800 - 400;
     object.position.y = Math.random() * 800 - 400;
     object.position.z = Math.random() * 800 - 400;
 
+    // ROTATION - random
     object.rotation.x = Math.random() * 2 * Math.PI;
     object.rotation.y = Math.random() * 2 * Math.PI;
     object.rotation.z = Math.random() * 2 * Math.PI;
 
+    // SCALE - random
     object.scale.x = Math.random() + 0.5;
     object.scale.y = Math.random() + 0.5;
     object.scale.z = Math.random() + 0.5;
@@ -66,15 +82,10 @@
     scene.add(object);
   }
 
-  let renderer = new THREE.WebGLRenderer({antialias: true});
-
+  let renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
-
-  // You need this in order to get the picture-in-picture effect.
-  // Otherwise, you just get the quarter-sized picture.
-  renderer.setScissorTest(true);
-
+  renderer.setScissorTest(true); // SCISSOR ON
   document.body.appendChild(renderer.domElement);
 
   window.addEventListener("resize", onWindowResize, false);
@@ -82,20 +93,21 @@
   function onWindowResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
-
     renderer.setSize(window.innerWidth, window.innerHeight);
   }
 
   function render() {
-    // Rotate
+    // ROTATION
     theta += 0.1;
+
     camera.position.x = radius * Math.sin(THREE.MathUtils.degToRad(theta));
     camera.position.y = radius * Math.sin(THREE.MathUtils.degToRad(theta));
     camera.position.z = radius * Math.cos(THREE.MathUtils.degToRad(theta));
+
     camera.lookAt(scene.position);
     camera.updateMatrixWorld();
 
-    // full screen
+    // FULL SCREEN
 
     // TJD v100: 0, 0, 1792, 913 <- setScissor()
     // TJD v144: 0, 0, 1792, 913
@@ -103,18 +115,18 @@
     renderer.setViewport(0, 0, window.innerWidth, window.innerHeight);
     renderer.render(scene, camera);
 
-    // quarter screen (lower right)
+    // QUARTER SCREEN (lower right)
     let widthHalf = window.innerWidth / 2;
     let heightHalf = window.innerHeight / 2;
 
     // TJD v100: 896, 0, 896, 456.5 <- setScissor()
     // TJD v144: 896, 456.5, 896, 456.5 <- Ends up at the top right
 
-    // Using v100:
+    // todo: Using v100:
     // renderer.setScissor(widthHalf, heightHalf, widthHalf, heightHalf);
     // renderer.setViewport(widthHalf, heightHalf, widthHalf, heightHalf);
 
-    // Using v144:
+    // todo: Using v144:
     renderer.setScissor(widthHalf, 0, widthHalf, heightHalf);
     renderer.setViewport(widthHalf, 0, widthHalf, heightHalf);
     renderer.render(scene, camera);
