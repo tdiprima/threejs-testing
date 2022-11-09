@@ -1,4 +1,4 @@
-## Geometry parameters
+# Geometry parameters
 
 ```js
 // "Cube" or "Frinkahedron", named after its discoverer. ;)
@@ -14,16 +14,35 @@ const geometry2 = new THREE.CircleGeometry(
 );
 ```
 
-## tau
-**[Mathematicians Want to Say Goodbye to Pi](https://www.livescience.com/14836-pi-wrong-tau.html)**
+# Flat shading
 
+[built-in geometries](https://discoverthreejs.com/book/first-steps/built-in-geometries/)
 
-<br>
+**flatShading:** whether or not the object looks faceted or smooth.
 
-[Brainspell](https://web.archive.org/web/20180206125803/http://brainspell.org/article/24996404)<br>
-**Note to self:** OF COURSE!  Brain only works with lower version of three.  Because `SubdivisionModifier` deals only in &ndash; what, again?  Geometry! 💢
+# requestAnimationFrame
 
-<br>
+[requestAnimationFrame for Smart Animating](https://www.paulirish.com/2011/requestanimationframe-for-smart-animating/)
+
+# Can three.js do 2D?
+
+[ThreeJS Explained In 10 Minutes in 2021](https://www.kofi-group.com/threejs-explained-in-10-minutes/)
+
+[YouTube video](https://www.youtube.com/watch?v=ZiT2tN2eEro)
+
+JS is structured in an accessible way. The way that three.js structures its rendering means that the learning curve won't be too steep. It organizes all of the renders you'll do, whether 3D or 2D, under a "Scene" container.
+
+# Should I use three.js?
+
+[Why to Use ThreeJS in Web Application Development? - Cmarix](https://www.cmarix.com/blog/why-to-use-threejs-in-web-application-development/)
+
+three.js you can use any way you could use canvas, including full-screen animations, so long as the device supports WebGL. The prospects that three.js suggest out of the package without any skills in 3D are very important when we want to create some multi-dimensional projects in no time issue.
+
+# Articles
+
+[brainSpell - web.archive.org](https://web.archive.org/web/20180206125803/http://brainspell.org/article/24996404)
+
+[Three.js - Multiple Views](https://ryansblog.xyz/post/e2610e26-ffea-4594-97e2-703cef49d614)
 
 [How To Create A Loading Screen For Your Three.js App](https://www.youtube.com/watch?v=zMzuPIiznQ4)
 
@@ -31,24 +50,8 @@ const geometry2 = new THREE.CircleGeometry(
 
 [Build Basic 3D Scenes with Three.js](https://javascript.plainenglish.io/three-js-lesson-1-building-basic-3d-scenes-with-three-js-e06d05c28feb)
 
-[threejsfundamentals multiple-scenes](https://r105.threejsfundamentals.org/threejs/lessons/threejs-multiple-scenes.html)
-
-[comments](https://threejsfundamentals.org/threejs/lessons/threejs-multiple-scenes.html)
+[three.js fundamentals - multiple scenes](https://threejsfundamentals.org/threejs/lessons/threejs-multiple-scenes.html)
 
 [Multiple instances of Three.js in same page to show objects library](https://discourse.threejs.org/t/multiple-instances-of-three-js-in-same-page-to-show-objects-library/18341)
 
 [Display multiple instances of three.js in a single page](https://stackoverflow.com/questions/33959538/display-multiple-instances-of-three-js-in-a-single-page)
-
-> Can three.js do 2D?
-
-JS IS STRUCTURED IN AN ACCESSIBLE WAY. The way that Three.js structures its rendering means that the learning curve won't be too steep. It organizes all of the renders you'll do, whether 3D or 2D, under a "Scene" container.
-
-[ThreeJS Explained In 10 Minutes in 2021 - Kofi Group](https://www.kofi-group.com/threejs-explained-in-10-minutes/)
-
-[YouTube](https://www.youtube.com/watch?v=ZiT2tN2eEro)
-
-> Should I use three Js?
-
-Three.js you can use any way you could use canvas, including full-screen animations, so long as the device supports WebGL. The prospects that Three.js suggest out of the package without any skills in 3D are very important when we want to create some multi-dimensional projects in no time issue.
-
-[Why to Use ThreeJS in Web Application Development? - Cmarix](https://www.cmarix.com/blog/why-to-use-threejs-in-web-application-development/)
