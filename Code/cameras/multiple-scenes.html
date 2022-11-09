@@ -6,7 +6,13 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Three.js - Multiple Views</title>
   <!-- https://r105.threejsfundamentals.org/threejs/lessons/threejs-multiple-scenes.html -->
-  <!-- The solution is one canvas that fills the viewport in the background and some other element to represent each "virtual" canvas. -->
+  <!-- The solution is one canvas that fills the viewport in the background
+  and some other element to represent each "virtual" canvas. -->
+  <!-- If you want some objects to render "on top", or "in front", one trick is
+  to create two scenes -- the first scene is your regular scene, and the second
+  scene contains the objects that you want to have on top. -->
+  <!-- https://stackoverflow.com/questions/12666570/how-to-change-the-zorder-of-object-with-threejs#12666937 -->
+  <!-- See: https://codesandbox.io/s/view-tracking-bp6tmc -->
   <link href="/favicon.ico" rel="icon" type="image/x-icon">
   <style>
     #c {

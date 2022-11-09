@@ -138,11 +138,11 @@
       frameArea(size, size, boxCenter, camera);
 
       // render to the render target
-      renderer.autoClear = false;
+      renderer.autoClear = false; // don't let renderer erase canvas
       renderer.setRenderTarget(rt);
       renderer.render(scene, camera);
       renderer.setRenderTarget(null);
-      renderer.autoClear = true;
+      renderer.autoClear = true; // let renderer clean next time we render scene
 
       // remove the object from the scene
       scene.remove(obj);

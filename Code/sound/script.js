@@ -122,7 +122,7 @@ let initCanvasAudio = name => {
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(width, height);
-    renderer.autoClear = false;
+    renderer.autoClear = false; // don't let renderer erase canvas
     renderer.setClearColor(0x000000, 0.0);
 
     let container = document.getElementById("container");

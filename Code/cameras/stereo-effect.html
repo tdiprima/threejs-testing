@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>stereo effect</title>
-  <!-- https://stackoverflow.com/questions/61052900/can-anyone-explain-what-is-going-on-in-this-code-for-three-js-stereoeffect -->
+  <title>stereo rendering</title>
+  <!-- https://stackoverflow.com/questions/61052900/can-anyone-explain-what-is-going-on-in-this-code-for-three-js-stereoeffect#61053876 -->
   <style>
     body { margin: 0; }
 
@@ -30,8 +30,6 @@
 </script>
 
 <script type="module">
-  // setScissor and setViewport
-  // Set the area of the canvas to render to.
   import * as THREE from "three";
   import { GUI } from "/jsm/libs/dat.gui.module.js";
   import { OrbitControls } from "/jsm/controls/OrbitControls.js";
@@ -40,11 +38,12 @@
   let canvas = document.querySelector("#c");
   let renderer = new THREE.WebGLRenderer({canvas});
   // console.log("%cc === canvas ?", "color: #ff00cc;", renderer.domElement === canvas);
+  renderer.setScissorTest(true); // SCISSOR ON
 
   let camera = new THREE.PerspectiveCamera(75, 2, 0.1, 5);
   camera.position.z = 2;
 
-  // StereoCamera just provides 2 cameras that are eyeSep apart, so you only have to manipulate one camera.
+  // StereoCamera provides 2 cameras.
   let stereo = new THREE.StereoCamera();
   console.log("%cStereoCamera", "color: #ff00cc;", stereo);
 
@@ -144,7 +143,12 @@
     // the result will be copied into this Vector2
     renderer.getSize(size);
 
-    renderer.setScissorTest(true);
+    // setScissor & setViewport: Set the area of the canvas to render to.
+
+    // setViewport sets how to convert from a shader's clip space
+    // to some portion of the canvas's pixel space.
+
+    // setScissor sets a rectangle outside of which nothing can be rendered.
 
     // CAMERA LEFT
     renderer.setScissor(0, 0, size.width / 2, size.height);
@@ -155,8 +159,6 @@
     renderer.setScissor(size.width / 2, 0, size.width / 2, size.height);
     renderer.setViewport(size.width / 2, 0, size.width / 2, size.height);
     renderer.render(scene, stereo.cameraR);
-
-    renderer.setScissorTest(false);
 
     controls.update();
     stats.update();
