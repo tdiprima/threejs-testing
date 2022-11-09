@@ -1,5 +1,5 @@
 // https://threejs.org/manual/#en/responsive
-// https://r105.threejsfundamentals.org/threejs/lessons/threejs-responsive.html
+// RESIZE RENDERER
 function resizeRendererToDisplaySize(renderer) {
   const canvas = renderer.domElement;
   const pixelRatio = window.devicePixelRatio;
@@ -17,6 +17,7 @@ function render() {
 
   if (resizeRendererToDisplaySize(renderer)) {
     const canvas = renderer.domElement;
+    // camera aspect done here
     camera.aspect = canvas.clientWidth / canvas.clientHeight;
     camera.updateProjectionMatrix();
   }
