@@ -1,5 +1,4 @@
 console.log(`%cREV ${THREE.REVISION}`, "color: #ccff00;");
-
 // heavily commented for those trying to learn
 let initCanvasAudio = name => {
   // create the new audio
@@ -51,7 +50,15 @@ let initCanvasAudio = name => {
     scene = new THREE.Scene();
 
     // create the geometry
-    let geometry = new THREE.TorusKnotGeometry(20, 0.8, 67, 18, 15, 12);
+    let geometry = new THREE.TorusKnotGeometry(
+      20,  // Radius of the torus
+      0.8, // Radius of the tube
+      67,  // tubularSegments
+      18,  // radialSegments
+      15,  // p: how many times the geometry winds around its axis of rotation
+      12   // q: how many times the geometry winds around a circle in the
+           // interior of the torus
+    );
     geometry.center();
 
     let tessellateModifier = new THREE.TessellateModifier(8);
