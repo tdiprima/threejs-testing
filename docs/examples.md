@@ -1,3 +1,10 @@
+# [Amazing Three.js Experiences](https://edrodrigues.com.br/blog/15-experiencias-de-javascript-three-js-alucinantes/)
+
+Developers are always creating awesome new code experiments that perform interesting new functions or are made just to look pretty. It's a good idea to follow sites like CodePen so you can see how developers are pushing the boundaries of libraries like Three.js. There is always someone trying something new and interesting.
+
+And the best part is that you can also use pens on your own websites and open source projects, or learn from them and try your own experiments. Learn from your fellow developers, fork their code to experiment with your own ideas, and you'll quickly learn the nuances of Three.js animation.
+
+
 # Examples
 
 [Track](https://demos.littleworkshop.fr/track)
