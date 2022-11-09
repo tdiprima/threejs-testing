@@ -20,6 +20,7 @@
 <script src="./js/OrbitControls.js"></script>
 
 <script>
+  console.log(`%cREV: ${THREE.REVISION}`, "color: #ccff00;");
   // these need to be accessed inside more than one function, so we'll declare them first
   let container;
   let camera;
@@ -171,18 +172,16 @@
   // It can get called a lot, so don't put any heavy computation in here!
   function onWindowResize() {
     // set the aspect ratio to match the new browser window aspect ratio
-    camera.aspect = container.clientWidth / container.clientHeight;
+    camera.aspect = window.innerWidth / window.innerHeight;
 
     // update the camera's frustum
     camera.updateProjectionMatrix();
 
     // update the size of the renderer AND the canvas
-    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setSize(window.innerWidth, window.innerHeight);
   }
 
   function init() {
-    console.log(`%cREV ${THREE.REVISION}`, "color: #ccff00;");
-
     createScene();
     createMeshes();
     createCamera();
