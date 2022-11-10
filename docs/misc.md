@@ -16,6 +16,23 @@ const geometry2 = new THREE.CircleGeometry(
 
 <br>
 
+```js
+// Illustrating what's going on when we set attribute color.
+const colorNumComponents = 3;
+const colors = [];
+const vertices = [];
+for (const vertex of vertices) {
+  colors.push(Math.random(), Math.random(), Math.random());
+}
+
+geometry.setAttribute(
+  "color",
+  new THREE.BufferAttribute(new Float32Array(colors),
+    colorNumComponents));
+```
+
+<br>
+
 # updateMatrixWorld()
 
 Transforming Between Coordinate Spaces

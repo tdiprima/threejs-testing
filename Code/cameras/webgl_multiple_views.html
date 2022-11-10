@@ -25,6 +25,7 @@
       "three": "/build/three.module.js"
     }
   }
+
 </script>
 
 <script type="module">
@@ -32,12 +33,15 @@
   import Stats from "/jsm/libs/stats.module.js";
 
   let stats;
-  let scene, renderer;
-  let mouseX = 0, mouseY = 0;
-  let windowWidth, windowHeight;
+  let scene,
+    renderer;
+  let mouseX = 0,
+    mouseY = 0;
+  let windowWidth,
+    windowHeight;
 
-  // ARRAY OF 3 CAMERAS
-  const cameras = [
+  // ARRAY OF 3 VIEWS (CAMERAS)
+  const views = [
     {
       left: 0,
       bottom: 0,
@@ -65,7 +69,8 @@
       updateCamera(camera, scene, mouseX) {
         camera.position.x -= mouseX * 0.05; // x -+
         camera.position.x = Math.max(Math.min(camera.position.x, 2000), -2000);
-        camera.lookAt(camera.position.clone().setY(0));
+        camera.lookAt(camera.position.clone()
+          .setY(0));
       }
     },
     {
@@ -89,12 +94,19 @@
   animate();
 
   function init() {
-    let container = document.getElementById("container");
+    const container = document.getElementById("container");
 
-    // "Cameras", "views", whatever you wanna call it.
-    for (let ii = 0; ii < cameras.length; ++ii) {
-      let view = cameras[ii];
-      let camera = new THREE.PerspectiveCamera(view.fov, window.innerWidth / window.innerHeight, 1, 10000);
+    // Set up cameras
+    for (let ii = 0; ii < views.length; ++ii) {
+      const view = views[ii];
+
+      const camera = new THREE.PerspectiveCamera(
+        view.fov,
+        window.innerWidth / window.innerHeight,
+        1,
+        10000
+      );
+
       camera.position.fromArray(view.eye);
       camera.up.fromArray(view.up);
       view.camera = camera;
@@ -103,22 +115,21 @@
 
     scene = new THREE.Scene();
 
-    let light = new THREE.DirectionalLight(0xffffff);
+    let light = new THREE.DirectionalLight(0xffffff); // White light
     light.position.set(0, 0, 1);
     scene.add(light);
 
     let radius = 200;
 
+    // Polyhedron with 20 faces
     let geometry = new THREE.IcosahedronGeometry(radius, 1);
 
-    let count = geometry.attributes.position.count;
-    geometry.setAttribute("color", new THREE.BufferAttribute(new Float32Array(count * 3), 3));
-
     let material = new THREE.MeshBasicMaterial({
-      color: 0x00ff00,
+      color: 0x00ff00, // Lime
       wireframe: true
     });
 
+    // MESH
     let mesh = new THREE.Mesh(geometry, material);
     let wireframe = new THREE.Mesh(geometry, material);
     mesh.add(wireframe);
@@ -138,7 +149,7 @@
   function onDocumentMouseMove(event) {
     mouseX = event.clientX - windowWidth / 2;
     mouseY = event.clientY - windowHeight / 2;
-    // Whatever happened to (updatePointer)...?
+    // What happened to (updatePointer)...?
     // const rect = _domElement.getBoundingClientRect();
     // _pointer.x = ( event.clientX - rect.left ) / rect.width * 2 - 1;
     // _pointer.y = - ( event.clientY - rect.top ) / rect.height * 2 + 1;
@@ -161,21 +172,20 @@
   function render() {
     updateSize();
 
-    for (let ii = 0; ii < cameras.length; ++ii) {
-      let view = cameras[ii];
-      let camera = view.camera;
+    // Update cameras and set Scissor & Viewport
+    for (let ii = 0; ii < views.length; ++ii) {
+      const view = views[ii];
+      const camera = view.camera;
 
       view.updateCamera(camera, scene, mouseX, mouseY);
 
-      let left = Math.floor(windowWidth * view.left);
-      let bottom = Math.floor(windowHeight * view.bottom);
-      let width = Math.floor(windowWidth * view.width);
-      let height = Math.floor(windowHeight * view.height);
+      const left = Math.floor(windowWidth * view.left);
+      const bottom = Math.floor(windowHeight * view.bottom);
+      const width = Math.floor(windowWidth * view.width);
+      const height = Math.floor(windowHeight * view.height);
 
       renderer.setViewport(left, bottom, width, height);
       renderer.setScissor(left, bottom, width, height);
-      // The Scissor Test discards Fragments that fall outside of a certain rectangular portion of the screen.
-      // glScissor() defines a screen space rectangle beyond which nothing is drawn (if the scissor test is enabled).
       renderer.setScissorTest(true);
       renderer.setClearColor(view.background);
 
