@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Three.js - Multiple Views</title>
+  <title>Multiple Views</title>
   <!-- https://threejs.org/manual/#en/multiple-scenes -->
   <!-- https://r105.threejsfundamentals.org/threejs/lessons/threejs-multiple-scenes.html -->
   <link href="/favicon.ico" rel="icon" type="image/x-icon">
@@ -59,6 +59,8 @@
   and finding a undiscovered tomb full of mummies and treasure.
 </p>
 
+<p style="color: #f00">TURN DARK-READER OFF</p>
+
 <script async src="/es-module-shims-1.3.6/dist/es-module-shims.js"></script>
 <script type="importmap">
   {
@@ -70,10 +72,13 @@
 
 <script type="module">
   import * as THREE from "/build/three.module.js";
-  import {OrbitControls} from "/jsm/controls/OrbitControls.js";
+  import { OrbitControls } from "/jsm/controls/OrbitControls.js";
 
   let canvas = document.querySelector("#c");
-  let renderer = new THREE.WebGLRenderer({canvas, alpha: true});
+  let renderer = new THREE.WebGLRenderer({
+    canvas,
+    alpha: true
+  });
 
   /**
    * Make scene, add light and camera
@@ -83,11 +88,7 @@
   function makeScene(elem) {
     let scene = new THREE.Scene();
 
-    let fov = 45;
-    let aspect = 2; // the canvas default
-    let near = 0.1;
-    let far = 5;
-    let camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+    let camera = new THREE.PerspectiveCamera(45, 2, 0.1, 5);
     camera.position.set(0, 1, 2);
     camera.lookAt(0, 0, 0);
 
@@ -96,9 +97,7 @@
     controls.noPan = true;
 
     {
-      let color = 0xffffff;
-      let intensity = 1;
-      let light = new THREE.DirectionalLight(color, intensity);
+      let light = new THREE.DirectionalLight(0xffffff, 1);
       light.position.set(-1, 2, 4);
       scene.add(light);
     }
@@ -111,7 +110,9 @@
   function setupScene1() {
     let sceneInfo = makeScene(document.querySelector("#box"));
     let geometry = new THREE.BoxGeometry(1, 1, 1);
-    let material = new THREE.MeshPhongMaterial({color: "red"});
+    let material = new THREE.MeshPhongMaterial({
+      color: "red"
+    });
 
     let mesh = new THREE.Mesh(geometry, material);
     sceneInfo.scene.add(mesh);
@@ -121,15 +122,10 @@
 
   function setupScene2() {
     let sceneInfo = makeScene(document.querySelector("#pyramid"));
-    let radius = 0.8;
-    let widthSegments = 4;
-    let heightSegments = 2;
-
-    let geometry = new THREE.SphereGeometry(radius, widthSegments, heightSegments);
-
+    let geometry = new THREE.SphereGeometry(0.8, 4, 2);
     let material = new THREE.MeshPhongMaterial({
       color: "blue",
-      flatShading: true,
+      flatShading: true
     });
 
     let mesh = new THREE.Mesh(geometry, material);
@@ -169,7 +165,17 @@
     // get the viewport relative position of this element
     let {left, right, top, bottom, width, height} = elem.getBoundingClientRect();
 
-    let isOffscreen = bottom < 0 || top > renderer.domElement.clientHeight || right < 0 || left > renderer.domElement.clientWidth;
+    // Why isn't it top and bottom 0, left and right canvas w, h?
+    let isOffscreen = bottom < 0 ||
+      top > renderer.domElement.clientHeight ||
+      right < 0 ||
+      left > renderer.domElement.clientWidth;
+
+    // Because this, does not spark joy:
+    // let isOffscreen = bottom < 0 ||
+    //   top > 0 ||
+    //   right < renderer.domElement.clientHeight ||
+    //   left > renderer.domElement.clientWidth;
 
     if (isOffscreen) {
       return;
