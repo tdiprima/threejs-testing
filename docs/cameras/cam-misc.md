@@ -124,7 +124,36 @@ The scissor rectangle can be used to **temporarily restrict drawing to a sub-rec
 
 <br>
 
-# target & lookAt
+# Side by side
+
+**OrbitControls** lets the user spin or orbit the camera around some point.
+
+<br>
+
+# camera.up
+
+```js
+camera.up = new THREE.Vector3(0, 0, 1);
+camera.up.set(0, 0, 1);
+```
+
+Altering the `up` vector is done in only a few examples, and normally not necessary. This happens to accommodate the fact that certain models are defined in a coordinates system where the Z axis represents the vertical ("up") axis.
+
+*Many thanks for the magic word "vertical".*
+
+<br>
+
+# lookAt()
+
+The `lookAt()` method calls are necessary so the camera looks at the coordinates system's origin, or at the position of the scene. In most cases, the position value of scene is (0,0,0) (the origin).
+
+<br><!-- http://tanrobby.github.io/note/opengl/gluLookAt.jpg -->
+
+![Look At](../img/gluLookAt.jpg)
+
+<br>
+
+# controls.target vs camera.lookAt
 
 [Controls.target vs camera.lookAt](https://discourse.threejs.org/t/controls-target-vs-camera-lookat/5086/6)
 
@@ -149,10 +178,6 @@ You also have to call `controls.update()` after changing the target.
 
 OrbitControls ensures that the camera orbits (rotates) around the target.<br>
 Rotation and zooming also happens with focus on target. (Focused on the defined target vector.)
-
-# Side by side
-
-**OrbitControls** lets the user spin or orbit the camera around some point.
 
 <br>
 

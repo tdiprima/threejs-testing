@@ -97,8 +97,4 @@ This forward-facing orientation of the eye means each eye has a rather similar v
 
 ![](https://i.stack.imgur.com/wkv8x.png)
 
-<br><!-- http://tanrobby.github.io/note/opengl/gluLookAt.jpg -->
-
-![Look At](../img/gluLookAt.jpg)
-
 <br>
