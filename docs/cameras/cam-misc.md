@@ -124,7 +124,9 @@ The scissor rectangle can be used to **temporarily restrict drawing to a sub-rec
 
 <br>
 
-## [Controls.target vs camera.lookAt](https://discourse.threejs.org/t/controls-target-vs-camera-lookat/5086/6)
+# target & lookAt
+
+[Controls.target vs camera.lookAt](https://discourse.threejs.org/t/controls-target-vs-camera-lookat/5086/6)
 
 I used `camera.lookAt()` to set direction in which camera looks.
 
@@ -147,6 +149,10 @@ You also have to call `controls.update()` after changing the target.
 
 OrbitControls ensures that the camera orbits (rotates) around the target.<br>
 Rotation and zooming also happens with focus on target. (Focused on the defined target vector.)
+
+# Side by side
+
+**OrbitControls** lets the user spin or orbit the camera around some point.
 
 <br>
 
