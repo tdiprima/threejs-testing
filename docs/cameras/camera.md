@@ -72,4 +72,29 @@ A CameraHelper draws the frustum for a Camera.
 
 # Cameras 🎥 🎥
 
-Plural.
+To use 2 cameras, having one do the same thing as the other (mirror the movement), have one be the parent of the other.
+
+```js
+let camera = new THREE.PerspectiveCamera(...);
+let cameraTop = new THREE.PerspectiveCamera(...);
+camera.add(cameraTop);
+scene.add(camera);
+```
+
+Then, it's the same scene, same canvas, but we're gonna set renderer scissor test.
+
+```js
+renderer.setScissorTest(true);
+
+// Do for each camera, one render full screen, other 1/4 screen.
+renderer.setScissor(x, y, width, height);
+renderer.setViewport(x, y, width, height);
+renderer.render(scene, cameraX);
+```
+
+```js
+// The big screen should be:
+renderer.setViewport(0, 0, window.innerWidth, window.innerHeight);
+// Smaller screen
+renderer.setScissor(x, y, insetWidth, insetHeight);
+```

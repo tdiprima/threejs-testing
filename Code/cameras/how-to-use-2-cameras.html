@@ -144,7 +144,7 @@
     renderer.render(scene, camera);
 
     // ***** CAM #2 *****
-    // depth buffer - helps render 3D scene to make sure closer objects go in front of farth...
+    // depth buffer - helps render 3D scene to make sure closer objects go in front of farther ones.
     renderer.clearDepth(); // clear depth buffer
 
     renderer.setScissorTest(true); // only pixels in the scissor region (2nd cam) affected by further renders
