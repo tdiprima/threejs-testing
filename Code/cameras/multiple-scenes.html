@@ -15,8 +15,10 @@
       top: 0;
       left: 0;
       display: block;
+      /* It's the whole screen */
       width: 100vw;
       height: 100vh;
+      /*border: 2px #001a77; !* Midnight Blue *!*/
     }
 
     .diagram {
@@ -79,6 +81,7 @@
     canvas,
     alpha: true
   });
+  // renderer.setClearColor(0x001a77);
 
   /**
    * Make scene, add light and camera
@@ -87,6 +90,7 @@
    */
   function makeScene(elem) {
     let scene = new THREE.Scene();
+    // scene.background = new THREE.Color(0x001a77);
 
     let camera = new THREE.PerspectiveCamera(45, 2, 0.1, 5);
     camera.position.set(0, 1, 2);
