@@ -109,6 +109,10 @@ When you **move camera via gui**, you update matrix world on every change in cam
 
 # What is the purpose of glScissor?
 
+The Scissor Test discards Fragments that fall outside of a certain rectangular portion of the screen.
+
+`glScissor()` defines a screen space rectangle beyond which nothing is drawn (if the scissor test is enabled).
+
 [gamedev.stackexchange.com](https://gamedev.stackexchange.com/questions/40704/what-is-the-purpose-of-glscissor)
 
 You almost always want to set the **scissor rectangle** to the same values as the **viewport**.

@@ -36,24 +36,16 @@
   let mouseX = 0, mouseY = 0;
   let windowWidth, windowHeight;
 
-  let kimberly = "rgba(169, 129, 193, 1)"; // #a981c1
-  kimberly = new THREE.Color(0.5, 0.5, 0.7);
-
-  let neptune = "rgba(113, 180, 179, 1)"; // #71b4b3
-  neptune = new THREE.Color(0.5, 0.7, 0.7);
-
-  let oldRose = "rgba(187, 125, 127, 1)"; // #bb7d7f
-  oldRose = new THREE.Color(0.7, 0.5, 0.5);
-
-  let cameras = [
+  // ARRAY OF 3 CAMERAS
+  const cameras = [
     {
       left: 0,
       bottom: 0,
       width: 0.5,
       height: 1.0,
-      background: kimberly,
+      background: "#a980c0", // Purple Mountain's Majesty
       eye: [0, 300, 1800], // camera position
-      up: [0, 1, 0], // wtf is "up"??
+      up: [0, 1, 0], // y is vertical
       fov: 30, // 30 degrees
       updateCamera(camera, scene, mouseX) {
         camera.position.x += mouseX * 0.05; // x +=
@@ -66,9 +58,9 @@
       bottom: 0,
       width: 0.5,
       height: 0.5,
-      background: oldRose,
+      background: "#bb7d7f", // Old Rose
       eye: [0, 1800, 0],
-      up: [0, 0, 1],
+      up: [0, 0, 1],  // z is vertical
       fov: 45,
       updateCamera(camera, scene, mouseX) {
         camera.position.x -= mouseX * 0.05; // x -+
@@ -81,10 +73,10 @@
       bottom: 0.5,
       width: 0.5,
       height: 0.5,
-      background: neptune,
+      background: "#71b4b3", // Neptune
       eye: [1400, 800, 1400],
-      up: [0, 1, 0],
-      fov: 60, // the higher the #, the further away it is.
+      up: [0, 1, 0],  // y is vertical
+      fov: 60,
       updateCamera(camera, scene, mouseX) {
         camera.position.y -= mouseX * 0.05; // y -=
         camera.position.y = Math.max(Math.min(camera.position.y, 1600), -1600);
