@@ -95,6 +95,10 @@ renderer.render(scene, cameraX);
 ```js
 // The big screen should be:
 renderer.setViewport(0, 0, window.innerWidth, window.innerHeight);
+
 // Smaller screen
+insetWidth = window.innerWidth / 4;
+x = window.innerWidth - insetWidth - 16; // 16 for padding, I guess.
+
 renderer.setScissor(x, y, insetWidth, insetHeight);
 ```
