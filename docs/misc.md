@@ -14,15 +14,46 @@ const geometry2 = new THREE.CircleGeometry(
 );
 ```
 
+<br>
+
+# updateMatrixWorld()
+
+Transforming Between Coordinate Spaces
+
+**[Local to World Transforms](https://aframe.io/docs/1.3.0/introduction/developing-with-threejs.html#local-to-world-transforms)**
+
+Normally, we'd need to call `updateMatrixWorld()` on parent Object3Ds, but three.js defaults `Object3D.matrixAutoUpdate` to true.
+
+
+To get the world position of an Object3D:
+
+```js
+let worldPosition = new THREE.Vector3();
+entityEl.object3D.getWorldPosition(worldPosition);
+```
+
+To get the world rotation of an Object3D:
+
+```js
+let worldQuaternion = new THREE.Quaternion();
+entityEl.object3D.getWorldQuaternion(worldQuaternion);
+```
+
+<br>
+
 # Flat shading
 
 [built-in geometries](https://discoverthreejs.com/book/first-steps/built-in-geometries/)
 
 **flatShading:** whether or not the object looks faceted or smooth.
 
+<br>
+
 # requestAnimationFrame
 
 [requestAnimationFrame for Smart Animating](https://www.paulirish.com/2011/requestanimationframe-for-smart-animating/)
+
+<br>
 
 # Can three.js do 2D?
 
@@ -32,11 +63,15 @@ const geometry2 = new THREE.CircleGeometry(
 
 JS is structured in an accessible way. The way that three.js structures its rendering means that the learning curve won't be too steep. It organizes all of the renders you'll do, whether 3D or 2D, under a "Scene" container.
 
+<br>
+
 # Should I use three.js?
 
 [Why to Use ThreeJS in Web Application Development? - Cmarix](https://www.cmarix.com/blog/why-to-use-threejs-in-web-application-development/)
 
 three.js you can use any way you could use canvas, including full-screen animations, so long as the device supports WebGL. The prospects that three.js suggest out of the package without any skills in 3D are very important when we want to create some multi-dimensional projects in no time issue.
+
+<br>
 
 # Articles
 
