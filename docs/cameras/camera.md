@@ -60,66 +60,6 @@ Also, they rolled their own [axis helper](https://jsfiddle.net/fiddleuser01/rezc
 
 <br>
 
-<mark>Difference between updateMatrixWorld() and updateProjectionMatrix()</mark>
-
-# One is a world 🌎, one is a camera (projection). 📽️
-
-I thought, at first.  updateMatrixWorld works on Object3D.
-
-But I'm here because: 
-
-```js
-function render() {
-  camera.updateMatrixWorld();
-}
-```
-
-It's not used that much:
-
-```bash
-ackk updateMatrixWorld
-# Count  14
-# Files   4
-```
-
-This one sparks joy. In everything.
-
-```bash
-ackk updateProjectionMatrix
-# Count  68
-# Files  a gazillion, at least
-```
-
-<br>
-
-# updateProjectionMatrix() 📽️
-
-After making changes to most camera properties, you will have to call [updateProjectionMatrix](http://127.0.0.1:5501/docs/#api/en/cameras/PerspectiveCamera.updateProjectionMatrix) for the changes to take effect.
-
-We do it all the time when we resize the canvas.
-
-```js
-function onWindowResize() {
-  camera.aspect = w / h;
-  camera.updateProjectionMatrix();
-  renderer.setSize(w, h);
-}
-```
-
-<br>
-
-# updateMatrixWorld() 🌎
-
-**[From the docs:](https://threejs.org/docs/#api/en/core/Object3D)**
-
-force - A boolean that can be used to **bypass** `.matrixWorldAutoUpdate`, to recalculate the world matrix of the object and descendants on the current frame.
-
-Useful **if you cannot wait** for the renderer to update it on the next frame (assuming `.matrixWorldAutoUpdate` set to true).
-
-Call it in `render()`.
-
-<br>
-
 # Camera Helper
 
 [CameraHelper not linked?](https://discourse.threejs.org/t/camerahelper-not-linked/2319/2)
