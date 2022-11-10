@@ -87,7 +87,7 @@
   let GLTFloader = new GLTFLoader();
 
   // https://richardlundquist.github.io/library/alice_TEST2.glb
-  GLTFloader.load("/models/alice_TEST2.glb", function (model) {
+  GLTFloader.load("/models/gltf/alice_TEST2.glb", function (model) {
     mixer = new THREE.AnimationMixer(model.scene);
 
     mixer.clipAction(model.animations[0]).play();
