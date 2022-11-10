@@ -66,6 +66,8 @@ Also, they rolled their own [axis helper](https://jsfiddle.net/fiddleuser01/rezc
   
 Solution: `helper.update();`
 
+A CameraHelper draws the frustum for a Camera.
+
 <br>
 
 # Cameras 🎥 🎥
