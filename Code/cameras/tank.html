@@ -26,7 +26,7 @@
   function main() {
     let canvas = document.querySelector("#c");
     let renderer = new THREE.WebGLRenderer({canvas});
-    renderer.setClearColor(0xaaaaaa);
+    renderer.setClearColor(0xaaaaaa); // Dark Gray
     renderer.shadowMap.enabled = true;
 
     function makeCamera(fov = 40) {
@@ -44,7 +44,7 @@
 
     {
       // LIGHT #1
-      let light = new THREE.DirectionalLight(0xffffff, 1);
+      let light = new THREE.DirectionalLight(0xffffff, 1); // White light
       light.position.set(0, 20, 0);
       scene.add(light);
       light.castShadow = true;
@@ -63,7 +63,7 @@
 
     {
       // LIGHT #2
-      let light = new THREE.DirectionalLight(0xffffff, 1);
+      let light = new THREE.DirectionalLight(0xffffff, 1); // White light
       light.position.set(1, 2, 4);
       scene.add(light);
     }
@@ -84,7 +84,7 @@
     scene.add(tank);
 
     let bodyGeometry = new THREE.BoxGeometry(carWidth, carHeight, carLength);
-    let bodyMaterial = new THREE.MeshPhongMaterial({color: 0x6688aa});
+    let bodyMaterial = new THREE.MeshPhongMaterial({ color: 0x6688aa }); // Hoki
     let bodyMesh = new THREE.Mesh(bodyGeometry, bodyMaterial);
     bodyMesh.position.y = 1.4;
     bodyMesh.castShadow = true;
@@ -109,7 +109,7 @@
       wheelSegments
     );
 
-    let wheelMaterial = new THREE.MeshPhongMaterial({color: 0x888888});
+    let wheelMaterial = new THREE.MeshPhongMaterial({ color: 0x888888 }); // Dark Cyan
     const wheelPositions = [
       [-carWidth / 2 - wheelThickness / 2, -carHeight / 2,  carLength / 3],
       [ carWidth / 2 + wheelThickness / 2, -carHeight / 2,  carLength / 3],
@@ -183,7 +183,7 @@
     let targetMesh; // a cube we rotate and change its colors
 
     let targetGeometry = new THREE.SphereGeometry(0.5, 6, 3);
-    let targetMaterial = new THREE.MeshPhongMaterial({color: 0x00ff00, flatShading: true});
+    let targetMaterial = new THREE.MeshPhongMaterial({ color: 0x00ff00, flatShading: true }); // Lime
     targetMesh = new THREE.Mesh(targetGeometry, targetMaterial);
     targetOrbit = new THREE.Object3D();
     targetElevation = new THREE.Object3D();
@@ -218,11 +218,12 @@
       new THREE.Vector2(-15, -8),
       new THREE.Vector2(-10, 0)
     ]);
+
     // We can ask for positions along that curve.
     // 0.0 is the start of the curve. 1.0 is the end of the curve.
     let points = curve.getPoints(50);
     let geometry = new THREE.BufferGeometry().setFromPoints(points);
-    let material = new THREE.LineBasicMaterial({color: 0xff0000});
+    let material = new THREE.LineBasicMaterial({ color: 0xff0000 }); // Red
     let splineObject = new THREE.Line(geometry, material);
     splineObject.rotation.x = Math.PI * 0.5;
     splineObject.position.y = 0.05;

@@ -31,9 +31,9 @@
   function addDatGui() {
     const gui = new GUI();
 
-    gui.add(camera.position, 'x', -halfZ, halfZ).step(5);
-    gui.add(camera.position, 'y', -halfZ, halfZ).step(5);
-    gui.add(camera.position, 'z', initZ, farPlane / 2).step(5);
+    gui.add(camera.position, "x", -halfZ, halfZ).step(5);
+    gui.add(camera.position, "y", -halfZ, halfZ).step(5);
+    gui.add(camera.position, "z", initZ, farPlane / 2).step(5);
   }
 
   function init() {

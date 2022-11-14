@@ -20,7 +20,6 @@
 <script type="module">
   import * as THREE from "three";
   import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-  // import { OrbitControls } from "three/addons/loaders/TextureLoader.js";
 
   let aspect = window.innerWidth / window.innerHeight;
   let insetWidth, insetHeight;
@@ -72,7 +71,6 @@
   renderer.setPixelRatio(window.devicePixelRatio);
   document.body.append(renderer.domElement);
   renderer.render(scene, camera);
-  // renderer.setClearColor("#016f01"); // Laurel
 
   // GROUND
   let groundGeometry = new THREE.PlaneGeometry(50, 50);
