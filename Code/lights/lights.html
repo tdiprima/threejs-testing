@@ -39,6 +39,8 @@
   let stats = Stats();
   document.body.appendChild(stats.dom);
 
+  let imgUrl = "https://cdn.jsdelivr.net/gh/mrdoob/three.js/examples/models/gltf";
+
   // LIGHTS
   // https://threejs.org/docs/index.html?q=light
   // lightHelpers();
@@ -61,10 +63,11 @@
         url = "/models/gltf/box.glb";
         break;
       case 3:
+        // url = `${imgUrl}/Parrot.glb`;
         url = "/models/gltf/Parrot.glb";
         break;
       case 4:
-        url = "/models/gltf/Soldier.glb";
+        url = `${imgUrl}/Soldier.glb`;
         break;
       default:
         // BENCH
