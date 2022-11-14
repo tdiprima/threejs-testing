@@ -61,7 +61,7 @@
   // Add Shiba Inu model
   let gltfLoader = new GLTFLoader();
     // https://sketchfab.com/3d-models/shiba-faef9fe5ace445e7b2989d1c1ece361c
-    gltfLoader.load("./assets/shiba.glb", (gltfScene) => {
+    gltfLoader.load("/models/gltf/shiba.glb", (gltfScene) => {
       gltfScene.scene.position.y = 1;
       gltfScene.scene.position.z = 1;
       gltfScene.scene.scale.set(1, 1, 1);

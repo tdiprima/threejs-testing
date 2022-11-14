@@ -65,7 +65,7 @@
 
       let loader = new THREE.TextureLoader();
 
-      let texture = loader.load("./assets/checker.png");
+      let texture = loader.load("/models/gltf/checker.png");
       texture.wrapS = THREE.RepeatWrapping;
       texture.wrapT = THREE.RepeatWrapping;
       texture.magFilter = THREE.NearestFilter;
@@ -194,7 +194,7 @@
     {
       // https://sketchfab.com/3d-models/cartoon-lowpoly-small-city-free-pack-edd1c604e1e045a0a2a552ddd9a293e6
       new GLTFLoader().load(
-        "./assets/cartoon_lowpoly_small_city_free_pack.glb",
+        "/models/gltf/cartoon_lowpoly_small_city_free_pack.glb",
         gltf => {
           let root = gltf.scene;
           scene.add(root);
