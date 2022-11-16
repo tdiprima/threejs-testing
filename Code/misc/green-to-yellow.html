@@ -25,10 +25,6 @@
     scene = new THREE.Scene();
     scene.background = new THREE.Color("#e6e6e6");
 
-    // width - Width along the X axis. Default is 1.
-    // height - Height along the Y axis. Default is 1.
-    // widthSegments - Optional. Default is 1.
-    // heightSegments - Optional. Default is 1.
     let geometry = new THREE.PlaneGeometry(300, 150, 5, 3);
 
     let materials = [];
@@ -37,11 +33,7 @@
     for (let y = 0; y < length; ++y) {
       let j = 2 * y; // j = vertex index
       // It's supposed to go from green to yellow
-      // let colorname = `rgb(200, ${green}, 40)`; // This is red to yellow.
-      // First square should be: rgba(0, 253, 110, 1)
-      // let colorname = `rgb(0, ${green}, 40)`;
-      // let colorname = `rgb(0, ${green}, 200)`; // nice blue
-      let colorname = `rgb(${green}, 200, 40)`; // Close. Not bad. At least I'm in the ballpark!
+      let colorname = `rgb(${green}, 200, 40)`;
 
       let colorvar = new THREE.Color(colorname);
       let material = new THREE.MeshBasicMaterial({color: colorvar, side: THREE.DoubleSide});
