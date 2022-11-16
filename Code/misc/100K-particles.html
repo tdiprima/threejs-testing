@@ -5,9 +5,12 @@
   <meta charset="utf-8">
   <meta content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" name="viewport">
   <link href="/css/main.css" rel="stylesheet">
+  <!-- three.js/examples/webgl_buffergeometry_custom_attributes_particles.html -->
 </head>
 <body>
+
 <div id="container"></div>
+
 <div id="info"><a href="https://threejs.org" rel="noopener" target="_blank">three.js</a> webgl - buffergeometry custom
   attributes - particles
 </div>
@@ -22,7 +25,6 @@
     gl_PointSize = size * (300.0 / -mvPosition.z);
     gl_Position = projectionMatrix * mvPosition;
   }
-
 </script>
 
 <script id="fragmentshader" type="x-shader/x-fragment">
@@ -33,7 +35,6 @@
     gl_FragColor = vec4(vColor, 1.0);
     gl_FragColor = gl_FragColor * texture2D(pointTexture, gl_PointCoord);
   }
-
 </script>
 
 <!-- <script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script> -->
@@ -50,8 +51,13 @@
   import * as THREE from "three";
   import Stats from "/jsm/libs/stats.module.js";
 
-  let renderer, scene, camera, stats;
-  let particleSystem, uniforms, geometry;
+  let renderer;
+  let scene;
+  let camera;
+  let stats;
+  let particleSystem;
+  let uniforms;
+  let geometry;
 
   let particles = 100000;  // 100K
 
@@ -59,13 +65,20 @@
   animate();
 
   function init() {
-    camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 10000);
+    camera = new THREE.PerspectiveCamera(
+      40,
+      window.innerWidth / window.innerHeight,
+      1,
+      10000
+    );
     camera.position.z = 300;
 
     scene = new THREE.Scene();
 
     uniforms = {
-      pointTexture: {value: new THREE.TextureLoader().load("/textures/sprites/spark1.png")}
+      pointTexture: {
+        value: new THREE.TextureLoader().load("/textures/sprites/spark1.png")
+      }
     };
 
     let shaderMaterial = new THREE.ShaderMaterial({
@@ -88,8 +101,8 @@
     let color = new THREE.Color();
 
     for (let i = 0; i < particles; i++) {
-      positions.push((Math.random() * 2 - 1) * radius); // If you change it to tau, it won't work.
-      positions.push((Math.random() * 2 - 1) * radius); // Because they all need to be random.
+      positions.push((Math.random() * 2 - 1) * radius);
+      positions.push((Math.random() * 2 - 1) * radius);
       positions.push((Math.random() * 2 - 1) * radius);
 
       color.setHSL(i / particles, 1.0, 0.5);
