@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" name="viewport">
-  <title>three.js webgl - multiple cameras</title>
+  <title>Multiple Views / Cameras</title>
   <!-- https://stackoverflow.com/questions/14740076/one-scene-but-multiple-viewports-with-their-own-camera-three-js -->
   <!-- https://threejs.org/examples/webgl_multiple_views.html -->
   <link href="/favicon.ico" rel="icon" type="image/x-icon">
@@ -25,7 +25,6 @@
       "three": "/build/three.module.js"
     }
   }
-
 </script>
 
 <script type="module">
@@ -47,6 +46,7 @@
       bottom: 0,
       width: 0.5,
       height: 1.0,
+      // background: new THREE.Color(0.5, 0.5, 0.7),
       background: "#a980c0", // Purple Mountain's Majesty
       eye: [0, 300, 1800], // camera position
       up: [0, 1, 0], // y is vertical
@@ -62,6 +62,7 @@
       bottom: 0,
       width: 0.5,
       height: 0.5,
+      // background: new THREE.Color(0.7, 0.5, 0.5),
       background: "#bb7d7f", // Old Rose
       eye: [0, 1800, 0],
       up: [0, 0, 1], // z is vertical
@@ -78,6 +79,7 @@
       bottom: 0.5,
       width: 0.5,
       height: 0.5,
+      // background: new THREE.Color(0.5, 0.7, 0.7),
       background: "#71b4b3", // Neptune
       eye: [1400, 800, 1400],
       up: [0, 1, 0], // y is vertical
@@ -96,7 +98,7 @@
   function init() {
     const container = document.getElementById("container");
 
-    // Set up cameras
+    // SET UP VIEWS & CAMERAS
     for (let ii = 0; ii < views.length; ++ii) {
       const view = views[ii];
 
@@ -115,26 +117,147 @@
 
     scene = new THREE.Scene();
 
-    let light = new THREE.DirectionalLight(0xffffff); // White light
+    const light = new THREE.DirectionalLight(0xffffff); // White light
     light.position.set(0, 0, 1);
     scene.add(light);
 
-    let radius = 200;
+    // SHADOW - MAKE 3 SQUARES; UNDERNEATH EACH ICOSAHEDRON.
+    const canvas = document.createElement("canvas");
+    canvas.width = 128;
+    canvas.height = 128;
 
-    // Polyhedron with 20 faces
-    let geometry = new THREE.IcosahedronGeometry(radius, 1);
+    const context = canvas.getContext("2d");
 
-    let material = new THREE.MeshBasicMaterial({
-      color: 0x00ff00, // Lime
-      wireframe: true
+    // ADD COLOR GRADIENT, SO IT'S NOT "SQUARE"
+    const xx = canvas.width / 2;
+    const yy = canvas.height / 2;
+
+    // Draw a rectangle and fill with a radial/circular gradient:
+    const gradient = context.createRadialGradient(
+      xx, // x0
+      yy, // y0
+      0, // r0
+      xx, // x1
+      yy, // y1
+      xx // r1
+    );
+
+    gradient.addColorStop(
+      0.1, // position of the color stop (0 = start)
+      "rgba(0,0,0,0.15)" // transparent-ish black
+    );
+
+    gradient.addColorStop(
+      1, // end position
+      "rgba(0,0,0,0)" // transparent
+    );
+
+    // Fill with gradient
+    context.fillStyle = gradient;
+    context.fillRect(0, 0, canvas.width, canvas.height);
+
+    const shadowTexture = new THREE.CanvasTexture(canvas);
+
+    const shadowMaterial = new THREE.MeshBasicMaterial({
+      map: shadowTexture,
+      transparent: true
+    });
+    const shadowGeo = new THREE.PlaneGeometry(300, 300, 1, 1);
+
+    let shadowMesh;
+
+    shadowMesh = new THREE.Mesh(shadowGeo, shadowMaterial);
+    shadowMesh.position.y = -250;
+    shadowMesh.rotation.x = -Math.PI / 2;
+    scene.add(shadowMesh);
+
+    shadowMesh = new THREE.Mesh(shadowGeo, shadowMaterial);
+    shadowMesh.position.x = -400;
+    shadowMesh.position.y = -250;
+    shadowMesh.rotation.x = -Math.PI / 2;
+    scene.add(shadowMesh);
+
+    shadowMesh = new THREE.Mesh(shadowGeo, shadowMaterial);
+    shadowMesh.position.x = 400;
+    shadowMesh.position.y = -250;
+    shadowMesh.rotation.x = -Math.PI / 2;
+    scene.add(shadowMesh);
+    // END SHADOW
+
+    const radius = 200;
+
+    // ICOSAHEDRON1. Polyhedron with 20 faces.
+    const geometry1 = new THREE.IcosahedronGeometry(radius, 1);
+
+    const count = geometry1.attributes.position.count;
+    geometry1.setAttribute("color", new THREE.BufferAttribute(new Float32Array(count * 3), 3));
+
+    // ICOSAHEDRON2
+    const geometry2 = geometry1.clone();
+
+    // ICOSAHEDRON3
+    const geometry3 = geometry1.clone();
+
+    // COLOR ROUTINE
+    const color = new THREE.Color();
+    const positions1 = geometry1.attributes.position;
+    const positions2 = geometry2.attributes.position;
+    const positions3 = geometry3.attributes.position;
+    const colors1 = geometry1.attributes.color;
+    const colors2 = geometry2.attributes.color;
+    const colors3 = geometry3.attributes.color;
+
+    for (let i = 0; i < count; i++) {
+
+      color.setHSL((positions1.getY(i) / radius + 1) / 2, 1.0, 0.5);
+      colors1.setXYZ(i, color.r, color.g, color.b);
+
+      color.setHSL(0, (positions2.getY(i) / radius + 1) / 2, 0.5);
+      colors2.setXYZ(i, color.r, color.g, color.b);
+
+      color.setRGB(1, 0.8 - (positions3.getY(i) / radius + 1) / 2, 0);
+      colors3.setXYZ(i, color.r, color.g, color.b);
+
+    }
+    // END COLOR ROUTINE
+
+    // MESH PHONG MATERIAL
+    const material = new THREE.MeshPhongMaterial({
+      color: 0xffffff,
+      flatShading: true,
+      vertexColors: true,
+      shininess: 0
     });
 
-    // MESH
-    let mesh = new THREE.Mesh(geometry, material);
-    let wireframe = new THREE.Mesh(geometry, material);
+    // WIRE FRAME = MESH BASIC MATERIAL
+    const wireframeMaterial = new THREE.MeshBasicMaterial({
+      color: 0x000000,
+      wireframe: true,
+      transparent: true
+    });
+
+    // ADD #1
+    let mesh = new THREE.Mesh(geometry1, material);
+    let wireframe = new THREE.Mesh(geometry1, wireframeMaterial);
+    mesh.add(wireframe);
+    mesh.position.x = -400;
+    mesh.rotation.x = -1.87;
+    scene.add(mesh);
+
+    // ADD #2
+    mesh = new THREE.Mesh(geometry2, material);
+    wireframe = new THREE.Mesh(geometry2, wireframeMaterial);
+    mesh.add(wireframe);
+    mesh.position.x = 400;
+    scene.add(mesh);
+
+    // ADD #3
+    mesh = new THREE.Mesh(geometry3, material);
+    wireframe = new THREE.Mesh(geometry3, wireframeMaterial);
     mesh.add(wireframe);
     scene.add(mesh);
 
+    // RENDERER
     renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -172,6 +295,7 @@
   function render() {
     updateSize();
 
+    // FOR EACH VIEW:
     // Update cameras and set Scissor & Viewport
     for (let ii = 0; ii < views.length; ++ii) {
       const view = views[ii];
@@ -186,7 +310,7 @@
 
       renderer.setViewport(left, bottom, width, height);
       renderer.setScissor(left, bottom, width, height);
-      renderer.setScissorTest(true);
+      renderer.setScissorTest(true); // SCISSOR TEST = ON
       renderer.setClearColor(view.background);
 
       camera.aspect = width / height;

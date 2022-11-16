@@ -17,18 +17,40 @@ const geometry2 = new THREE.CircleGeometry(
 <br>
 
 ```js
-// Illustrating what's going on when we set attribute color.
+// Illustrating what's going on when we set attribute "color".
 const colorNumComponents = 3;
-const colors = [];
-const vertices = [];
+let colors = [];
+let vertices = [];
+
 for (const vertex of vertices) {
   colors.push(Math.random(), Math.random(), Math.random());
 }
 
 geometry.setAttribute(
   "color",
-  new THREE.BufferAttribute(new Float32Array(colors),
-    colorNumComponents));
+  new THREE.BufferAttribute(new Float32Array(colors), colorNumComponents)
+);
+```
+
+<br>
+
+# Changing three.js background to transparent or other color
+
+<!-- https://stackoverflow.com/questions/16177056/changing-three-js-background-to-transparent-or-other-color#16177178 -->
+
+You must now set alpha to true when creating a new WebGLRenderer instance in conjunction with the `setClearColor()` function:
+
+
+```js
+let renderer = new THREE.WebGLRenderer({ alpha: true });
+renderer.setClearColor( 0xff0000, 1);
+```
+
+Mr.doob points out that since r78 you can alternatively use the code below to set your scene's background colour:
+
+```js
+let scene = new THREE.Scene(); // initialising the scene
+scene.background = new THREE.Color( 0xff0000 );
 ```
 
 <br>
