@@ -24,6 +24,7 @@ const views = [
     updateCamera(camera, scene, mouseX) {
       // Camera movement based on mouse position
       camera.position.x += mouseX * 0.05; // x +=
+      // Do this, otherwise the mesh moves away and doesn't come back:
       camera.position.x = Math.max(Math.min(camera.position.x, 2000), -2000);
       camera.lookAt(scene.position); // scene.position
     }
@@ -39,7 +40,8 @@ const views = [
     up: [0, 0, 1], // z is vertical
     fov: 45,
     updateCamera(camera, scene, mouseX) {
-      camera.position.x -= mouseX * 0.05; // x -+
+      camera.position.x -= mouseX * 0.05; // x -=
+      // The max & min keeps it from moving past a certain point.
       camera.position.x = Math.max(Math.min(camera.position.x, 2000), -2000);
       camera.lookAt(camera.position.clone().setY(0));
     }
@@ -57,7 +59,7 @@ const views = [
     updateCamera(camera, scene, mouseX) {
       camera.position.y -= mouseX * 0.05; // y -=
       camera.position.y = Math.max(Math.min(camera.position.y, 1600), -1600);
-      camera.lookAt(scene.position); // scene.position
+      camera.lookAt(scene.position);
     }
   }
 ];
