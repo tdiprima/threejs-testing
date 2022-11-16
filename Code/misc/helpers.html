@@ -5,7 +5,7 @@
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Helpers</title>
-  <!-- https://github.com/stemkoski/stemkoski.github.com.git -->
+  <!-- https://github.com/stemkoski/stemkoski.github.com/blob/master/Three.js/Helpers.html -->
   <!-- converted -->
   <link href="/css/main.css" rel=stylesheet/>
 </head>
@@ -44,12 +44,6 @@
 
   // custom global variables
   let mesh;
-  const chetwode_blue = '#9999ff';
-  const dark_blue = '#000088';
-  const dark_green = '#006600';
-  const arapawa = '#000066';
-  const lonestar = '#660000';
-  const korma = '#884400';
 
   init();
   animate();
@@ -77,12 +71,12 @@
     renderer = new THREE.WebGLRenderer({antialias: true});
 
     renderer.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
-    container = document.getElementById('ThreeJS');
+    container = document.getElementById("ThreeJS");
     container.appendChild(renderer.domElement);
 
     // EVENTS
     THREEx.WindowResize(renderer, camera);
-    THREEx.FullScreen.bindKey({charCode: 'm'.charCodeAt(0)});
+    THREEx.FullScreen.bindKey({charCode: "m".charCodeAt(0)});
 
     // CONTROLS
     controls = new OrbitControls(camera, renderer.domElement);
@@ -93,8 +87,10 @@
     scene.add(light);
 
     // SKYBOX
+    const color = "#9999ff"; // Chetwode Blue
+    // const color = "#ffffff";
     const skyBoxGeometry = new THREE.BoxGeometry(10000, 10000, 10000);
-    const skyBoxMaterial = new THREE.MeshBasicMaterial({color: 0xffffff, side: THREE.BackSide});
+    const skyBoxMaterial = new THREE.MeshBasicMaterial({color: color, side: THREE.BackSide});
     const skyBox = new THREE.Mesh(skyBoxGeometry, skyBoxMaterial);
     scene.add(skyBox);
 
@@ -103,7 +99,7 @@
     ////////////
 
     const geometry = new THREE.SphereGeometry(30, 32, 16);
-    const material = new THREE.MeshLambertMaterial({color: dark_blue});
+    const material = new THREE.MeshLambertMaterial({color: "#000088"}); // Dark Blue
     mesh = new THREE.Mesh(geometry, material);
     mesh.position.set(40, 40, 40);
     scene.add(mesh);
@@ -117,16 +113,16 @@
     // http://jsfiddle.net/b97zd1a3/16/
     // https://stackoverflow.com/questions/16226693/three-js-show-world-coordinate-axes-in-corner-of-scene#43957126
 
-    const gridXZ = new THREE.GridHelper(100, 10, dark_green, dark_green);
+    const gridXZ = new THREE.GridHelper(100, 10, "#006600", "#006600"); // Dark Green
     gridXZ.position.set(100, 0, 100);
     scene.add(gridXZ);
 
-    const gridXY = new THREE.GridHelper(100, 10, arapawa, arapawa);
+    const gridXY = new THREE.GridHelper(100, 10, "#000066", "#000066"); // Arapawa
     gridXY.position.set(100, 100, 0);
     gridXY.rotation.x = Math.PI / 2;
     scene.add(gridXY);
 
-    const gridYZ = new THREE.GridHelper(100, 10, lonestar, lonestar);
+    const gridYZ = new THREE.GridHelper(100, 10, "#660000", "#660000"); // Lonestar
     gridYZ.position.set(0, 100, 100);
     gridYZ.rotation.z = Math.PI / 2;
     scene.add(gridYZ);
@@ -134,7 +130,7 @@
     const origin = new THREE.Vector3(50, 100, 50);
     const terminus = new THREE.Vector3(75, 75, 75);
     const direction = new THREE.Vector3().subVectors(terminus, origin).normalize();
-    const arrow = new THREE.ArrowHelper(direction, origin, 50, korma);
+    const arrow = new THREE.ArrowHelper(direction, origin, 50, "#884400"); // Korma
     scene.add(arrow);
   }
 
@@ -145,7 +141,7 @@
   }
 
   function update() {
-    if (keyboard.pressed('z')) {
+    if (keyboard.pressed("z")) {
       // do something
       console.log("z pressed");
     }
