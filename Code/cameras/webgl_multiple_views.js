@@ -22,11 +22,12 @@ const views = [
     up: [0, 1, 0], // y is vertical
     fov: 30, // 30 degrees
     updateCamera(camera, scene, mouseX) {
-      // Camera movement based on mouse position
+      // LOOKING STRAIGHT AT IT.
+      // Camera movement based on mouse position:
+      // Mouse to the right, +2000; mouse to the left, -2000.
       camera.position.x += mouseX * 0.05; // x +=
-      // Do this, otherwise the mesh moves away and doesn't come back:
       camera.position.x = Math.max(Math.min(camera.position.x, 2000), -2000);
-      camera.lookAt(scene.position); // scene.position
+      camera.lookAt(scene.position);
     }
   },
   {
@@ -40,8 +41,9 @@ const views = [
     up: [0, 0, 1], // z is vertical
     fov: 45,
     updateCamera(camera, scene, mouseX) {
+      // ABOVE & BEHIND, LOOKING DOWN.
+      // Mouse to the right, -2000; to the left, +2000.
       camera.position.x -= mouseX * 0.05; // x -=
-      // The max & min keeps it from moving past a certain point.
       camera.position.x = Math.max(Math.min(camera.position.x, 2000), -2000);
       camera.lookAt(camera.position.clone().setY(0));
     }
@@ -57,6 +59,9 @@ const views = [
     up: [0, 1, 0], // y is vertical
     fov: 60,
     updateCamera(camera, scene, mouseX) {
+      // CAMERA IS OFF TO THE RIGHT, AT AN ANGLE.
+      // Now we're gonna move y up and down.
+      // To the right, -1600; to the left, +1600.
       camera.position.y -= mouseX * 0.05; // y -=
       camera.position.y = Math.max(Math.min(camera.position.y, 1600), -1600);
       camera.lookAt(scene.position);
@@ -182,13 +187,15 @@ function init() {
   const geometry3 = geometry1.clone();
 
   // COLOR ROUTINE
-  const color = new THREE.Color();
   const positions1 = geometry1.attributes.position;
   const positions2 = geometry2.attributes.position;
   const positions3 = geometry3.attributes.position;
+
   const colors1 = geometry1.attributes.color;
   const colors2 = geometry2.attributes.color;
   const colors3 = geometry3.attributes.color;
+
+  let color = new THREE.Color();
 
   for (let i = 0; i < count; i++) {
 
@@ -219,22 +226,22 @@ function init() {
     transparent: true
   });
 
-  // ADD #1
+  // ADD #1 (left)
   let mesh = new THREE.Mesh(geometry1, material);
   let wireframe = new THREE.Mesh(geometry1, wireframeMaterial);
   mesh.add(wireframe);
-  mesh.position.x = -400;
-  // mesh.rotation.x = -1.87; // Again
+  mesh.position.x = -400; // position
+  // mesh.rotation.x = -1.87; // rotation
   scene.add(mesh);
 
-  // ADD #2
+  // ADD #2 (right)
   mesh = new THREE.Mesh(geometry2, material);
   wireframe = new THREE.Mesh(geometry2, wireframeMaterial);
   mesh.add(wireframe);
   mesh.position.x = 400;
   scene.add(mesh);
 
-  // ADD #3
+  // ADD #3 (middle)
   mesh = new THREE.Mesh(geometry3, material);
   wireframe = new THREE.Mesh(geometry3, wireframeMaterial);
   mesh.add(wireframe);
