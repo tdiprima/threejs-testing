@@ -12,26 +12,38 @@ test.scene.add(axesHelper);
 // NORMAL
 // const boxGeometry = new THREE.BoxGeometry(16, 16, 16);
 // const boxMaterial = new THREE.MeshNormalMaterial();
-// const boxMesh = new THREE.Mesh(boxGeometry, boxMaterial);
-// test.scene.add(boxMesh);
 
-// part 1 - boilerplate code
-// const boxGeometry = new THREE.BoxGeometry(16, 16, 16, 16, 16, 16);
+const boxGeometry = new THREE.BoxGeometry(16, 16, 16, 16, 16, 16);
+
+// PART 1 - BOILERPLATE CODE
 // const boxMaterial = new THREE.MeshStandardMaterial({
 //   color: 0xff0000,
 //   wireframe: true
 // });
-// const boxMesh = new THREE.Mesh(boxGeometry, boxMaterial);
-// test.scene.add(boxMesh);
 
-// part 3 - basics of glsl shaders
-const boxGeometry = new THREE.BoxGeometry(16, 16, 16, 16, 16, 16);
+// PART 2 - RE-WRITE BOILERPLATE CODE WITH A SHADER MATERIAL
+// const boxMaterial = new THREE.ShaderMaterial({
+//   wireframe: true,
+//   vertexShader: `
+//     void main()	{
+//       // projectionMatrix, modelViewMatrix, position -> passed in from Three.js
+//       gl_Position = projectionMatrix
+//         * modelViewMatrix
+//         * vec4(position.x, position.y, position.z, 1.0);
+//     }
+//     `,
+//   fragmentShader: `
+//     void main() {
+//       gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+//     }
+//     `
+// });
+
+// PART 3 - BASICS OF GLSL SHADERS
 const boxMaterial = new THREE.ShaderMaterial({
   wireframe: true,
   vertexShader: `
   void main()	{
-    // projectionMatrix, modelViewMatrix, position -> passed in from three.js
-
     // gl_Position = projectionMatrix
     //   * modelViewMatrix
     //   * vec4(position.x, position.y, position.z, 1.0);
@@ -61,5 +73,6 @@ const boxMaterial = new THREE.ShaderMaterial({
   `
 });
 
+// MESH, SCENE
 const boxMesh = new THREE.Mesh(boxGeometry, boxMaterial);
 test.scene.add(boxMesh);
