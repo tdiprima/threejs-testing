@@ -5,7 +5,7 @@ Developers are always creating awesome new code experiments that perform interes
 And the best part is that you can also use pens on your own websites and open source projects, or learn from them and try your own experiments. Learn from your fellow developers, fork their code to experiment with your own ideas, and you'll quickly learn the nuances of Three.js animation.
 
 
-# Examples
+# 🥉 Three.js Examples
 
 [Track](https://demos.littleworkshop.fr/track)
 
