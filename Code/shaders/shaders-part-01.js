@@ -21,7 +21,6 @@ test.scene.add(axesHelper);
 //   color: 0xff0000,
 //   wireframe: true
 // });
-//
 // const boxMesh = new THREE.Mesh(boxGeometry, boxMaterial);
 // test.scene.add(boxMesh);
 
@@ -47,11 +46,11 @@ const boxMaterial = new THREE.ShaderMaterial({
 
     // gl_Position = projectionMatrix
     //   * modelViewMatrix
-    //   * vec4(position.x, sin(position.z/4.0) + position.y, position.z, 1.0);
+    //   * vec4(position.x, sin(position.z / 4.0) + position.y, position.z, 1.0);
 
     gl_Position = projectionMatrix
       * modelViewMatrix
-      * vec4(position.x, 4.0*sin(position.z/4.0) + position.y, position.z, 1.0);
+      * vec4(position.x, 4.0 * sin(position.z / 4.0) + position.y, position.z, 1.0);
   }
   `,
   fragmentShader: `
