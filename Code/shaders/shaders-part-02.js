@@ -78,6 +78,7 @@ const boxMaterial = new THREE.ShaderMaterial({
 
       result = vec4(
         position.x,
+        // 4.0 * cos(position.z / 4.0 + u_time) + position.x,
         4.0 * sin(position.z / 4.0 + u_time) + position.y,
         position.z,
         1.0
