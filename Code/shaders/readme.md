@@ -92,49 +92,9 @@ position = vec3(2, 0, 0)
 
 Uniforms are variables that we're gonna pass into the shader.
 
-
 <!--
-**Chris Courses**
-
-[Three.js Shaders in 2 Minutes](https://youtu.be/bC4xJzbKNd0)
-
-Best video.
-
-**The Happie Cat:**
-
-[What Are Shaders?](https://youtu.be/sXbdF4KjNOc)
-
-Hallelujah.
-
-
-**SubOptimal Engineer:**
-
-[Intro to GLSL Vertex and Fragment Shaders](https://youtu.be/EntBBM6nqQA)
-
-[GLSL Shaders with Uniforms and Varying](https://youtu.be/dRo7SnOJlEM)
-
-The code in this folder.
-
-**SimonDev:**
-
-[Three.js Tutorial on Shaders (beginners)](https://youtu.be/C8Cuwq1eqDw)
-
-This was has a little better understanding at the beginning.
-
-[https://threejs.org/examples/?q=shader](https://threejs.org/examples/?q=shader)
-
-**Shadertoy**
-
-[https://www.shadertoy.com/new](https://www.shadertoy.com/new)
-
-[https://gamedevelopment.tutsplus.com/tutorials/a-beginners-guide-to-coding-graphics-shaders--cms-23313](https://gamedevelopment.tutsplus.com/tutorials/a-beginners-guide-to-coding-graphics-shaders--cms-23313)
-
-**Makin' Stuff Look Good**
-
-[https://youtu.be/T-HXmQAMhG0](https://youtu.be/T-HXmQAMhG0)
-
-"Shaders are a bottomless pit."
-
-Yeah, I'm gettin that distinct bottomless pit vibe...
-
+Holy shit, this is heavy, and this is long.
+Stopping right about here.
+43:18 - Add texture to fragment shader cont.
+46:46 - Add shade of blue to earth texture
 -->
