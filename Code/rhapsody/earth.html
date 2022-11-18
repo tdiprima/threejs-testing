@@ -38,13 +38,13 @@
 
   let controls = new OrbitControls(camera, renderer.domElement);
 
-  // Add a point light with #fff color, 1 intensity, and 0 distance
-  let light = new THREE.PointLight(0xffffff, 1, 0);
+  let light = new THREE.DirectionalLight(0xffffff, 1);
+  // light.position.set(1, 1, 100);
+  light.position.set(0, 0, 100);
+  scene.add(light);
 
-  // Specify the light's position
-  light.position.set(1, 1, 100);
-
-  // Add the light to the scene
+  light = new THREE.DirectionalLight(0xffffff, 1);
+  light.position.set(0, 0, -100);
   scene.add(light);
 
   // https://www.instagram.com/p/CeWtN3pvYjT/
