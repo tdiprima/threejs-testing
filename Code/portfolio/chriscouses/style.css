@@ -4,11 +4,11 @@ body {
 }
 
 .font-exo {
-  font-family: "Exo 2", sans-serif;
+  font-family: 'Exo 2', sans-serif;
 }
 
 .font-space-mono {
-  font-family: "Space Mono", monospace;
+  font-family: 'Space Mono', monospace;
 }
 
 /* SOCIAL ICONS */
@@ -21,34 +21,34 @@ body {
 }
 
 .twitter a {
-  bottom: -40px;
   right: -75px;
+  bottom: -40px;
   transform: rotate(-45deg);
 }
 
 .twitter i {
-  bottom: 7px;
   right: 7px;
-  color: #00ACED;
+  bottom: 7px;
+  color: #00aced;
 }
 
 .social-icon a {
   position: absolute;
-  background: white;
-  color: white;
-  box-shadow: -1px -1px 20px 0px rgba(0, 0, 0, 0.3);
   display: inline-block;
   width: 150px;
   height: 80px;
+  transition: .15s ease-out;
   transform-origin: 50% 50%;
-  transition: 0.15s ease-out;
+  color: white;
+  background: white;
+  box-shadow: -1px -1px 20px 0 rgba(0, 0, 0, .3);
 }
 
 .social-icon i {
   position: absolute;
-  pointer-events: none;
   z-index: 1000;
-  transition: 0.15s ease-out;
+  transition: .15s ease-out;
+  pointer-events: none;
 }
 
 .youtube:hover a {
@@ -68,5 +68,5 @@ body {
 .youtube i {
   bottom: 7px;
   left: 7px;
-  color: #E62117;
+  color: #e62117;
 }
