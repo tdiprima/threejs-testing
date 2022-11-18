@@ -24,7 +24,8 @@ function generatePlane() {
     world.plane.width,
     world.plane.height,
     world.plane.widthSegments,
-    world.plane.heightSegments);
+    world.plane.heightSegments
+  );
 
   // vertex position randomization
   const { array } = planeMesh.geometry.attributes.position;
@@ -44,8 +45,7 @@ function generatePlane() {
   }
 
   planeMesh.geometry.attributes.position.randomValues = randomValues;
-  planeMesh.geometry.attributes.position.originalPosition =
-    planeMesh.geometry.attributes.position.array;
+  planeMesh.geometry.attributes.position.originalPosition = planeMesh.geometry.attributes.position.array;
 
   const colors = [];
   for (let i = 0; i < planeMesh.geometry.attributes.position.count; i++) {
@@ -54,8 +54,8 @@ function generatePlane() {
 
   planeMesh.geometry.setAttribute(
     "color",
-    new THREE.BufferAttribute(new Float32Array(colors), 3));
-
+    new THREE.BufferAttribute(new Float32Array(colors), 3)
+  );
 }
 
 const raycaster = new THREE.Raycaster();
@@ -64,7 +64,8 @@ const camera = new THREE.PerspectiveCamera(
   75,
   innerWidth / innerHeight,
   0.1,
-  1000);
+  1000
+);
 
 const renderer = new THREE.WebGLRenderer();
 
@@ -79,7 +80,8 @@ const planeGeometry = new THREE.PlaneGeometry(
   world.plane.width,
   world.plane.height,
   world.plane.widthSegments,
-  world.plane.heightSegments);
+  world.plane.heightSegments
+);
 
 const planeMaterial = new THREE.MeshPhongMaterial({
   side: THREE.DoubleSide,
@@ -185,13 +187,12 @@ function animate() {
         color.needsUpdate = true;
       }
     });
-
   }
 }
 
 animate();
 
 addEventListener("mousemove", event => {
-  mouse.x = event.clientX / innerWidth * 2 - 1;
+  mouse.x = (event.clientX / innerWidth) * 2 - 1;
   mouse.y = -(event.clientY / innerHeight) * 2 + 1;
 });
