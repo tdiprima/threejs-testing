@@ -29,7 +29,6 @@
 
   var pointText = "(1,1)";
   var stepSize = 0.01;
-  var curveData;
 
   var a = 1.25,
     b = 1.25;
@@ -68,7 +67,6 @@
     tracePointData.set("data", [[traceX, traceY]]);
 
     // NOTE: END first, START second
-    let curvePointArray = [];
     let xPrev = traceX;
     let yPrev = traceY;
 
@@ -107,7 +105,6 @@
       let yNext = yPrev + vy * stepSize;
       */
 
-      curvePointArray.push([xNext, yNext], [xPrev, yPrev]);
       xPrev = xNext;
       yPrev = yNext;
     }
