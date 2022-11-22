@@ -32,7 +32,7 @@ let updateGraphFunc = function() {
   // let deltaT = (tMax - tMin)/256;
 
   // NOTE: END first, START second
-  graphData.set("expr", (emit, x, y, i, j, time, delta) => {
+  graphData.set("expr", function(emit, x, y, i, j, time, delta) {
     let vx = f1Func(x, y);
     let vy = f2Func(x, y);
     let len = Math.sqrt(vx * vx + vy * vy);
@@ -120,7 +120,7 @@ let camera = mathbox.camera({
 view = mathbox.cartesian({
   range: [
     [xMin, xMax],
-    [yMin, yMax],
+    [yMin, yMax]
   ],
   scale: [2, 1]
 });
@@ -130,20 +130,23 @@ let xAxis = view.axis({
   axis: 1,
   width: 8,
   detail: 40,
-  color: "red",
+  color: "red"
 });
+
 let xScale = view.scale({
   axis: 1,
   divide: 10,
   nice: true,
   zero: true
 });
+
 let xTicks = view.ticks({
   width: 5,
   size: 15,
   color: "red",
   zBias: 2
 });
+
 let xFormat = view.format({
   digits: 2,
   font: "Arial",
@@ -151,6 +154,7 @@ let xFormat = view.format({
   style: "normal",
   source: xScale
 });
+
 let xTicksLabel = view.label({
   color: "red",
   zIndex: 0,
@@ -163,20 +167,23 @@ let yAxis = view.axis({
   axis: 2,
   width: 8,
   detail: 40,
-  color: "green",
+  color: "green"
 });
+
 let yScale = view.scale({
   axis: 2,
   divide: 5,
   nice: true,
   zero: false
 });
+
 let yTicks = view.ticks({
   width: 5,
   size: 15,
   color: "green",
   zBias: 2
 });
+
 let yFormat = view.format({
   digits: 2,
   font: "Arial",
@@ -184,6 +191,7 @@ let yFormat = view.format({
   style: "normal",
   source: yScale
 });
+
 let yTicksLabel = view.label({
   color: "green",
   zIndex: 0,
@@ -259,33 +267,37 @@ gui.add(this, "f1FuncText").name("f1(x,y) = ");
 gui.add(this, "f2FuncText").name("f2(x,y) = ");
 
 gui.add(this, "pointText").name("P = (x,y) = "); // .onChange( updateGraphFunc );
-gui
-  .add(this, "stepSize")
+
+gui.add(this, "stepSize")
   .name("step size = ")
   .min(0.001)
   .max(0.501)
   .step(0.001)
   .onChange(updateGraphFunc);
+
 let curveVisibleGUI = gui
   .add(this, "curveVisible")
   .name("view approximate curve")
-  .onChange(() => {
+  .onChange(function() {
     curveView.set("visible", curveVisible);
   });
 
 let folder0 = gui.addFolder("Parameters");
+
 let aGUI = folder0
   .add(this, "a")
   .min(-6)
   .max(6)
   .step(0.01)
   .name("a = ");
+
 let bGUI = folder0
   .add(this, "b")
   .min(-6)
   .max(6)
   .step(0.01)
   .name("b = ");
+
 folder0.open();
 
 let folder1 = gui.addFolder("Window Range");
@@ -293,6 +305,7 @@ let xMinGUI = folder1.add(this, "xMin");
 let xMaxGUI = folder1.add(this, "xMax");
 let yMinGUI = folder1.add(this, "yMin");
 let yMaxGUI = folder1.add(this, "yMax");
+
 folder1.close();
 
 gui.add(this, "updateGraph").name("Update Graph");
