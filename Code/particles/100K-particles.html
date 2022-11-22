@@ -59,7 +59,7 @@
   let uniforms;
   let geometry;
 
-  let particles = 100000;  // 100K
+  let particles = 100000; // 100K
 
   init();
   animate();
@@ -112,7 +112,10 @@
 
     geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
     geometry.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
-    geometry.setAttribute("size", new THREE.Float32BufferAttribute(sizes, 1).setUsage(THREE.DynamicDrawUsage));
+    geometry.setAttribute(
+      "size",
+      new THREE.Float32BufferAttribute(sizes, 1).setUsage(THREE.DynamicDrawUsage)
+    );
 
     particleSystem = new THREE.Points(geometry, shaderMaterial);
 
