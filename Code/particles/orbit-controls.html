@@ -47,6 +47,7 @@
   let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
   camera.position.z = 400;
 
+  // RENDERER
   let renderer = new THREE.WebGLRenderer({
     antialias: true,
     alpha: true,
@@ -59,15 +60,17 @@
 
   document.getElementById('canvas').appendChild(renderer.domElement);
 
-  // orbit controls --> zoom in/out with scroll, pan with right-click, and drag to orbit
+  // ORBIT CONTROLS --> zoom in/out with scroll, pan with right-click, and drag to orbit
   let controls = new OrbitControls(camera, renderer.domElement);
   controls.target.z = 100;
 
-  let particles = new THREE.Object3D();
-  scene.add(particles);
-
+  // PARTICLE GEOMETRY
   let geometry = new THREE.TetrahedronGeometry(2, 0);
   let material = new THREE.MeshNormalMaterial();
+
+  // 500 PARTICLES
+  let particles = new THREE.Object3D();
+  scene.add(particles);  
 
   for (let i = 0; i < 500; i++) {
     let mesh = new THREE.Mesh(geometry, material);
@@ -77,18 +80,21 @@
     particles.add(mesh);
   }
 
+  // BOX GEOMETRY
   let geometry2 = new THREE.BoxGeometry(50, 50, 50);
   let material2 = new THREE.MeshNormalMaterial();
   let cube = new THREE.Mesh(geometry2, material2);
   cube.position.set(0, 0, 100);
   scene.add(cube);
 
+  // RESIZE
   window.addEventListener('resize', () => {
     renderer.setSize(window.innerWidth, window.innerHeight);
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
   });
 
+  // ANIMATION
   function animate() {
     // call the animate() function every frame - creates a loop
     requestAnimationFrame(animate);
@@ -100,7 +106,6 @@
     // render the updated scene and camera
     renderer.render(scene, camera);
   }
-  // call the animate() function
   animate();
 </script>
 </body>
