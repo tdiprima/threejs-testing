@@ -66,7 +66,7 @@
   import Stats from "three/addons/libs/stats.module.js";
   import * as BufferGeometryUtils from "three/addons/utils/BufferGeometryUtils.js";
 
-  let renderer, scene, camera, stats;
+  let renderer, scene, camera, container, stats;
   let particles;
 
   const PARTICLE_SIZE = 20;
@@ -78,7 +78,7 @@
   animate();
 
   function init() {
-    const container = document.getElementById("container");
+    container = document.getElementById("container");
 
     scene = new THREE.Scene();
 
@@ -97,6 +97,7 @@
 
     // COLOR & POSITION
     const positionAttribute = boxGeometry.getAttribute("position");
+    // console.log("positions", positionAttribute.count);
 
     const colors = [];
     const sizes = [];
@@ -112,7 +113,10 @@
 
     const geometry = new THREE.BufferGeometry();
     geometry.setAttribute("position", positionAttribute);
-    geometry.setAttribute("customColor", new THREE.Float32BufferAttribute(colors, 3));
+    geometry.setAttribute(
+      "customColor",
+      new THREE.Float32BufferAttribute(colors, 3)
+    );
     geometry.setAttribute("size", new THREE.Float32BufferAttribute(sizes, 1));
 
     // SHADER MATERIAL
@@ -129,6 +133,7 @@
     // PARTICLES
     particles = new THREE.Points(geometry, material);
     scene.add(particles);
+    // console.log("particles", particles.geometry.attributes.position.array);
 
     // RENDERER
     renderer = new THREE.WebGLRenderer();
