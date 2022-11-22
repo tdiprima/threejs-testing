@@ -4,10 +4,8 @@
   <meta charset="utf-8">
   <meta content="initial-scale=1, maximum-scale=1" name="viewport">
   <title>MathBox - 2D Grapher</title>
-  <script src="mathbox-bundle.js"></script>
-  <script src="dat.gui.js"></script>
   <!-- http://silentmatt.com/javascript-expression-evaluator/ -->
-  <script src="parser.js"></script>
+  <script src="mathbox-bundle.js"></script>
   <link href="mathbox.css" rel="stylesheet">
 </head>
 <body>
@@ -22,10 +20,7 @@
   let three = mathbox.three;
   three.renderer.setClearColor(new THREE.Color(0xffffff), 1.0);
 
-  let graphData, view;
-
-  var f1FuncText = "y";
-  var f2FuncText = "-x";
+  let graphData, traceX, traceY, view;
 
   var pointText = "(1,1)";
   var stepSize = 0.01;
@@ -38,14 +33,18 @@
     yMin = -2,
     yMax = 2;
 
+  function f1Func(x, y) {
+    return y;
+  }
+
+  function f2Func(x, y) {
+    return (-x);
+  }
+
   // start of updateGraph function ==============================================================
   let updateGraphFunc = function() {
-    let f1Func = Parser.parse(f1FuncText).toJSFunction(["x", "y"]);
-    let f2Func = Parser.parse(f2FuncText).toJSFunction(["x", "y"]);
-    // let deltaT = (tMax - tMin)/256;
-
     // NOTE: END first, START second
-    graphData.set("expr", function(emit, x, y, i, j, time, delta) {
+    graphData.set("expr", function(emit, x, y) {
       let vx = f1Func(x, y);
       let vy = f2Func(x, y);
       let len = Math.sqrt(vx * vx + vy * vy);
@@ -64,7 +63,6 @@
     // number is a global JS function that converts String to Number
     traceX = Number(tempArray[0]);
     traceY = Number(tempArray[1]);
-    tracePointData.set("data", [[traceX, traceY]]);
 
     // NOTE: END first, START second
     let xPrev = traceX;
@@ -134,14 +132,6 @@
     scale: [2, 1]
   });
 
-  view.grid({
-    axes: [1, 2],
-    width: 2,
-    divideX: 20,
-    divideY: 20,
-    opacity: 0.25
-  });
-
   graphData = view.area({
     // expr: set later
     width: 20,
@@ -155,12 +145,6 @@
     color: "#4444FF",
     points: graphData,
     start: true
-  });
-
-  let tracePointData = view.array({
-    width: 1,
-    channels: 2,
-    data: [[1, 2]]
   });
 
   updateGraphFunc();
