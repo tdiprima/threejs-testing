@@ -1,27 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>three.js webgl - interactive particles</title>
+  <title>Music Box</title>
   <!-- webgl_interactive_points.html -->
   <meta charset="utf-8">
   <meta content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" name="viewport">
-  <link href="main.css" rel="stylesheet" type="text/css">
+  <link href="/css/main.css" rel="stylesheet" type="text/css">
 </head>
-
 <body>
+
 <div id="container"></div>
-<div id="info"><a href="https://threejs.org" rel="noopener" target="_blank">three.js</a> webgl - interactive - particles
+
+<div id="info">
+  <a href="https://threejs.org" rel="noopener" target="_blank">three.js</a>
+  webgl - interactive - particles
 </div>
 
 <script id="vertexshader" type="x-shader/x-vertex">
-
   attribute float size;
   attribute vec3 customColor;
 
   varying vec3 vColor;
 
   void main() {
-
     vColor = customColor;
 
     vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
@@ -29,13 +30,10 @@
     gl_PointSize = size * (300.0 / -mvPosition.z);
 
     gl_Position = projectionMatrix * mvPosition;
-
   }
-
 </script>
 
 <script id="fragmentshader" type="x-shader/x-fragment">
-
   uniform vec3 color;
   uniform sampler2D pointTexture;
   uniform float alphaTest;
@@ -43,56 +41,43 @@
   varying vec3 vColor;
 
   void main() {
-
     gl_FragColor = vec4(color * vColor, 1.0);
 
     gl_FragColor = gl_FragColor * texture2D(pointTexture, gl_PointCoord);
 
-    if (gl_FragColor.a < alphaTest) discard;
-
+    if (gl_FragColor.a < alphaTest) {
+      discard;
+    }
   }
-
 </script>
 
-<script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
-
+<script async src="/es-module-shims-1.3.6/dist/es-module-shims.js"></script>
 <script type="importmap">
-			{
-				"imports": {
-					"three": "../build/three.module.js",
-					"three/addons/": "./jsm/"
-				}
-			}
-
+  {
+  	"imports": {
+  		"three": "/build/three.module.js",
+  		"three/addons/": "/jsm/"
+  	}
+  }
 </script>
 
 <script type="module">
-
   import * as THREE from "three";
-
   import Stats from "three/addons/libs/stats.module.js";
-
   import * as BufferGeometryUtils from "three/addons/utils/BufferGeometryUtils.js";
 
-  let renderer,
-    scene,
-    camera,
-    stats;
-
+  let renderer, scene, camera, stats;
   let particles;
 
   const PARTICLE_SIZE = 20;
 
-  let raycaster,
-    intersects;
-  let pointer,
-    INTERSECTED;
+  let raycaster, intersects;
+  let pointer, INTERSECTED;
 
   init();
   animate();
 
   function init() {
-
     const container = document.getElementById("container");
 
     scene = new THREE.Scene();
@@ -100,19 +85,17 @@
     camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
     camera.position.z = 250;
 
-    //
-
+    // GEOMETRY
     let boxGeometry = new THREE.BoxGeometry(200, 200, 200, 16, 16, 16);
 
-    // if normal and uv attributes are not removed, mergeVertices() can't consolidate indentical vertices with different normal/uv data
-
+    // if normal and uv attributes are not removed, mergeVertices() can't
+    // consolidate identical vertices with different normal/uv data
     boxGeometry.deleteAttribute("normal");
     boxGeometry.deleteAttribute("uv");
 
     boxGeometry = BufferGeometryUtils.mergeVertices(boxGeometry);
 
-    //
-
+    // COLOR & POSITION
     const positionAttribute = boxGeometry.getAttribute("position");
 
     const colors = [];
@@ -121,12 +104,10 @@
     const color = new THREE.Color();
 
     for (let i = 0, l = positionAttribute.count; i < l; i++) {
-
       color.setHSL(0.01 + 0.1 * (i / l), 1.0, 0.5);
       color.toArray(colors, i * 3);
 
       sizes[i] = PARTICLE_SIZE * 0.5;
-
     }
 
     const geometry = new THREE.BufferGeometry();
@@ -134,76 +115,60 @@
     geometry.setAttribute("customColor", new THREE.Float32BufferAttribute(colors, 3));
     geometry.setAttribute("size", new THREE.Float32BufferAttribute(sizes, 1));
 
-    //
-
+    // SHADER MATERIAL
     const material = new THREE.ShaderMaterial({
-
       uniforms: {
         color: { value: new THREE.Color(0xffffff) },
-        pointTexture: { value: new THREE.TextureLoader().load("textures/sprites/disc.png") },
+        pointTexture: { value: new THREE.TextureLoader().load("/textures/sprites/disc.png") },
         alphaTest: { value: 0.9 }
       },
       vertexShader: document.getElementById("vertexshader").textContent,
       fragmentShader: document.getElementById("fragmentshader").textContent
-
     });
 
-    //
-
+    // PARTICLES
     particles = new THREE.Points(geometry, material);
     scene.add(particles);
 
-    //
-
+    // RENDERER
     renderer = new THREE.WebGLRenderer();
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
     container.appendChild(renderer.domElement);
 
-    //
-
+    // RAYCASTER
     raycaster = new THREE.Raycaster();
     pointer = new THREE.Vector2();
 
-    //
-
+    // STATS
     stats = new Stats();
     container.appendChild(stats.dom);
 
-    //
-
+    // EVENT LISTENERS
     window.addEventListener("resize", onWindowResize);
     document.addEventListener("pointermove", onPointerMove);
-
   }
 
   function onPointerMove(event) {
-
     pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
     pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
   }
 
   function onWindowResize() {
-
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
 
     renderer.setSize(window.innerWidth, window.innerHeight);
-
   }
 
   function animate() {
-
     requestAnimationFrame(animate);
 
     render();
     stats.update();
-
   }
 
   function render() {
-
     particles.rotation.x += 0.0005;
     particles.rotation.y += 0.001;
 
@@ -224,7 +189,6 @@
 
         attributes.size.array[INTERSECTED] = PARTICLE_SIZE * 1.25;
         attributes.size.needsUpdate = true;
-
       }
 
     } else if (INTERSECTED !== null) {
@@ -232,16 +196,11 @@
       attributes.size.array[INTERSECTED] = PARTICLE_SIZE;
       attributes.size.needsUpdate = true;
       INTERSECTED = null;
-
     }
 
     renderer.render(scene, camera);
 
   }
-
 </script>
-
 </body>
-
 </html>
-
