@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>three.js app</title>
+  <title>I made it up</title>
   <link href="/css/main.css" rel="stylesheet">
   <!-- https://threejs.org/manual/#en/indexed-textures -->
 </head>
@@ -12,15 +12,15 @@
 <script async src="/es-module-shims-1.3.6/dist/es-module-shims.js"></script>
 <script type="importmap">
   {
-  	"imports": {
-  		"three": "/build/three.module.js"
-  	}
+    "imports": {
+      "three": "/build/three.module.js"
+    }
   }
 </script>
 
 <script type="module">
   import * as THREE from "three";
-  import {OrbitControls} from "/jsm/controls/OrbitControls.js";
+  import { OrbitControls } from "/jsm/controls/OrbitControls.js";
 
   const width = window.innerWidth;
   const height = window.innerHeight;
@@ -35,6 +35,8 @@
 
   let loader = new THREE.TextureLoader();
 
+  // TODO: Play with the different geometries
+
   // FLAT EARTH
   // let material = new THREE.MeshBasicMaterial({
   //   map: loader.load("./images/country-index-texture.png"),
@@ -48,11 +50,12 @@
   // SPHERE
   let geometry = new THREE.SphereGeometry(2, 132, 64);
   let texture = loader.load("./images/country-index-texture.png");
-  // http://127.0.0.1:5500/manual/#en/textures // "Filtering and Mips"
+  // https://threejs.org/manual/#en/textures // "Filtering and Mips"
   // https://threejs.org/docs/#api/en/textures/Texture.magFilter
   texture.minFilter = THREE.NearestFilter;
   texture.magFilter = THREE.NearestFilter;
-  let material = new THREE.MeshBasicMaterial({map: texture});
+  let material = new THREE.MeshBasicMaterial({ map: texture });
+
   const mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
 
