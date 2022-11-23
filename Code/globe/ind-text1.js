@@ -23,6 +23,7 @@ function main() {
   const pickingScene = new THREE.Scene();
   pickingScene.background = new THREE.Color(0);
 
+  // Highlight
   const maxNumCountries = 512;
   const paletteTextureWidth = maxNumCountries;
   const paletteTextureHeight = 1;
@@ -44,7 +45,7 @@ function main() {
     const geometry = new THREE.SphereGeometry(1, 64, 32);
 
     const indexTexture = loader.load(
-      "https://threejs.org/manual/examples/resources/data/world/country-index-texture.png",
+      "./images/country-index-texture.png",
       render
     );
     indexTexture.minFilter = THREE.NearestFilter;
@@ -53,6 +54,7 @@ function main() {
     const pickingMaterial = new THREE.MeshBasicMaterial({ map: indexTexture });
     pickingScene.add(new THREE.Mesh(geometry, pickingMaterial));
 
+    // Highlight
     const fragmentShaderReplacements = [
       {
         from: "#include <common>",
@@ -80,12 +82,13 @@ function main() {
     ];
 
     const texture = loader.load(
-      "https://threejs.org/manual/examples/resources/data/world/country-outlines-4k.png",
+      "./images/country-outlines-4k.png",
       render
     );
 
     const material = new THREE.MeshBasicMaterial({ map: texture });
 
+    // Highlight
     material.onBeforeCompile = function(shader) {
       fragmentShaderReplacements.forEach(rep => {
         shader.fragmentShader = shader.fragmentShader.replace(rep.from, rep.to);
@@ -106,23 +109,28 @@ function main() {
   let numCountriesSelected = 0;
   let countryInfos;
   async function loadCountryData() {
-    countryInfos = await loadJSON("https://threejs.org/manual/examples/resources/data/world/country-info.json");
+    countryInfos = await loadJSON("./data/country-info.json");
 
     const lonFudge = Math.PI * 1.5;
     const latFudge = Math.PI;
+
     // these helpers will make it easy to position the boxes
     // We can rotate the lon helper on its Y axis to the longitude
     const lonHelper = new THREE.Object3D();
+
     // We rotate the latHelper on its X axis to the latitude
     const latHelper = new THREE.Object3D();
     lonHelper.add(latHelper);
+
     // The position helper moves the object to the edge of the sphere
     const positionHelper = new THREE.Object3D();
     positionHelper.position.z = 1;
     latHelper.add(positionHelper);
 
     const labelParentElem = document.querySelector("#labels");
-    for (const countryInfo of countryInfos) {
+
+    for (let i = 0; i < countryInfos.length; i++) {
+      const countryInfo = countryInfos[i];
       const { lat, lon, min, max, name } = countryInfo;
 
       // adjust the helpers to point to the latitude and longitude
@@ -147,6 +155,7 @@ function main() {
       labelParentElem.appendChild(elem);
       countryInfo.elem = elem;
     }
+
     requestRenderIfNotRequested();
   }
   loadCountryData();
@@ -172,9 +181,13 @@ function main() {
     normalMatrix.getNormalMatrix(camera.matrixWorldInverse);
     // get the camera's position
     camera.getWorldPosition(cameraPosition);
-    for (const countryInfo of countryInfos) {
+
+    for (let i = 0; i < countryInfos.length; i++) {
+      const countryInfo = countryInfos[i];
       const { position, elem, area, selected } = countryInfo;
+
       const largeEnough = area >= large;
+
       const show = selected || (numCountriesSelected === 0 && largeEnough);
       if (!show) {
         elem.style.display = "none";
@@ -342,6 +355,7 @@ function main() {
 
     renderer.render(scene, camera);
   }
+
   render();
 
   function requestRenderIfNotRequested() {

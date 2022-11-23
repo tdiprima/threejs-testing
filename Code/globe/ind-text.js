@@ -26,8 +26,9 @@ function main() {
     const loader = new THREE.TextureLoader();
     const geometry = new THREE.SphereGeometry(1, 64, 32);
 
+    // https://threejs.org/manual/examples/resources/data/world/country-index-texture.png
     const indexTexture = loader.load(
-      "https://threejs.org/manual/examples/resources/data/world/country-index-texture.png",
+      "./images/country-index-texture.png",
       render
     );
     indexTexture.minFilter = THREE.NearestFilter;
@@ -36,10 +37,12 @@ function main() {
     const pickingMaterial = new THREE.MeshBasicMaterial({ map: indexTexture });
     pickingScene.add(new THREE.Mesh(geometry, pickingMaterial));
 
+    // https://threejs.org/manual/examples/resources/data/world/country-outlines-4k.png
     const texture = loader.load(
-      "https://threejs.org/manual/examples/resources/data/world/country-outlines-4k.png",
+      "./images/country-outlines-4k.png",
       render
     );
+
     const material = new THREE.MeshBasicMaterial({ map: texture });
     scene.add(new THREE.Mesh(geometry, material));
   }
@@ -52,7 +55,8 @@ function main() {
   let numCountriesSelected = 0;
   let countryInfos;
   async function loadCountryData() {
-    countryInfos = await loadJSON("https://threejs.org/manual/examples/resources/data/world/country-info.json");
+    // https://threejs.org/manual/examples/resources/data/world/country-info.json
+    countryInfos = await loadJSON("./data/country-info.json");
 
     const lonFudge = Math.PI * 1.5;
     const latFudge = Math.PI;
@@ -72,9 +76,8 @@ function main() {
 
     const labelParentElem = document.querySelector("#labels");
 
-    // TODO: Iterators/generators require regenerator-runtime, which is too
-    //  heavyweight for this.  Do array iteration instead.
-    for (const countryInfo of countryInfos) {
+    for (let i = 0; i < countryInfos.length; i++) {
+      const countryInfo = countryInfos[i];
       const { lat, lon, min, max, name } = countryInfo;
 
       // adjust the helpers to point to the latitude and longitude
@@ -99,6 +102,7 @@ function main() {
       labelParentElem.appendChild(elem);
       countryInfo.elem = elem;
     }
+
     requestRenderIfNotRequested();
   }
   loadCountryData();
@@ -124,10 +128,13 @@ function main() {
     normalMatrix.getNormalMatrix(camera.matrixWorldInverse);
     // get the camera's position
     camera.getWorldPosition(cameraPosition);
-    // TODO: Again - do array iteration instead of loop.
-    for (const countryInfo of countryInfos) {
+
+    for (let i = 0; i < countryInfos.length; i++) {
+      const countryInfo = countryInfos[i];
       const { position, elem, area, selected } = countryInfo;
+
       const largeEnough = area >= large;
+
       const show = selected || (numCountriesSelected === 0 && largeEnough);
       if (!show) {
         elem.style.display = "none";
