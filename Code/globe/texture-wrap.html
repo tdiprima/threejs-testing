@@ -69,9 +69,13 @@
   }
 
   // TODO: Play with the different geometries
+
   // OBJECT DESTRUCTURING SYNTAX
   // let { geometry, material } = flatEarth();
+
   // let { geometry, material } = cube();
+  // console.log(cube());
+
   let { geometry, material } = sphere();
   const mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
