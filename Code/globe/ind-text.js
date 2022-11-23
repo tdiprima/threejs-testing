@@ -130,6 +130,9 @@ function main() {
 
     if (dot === 1)
       console.log(`%c${dot}`, "color: darkseagreen;");
+
+    if (dot === -1)
+      console.log(`%c${dot}`, "color: red;");
   }
 
   function updateLabels() {
