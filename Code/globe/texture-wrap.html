@@ -35,8 +35,6 @@
 
   let loader = new THREE.TextureLoader();
 
-  // TODO: Play with the different geometries
-
   function getMaterial() {
     return new THREE.MeshBasicMaterial({
       map: loader.load("./images/country-index-texture.png"),
@@ -70,6 +68,7 @@
     return { geometry, material };
   }
 
+  // TODO: Play with the different geometries
   // OBJECT DESTRUCTURING SYNTAX
   // let { geometry, material } = flatEarth();
   // let { geometry, material } = cube();
