@@ -37,25 +37,43 @@
 
   // TODO: Play with the different geometries
 
-  // FLAT EARTH
-  // let material = new THREE.MeshBasicMaterial({
-  //   map: loader.load("./images/country-index-texture.png"),
-  //   side: THREE.DoubleSide
-  // });
-  // let geometry = new THREE.PlaneGeometry(10, 10);
+  function getMaterial() {
+    return new THREE.MeshBasicMaterial({
+      map: loader.load("./images/country-index-texture.png"),
+      side: THREE.DoubleSide
+    });
+  }
 
-  // CUBE
-  // let geometry = new THREE.BoxGeometry(3, 3, 3);
+  function flatEarth() {
+    let geometry = new THREE.PlaneGeometry(10, 10);
+    let material = getMaterial();
+    return { geometry, material };
+  }
 
-  // SPHERE
-  let geometry = new THREE.SphereGeometry(2, 132, 64);
-  let texture = loader.load("./images/country-index-texture.png");
-  // https://threejs.org/manual/#en/textures // "Filtering and Mips"
-  // https://threejs.org/docs/#api/en/textures/Texture.magFilter
-  texture.minFilter = THREE.NearestFilter;
-  texture.magFilter = THREE.NearestFilter;
-  let material = new THREE.MeshBasicMaterial({ map: texture });
+  function cube() {
+    let geometry = new THREE.BoxGeometry(3, 3, 3)
+    let material = getMaterial();
+    return { geometry, material };
+  }
 
+  function sphere() {
+    let geometry = new THREE.SphereGeometry(2, 132, 64);
+
+    // https://threejs.org/manual/#en/textures // "Filtering and Mips"
+    // https://threejs.org/docs/#api/en/textures/Texture.magFilter
+    let texture = loader.load("./images/country-index-texture.png");
+    texture.minFilter = THREE.NearestFilter;
+    texture.magFilter = THREE.NearestFilter;
+
+    let material = new THREE.MeshBasicMaterial({ map: texture });
+
+    return { geometry, material };
+  }
+
+  // OBJECT DESTRUCTURING SYNTAX
+  // let { geometry, material } = flatEarth();
+  // let { geometry, material } = cube();
+  let { geometry, material } = sphere();
   const mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
 
