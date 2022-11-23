@@ -68,17 +68,6 @@
   const menData = "./data/gpw_v4_basic_demographic_characteristics_rev10_a000_014mt_2010_cntm_1_deg.asc";
 
   /**
-   * Load text file
-   * Returns a Promise with the contents of the file
-   * @param url
-   * @return {Promise<string>}
-   */
-  async function loadFile(url) {
-    const req = await fetch(url);
-    return req.text();
-  }
-
-  /**
    * We're supposed to call TWEEN.update every frame inside our render loop, but
    * we are rendering on demand. Tween is designed for continuous rendering.
    * So we'll make a TweenManager to help.
@@ -159,7 +148,12 @@
       scene.add(new THREE.Mesh(geometry, material));
     }
 
-    // FROM "DATA TO CANVAS"
+    async function loadFile(url) {
+      let req = await fetch(url);
+      return req.text();
+    }
+
+    // FROM "DATA TO CANVAS" & "WEBGL GLOBE POPULATION"
     function parseData(text) {
       let data = [];
       let settings = { data };
