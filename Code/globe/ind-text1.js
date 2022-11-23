@@ -170,6 +170,21 @@ function main() {
     maxVisibleDot: -0.2
   };
 
+  function testDot(dot) {
+    // I'm getting > 0  and < 0
+    if (dot < 0)
+      console.log(`%c${dot}`, "color: deeppink");
+
+    if (dot > 0)
+      console.log(`%c${dot}`, "color: #ccff00;");
+
+    if (dot === 0)
+      console.log(`%c${dot}`, "color: #997fff;");
+
+    if (dot === 1)
+      console.log(`%c${dot}`, "color: darkseagreen;");
+  }
+
   function updateLabels() {
     // exit if we have not loaded the data yet
     if (!countryInfos) {
@@ -204,12 +219,13 @@ function main() {
       cameraToPoint.copy(position);
       cameraToPoint.applyMatrix4(camera.matrixWorldInverse).normalize();
 
-      // get the dot product of camera relative direction to this position
+      // Get the dot product of camera relative direction to this position
       // on the globe with the direction from the camera to that point.
-      // -1 = facing directly towards the camera // TODO: -1?
+      // -1 = facing directly towards the camera
       // 0 = exactly on tangent of the sphere from the camera
-      // > 0 = facing away // TODO: > ?
+      // > 0 = facing away
       const dot = tempV.dot(cameraToPoint);
+      testDot(dot);
 
       // if the orientation is not facing us hide it.
       if (dot > settings.maxVisibleDot) {
