@@ -60,8 +60,8 @@
 <script type="module">
   import * as THREE from "three";
   import * as BufferGeometryUtils from "three/addons/utils/BufferGeometryUtils.js";
-  import {OrbitControls} from "three/addons/controls/OrbitControls.js";
-  import {TWEEN} from "three/addons/libs/tween.module.min.js";
+  import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+  import { TWEEN } from "three/addons/libs/tween.module.min.js";
 
   const womenData = "./data/gpw_v4_basic_demographic_characteristics_rev10_a000_014ft_2010_cntm_1_deg.asc";
   const menData = "./data/gpw_v4_basic_demographic_characteristics_rev10_a000_014mt_2010_cntm_1_deg.asc";
@@ -127,7 +127,7 @@
     let tweenManager = new TweenManger();
 
     let fov = 60;
-    let aspect = 2; // the canvas default
+    let aspect = 2;
     let near = 0.1;
     let far = 10;
     let camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
