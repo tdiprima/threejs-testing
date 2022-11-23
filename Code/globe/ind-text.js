@@ -1,9 +1,9 @@
 // and with that we should be able to pick countries
-import * as THREE from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
 function main() {
-  const canvas = document.querySelector('#c');
+  const canvas = document.querySelector("#c");
   const renderer = new THREE.WebGLRenderer({ canvas });
 
   const camera = new THREE.PerspectiveCamera(60, 2, 0.1, 10);
@@ -17,7 +17,7 @@ function main() {
   controls.update();
 
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color('#246');
+  scene.background = new THREE.Color("#246");
 
   const pickingScene = new THREE.Scene();
   pickingScene.background = new THREE.Color(0);
@@ -27,7 +27,7 @@ function main() {
     const geometry = new THREE.SphereGeometry(1, 64, 32);
 
     const indexTexture = loader.load(
-      'https://threejs.org/manual/examples/resources/data/world/country-index-texture.png',
+      "https://threejs.org/manual/examples/resources/data/world/country-index-texture.png",
       render
     );
     indexTexture.minFilter = THREE.NearestFilter;
@@ -37,7 +37,7 @@ function main() {
     pickingScene.add(new THREE.Mesh(geometry, pickingMaterial));
 
     const texture = loader.load(
-      'https://threejs.org/manual/examples/resources/data/world/country-outlines-4k.png',
+      "https://threejs.org/manual/examples/resources/data/world/country-outlines-4k.png",
       render
     );
     const material = new THREE.MeshBasicMaterial({ map: texture });
@@ -52,22 +52,25 @@ function main() {
   let numCountriesSelected = 0;
   let countryInfos;
   async function loadCountryData() {
-    countryInfos = await loadJSON('https://threejs.org/manual/examples/resources/data/world/country-info.json');
+    countryInfos = await loadJSON("https://threejs.org/manual/examples/resources/data/world/country-info.json");
 
     const lonFudge = Math.PI * 1.5;
     const latFudge = Math.PI;
+
     // these helpers will make it easy to position the boxes
     // We can rotate the lon helper on its Y axis to the longitude
     const lonHelper = new THREE.Object3D();
+
     // We rotate the latHelper on its X axis to the latitude
     const latHelper = new THREE.Object3D();
     lonHelper.add(latHelper);
+
     // The position helper moves the object to the edge of the sphere
     const positionHelper = new THREE.Object3D();
     positionHelper.position.z = 1;
     latHelper.add(positionHelper);
 
-    const labelParentElem = document.querySelector('#labels');
+    const labelParentElem = document.querySelector("#labels");
 
     // TODO: Iterators/generators require regenerator-runtime, which is too
     //  heavyweight for this.  Do array iteration instead.
@@ -91,7 +94,7 @@ function main() {
       countryInfo.area = area;
 
       // add an element for each country
-      const elem = document.createElement('div');
+      const elem = document.createElement("div");
       elem.textContent = name;
       labelParentElem.appendChild(elem);
       countryInfo.elem = elem;
@@ -127,7 +130,7 @@ function main() {
       const largeEnough = area >= large;
       const show = selected || (numCountriesSelected === 0 && largeEnough);
       if (!show) {
-        elem.style.display = 'none';
+        elem.style.display = "none";
         continue; // todo: hang on - continue?
       }
 
@@ -150,12 +153,12 @@ function main() {
 
       // if the orientation is not facing us hide it.
       if (dot > settings.maxVisibleDot) {
-        elem.style.display = 'none';
+        elem.style.display = "none";
         continue; // todo: no-continue
       }
 
       // restore the element to its default display style
-      elem.style.display = '';
+      elem.style.display = "";
 
       // get the normalized screen coordinate of that position
       // x and y will be in the -1 to +1 range with x = -1 being
@@ -240,7 +243,7 @@ function main() {
     const position = getCanvasRelativePosition(event);
     const id = pickHelper.pick(position, pickingScene, camera);
     if (id > 0) {
-      // we clicked a country. Toggle its 'selected' property
+      // we clicked a country. Toggle its "selected" property
       const countryInfo = countryInfos[id - 1];
       const selected = !countryInfo.selected;
       // if we're selecting this country and modifiers are not
@@ -263,7 +266,7 @@ function main() {
     });
   }
 
-  canvas.addEventListener('pointerup', pickCountry);
+  canvas.addEventListener("pointerup", pickCountry);
 
   function resizeRendererToDisplaySize(renderer) {
     const canvas = renderer.domElement;
@@ -293,6 +296,7 @@ function main() {
 
     renderer.render(scene, camera);
   }
+
   render();
 
   function requestRenderIfNotRequested() {
@@ -302,8 +306,8 @@ function main() {
     }
   }
 
-  controls.addEventListener('change', requestRenderIfNotRequested);
-  window.addEventListener('resize', requestRenderIfNotRequested);
+  controls.addEventListener("change", requestRenderIfNotRequested);
+  window.addEventListener("resize", requestRenderIfNotRequested);
 }
 
 main();

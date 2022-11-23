@@ -16,6 +16,10 @@
 
 [Scene Graph](https://threejs.org/manual/#en/scenegraph)
 
+# HTML
+
+Most of these have some of the same code in it, except for sun-earth-moon &amp; texture-wrap.
+
 # Data
 
 [https://globe.chromeexperiments.com/population909500.json](https://globe.chromeexperiments.com/population909500.json)
