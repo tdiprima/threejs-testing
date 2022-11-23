@@ -2,6 +2,7 @@
 
 [Textures](https://threejs.org/manual/#en/textures)
 
+* Textures are often the part of a three.js app that use the most memory. It's important to understand that in general, textures take `width * height * 4 * 1.33` bytes of memory.  So make your textures small in dimensions not just small in file size.
 * "Filtering and Mips"
 * Texture.magFilter
 
