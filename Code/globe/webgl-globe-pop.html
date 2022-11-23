@@ -58,7 +58,7 @@
 
     {
       let loader = new THREE.TextureLoader();
-      let texture = loader.load("world.jpg", render);
+      let texture = loader.load("./images/world.jpg", render);
       let geometry = new THREE.SphereGeometry(1, 64, 32);
       let material = new THREE.MeshBasicMaterial({ map: texture });
       scene.add(new THREE.Mesh(geometry, material));
@@ -183,8 +183,8 @@
       scene.add(mesh);
     }
 
-    // let dataUrl = "gpw_v4_basic_demographic_characteristics_rev10_a000_014mt_2010_cntm_1_deg.asc";
-    let dataUrl = "gpw_v4_population_count_rev11_2020_1_deg.asc";
+    // let dataUrl = "./data/gpw_v4_basic_demographic_characteristics_rev10_a000_014mt_2010_cntm_1_deg.asc";
+    let dataUrl = "./data/gpw_v4_population_count_rev11_2020_1_deg.asc";
     loadFile(dataUrl)
       .then(parseData)
       .then(addBoxes)

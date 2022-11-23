@@ -37,7 +37,7 @@
 
   // FLAT EARTH
   // let material = new THREE.MeshBasicMaterial({
-  //   map: loader.load("country-index-texture.png"),
+  //   map: loader.load("./images/country-index-texture.png"),
   //   side: THREE.DoubleSide
   // });
   // let geometry = new THREE.PlaneGeometry(10, 10);
@@ -47,7 +47,7 @@
 
   // SPHERE
   let geometry = new THREE.SphereGeometry(2, 132, 64);
-  let texture = loader.load("country-index-texture.png");
+  let texture = loader.load("./images/country-index-texture.png");
   // http://127.0.0.1:5500/manual/#en/textures // "Filtering and Mips"
   // https://threejs.org/docs/#api/en/textures/Texture.magFilter
   texture.minFilter = THREE.NearestFilter;
