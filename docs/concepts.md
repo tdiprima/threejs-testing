@@ -12,7 +12,15 @@ Lazy Loading 🆚 Eager Loading
 
 ![Lightweight Lazy Loading with Netlify](img/css-tricks.jpg)
 
-[netlify](https://lazy-load-nlm.netlify.com)
+An example of powering picture elements for responsive images with lazy loading, using [Netlify](https://lazy-load-nlm.netlify.com) Large Media.
+
+<br>
+
+# Models
+
+Check this out: [Sun](https://g.co/kgs/Vr4cvA)
+
+Uses Google [model-viewer](https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js).
 
 <br>
 
