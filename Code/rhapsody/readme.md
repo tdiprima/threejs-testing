@@ -18,24 +18,6 @@ tiff.ResolutionUnit: 'inch'
 
 [TCGA Study Abbreviations](https://gdc.cancer.gov/resources-tcga-users/tcga-code-tables/tcga-study-abbreviations)
 
-# Rapture
-
-He's doing some stupid shit like this:
-
-```js
-// let x = 65536;// let y = 28672;
-const x0 = coordinates[0][0] - x;
-const y0 = coordinates[0][1] - y;
-shape.moveTo(x0, y0);
-```
-
-Usually we do something like that when we wanna get the size of something.
-
-```js
-// segment.js
-spImgWidth = bottomRight[0] - topLeft[0];
-spImgHeight = bottomRight[1] - topLeft[1];
-```
 
 # Contains moveTo
 
@@ -44,12 +26,10 @@ spImgHeight = bottomRight[1] - topLeft[1];
 * common/DrawHelper.js
 * common/paths.js
 
-My issue is that x and y are hard-coded numbers from God knows where.  They're big numbers, but they're smaller than the width and height of the image.
+Usually we do something like this when we wanna get the size of something.
 
-And then we subtract that from the starting point.  Makes no sense.
-
-We're playing connect-the-dots.  Unless for whatever reason these points are patch-specific; not image-specific.
-
-In which case, he's picking a point out of nowhere, and saying &ndash; ok, now draw "this", starting from "here".
-
-That might be what he's doing.
+```js
+// segment.js
+spImgWidth = bottomRight[0] - topLeft[0];
+spImgHeight = bottomRight[1] - topLeft[1];
+```
