@@ -1,7 +1,7 @@
 // Draw image and overlay. The End.
 
 const baseUrl = "http://localhost:8888/iiif/?iiif=http://localhost:8888/HalcyonStorage/tcga/coad/TCGA-CM-5348-01Z-00-DX1.2ad0b8f6-684a-41a7-b568-26e97675cce9.svs";
-const segmentation = "http://localhost:8888/halcyon/?iiif=file:///D:/HalcyonStorage/nuclearsegmentation2019/TCGA-CM-5348-01Z-00-DX1.2ad0b8f6-684a-41a7-b568-26e97675cce9.zip";
+const segment = "http://localhost:8888/halcyon/?iiif=file:///D:/HalcyonStorage/nuclearsegmentation2019/TCGA-CM-5348-01Z-00-DX1.2ad0b8f6-684a-41a7-b568-26e97675cce9.zip";
 const feature = "http://localhost:8888/halcyon/?iiif=file:///D:/HalcyonStorage/features/raj/Ptumor_heatmap_TCGA-CM-5348-01Z-00-DX1.2ad0b8f6-684a-41a7-b568-26e97675cce9.zip";
 
 const magicNumber = 82984;
@@ -22,7 +22,7 @@ function srcUrl(x, y, w, h) {
 // Return default.png (transparent) from segmentation
 function srcSegUrl(x, y, w, h) {
   return new THREE.TextureLoader().load(
-    `${segmentation}/${x},${y},${w},${h}/512,/0/default.png`
+    `${segment}/${x},${y},${w},${h}/512,/0/default.png`
   );
 }
 
@@ -188,7 +188,7 @@ class FeatureLayer2 extends THREE.Object3D {
             const loader = new THREE.FileLoader();
             loader.load(
               // resource URL
-              `${segmentation}/${x},${y},${w},${h}/512,/0/default.json`,
+              `${segment}/${x},${y},${w},${h}/512,/0/default.json`,
 
               // onLoad callback
               data => {
