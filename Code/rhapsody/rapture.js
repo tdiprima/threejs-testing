@@ -13,29 +13,22 @@ function onWindowResize() {
   camera.updateProjectionMatrix();
 }
 
-/** @function */
+/**
+ * Return default.jpg from base
+ */
 function srcUrl(x, y, w, h) {
   return new THREE.TextureLoader().load(
     `${baseUrl}/${x},${y},${w},${h}/512,/0/default.jpg`
   );
 }
 
-/** @function */
+/**
+ * Return default.png (transparent) from segmentation
+ */
 function srcSegUrl(x, y, w, h) {
   return new THREE.TextureLoader().load(
     `${segmentation}/${x},${y},${w},${h}/512,/0/default.png`
   );
-}
-
-/**
- * GET FEATURES
- * Note! We were doing load() before; now we're doing fetch().
- */
-async function featureSrcUrl(x, y, w, h) {
-  const response = await fetch(
-    `${feature}/full/323,/0/default.json`
-  );
-  return await response.json();
 }
 
 /**
@@ -67,7 +60,7 @@ function square(x, y, w, h, src, offset) {
 }
 
 /**
- * SAME EXACT FREAKIN THING AS SQUARE()
+ * SEGMENTATION SQUARE
  */
 function segmentationSquare(x, y, w, h, src, offset) {
   const texture = src;
@@ -97,39 +90,6 @@ function segmentationSquare(x, y, w, h, src, offset) {
   X.position.set(0, 0, offset);
 
   return X;
-}
-
-/**
- * GET SEGMENTATION DATA
- * UNUSED FUNCTION
- */
-function getJSON(x, y, w, h) {
-  const loader = new THREE.FileLoader();
-  const json = loader.load(
-    // resource URL
-    `${segmentation}/${x},${y},${w},${h}/512,/0/default.json`,
-
-    // onLoad callback
-    data => {
-      // console.log(data);
-      const wow = JSON.parse(data);
-      console.log(wow);
-      return wow;
-    },
-
-    // onProgress callback
-    xhr => {
-      console.log(`${(xhr.loaded / xhr.total) * 100}% loaded`);
-    },
-
-    // onError callback
-    err => {
-      console.error('An error happened');
-    }
-  );
-  console.log("OUT!");
-
-  return json;
 }
 
 /**
@@ -235,13 +195,16 @@ class Rapture extends THREE.Object3D {
 class FeatureLayer2 extends THREE.Object3D {
   constructor(x, y, w, h, offset) {
     super();
+
     this.x = x;
     this.y = y;
     this.w = w;
     this.h = h;
+
     this.isFeatureLayer2 = true;
     this.type = 'FeatureLayer2';
     this.booted = false;
+
     const lod = new THREE.LOD();
 
     // FROM THE SEGMENTATION URL
@@ -254,19 +217,23 @@ class FeatureLayer2 extends THREE.Object3D {
           if (w > 1024) {
             const offx = Math.trunc(w / 2);
             const offy = Math.trunc(h / 2);
+
             const nw = new FeatureLayer2(x, y, offx, offy);
             const ne = new FeatureLayer2(x + offx, y, offx, offy);
             const sw = new FeatureLayer2(x, y + offy, offx, offy);
             const se = new FeatureLayer2(x + offx, y + offy, offx, offy);
+
             sw.position.set(-offx / 2, -offy / 2, offset);
             nw.position.set(-offx / 2, offy / 2, offset);
             se.position.set(offx / 2, -offy / 2, offset);
             ne.position.set(offx / 2, offy / 2, offset);
+
             const high = new THREE.Group();
             high.add(nw);
             high.add(ne);
             high.add(sw);
             high.add(se);
+
             lod.addLevel(high, w / 2);
           } else {
             // console.log(`Render ---> ${x},${y},${w},${h}`);
@@ -330,46 +297,6 @@ class FeatureLayer2 extends THREE.Object3D {
   }
 }
 
-/**
- * @class FeatureLayer
- * UNUSED CLASS
- */
-class FeatureLayer extends THREE.Object3D {
-  constructor(datum) {
-    super();
-    this.isFeatureLayer = true;
-    this.type = 'FeatureLayer';
-    const matrix = new THREE.Group();
-    console.log(`# of tiles = ${datum.length}`);
-    for (let i = 0; i < datum.length; i++) {
-      // if (datum[i].hasValue > 0.50) {
-      const tile = basicPolygon(datum[i]);
-      matrix.add(tile);
-      // }
-    }
-    return matrix;
-  }
-}
-
-/**
- * @function addLayer
- * UNUSED FUNCTION
- */
-async function addLayer(x, y, w, h) {
-  // console.log("Getting Feature Data");
-  const datum = {};
-  // const datum = await featureSrcUrl(x, y, w, h);
-
-  console.log("Creating Feature Layer");
-  // const feature = new FeatureLayer(datum);
-  // scene.add(feature);
-
-  const feature2 = new FeatureLayer2(datum);
-  scene.add(feature2);
-
-  console.log("Segmentation Layer Added");
-}
-
 // SET UP THREE.JS
 THREE.Cache.enabled = true;
 const scene = new THREE.Scene();
@@ -411,3 +338,88 @@ function animate() {
 }
 
 animate();
+
+//**************** UNUSED SH1T ****************//
+/**
+ * GET FEATURES
+ * Note! We were doing load() before; now we're doing fetch().
+ */
+async function featureSrcUrl(x, y, w, h) {
+  const response = await fetch(
+    `${feature}/full/323,/0/default.json`
+  );
+  return await response.json();
+}
+
+/**
+ * GET SEGMENTATION DATA
+ * UNUSED FUNCTION
+ */
+function getJSON(x, y, w, h) {
+  const loader = new THREE.FileLoader();
+  const json = loader.load(
+    // resource URL
+    `${segmentation}/${x},${y},${w},${h}/512,/0/default.json`,
+
+    // onLoad callback
+    data => {
+      // console.log(data);
+      const wow = JSON.parse(data);
+      console.log(wow);
+      return wow;
+    },
+
+    // onProgress callback
+    xhr => {
+      console.log(`${(xhr.loaded / xhr.total) * 100}% loaded`);
+    },
+
+    // onError callback
+    err => {
+      console.error('An error happened');
+    }
+  );
+  console.log("OUT!");
+
+  return json;
+}
+
+/**
+ * @class FeatureLayer
+ * UNUSED CLASS
+ */
+class FeatureLayer extends THREE.Object3D {
+  constructor(datum) {
+    super();
+    this.isFeatureLayer = true;
+    this.type = 'FeatureLayer';
+    const matrix = new THREE.Group();
+    console.log(`# of tiles = ${datum.length}`);
+    for (let i = 0; i < datum.length; i++) {
+      // if (datum[i].hasValue > 0.50) {
+      const tile = basicPolygon(datum[i]);
+      matrix.add(tile);
+      // }
+    }
+    return matrix;
+  }
+}
+
+/**
+ * @function addLayer
+ * UNUSED FUNCTION
+ */
+async function addLayer(x, y, w, h) {
+  // console.log("Getting Feature Data");
+  const datum = {};
+  // const datum = await featureSrcUrl(x, y, w, h);
+
+  console.log("Creating Feature Layer");
+  // const feature = new FeatureLayer(datum);
+  // scene.add(feature);
+
+  const feature2 = new FeatureLayer2(datum);
+  scene.add(feature2);
+
+  console.log("Segmentation Layer Added");
+}
