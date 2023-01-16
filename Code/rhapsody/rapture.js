@@ -197,9 +197,11 @@ class FeatureLayer2 extends THREE.Object3D {
                 // Iterate objects
                 for (let i = 0; i < obj.length; i++) {
                   const coord = obj[i].coordinates;
-                  const shape = new THREE.Shape();
+
                   const x0 = coord[0][0] - x - offx;
                   const y0 = h - (coord[0][1] - y) - offy;
+
+                  const shape = new THREE.Shape();
                   shape.moveTo(x0, y0);
 
                   // Iterate coordinates
@@ -210,7 +212,6 @@ class FeatureLayer2 extends THREE.Object3D {
                   }
 
                   const geometry = new THREE.ShapeGeometry(shape);
-                  // YELLOW:
                   const material = new THREE.MeshBasicMaterial({ color: 0xffff00, transparent: true, opacity: 0.5 });
 
                   const X = new THREE.Mesh(geometry, material);
