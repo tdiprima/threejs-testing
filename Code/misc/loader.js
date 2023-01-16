@@ -31,7 +31,7 @@ new THREE.FileLoader().load(
 
   // onError callback
   err => {
-    console.error('An error happened');
+    console.error(`An error happened: ${err}`);
   }
 );
 
