@@ -6,6 +6,7 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>>How to color-correct a texture</title>
   <!-- https://discourse.threejs.org/t/how-to-get-pixel-data-from-maps/25966 -->
+  <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
   <style>
     body {
       margin: 0;
@@ -17,9 +18,7 @@
 <script type="module">
   import * as THREE from "/build/three.module.js";
 
-  let camera;
-  let scene;
-  let renderer;
+  let loader, camera, scene, renderer, geometry, material, mesh, canvas, context, data, texture;
 
   const width = window.innerWidth / 2;
   const height = window.innerHeight / 2;
@@ -27,22 +26,30 @@
   init();
   animate();
 
+  $("body").click(() => {
+    console.log(scene.children.length);
+    let image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+    material = new THREE.MeshBasicMaterial({
+      map: loader.load(image)
+    });
+    mesh.material = material;
+  });
+
   function pixelFun(img) {
-    // console.log("image", img);
-    const canvas = document.createElement("canvas");
+    canvas = document.createElement("canvas");
     canvas.width = img.width;
     canvas.height = img.height;
+    // document.body.appendChild(canvas);
 
-    document.body.appendChild(canvas);
-
-    const context = canvas.getContext("2d");
+    context = canvas.getContext("2d");
     context.drawImage(img, 0, 0);
 
-    const data = context.getImageData(0, 0, canvas.width, canvas.height);
-    console.log(data);
+    data = context.getImageData(0, 0, canvas.width, canvas.height);
+    console.log("data", data);
 
     const pxl = data.data;
     for (let i = 0; i < pxl.length; i += 4) {
+      // If we have red, then shade that pixel magenta.
       if (pxl[i] > 200) {
         pxl[i] = 255 * pxl[i];
         pxl[i + 1] = 0;
@@ -59,15 +66,15 @@
 
     scene = new THREE.Scene();
 
-    const loader = new THREE.TextureLoader();
-    const texture = loader.load("https://threejs.org/examples/textures/uv_grid_opengl.jpg", texture => {
+    loader = new THREE.TextureLoader();
+    texture = loader.load("https://threejs.org/examples/textures/uv_grid_opengl.jpg", texture => {
 
       pixelFun(texture.image);
 
-      const geometry = new THREE.PlaneGeometry();
-      const material = new THREE.MeshBasicMaterial({ map: texture });
+      geometry = new THREE.PlaneGeometry();
+      material = new THREE.MeshBasicMaterial({ map: texture });
 
-      const mesh = new THREE.Mesh(geometry, material);
+      mesh = new THREE.Mesh(geometry, material);
       scene.add(mesh);
 
     });
