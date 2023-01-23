@@ -50,3 +50,23 @@ new THREE.TextureLoader().load( "./img.png", function (tex) {
   console.log( tex.image.width, tex.image.height );
   console.log( texture.image.width, texture.image.height );
 });
+
+let geometry = new THREE.BoxGeometry(1, 1, 1);
+
+// OY.
+
+// You can do it like this, inside the callback:
+loader.load(img, texture => {
+  let material = new THREE.MeshBasicMaterial({
+    map: texture
+  });
+  let cube = new THREE.Mesh(geometry, material);
+  scene.add(cube);
+});
+
+// Or, believe it or not, like this. (Loader.load returns a texture object.)
+let material = new THREE.MeshBasicMaterial({
+  map: loader.load(img)
+});
+let cube = new THREE.Mesh(geometry, material);
+scene.add(cube);
