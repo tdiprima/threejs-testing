@@ -18,7 +18,10 @@
 <script type="module">
   import * as THREE from "/build/three.module.js";
 
-  let loader, camera, scene, renderer, geometry, material, mesh, canvas, context, data, texture;
+  let camera;
+  let scene;
+  let renderer;
+  let canvas, material, mesh, loader;
 
   const width = window.innerWidth / 2;
   const height = window.innerHeight / 2;
@@ -41,10 +44,10 @@
     canvas.height = img.height;
     // document.body.appendChild(canvas);
 
-    context = canvas.getContext("2d");
+    const context = canvas.getContext("2d");
     context.drawImage(img, 0, 0);
 
-    data = context.getImageData(0, 0, canvas.width, canvas.height);
+    const data = context.getImageData(0, 0, canvas.width, canvas.height);
     console.log("data", data);
 
     const pxl = data.data;
@@ -67,11 +70,11 @@
     scene = new THREE.Scene();
 
     loader = new THREE.TextureLoader();
-    texture = loader.load("https://threejs.org/examples/textures/uv_grid_opengl.jpg", texture => {
+    const texture = loader.load("https://threejs.org/examples/textures/uv_grid_opengl.jpg", texture => {
 
       pixelFun(texture.image);
 
-      geometry = new THREE.PlaneGeometry();
+      const geometry = new THREE.PlaneGeometry();
       material = new THREE.MeshBasicMaterial({ map: texture });
 
       mesh = new THREE.Mesh(geometry, material);
