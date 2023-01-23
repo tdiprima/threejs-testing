@@ -1,5 +1,5 @@
 /**
- * Dump the scenegraph to the JavaScript console.
+ * Dump the scene graph to the JavaScript console.
  * https://threejs.org/manual/#en/load-gltf
  */
 function dumpObject(obj, lines = [], isLast = true, prefix = '') {
