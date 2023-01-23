@@ -82,7 +82,7 @@ pxl[i + 2] = 255 * pxl[i + 2] / 255;
 
 The "divide by 255" makes it weird.  Weird!  How is it possible?  I cancelled out the * 255.
 
-And &nbsp; how is it working, then? (Because we `255 * pxl[i]`).
+And &ndash; how is it working, then (because we `255 * pxl[i]`)?
 
 Putting new data on old three.js canvas...
 
