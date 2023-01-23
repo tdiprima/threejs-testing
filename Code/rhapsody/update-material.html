@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Document</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.148.0/three.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+  <style>
+    body {
+      background-color: #000;
+      margin: 0px;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+<script>
+  // ============ CLICK ON CANVAS TO CHANGE MATERIAL ====================
+  let mesh, renderer, material, geometry, scene, camera;
+
+  init();
+  animate();
+
+  $('body').click(() => {
+    console.log(scene.children.length);
+    let rand = 0xffffff * Math.random();
+    material = new THREE.MeshLambertMaterial({
+      color: rand,
+      ambient: rand,
+      side: THREE.DoubleSide
+    });
+    mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
+  });
+
+  function init() {
+    // renderer
+    renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // scene
+    scene = new THREE.Scene();
+
+    // camera
+    camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 10000);
+    camera.position.z = 300;
+    camera.lookAt(scene.position);
+
+    // directional
+    const light = new THREE.DirectionalLight(0xffffff);
+    light.position.set(1, 1, 1);
+    scene.add(light);
+
+    // ambient
+    const ambient = new THREE.AmbientLight(0x444444);
+    scene.add(ambient);
+
+    // geometry
+    geometry = new THREE.BoxGeometry(100, 100, 100);
+
+    // material
+    let rand = 0xffffff * Math.random();
+    material = new THREE.MeshLambertMaterial({
+      color: 0xBEE2FF,
+      side: THREE.DoubleSide
+    });
+
+    // mesh
+    mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
+  }
+
+  function animate() {
+    requestAnimationFrame(animate);
+    renderer.render(scene, camera);
+  }
+</script>
+</body>
+</html>
