@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <!-- <meta content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" name="viewport"> -->
+  <title>render-to-texture</title>
+  <!-- https://gamedevelopment.tutsplus.com/tutorials/quick-tip-how-to-render-to-a-texture-in-threejs--cms-25686 -->
+  <!-- webgl_rtt.html -->
+  <!-- webgl_read_float_buffer.html -->
+  <!-- https://discourse.threejs.org/t/how-to-get-texture-color-at-intersection-with-raycast/38631/8 -->
+</head>
+<body>
+
+<script type="importmap">{
+  "imports": {
+    "three": "/build/three.module.js",
+    "three/addons/": "/jsm/"
+  }
+}
+</script>
+<script async src="/es-module-shims-1.3.6/dist/es-module-shims.js"></script>
+
+<script id="fragment_shader_screen" type="x-shader/x-fragment">
+  varying vec2 vUv;
+  uniform sampler2D tDiffuse;
+
+  void main() {
+
+    gl_FragColor = texture2D(tDiffuse, vUv);
+
+  }
+</script>
+
+<script id="vertexShader" type="x-shader/x-vertex">
+  varying vec2 vUv;
+
+  void main() {
+
+    vUv = uv;
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+
+  }
+</script>
+
+<script type="module">
+  import * as THREE from "three";
+  import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+
+  // initialize renderer
+  const renderer = new THREE.WebGLRenderer();
+  renderer.setSize(width, height);
+  renderer.autoClear = false;
+  document.body.appendChild(renderer.domElement);
+
+  // scene / raycaster / camera / controls
+  const scene = new THREE.Scene();
+
+  const cameraRTT = new THREE.OrthographicCamera(
+    window.innerWidth / -2,
+    window.innerWidth / 2,
+    window.innerHeight / 2,
+    window.innerHeight / -2,
+    -10000,
+    10000
+  );
+  cameraRTT.position.z = 100;
+
+  const sceneScreen = new THREE.Scene();
+
+  const renderTargetTexture = new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight, {
+    minFilter: THREE.LinearFilter,
+    magFilter: THREE.NearestFilter,
+    format: THREE.RGBAFormat,
+    type: THREE.FloatType
+  });
+
+  const materialScreen = new THREE.ShaderMaterial({
+    uniforms: { tDiffuse: { value: renderTargetTexture.texture } },
+    vertexShader: document.getElementById('vertexShader').textContent,
+    fragmentShader: document.getElementById('fragment_shader_screen').textContent,
+    depthWrite: false
+  });
+
+  const plane = new THREE.PlaneGeometry(window.innerWidth, window.innerHeight);
+  const quad = new THREE.Mesh(plane, materialScreen);
+  quad.position.z = -100;
+  sceneScreen.add(quad);
+
+  const rayCaster = new THREE.Raycaster();
+
+  const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 10000);
+  camera.position.copy(new THREE.Vector3(100, 100, 100));
+  camera.lookAt(new THREE.Vector3(0, 0, 0));
+  scene.add(camera);
+
+  const controls = new OrbitControls(camera, renderer.domElement);
+
+  // global variables
+  const mouse = new THREE.Vector2();
+  let planeMesh;
+  let textureData;
+
+  const imgPath = "https://cdn.pixabay.com/photo/2022/05/23/13/16/bird-7216181_1280.jpg";
+
+  // load texture and initialize planeMesh, textureData and renderTargetTexture
+  new THREE.TextureLoader().load(imgPath, texture => {
+    textureData = texture;
+
+    planeMesh = new THREE.Mesh(
+      new THREE.PlaneGeometry(texture.image.width, texture.image.height),
+      new THREE.MeshBasicMaterial({ map: texture })
+    );
+
+    scene.add(planeMesh);
+  });
+
+  resize();
+  animate();
+
+  function resize() {
+    renderer.setSize(width, height);
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+  }
+
+  function animate() {
+    renderer.clear();
+    renderer.render(scene, camera);
+    requestAnimationFrame(animate);
+    controls.update();
+  }
+
+  window.addEventListener('resize', resize);
+
+  window.addEventListener('pointerup', event => {
+    const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+    mouse.x = ((event.clientX - renderer.domElement.offsetLeft + scrollLeft) / renderer.domElement.width) * 2 - 1;
+    mouse.y = -((event.clientY - renderer.domElement.offsetTop + scrollTop) / renderer.domElement.height) * 2 + 1;
+
+    rayCaster.setFromCamera(mouse, camera);
+    const intersections = rayCaster.intersectObject(planeMesh);
+
+    if (intersections.length > 0) {
+      mouse.x = parseInt(renderer.domElement.width / 2 + (mouse.x * renderer.domElement.width) / 2);
+      mouse.y = parseInt(renderer.domElement.height / 2 + (mouse.y * renderer.domElement.height) / 2);
+
+      renderer.clear();
+
+      // Render first scene into texture
+
+      renderer.setRenderTarget(renderTargetTexture);
+      renderer.clear();
+      renderer.render(scene, camera); // ( sceneRTT, cameraRTT )
+      // Render full screen quad with generated texture
+
+      renderer.setRenderTarget(null);
+      renderer.render(sceneScreen, cameraRTT);
+
+      // todo: rendering the texture to a RenderTexture and then calling renderer.readRenderTargetPixels to get pixel data
+      const read = new Float32Array(4);
+      renderer.readRenderTargetPixels(renderTargetTexture, mouse.x, mouse.y, 1, 1, read);
+
+      const r = parseInt(read[0] * 255);
+      const g = parseInt(read[1] * 255);
+      const b = parseInt(read[2] * 255);
+
+      console.log(`X:${mouse.x} Y:${mouse.y} RGB: [${r},${g},${b}] Color: %c     `, `background:rgb(${r},${g},${b});`);
+    }
+  });
+</script>
+</body>
+</html>

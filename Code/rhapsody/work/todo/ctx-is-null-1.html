@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>get a pixel value directly from the renderer</title>
+  <!-- https://stackoverflow.com/questions/43583012/getting-the-color-value-of-a-pixel-on-click-of-a-mesh-with-three-js -->
+</head>
+<body>
+You can also get a pixel value directly from the renderer, but it will cost you an extra render pass.
+
+See this THREE.js example: https://threejs.org/examples/?q=instanc#webgl_interactive_instances_gpu
+
+(https://threejs.org/examples/?q=instanc#webgl_instancing_performance)?
+
+webgl_interactive_instances_gpu.html => webgl_instancing_interactive.html
+
+This example uses readRenderTargetPixels in the THREE.WebGLRenderer.
+https://threejs.org/docs/#api/renderers/WebGLRenderer
+<script>
+</script>
+</body>
+</html>

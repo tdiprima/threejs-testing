@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Again, no bloody example.</title>
+  <!-- https://stackoverflow.com/questions/43583012/getting-the-color-value-of-a-pixel-on-click-of-a-mesh-with-three-js -->
+  <!-- https://stackoverflow.com/questions/33433305/threejs-how-to-pick-the-intersection-point-color-of-an-object -->
+</head>
+<body>
+Motherfucker.
+<script>
+  // Declare stuff...
+  let twoDeeCanvasImage, ctx2D, canvas2D, renderer;
+  let img2D = new Image();
+
+  // Need to define a few things, such as twoDeeCanvasImage.
+  // Did he just mean img2D??
+  if (twoDeeCanvasImage) {
+    twoDeeCanvasImage.addEventListener('load', () => {
+      ctx2D.clearRect(0, 0, canvas2D.width, canvas2D.height);
+      ctx2D.drawImage(img2D, 0, 0);
+      // from here, get your pixel data
+    });
+
+    img2D.src = renderer.domElement.toDataURL('img/png');
+    // From there you can use getImageData, like you did before.
+
+    // you may see image degradation, so...
+    if (ctx2D.imageSmoothingEnabled !== undefined) {
+      ctx2D.imageSmoothingEnabled = false;
+    } else if (ctx2D.mozImageSmoothingEnabled !== undefined) {
+      ctx2D.mozImageSmoothingEnabled = false;
+    } else if (ctx2D.webkitImageSmoothingEnabled !== undefined) {
+      ctx2D.webkitImageSmoothingEnabled = false;
+    } else {
+      console.warn('Browser does not support disabling canvas antialiasing. Results image may be blurry.');
+    }
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Convert canvas.image to base64</title>
+  <!-- https://discourse.threejs.org/t/get-pixel-data-for-threejs-canvas-getimagedata/23079/2 -->
+  <!-- https://jsfiddle.net/tfoller/zLk24eh5/5/ -->
+  <style>
+    #btn {
+      position: fixed;
+      top: 0;
+      left: 0;
+    }
+
+    #ctx2d {
+      background: yellow;
+    }
+
+    #ctn {
+      position: fixed;
+      top: 0;
+      right: 0;
+      background: #fff;
+    }
+
+    #img {
+      width: 100px;
+      height: 100px;
+      border: 1px solid blue;
+    }
+  </style>
+</head>
+<body>
+
+<!-- todo: If you want to extract data from a canvas, you have to set the WebGL context parameter preserveDrawingBuffer to true. -->
+<button id="btn">save canvas to img</button>
+
+<div id="ctn">
+  <div>saved img is show below</div>
+  <img id="img">
+</div>
+
+<canvas height="100" id="ctx2d" width="100"></canvas>
+
+<div id="container"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.143.0/build/three.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.143.0/examples/js/controls/OrbitControls.js"></script>
+
+<script>
+  let snap = false;
+
+  const container = document.getElementById('container');
+
+  let renderer;
+  let scene;
+  let camera;
+  let controls;
+
+  // If preserveDrawingBuffer = true; makes your application too slow, you can try alternatively converting
+  // canvas.image to base64, in a function executed right after renderer.render().
+  const capture = () => {
+    const cav = document.querySelector('#container canvas');
+    // console.log(cav.width, cav.height);
+
+    // const ctx = cav.getContext("2d"); // EH!
+    // const ctx = renderer.getContext();
+    // const imageData = ctx.getImageData(0, 0, cav.width, cav.height);
+    // console.log("imageData", imageData);
+
+    const base64 = cav.toDataURL('img/png');
+    document.querySelector('#img').src = base64;
+  };
+
+  // SAVE THREE.JS CANVAS TO IMAGE
+  document.getElementById('btn').addEventListener('click', () => {
+    snap = true;
+    // Then we animate() and call capture();
+  });
+
+  function init2D() {
+    // 2D context save code
+    const cav = document.querySelector('#ctx2d');
+    const ctx = cav.getContext('2d');
+    ctx.beginPath();
+    ctx.arc(20, 20, 50, 0, Math.PI);
+    ctx.stroke();
+    ctx.closePath();
+    const base64 = cav.toDataURL();
+    document.querySelector('#img').src = base64;
+  }
+
+  init2D();
+
+  function animate() {
+    requestAnimationFrame(animate);
+
+    renderer.render(scene, camera);
+    if (snap) {
+      capture();
+      snap = false;
+    }
+  }
+
+  function init() {
+    renderer = new THREE.WebGLRenderer({
+      antialias: true
+      // preserveDrawingBuffer: true
+    });
+
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    container.appendChild(renderer.domElement);
+
+    scene = new THREE.Scene();
+
+    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
+    camera.position.set(50, 50, 50);
+
+    scene.add(new THREE.AmbientLight(0xdddddd));
+
+    controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+    const mesh = new THREE.Mesh(
+      new THREE.PlaneBufferGeometry(50, 50),
+      new THREE.ShaderMaterial({
+        vertexShader: `
+          void main() {
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);
+          }
+          `,
+        fragmentShader: `
+          void main() {
+              gl_FragColor = vec4(1.0,0.0,0.0,1.0);
+          }
+      `
+      })
+    );
+    scene.add(mesh);
+
+    scene.add(
+      new THREE.Mesh(
+        new THREE.BoxBufferGeometry(20, 20, 20),
+        new THREE.MeshBasicMaterial({
+          color: 0x0000ff
+        })
+      )
+    );
+
+    animate();
+  }
+
+  window.addEventListener('load', init);
+</script>
+</body>
+</html>

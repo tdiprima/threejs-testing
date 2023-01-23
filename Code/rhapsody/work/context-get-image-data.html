@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Get pixel data from maps</title>
+  <!-- material { map: texture } -->
+  <!-- https://discourse.threejs.org/t/how-to-get-pixel-data-from-maps/25966 -->
+  <style>
+    body {
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+
+<script type="module">
+  import * as THREE from 'https://cdn.skypack.dev/three@0.128.0/build/three.module.js';
+
+  let camera, scene, renderer;
+
+  init();
+  animate();
+
+  function init() {
+    camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 10);
+    camera.position.z = 2;
+
+    scene = new THREE.Scene();
+
+    const loader = new THREE.TextureLoader();
+
+    // Read image data from texture and output it to the console.
+    const texture = loader.load('https://threejs.org/examples/textures/uv_grid_opengl.jpg', texture => {
+      // You NEED a canvas element to extract data.
+      const canvas = document.createElement('canvas');
+      canvas.width = texture.image.width;
+      canvas.height = texture.image.height;
+
+      // Create a 2D canvas context
+      const context = canvas.getContext('2d');
+      context.drawImage(texture.image, 0, 0); // Draw texture.image
+
+      // Read texture data
+      const data = context.getImageData(0, 0, canvas.width, canvas.height);
+      console.log('%ccontext.getImageData', 'color: #ccff00;', data);
+
+      // Visualize the (original) texture
+      const geometry = new THREE.PlaneGeometry();
+      const material = new THREE.MeshBasicMaterial({ map: texture });
+
+      const mesh = new THREE.Mesh(geometry, material);
+      scene.add(mesh);
+    });
+
+    // Look - no "preserveDrawingBuffer".
+    renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+  }
+
+  function animate() {
+    requestAnimationFrame(animate);
+    renderer.render(scene, camera);
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>This is the fastest, and most efficient method 🙄</title>
+  <!-- TODO: Make it work! -->
+  <!-- factor in dpr; see jump or whatever TF it is, draw rectangle maybe... -->
+  <!-- https://discourse.threejs.org/t/is-there-a-way-to-get-the-pixel-data-of-the-texture-without-going-through-the-canvas/40988/8 -->
+  <style>
+    html,
+    body {
+      overflow: hidden;
+    }
+
+    body {
+      background: #2a2a2a;
+      /* font-size: 0; <- Seriously, what? */
+    }
+
+    #div_0 {
+      position: absolute;
+      right: 4px;
+      bottom: 2px;
+      width: 24px;
+      height: 24px;
+      pointer-events: none;
+      border: 1px solid #ccc;;
+      border-radius: 24px;
+      background: #000;
+    }
+
+    #i_0 {
+      font-size: 22px;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 180px;
+      padding-left: 6px;
+      pointer-events: none;
+      color: #0f0;
+      border: 1px solid #aaa;
+      background: #333;
+    }
+
+    #div_whatever {
+      position: relative;
+      width: 800px;
+      height: 600px;
+      margin: 10px auto;
+      border: 2px solid #aaa;
+    }
+
+    #img {
+      display: block;
+      /* zoom: 3; <- unknown property */
+      cursor: crosshair;
+    }
+  </style>
+</head>
+<body>
+
+<div id="div_whatever">
+  <img alt="squiggy" crossorigin="anonymous" height="250" id="img"
+       src="https://threejs.org/examples/screenshots/webgl_lines_fat.jpg"
+       width="400">
+  <input id="i_0" type="text">
+  <div id="div_0"></div>
+</div>
+
+<script>
+  // let ok = 1;
+  let cv_ = document.createElement('canvas');
+  document.body.appendChild(cv_);
+
+  let div_0 = document.getElementById("div_0");
+  let i_0 = document.getElementById("i_0");
+  let img = document.getElementById("img");
+
+  cv_.width = 1;
+  cv_.height = 1;
+  let cv_x = cv_.getContext('2d');
+
+  function g_rgb(e) {
+    // if (!ok) return;
+    const [x, y] = [Math.floor(e.offsetX / 3), Math.floor(e.offsetY / 3)];
+
+    createImageBitmap(e.target, x, y, 1, 1).then(bmp => {
+      cv_x.drawImage(bmp, 0, 0, 1, 1);
+      const rgb = Array.from(cv_x.getImageData(0, 0, 1, 1).data.slice(0, 3));
+      div_0.style.background = `rgb( ${rgb} )`;
+      i_0.value = rgb;
+
+      console.log(div_0.style.background);
+      console.log(rgb);
+    });
+  }
+
+  img.addEventListener("click", g_rgb);
+</script>
+</body>
+</html>

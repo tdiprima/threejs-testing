@@ -1,0 +1,3712 @@
+<!DOCTYPE html>
+<html class="html__responsive" itemscope itemtype=
+"https://schema.org/QAPage" lang="en">
+<head>
+<title>html - How could we get the pixel's color of a mesh when we
+click on it, using Javascript? - Stack Overflow</title>
+<!-- TODO: https://stackoverflow.com/questions/49495681/how-could-we-get-the-pixels-color-of-a-mesh-when-we-click-on-it-using-javascri#49497303 -->
+<link href=
+"https://cdn.sstatic.net/Sites/stackoverflow/Img/favicon.ico?v=ec617d715196"
+rel="shortcut icon">
+<link href=
+"https://cdn.sstatic.net/Sites/stackoverflow/Img/apple-touch-icon.png?v=c78bd457575a"
+rel="apple-touch-icon">
+<link href=
+"https://cdn.sstatic.net/Sites/stackoverflow/Img/apple-touch-icon.png?v=c78bd457575a"
+rel="image_src">
+<link href="/opensearch.xml" rel="search" title="Stack Overflow"
+type="application/opensearchdescription+xml">
+<link href=
+"https://stackoverflow.com/questions/49495681/how-could-we-get-the-pixels-color-of-a-mesh-when-we-click-on-it-using-javascri"
+rel="canonical">
+<meta content=
+"width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0"
+name="viewport">
+<meta content="website" property="og:type">
+<meta content=
+"https://stackoverflow.com/questions/49495681/how-could-we-get-the-pixels-color-of-a-mesh-when-we-click-on-it-using-javascri"
+property="og:url">
+<meta content="Stack Overflow" property="og:site_name">
+<meta content=
+"https://cdn.sstatic.net/Sites/stackoverflow/Img/apple-touch-icon@2.png?v=73d79a89bded"
+itemprop="image primaryImageOfPage" property="og:image">
+<meta content="summary" name="twitter:card">
+<meta content="stackoverflow.com" name="twitter:domain">
+<meta content=
+"How could we get the pixel's color of a mesh when we click on it, using Javascript?"
+itemprop="name" name="twitter:title" property="og:title">
+<meta content=
+"Currently in the page we have a mesh loaded with TreeJS and displayed in a canvas:
+ How could we get the color of the point where we click on?  I have tried as it has been suggested here: Getting the"
+itemprop="description" name="twitter:description" property=
+"og:description">
+<script id="webpack-public-path" type="text/uri-list">
+https://cdn.sstatic.net/
+</script>
+<script src=
+"https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script defer src=
+"https://cdn.sstatic.net/Js/third-party/npm/@stackoverflow/stacks/dist/js/stacks.min.js?v=9bc856be1b3a"></script>
+<script src=
+"https://cdn.sstatic.net/Js/stub.en.js?v=3442317c40c6"></script>
+<link href=
+"https://cdn.sstatic.net/Shared/stacks.css?v=cb9621e41d1f" rel=
+"stylesheet" type="text/css">
+<link href=
+"https://cdn.sstatic.net/Sites/stackoverflow/primary.css?v=5e02cf10d2fb"
+rel="stylesheet" type="text/css">
+<link href="/feeds/question/49495681" rel="alternate" title=
+"Feed for question 'How could we get the pixel's color of a mesh when we click on it, using Javascript?'"
+type="application/atom+xml">
+<meta content="US" name="twitter:app:country">
+<meta content="Stack Exchange iOS" name="twitter:app:name:iphone">
+<meta content="871299723" name="twitter:app:id:iphone">
+<meta content=
+"se-zaphod://stackoverflow.com/questions/49495681/how-could-we-get-the-pixels-color-of-a-mesh-when-we-click-on-it-using-javascri"
+name="twitter:app:url:iphone">
+<meta content="Stack Exchange iOS" name="twitter:app:name:ipad">
+<meta content="871299723" name="twitter:app:id:ipad">
+<meta content=
+"se-zaphod://stackoverflow.com/questions/49495681/how-could-we-get-the-pixels-color-of-a-mesh-when-we-click-on-it-using-javascri"
+name="twitter:app:url:ipad">
+<meta content="Stack Exchange Android" name=
+"twitter:app:name:googleplay">
+<meta content=
+"https://stackoverflow.com/questions/49495681/how-could-we-get-the-pixels-color-of-a-mesh-when-we-click-on-it-using-javascri"
+name="twitter:app:url:googleplay">
+<meta content="com.stackexchange.marvin" name=
+"twitter:app:id:googleplay">
+<script>
+    StackExchange.ready(function () {
+
+      StackExchange.using("snippets", function () {
+        StackExchange.snippets.initSnippetRenderer();
+      });
+
+      StackExchange.using("postValidation", function () {
+        StackExchange.postValidation.initOnBlurAndSubmit($('#post-form'), 2, 'answer');
+      });
+
+
+      StackExchange.question.init({
+        showAnswerHelp: true,
+        showTrendingSortLaunchPopover: false,
+        showTrendingSortPostLaunchPopover: false,
+        totalCommentCount: 0,
+        shownCommentCount: 0,
+        enableTables: true,
+        questionId: 49495681
+      });
+
+      styleCode();
+
+      StackExchange.realtime.subscribeToQuestion('1', '49495681');
+      StackExchange.using("gps", function () {
+        StackExchange.gps.trackOutboundClicks('#content', '.js-post-body');
+      });
+
+
+    });
+</script>
+<link href=
+"https://cdn.sstatic.net/Shared/Channels/channels.css?v=a5fae8812988"
+rel="stylesheet" type="text/css">
+<script data-module-name="Shared/options.mod" data-role=
+"module-args" type="application/json">
+{
+    "options": {
+      "locale": "en",
+      "serverTime": 1674230858,
+      "routeName": "Questions/Show",
+      "stackAuthUrl": "https://stackauth.com",
+      "networkMetaHostname": "meta.stackexchange.com",
+      "site": {
+        "name": "Stack Overflow",
+        "description": "Q\u0026A for professional and enthusiast programmers",
+        "isNoticesTabEnabled": true,
+        "enableNewTagCreationWarning": true,
+        "insertSpaceAfterNameTabCompletion": false,
+        "id": 1,
+        "cookieDomain": ".stackoverflow.com",
+        "childUrl": "https://meta.stackoverflow.com",
+        "negativeVoteScoreFloor": null,
+        "enableSocialMediaInSharePopup": true,
+        "protocol": "https"
+      },
+      "user": {
+        "fkey": "295ea9cc4850ab27575162d550a88e803ee5966a203ade3e5591a2b11e6158e7",
+        "tid": "f95c2016-35af-5812-069e-fe4d62519d4b",
+        "rep": 0,
+        "isAnonymous": true,
+        "isAnonymousNetworkWide": true
+      },
+      "events": {
+        "postType": {
+          "question": 1
+        },
+        "postEditionSection": {
+          "title": 1,
+          "body": 2,
+          "tags": 3
+        }
+      },
+      "svgIconPath": "https://cdn.sstatic.net/Img/stacks-icons",
+      "svgIconHash": "152dfe64472f"
+    }
+  }
+</script>
+<script data-module-name="Shared/settings.mod" data-role=
+"module-args" type="application/json">
+{
+    "settings": {
+      "userMessaging": {
+        "showNewFeatureNotice": true
+      },
+      "tags": {},
+      "subscriptions": {
+        "defaultBasicMaxTrueUpSeats": 250,
+        "defaultFreemiumMaxTrueUpSeats": 50,
+        "defaultMaxTrueUpSeats": 1000
+      },
+      "snippets": {
+        "renderDomain": "stacksnippets.net",
+        "snippetsEnabled": true
+      },
+      "site": {
+        "allowImageUploads": true,
+        "enableImgurHttps": true,
+        "enableUserHovercards": true,
+        "forceHttpsImages": true,
+        "stacksEditorPreviewEnabled": true,
+        "styleCode": true
+      },
+      "questions": {
+        "enableQuestionTitleLengthLiveWarning": true,
+        "enableSavesFeature": true,
+        "maxTitleSize": 150,
+        "questionTitleLengthStartLiveWarningChars": 50
+      },
+      "intercom": {
+        "appId": "inf0secd",
+        "hostBaseUrl": "https://stacksnippets.net"
+      },
+      "paths": {
+        "jQueryUICSSPath": "https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/themes/smoothness/jquery-ui.css",
+        "jQueryUIJSPath": "https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"
+      },
+      "monitoring": {
+        "clientTimingsAbsoluteTimeout": 30000,
+        "clientTimingsDebounceTimeout": 1000
+      },
+      "mentions": {
+        "maxNumUsersInDropdown": 50
+      },
+      "markdown": {
+        "enableTables": true
+      },
+      "legal": {
+        "oneTrustConfigId": "c3d9f1e3-55f3-4eba-b268-46cee4c6789c"
+      },
+      "flags": {
+        "allowRetractingCommentFlags": true,
+        "allowRetractingFlags": true
+      },
+      "elections": {
+        "opaVoteResultsBaseUrl": "https://www.opavote.com/results/"
+      },
+      "comments": {},
+      "accounts": {
+        "currentPasswordRequiredForChangingStackIdPassword": true
+      }
+    }
+  }
+</script>
+<script>
+StackExchange.init();
+</script>
+<script>
+    StackExchange.using.setCacheBreakers({
+      "Js/adops.en.js": "6da43f5e0a84",
+      "Js/ask.en.js": "",
+      "Js/begin-edit-event.en.js": "dd955babf04d",
+      "Js/copy-transpiled.en.js": "e7855bee94f2",
+      "Js/events.en.js": "",
+      "Js/explore-qlist.en.js": "2b1f34938b8b",
+      "Js/full-anon.en.js": "dad8e0ca61ef",
+      "Js/full.en.js": "e9f46e28cbd6",
+      "Js/highlightjs-loader.en.js": "a284064706b3",
+      "Js/inline-tag-editing.en.js": "629d801833ec",
+      "Js/keyboard-shortcuts.en.js": "a715495ee04f",
+      "Js/markdown-it-loader.en.js": "5818ef89ff9d",
+      "Js/moderator.en.js": "626c2dad029e",
+      "Js/postCollections-transpiled.en.js": "529276cfb7ae",
+      "Js/post-validation.en.js": "cedd65876389",
+      "Js/question-editor.en.js": "",
+      "Js/review-v2-transpiled.en.js": "7da17c5563cf",
+      "Js/revisions.en.js": "a86490719687",
+      "Js/stacks-editor.en.js": "b09ddb413422",
+      "Js/tageditor.en.js": "825c9597ce2d",
+      "Js/tageditornew.en.js": "f2cc8185e847",
+      "Js/tagsuggestions.en.js": "1bcff7d98f97",
+      "Js/unlimited-transpiled.en.js": "7ed67670b600",
+      "Js/wmd.en.js": "5b83d3f656eb",
+      "Js/snippet-javascript-codemirror.en.js": "73fce5cc7219"
+    });
+    StackExchange.using("gps", function () {
+      StackExchange.gps.init(false);
+    });
+</script> <noscript id="noscript-css">
+<style>
+body, .s-topbar {
+      margin-top: 1.9em
+    }
+</style></noscript>
+<style></style>
+</head>
+<body class="question-page unified-theme">
+<div id="notify-container"></div>
+<div id="custom-header"></div>
+<header class="s-topbar ps-fixed t0 l0 js-top-bar">
+<div class="s-topbar--container"><a aria-controls="left-sidebar"
+aria-expanded="false" aria-haspopup="true" class=
+"s-topbar--menu-btn js-left-sidebar-toggle" href="#" role=
+"menuitem"><span></span></a>
+<div class="topbar-dialog leftnav-dialog js-leftnav-dialog dno">
+<div class="left-sidebar js-unpinned-left-sidebar" data-can-be=
+"left-sidebar" data-is-here-when="sm"></div>
+</div>
+<a class="s-topbar--logo js-gps-track" data-gps-track=
+"top_nav.click({is_current:false, location:2, destination:8})"
+href="https://stackoverflow.com"><span class="-img _glyph">Stack
+Overflow</span></a>
+<ol class="s-navigation" role="presentation">
+<li class="md:d-none"><a class="s-navigation--item js-gps-track"
+data-ga=
+"[&quot;top navigation&quot;,&quot;about menu click&quot;,null,null,null]"
+data-gps-track=
+"top_nav.products.click({location:2, destination:7})" href=
+"https://stackoverflow.co/">About</a></li>
+<li><a aria-controls="products-popover" class=
+"s-navigation--item js-gps-track js-products-menu" data-action=
+"s-popover#toggle" data-controller="s-popover" data-ga=
+"[&quot;top navigation&quot;,&quot;products menu click&quot;,null,null,null]"
+data-gps-track=
+"top_nav.products.click({location:2, destination:1})"
+data-s-popover-placement="bottom" data-s-popover-toggle-class=
+"is-selected" href="#">Products</a></li>
+<li class="md:d-none"><a class="s-navigation--item js-gps-track"
+data-ga=
+"[&quot;top navigation&quot;,&quot;learn more - teams&quot;,null,null,null]"
+data-gps-track=
+"top_nav.products.click({location:2, destination:7})" href=
+"/teams">For Teams</a></li>
+</ol>
+<div aria-hidden="true" class="s-popover ws2 mtn2 p0" id=
+"products-popover" role="menu">
+<div class="s-popover--arrow"></div>
+<ol class="list-reset s-anchors s-anchors__inherit">
+<li class="m6"><a class=
+"bar-sm p6 d-block h:bg-black-100 js-gps-track" data-ga=
+"[&quot;top navigation&quot;,&quot;public qa submenu click&quot;,null,null,null]"
+data-gps-track=
+"top_nav.products.click({location:2, destination:2})" href=
+"/questions"><span class="fs-body1 d-block">Stack Overflow</span>
+<span class="fs-caption d-block fc-light">Public questions &
+answers</span></a></li>
+<li class="m6"><a class=
+"bar-sm p6 d-block h:bg-black-100 js-gps-track" data-ga=
+"[&quot;top navigation&quot;,&quot;teams submenu click&quot;,null,null,null]"
+data-gps-track=
+"top_nav.products.click({location:2, destination:3})" href=
+"/teams"><span class="fs-body1 d-block">Stack Overflow for
+Teams</span> <span class="fs-caption d-block fc-light">Where
+developers & technologists share private knowledge with
+coworkers</span></a></li>
+<li class="m6"><a class=
+"bar-sm p6 d-block h:bg-black-100 js-gps-track" data-ga=
+"[&quot;top navigation&quot;,&quot;talent submenu click&quot;,null,null,null]"
+data-gps-track=
+"top_nav.products.click({location:2, destination:5})" href=
+"https://stackoverflow.co/talent"><span class=
+"fs-body1 d-block">Talent</span> <span class=
+"fs-caption d-block fc-light">Build your employer
+brand</span></a></li>
+<li class="m6"><a class=
+"bar-sm p6 d-block h:bg-black-100 js-gps-track" data-ga=
+"[&quot;top navigation&quot;,&quot;advertising submenu click&quot;,null,null,null]"
+data-gps-track=
+"top_nav.products.click({location:2, destination:6})" href=
+"https://stackoverflow.co/advertising"><span class=
+"fs-body1 d-block">Advertising</span> <span class=
+"fs-caption d-block fc-light">Reach developers & technologists
+worldwide</span></a></li>
+<li class="bg-black-025 bt bc-black-075 py6 px6 bbr-md"><a class=
+"fc-light d-block py6 px6 h:fc-black-800 js-gps-track" data-ga=
+"[&quot;top navigation&quot;,&quot;about submenu click&quot;,null,null,null]"
+data-gps-track=
+"top_nav.products.click({location:2, destination:7})" href=
+"https://stackoverflow.co/">About the company</a></li>
+</ol>
+</div>
+<form action="/search" autocomplete="off" class=
+"s-topbar--searchbar js-searchbar" id="search" role="search" name=
+"search">
+<div class="s-topbar--searchbar--input-group"><input aria-controls=
+"top-search" aria-label="Search" autocomplete="off" class=
+"s-input s-input__search js-search-field" data-action=
+"focus-&gt;s-popover#show" data-controller="s-popover"
+data-s-popover-placement="bottom-start" maxlength="240" name="q"
+placeholder="Search…" role="combobox" type="text" value="">
+<svg aria-hidden="true" class=
+"s-input-icon s-input-icon__search svg-icon iconSearch" height="18"
+viewbox="0 0 18 18" width="18">
+<path d=
+"m18 16.5-5.14-5.18h-.35a7 7 0 1 0-1.19 1.19v.35L16.5 18l1.5-1.5ZM12 7A5 5 0 1 1 2 7a5 5 0 0 1 10 0Z"></path>
+</svg>
+<div class=
+"s-popover p0 wmx100 wmn4 sm:wmn-initial js-top-search-popover" id=
+"top-search" role="menu">
+<div class="s-popover--arrow"></div>
+<div class="js-spinner p24 d-flex ai-center jc-center d-none">
+<div class="s-spinner s-spinner__sm fc-orange-400">
+<div class="v-visible-sr">Loading…</div>
+</div>
+</div>
+<span class="v-visible-sr js-screen-reader-info"></span>
+<div class="js-ac-results overflow-y-auto hmx3 d-none"></div>
+<div aria-describedby="Tips for searching" class="js-search-hints">
+</div>
+</div>
+</div>
+</form>
+<nav class="h100 ml-auto overflow-x-auto pr12">
+<ol class="s-topbar--content" role="menubar">
+<li class="js-topbar-dialog-corral" role="presentation">
+<div class="topbar-dialog siteSwitcher-dialog dno" role="menu">
+<div class="header fw-wrap">
+<h3 class="flex--item"><a href="https://stackoverflow.com">current
+community</a></h3>
+<div class="flex--item fl1">
+<div class="ai-center d-flex jc-end"><button aria-label="Close"
+class="js-close-button s-btn s-btn__muted p0 ml8 d-none sm:d-block"
+type="button"><svg aria-hidden="true" class="svg-icon iconClear"
+height="18" viewbox="0 0 18 18" width="18">
+<path d=
+"M15 4.41 13.59 3 9 7.59 4.41 3 3 4.41 7.59 9 3 13.59 4.41 15 9 10.41 13.59 15 15 13.59 10.41 9 15 4.41Z"></path>
+</svg></button></div>
+</div>
+</div>
+<div class="modal-content bg-powder-050 current-site-container">
+<ul class="current-site">
+<li class="d-flex">
+<div class="fl1"><a class=
+"current-site-link site-link js-gps-track d-flex gs8 gsx"
+data-gps-track="site_switcher.click({ item_type:3 })" data-id="1"
+href="https://stackoverflow.com">
+<div class="favicon favicon-stackoverflow site-icon flex--item"
+title="Stack Overflow"></div>
+<span class="flex--item fl1">Stack Overflow</span></a></div>
+<div class="related-links"><a class="js-gps-track" data-gps-track=
+"site_switcher.click({ item_type:14 })" href=
+"https://stackoverflow.com/help">help</a> <a class="js-gps-track"
+data-gps-track="site_switcher.click({ item_type:6 })" href=
+"https://chat.stackoverflow.com/?tab=site&amp;host=stackoverflow.com">
+chat</a></div>
+</li>
+<li class="related-site d-flex">
+<div class="L-shaped-icon-container"><span class=
+"L-shaped-icon"></span></div>
+<a class="site-link js-gps-track d-flex gs8 gsx" data-gps-track=
+"site.switch({ target_site:552, item_type:3 }),site_switcher.click({ item_type:4 })"
+data-id="552" href="https://meta.stackoverflow.com">
+<div class="favicon favicon-stackoverflowmeta site-icon flex--item"
+title="Meta Stack Overflow"></div>
+<span class="flex--item fl1">Meta Stack Overflow</span></a></li>
+</ul>
+</div>
+<div class="header" id="your-communities-header">
+<h3>your communities</h3>
+</div>
+<div class="modal-content" id="your-communities-section">
+<div class="call-to-login"><a class="login-link js-gps-track"
+data-gps-track="site_switcher.click({ item_type:10 })" href=
+"https://stackoverflow.com/users/signup?ssrc=site_switcher&amp;returnurl=https%3a%2f%2fstackoverflow.com%2fquestions%2f49495681%2fhow-could-we-get-the-pixels-color-of-a-mesh-when-we-click-on-it-using-javascri">
+Sign up</a> or <a class="login-link js-gps-track" data-gps-track=
+"site_switcher.click({ item_type:11 })" href=
+"https://stackoverflow.com/users/login?ssrc=site_switcher&amp;returnurl=https%3a%2f%2fstackoverflow.com%2fquestions%2f49495681%2fhow-could-we-get-the-pixels-color-of-a-mesh-when-we-click-on-it-using-javascri">
+log in</a> to customize your list.</div>
+</div>
+<div class="header">
+<h3><a href="https://stackexchange.com/sites">more stack exchange
+communities</a></h3>
+<a class="float-right" href="https://stackoverflow.blog">company
+blog</a></div>
+<div class="modal-content">
+<div class="child-content"></div>
+</div>
+</div>
+</li>
+<li role="none"><button aria-controls="search" aria-haspopup="true"
+aria-label="Search" class=
+"s-topbar--item s-btn s-btn__icon s-btn__muted d-none sm:d-inline-flex js-searchbar-trigger"
+role="menuitem" title="Click to show search"><svg aria-hidden=
+"true" class="svg-icon iconSearch" height="18" viewbox="0 0 18 18"
+width="18">
+<path d=
+"m18 16.5-5.14-5.18h-.35a7 7 0 1 0-1.19 1.19v.35L16.5 18l1.5-1.5ZM12 7A5 5 0 1 1 2 7a5 5 0 0 1 10 0Z"></path>
+</svg></button></li>
+<li role="none"><a class=
+"s-topbar--item s-topbar--item__unset s-btn s-btn__filled ws-nowrap js-gps-track"
+data-ga=
+"[&quot;top navigation&quot;,&quot;login button click&quot;,null,null,null]"
+data-gps-track="login.click" href=
+"https://stackoverflow.com/users/login?ssrc=head&amp;returnurl=https%3a%2f%2fstackoverflow.com%2fquestions%2f49495681%2fhow-could-we-get-the-pixels-color-of-a-mesh-when-we-click-on-it-using-javascri"
+rel="nofollow" role="menuitem">Log in</a></li>
+<li role="none"><a class=
+"s-topbar--item s-topbar--item__unset ml4 s-btn s-btn__primary ws-nowrap"
+data-ga=
+"[&quot;sign up&quot;,&quot;Sign Up Navigation&quot;,&quot;Header&quot;,null,null]"
+href=
+"https://stackoverflow.com/users/signup?ssrc=head&amp;returnurl=https%3a%2f%2fstackoverflow.com%2fquestions%2f49495681%2fhow-could-we-get-the-pixels-color-of-a-mesh-when-we-click-on-it-using-javascri"
+rel="nofollow" role="menuitem">Sign up</a></li>
+</ol>
+</nav>
+</div>
+</header>
+<script>
+  StackExchange.ready(function () {
+    StackExchange.topbar.init();
+  });
+  StackExchange.scrollPadding.setPaddingTop(50, 10);
+</script>
+<div class="container">
+<div class="left-sidebar js-pinned-left-sidebar ps-relative"
+data-is-here-when="md lg" id="left-sidebar">
+<div class="left-sidebar--sticky-container js-sticky-leftnav">
+<nav role="navigation">
+<ol class="nav-links">
+<li aria-current="false" class="ps-relative"><a aria-controls=""
+aria-current="false" class="pl8 js-gps-track nav-links--link"
+data-controller="" data-gps-track=
+"top_nav.click({is_current: false, location:2, destination:8})"
+data-s-popover-auto-show="true"
+data-s-popover-hide-on-outside-click="never"
+data-s-popover-placement="right" href="/">
+<div class="d-flex ai-center">
+<div class="flex--item truncate">Home</div>
+</div>
+</a></li>
+<li>
+<ol class="nav-links">
+<li class="fs-fine tt-uppercase ml8 mt16 mb4 fc-light">Public</li>
+<li aria-current="true" class="ps-relative youarehere">
+<a aria-controls="" aria-current="false" class=
+"pl8 js-gps-track nav-links--link -link__with-icon"
+data-controller="" data-gps-track=
+"top_nav.click({is_current: true, location:2, destination:1})"
+data-s-popover-auto-show="true"
+data-s-popover-hide-on-outside-click="never"
+data-s-popover-placement="right" href="/questions" id=
+"nav-questions"><svg aria-hidden="true" class="svg-icon iconGlobe"
+height="18" viewbox="0 0 18 18" width="18">
+<path d=
+"M9 1C4.64 1 1 4.64 1 9c0 4.36 3.64 8 8 8 4.36 0 8-3.64 8-8 0-4.36-3.64-8-8-8ZM8 15.32a6.46 6.46 0 0 1-4.3-2.74 6.46 6.46 0 0 1-.93-5.01L7 11.68v.8c0 .88.12 1.32 1 1.32v1.52Zm5.72-2c-.2-.66-1-1.32-1.72-1.32h-1v-2c0-.44-.56-1-1-1H6V7h1c.44 0 1-.56 1-1V5h2c.88 0 1.4-.72 1.4-1.6v-.33a6.45 6.45 0 0 1 3.83 4.51 6.45 6.45 0 0 1-1.51 5.73v.01Z"></path>
+</svg> <span class="-link--channel-name">Questions</span></a></li>
+<li aria-current="false" class="ps-relative"><a aria-controls=""
+aria-current="false" class="js-gps-track nav-links--link"
+data-controller="" data-gps-track=
+"top_nav.click({is_current: false, location:2, destination:2})"
+data-s-popover-auto-show="true"
+data-s-popover-hide-on-outside-click="never"
+data-s-popover-placement="right" href="/tags" id="nav-tags">
+<div class="d-flex ai-center">
+<div class="flex--item truncate">Tags</div>
+</div>
+</a></li>
+<li aria-current="false" class="ps-relative"><a aria-controls=""
+aria-current="false" class="js-gps-track nav-links--link"
+data-controller="" data-gps-track=
+"top_nav.click({is_current: false, location:2, destination:3})"
+data-s-popover-auto-show="true"
+data-s-popover-hide-on-outside-click="never"
+data-s-popover-placement="right" href="/users" id="nav-users">
+<div class="d-flex ai-center">
+<div class="flex--item truncate">Users</div>
+</div>
+</a></li>
+<li aria-current="false" class="ps-relative"><a aria-controls=""
+aria-current="false" class="js-gps-track nav-links--link"
+data-controller="" data-gps-track=
+"top_nav.click({is_current: false, location:2, destination:12})"
+data-s-popover-auto-show="true"
+data-s-popover-hide-on-outside-click="never"
+data-s-popover-placement="right" href=
+"https://stackoverflow.com/jobs/companies?so_medium=stackoverflow&amp;so_source=SiteNav"
+id="nav-companies">
+<div class="d-flex ai-center">
+<div class="flex--item truncate">Companies</div>
+</div>
+</a></li>
+<li class="d-flex ml8 mt16 jc-space-between">
+<div class="flex--item tt-uppercase tt-uppercase fs-fine fc-light">
+Collectives</div>
+<div class="flex--item fs-fine fc-light"><a aria-controls=
+"popover-discover-collectives" class=
+"s-link s-link__inherit mr8 js-gps-track js-collectives-navcta-toggle"
+data-action="s-popover#toggle" data-controller="s-popover"
+data-gps-track=
+"top_nav.click({is_current:false, location:2, destination:17})"
+data-s-popover-placement="top" data-s-popover-toggle-class=
+"is-selected" href="javascript:void(0)" role=
+"button"><svg aria-hidden="true" class="svg-icon iconInfoSm"
+height="14" viewbox="0 0 14 14" width="14">
+<path d=
+"M7 1a6 6 0 1 1 0 12A6 6 0 0 1 7 1Zm1 10V6H6v5h2Zm0-6V3H6v2h2Z"></path>
+</svg></a></div>
+</li>
+<li aria-current="false" class="ps-relative"><a aria-controls=""
+aria-current="false" class=
+"pl8 ai-center js-collectives-navcta-toggle js-gps-track nav-links--link -link__with-icon"
+data-controller="" data-gps-track=
+"top_nav.click({is_current: false, location:2, destination:18})"
+data-s-popover-auto-show="true"
+data-s-popover-hide-on-outside-click="never"
+data-s-popover-placement="right" href="/collectives" id=
+"nav-collective-discover"><svg aria-hidden="true" class=
+"mt-auto fc-orange-400 svg-icon iconStarVerified" height="18"
+viewbox="0 0 18 18" width="18">
+<path d=
+"M9.86.89a1.14 1.14 0 0 0-1.72 0l-.5.58c-.3.35-.79.48-1.23.33l-.72-.25a1.14 1.14 0 0 0-1.49.85l-.14.76c-.1.45-.45.8-.9.9l-.76.14c-.67.14-1.08.83-.85 1.49l.25.72c.15.44.02.92-.33 1.23l-.58.5a1.14 1.14 0 0 0 0 1.72l.58.5c.35.3.48.79.33 1.23l-.25.72c-.23.66.18 1.35.85 1.49l.76.14c.45.1.8.45.9.9l.14.76c.14.67.83 1.08 1.49.85l.72-.25c.44-.15.92-.02 1.23.33l.5.58c.46.52 1.26.52 1.72 0l.5-.58c.3-.35.79-.48 1.23-.33l.72.25c.66.23 1.35-.18 1.49-.85l.14-.76c.1-.45.45-.8.9-.9l.76-.14c.67-.14 1.08-.83.85-1.49l-.25-.72c-.15-.44-.02-.92.33-1.23l.58-.5c.52-.46.52-1.26 0-1.72l-.58-.5c-.35-.3-.48-.79-.33-1.23l.25-.72a1.14 1.14 0 0 0-.85-1.49l-.76-.14c-.45-.1-.8-.45-.9-.9l-.14-.76a1.14 1.14 0 0 0-1.49-.85l-.72.25c-.44.15-.92.02-1.23-.33l-.5-.58Zm-.49 2.67L10.6 6.6c.05.15.19.24.34.25l3.26.22c.36.03.5.48.23.71l-2.5 2.1a.4.4 0 0 0-.14.4l.8 3.16a.4.4 0 0 1-.6.44L9.2 12.13a.4.4 0 0 0-.42 0l-2.77 1.74a.4.4 0 0 1-.6-.44l.8-3.16a.4.4 0 0 0-.13-.4l-2.5-2.1a.4.4 0 0 1 .22-.7l3.26-.23a.4.4 0 0 0 .34-.25l1.22-3.03a.4.4 0 0 1 .74 0Z"></path>
+</svg> <span class="-link--channel-name">Explore
+Collectives</span></a></li>
+</ol>
+</li>
+<li>
+<ol class="nav-links">
+<li class="js-freemium-cta ps-relative">
+<div class="fs-fine tt-uppercase ml8 mt16 mb8 fc-light">Teams</div>
+<div class=
+"bt bl bb bc-black-075 p12 pb6 fc-black-600 blr-sm overflow-hidden">
+<strong class="fc-black-750 mb6">Stack Overflow for Teams</strong>
+– Start collaborating and sharing organizational knowledge.
+<img alt="" class="wmx100 mx-auto my8 h-auto d-block" height="114"
+src=
+"https://cdn.sstatic.net/Img/teams/teams-illo-free-sidebar-promo.svg?v=47faa659a05e"
+width="139"> <a class=
+"w100 s-btn s-btn__primary s-btn__xs bg-orange-400 js-gps-track"
+data-ga=
+"[&quot;teams left navigation - anonymous&quot;,&quot;left nav free cta&quot;,&quot;stackoverflow.com/teams/create/free&quot;,null,null]"
+data-gps-track="teams.create.left-sidenav.click({ Action: 6 })"
+href=
+"https://try.stackoverflow.co/why-teams/?utm_source=so-owned&amp;utm_medium=side-bar&amp;utm_campaign=campaign-38&amp;utm_content=cta">
+Create a free Team</a> <a class=
+"w100 s-btn s-btn__muted s-btn__xs js-gps-track" data-ga=
+"[&quot;teams left navigation - anonymous&quot;,&quot;left nav free cta&quot;,&quot;stackoverflow.com/teams&quot;,null,null]"
+data-gps-track="teams.create.left-sidenav.click({ Action: 5 })"
+href="https://stackoverflow.co/teams">Why Teams?</a></div>
+</li>
+<li class=
+"d-flex ai-center jc-space-between ml8 mt24 mb4 js-create-team-cta d-none">
+<div class="flex--item tt-uppercase fs-fine fc-light">Teams</div>
+<div class="flex--item"><a aria-controls="popover-teams-create-cta"
+class="s-link p12 fc-black-500 h:fc-black-800 js-gps-track"
+data-action="s-popover#toggle" data-controller="s-popover" data-ga=
+"[&quot;teams left navigation - anonymous&quot;,&quot;left nav show teams info&quot;,null,null,null]"
+data-gps-track=
+"teams.create.left-sidenav.click({ Action: ShowInfo })"
+data-s-popover-placement="bottom-start"
+data-s-popover-toggle-class="is-selected" href="javascript:void(0)"
+role="button"><svg aria-hidden="true" class="svg-icon iconInfoSm"
+height="14" viewbox="0 0 14 14" width="14">
+<path d=
+"M7 1a6 6 0 1 1 0 12A6 6 0 0 1 7 1Zm1 10V6H6v5h2Zm0-6V3H6v2h2Z"></path>
+</svg></a></div>
+</li>
+<li class="ps-relative js-create-team-cta d-none"><a class=
+"pl8 js-gps-track nav-links--link" data-ga=
+"[&quot;teams left navigation - anonymous&quot;,&quot;left nav team click&quot;,&quot;stackoverflow.com/teams/create/free&quot;,null,null]"
+data-gps-track=
+"teams.create.left-sidenav.click({ Action: FreemiumTeamsCreateClick })"
+href=
+"https://stackoverflowteams.com/teams/create/free?utm_source=so-owned&amp;utm_medium=side-bar&amp;utm_campaign=campaign-38&amp;utm_content=cta"
+title=
+"Stack Overflow for Teams is a private, secure spot for your organization's questions and answers.">
+<div class="d-flex ai-center">
+<div class="flex--item s-avatar va-middle bg-orange-400">
+<div class="s-avatar--letter mtn1"><svg aria-hidden="true" class=
+"svg-icon iconBriefcaseSm" height="14" viewbox="0 0 14 14" width=
+"14">
+<path d=
+"M4 3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1h.5c.83 0 1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5h-7A1.5 1.5 0 0 1 2 10.5v-5C2 4.67 2.67 4 3.5 4H4V3Zm5 1V3H5v1h4Z"></path>
+</svg></div>
+<svg aria-hidden="true" class=
+"native s-avatar--badge svg-icon iconShieldXSm" height="10"
+viewbox="0 0 9 10" width="9">
+<path d=
+"M0 1.84 4.5 0 9 1.84v3.17C9 7.53 6.3 10 4.5 10 2.7 10 0 7.53 0 5.01V1.84Z"
+fill="var(--white)"></path>
+<path d=
+"M1 2.5 4.5 1 8 2.5v2.51C8 7.34 5.34 9 4.5 9 3.65 9 1 7.34 1 5.01V2.5Zm2.98 3.02L3.2 7h2.6l-.78-1.48a.4.4 0 0 1 .15-.38c.34-.24.73-.7.73-1.14 0-.71-.5-1.23-1.41-1.23-.92 0-1.39.52-1.39 1.23 0 .44.4.9.73 1.14.12.08.18.23.15.38Z"
+fill="var(--black-500)"></path></svg></div>
+<div class="flex--item pl6">Create free Team</div>
+</div>
+</a></li>
+</ol>
+</li>
+</ol>
+</nav>
+</div>
+<div class="s-popover ws2" id="popover-discover-collectives" role=
+"menu">
+<div class="s-popover--arrow"></div>
+<div><svg aria-hidden="true" class=
+"fc-orange-500 float-right ml24 svg-spot spotCollective" height=
+"48" viewbox="0 0 48 48" width="48">
+<path d=
+"M25.5 7a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM14 18.25c0-.69.56-1.25 1.25-1.25h22.5c.69 0 1.25.56 1.25 1.25V37.5a1 1 0 0 1-1.6.8l-4.07-3.05a1.25 1.25 0 0 0-.75-.25H15.25c-.69 0-1.25-.56-1.25-1.25v-15.5ZM7 24.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0ZM25.5 48a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM48 24.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0Z"
+opacity=".2"></path>
+<path d=
+"M21 3.5a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0ZM24.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3ZM0 23.5a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0ZM3.5 22a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3ZM21 44.5a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0Zm3.5-1.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Zm20-23a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7ZM43 23.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0Zm-23.23-3.14a1 1 0 0 1-.13 1.4l-2.08 1.74 2.08 1.73a1 1 0 1 1-1.28 1.54l-2.42-2.02a1.63 1.63 0 0 1 0-2.5l2.42-2.02a1 1 0 0 1 1.4.13Zm7.59 1.41a1 1 0 1 1 1.28-1.54l2.42 2.02c.78.65.78 1.85 0 2.5l-2.42 2.02a1 1 0 1 1-1.28-1.54l2.08-1.73-2.08-1.73ZM24.12 18a1 1 0 0 1 .87 1.12l-1 8a1 1 0 1 1-1.98-.24l1-8a1 1 0 0 1 1.11-.87Zm-11.87-5C11.01 13 10 14 10 15.25v15.5c0 1.24 1 2.25 2.25 2.25h17.33c.06 0 .11.02.15.05l4.07 3.05a2 2 0 0 0 3.2-1.6V15.25c0-1.24-1-2.25-2.25-2.25h-22.5ZM12 15.25c0-.14.11-.25.25-.25h22.5c.14 0 .25.11.25.25V34.5l-4.07-3.05a2.2 2.2 0 0 0-1.35-.45H12.25a.25.25 0 0 1-.25-.25v-15.5Zm7.24-10.68a1 1 0 1 0-.48-1.94A22.04 22.04 0 0 0 2.91 17.7a1 1 0 1 0 1.92.58 20.04 20.04 0 0 1 14.4-13.72Zm11.05-1.66a1 1 0 0 0-.58 1.92c6.45 1.92 11.54 7 13.46 13.46a1 1 0 1 0 1.92-.58 22.05 22.05 0 0 0-14.8-14.8ZM4.57 28.76a1 1 0 0 0-1.94.48 22.03 22.03 0 0 0 16.13 16.13 1 1 0 1 0 .48-1.94A20.03 20.03 0 0 1 4.57 28.76Zm40.8.48a1 1 0 1 0-1.94-.48 20.04 20.04 0 0 1-13.72 14.41 1 1 0 0 0 .58 1.92 22.04 22.04 0 0 0 15.08-15.85Z"></path>
+</svg>
+<h5 class="pt4 fw-bold">Collectives™ on Stack Overflow</h5>
+<p class="my16 fs-caption fc-medium">Find centralized, trusted
+content and collaborate around the technologies you use most.</p>
+<a class="js-gps-track s-btn s-btn__primary s-btn__xs"
+data-gps-track=
+"top_nav.click({is_current:false, location:2, destination:18})"
+href="/collectives">Learn more about Collectives</a></div>
+</div>
+<div aria-hidden="true" class="s-popover ws2" id=
+"popover-teams-create-cta" role="menu">
+<div class="s-popover--arrow"></div>
+<div class="ps-relative overflow-hidden">
+<p class="mb2"><strong>Teams</strong></p>
+<p class="mb12 fs-caption fc-black-400">Q&amp;A for work</p>
+<p class="mb12 fs-caption fc-medium">Connect and share knowledge
+within a single location that is structured and easy to search.</p>
+<a class="js-gps-track s-btn s-btn__primary s-btn__xs" data-ga=
+"[&quot;teams left navigation - anonymous&quot;,&quot;left nav cta&quot;,&quot;stackoverflow.com/teams&quot;,null,null]"
+data-gps-track=
+"teams.create.left-sidenav.click({ Action: CtaClick })" href=
+"https://stackoverflow.co/teams">Learn more about Teams</a></div>
+<div class="ps-absolute t8 r8"><svg aria-hidden="true" class=
+"fc-orange-500 svg-spot spotPeople" height="48" viewbox="0 0 48 48"
+width="48">
+<path d=
+"M13.5 28a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM7 30a1 1 0 0 1 1-1h11a1 1 0 0 1 1 1v5h11v-5a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v10a2 2 0 0 1-2 2H33v5a1 1 0 0 1-1 1H20a1 1 0 0 1-1-1v-5H8a1 1 0 0 1-1-1V30Zm25-6.5a4.5 4.5 0 1 0 9 0 4.5 4.5 0 0 0-9 0ZM24.5 34a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Z"
+opacity=".2"></path>
+<path d=
+"M16.4 26.08A6 6 0 1 0 7.53 26C5.64 26.06 4 27.52 4 29.45V40a1 1 0 0 0 1 1h9a1 1 0 1 0 0-2h-4v-7a1 1 0 1 0-2 0v7H6v-9.55c0-.73.67-1.45 1.64-1.45H16a1 1 0 0 0 .4-1.92ZM12 18a4 4 0 1 1 0 8 4 4 0 0 1 0-8Zm16.47 14a6 6 0 1 0-8.94 0A3.6 3.6 0 0 0 16 35.5V46a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V35.5c0-1.94-1.64-3.42-3.53-3.5ZM20 28a4 4 0 1 1 8 0 4 4 0 0 1-8 0Zm-.3 6h8.6c1 0 1.7.75 1.7 1.5V45h-2v-7a1 1 0 1 0-2 0v7h-4v-7a1 1 0 1 0-2 0v7h-2v-9.5c0-.75.7-1.5 1.7-1.5ZM42 22c0 1.54-.58 2.94-1.53 4A3.5 3.5 0 0 1 44 29.45V40a1 1 0 0 1-1 1h-9a1 1 0 1 1 0-2h4v-7a1 1 0 1 1 2 0v7h2v-9.55A1.5 1.5 0 0 0 40.48 28H32a1 1 0 0 1-.4-1.92A6 6 0 1 1 42 22Zm-2 0a4 4 0 1 0-8 0 4 4 0 0 0 8 0Z"></path>
+<g opacity=".35">
+<path d=
+"M17 10a1 1 0 011-1h12a1 1 0 110 2H18a1 1 0 01-1-1Zm1-5a1 1 0 100 2h12a1 1 0 100-2H18ZM14 1a1 1 0 00-1 1v12a1 1 0 001 1h5.09l4.2 4.2a1 1 0 001.46-.04l3.7-4.16H34a1 1 0 001-1V2a1 1 0 00-1-1H14Zm1 12V3h18v10h-5a1 1 0 00-.75.34l-3.3 3.7-3.74-3.75a1 1 0 00-.71-.29H15Z"></path>
+</g>
+</svg></div>
+</div>
+</div>
+<div class="snippet-hidden" id="content">
+<div itemprop="mainEntity" itemscope itemtype=
+"https://schema.org/Question">
+<link href=
+"https://cdn.sstatic.net/Sites/stackoverflow/Img/apple-touch-icon.png?v=c78bd457575a"
+itemprop="image">
+<div class="inner-content clearfix">
+<div class="d-flex sm:fd-column" id="question-header">
+<h1 class="fs-headline1 ow-break-word mb8 flex--item fl1" itemprop=
+"name"><a class="question-hyperlink" href=
+"/questions/49495681/how-could-we-get-the-pixels-color-of-a-mesh-when-we-click-on-it-using-javascri">
+How could we get the pixel's color of a mesh when we click on it,
+using Javascript?</a></h1>
+<div class=
+"ml12 aside-cta flex--item print:d-none sm:ml0 sm:mb12 sm:order-first sm:as-end">
+<a class="ws-nowrap s-btn s-btn__primary" href="/questions/ask">Ask
+Question</a></div>
+</div>
+<div class="d-flex fw-wrap pb8 mb16 bb bc-black-075">
+<div class="flex--item ws-nowrap mr16 mb8" title=
+"2018-03-26 15:53:39Z"><span class="fc-light mr2">Asked</span>
+<time datetime="2018-03-26T15:53:39" itemprop="dateCreated">4
+years, 10 months ago</time></div>
+<div class="flex--item ws-nowrap mr16 mb8"><span class=
+"fc-light mr2">Modified</span> <a class="s-link s-link__inherit"
+href="?lastactivity" title="2018-03-28 16:50:01Z">4 years, 9 months
+ago</a></div>
+<div class="flex--item ws-nowrap mb8" title="Viewed 1,360 times">
+<span class="fc-light mr2">Viewed</span> 1k times</div>
+</div>
+<div aria-label="question and answers" id="mainbar" role="main">
+<div class="question js-question" data-position-on-page="0"
+data-questionid="49495681" data-score="1" id="question">
+<div class="js-zone-container zone-container-main">
+<div class=
+"everyonelovesstackoverflow everyoneloves__top-leaderboard everyoneloves__leaderboard"
+id="dfp-tlb"></div>
+<div class="js-report-ad-button-container" style="width: 728px">
+</div>
+</div>
+<div class="post-layout">
+<div class="votecell post-layout--left">
+<div class=
+"js-voting-container d-flex jc-center fd-column ai-stretch gs4 fc-black-200"
+data-post-id="49495681"><button aria-label="Up vote" aria-pressed=
+"false" class=
+"js-vote-up-btn flex--item s-btn s-btn__unset c-pointer"
+data-controller="s-tooltip" data-s-tooltip-placement="right"
+data-selected-classes="fc-theme-primary" data-unselected-classes=""
+title=
+"This question shows research effort; it is useful and clear"><svg aria-hidden="true"
+class="svg-icon iconArrowUpLg" height="36" viewbox="0 0 36 36"
+width="36">
+<path d="M2 25h32L18 9 2 25Z"></path></svg></button>
+<div class=
+"js-vote-count flex--item d-flex fd-column ai-center fc-black-500 fs-title"
+data-value="1" itemprop="upvoteCount">1</div>
+<button aria-label="Down vote" aria-pressed="false" class=
+"js-vote-down-btn flex--item s-btn s-btn__unset c-pointer"
+data-controller="s-tooltip" data-s-tooltip-placement="right"
+data-selected-classes="fc-theme-primary" data-unselected-classes=""
+title=
+"This question does not show any research effort; it is unclear or not useful"><svg aria-hidden="true"
+class="svg-icon iconArrowDownLg" height="36" viewbox="0 0 36 36"
+width="36">
+<path d="M2 11h32L18 27 2 11Z"></path></svg></button>
+<button aria-controls="" aria-pressed="false" class=
+"js-saves-btn s-btn s-btn__unset c-pointer py4" data-controller=
+"s-tooltip" data-post-id="49495681" data-post-type-id="1"
+data-s-popover-auto-show="false" data-s-popover-placement=""
+data-s-tooltip-placement="right"
+data-user-privilege-for-post-click="0" id="saves-btn-49495681"
+title="Save this question."><svg aria-hidden="true" class=
+"fc-theme-primary-500 js-saves-btn-selected d-none svg-icon iconBookmark"
+height="18" viewbox="0 0 18 18" width="18">
+<path d=
+"M3 17V3c0-1.1.9-2 2-2h8a2 2 0 0 1 2 2v14l-6-4-6 4Z"></path></svg>
+<svg aria-hidden="true" class=
+"js-saves-btn-unselected svg-icon iconBookmarkAlt" height="18"
+viewbox="0 0 18 18" width="18">
+<path d=
+"m9 10.6 4 2.66V3H5v10.26l4-2.66ZM3 17V3c0-1.1.9-2 2-2h8a2 2 0 0 1 2 2v14l-6-4-6 4Z"></path>
+</svg></button> <a aria-label="Timeline" class=
+"js-post-issue flex--item s-btn s-btn__unset c-pointer py6 mx-auto"
+data-controller="s-tooltip" data-ks-title="timeline"
+data-s-tooltip-placement="right" data-shortcut="T" href=
+"/posts/49495681/timeline" title=
+"Show activity on this post."><svg aria-hidden="true" class=
+"mln2 mr0 svg-icon iconHistory" height="18" viewbox="0 0 19 18"
+width="19">
+<path d=
+"M3 9a8 8 0 1 1 3.73 6.77L8.2 14.3A6 6 0 1 0 5 9l3.01-.01-4 4-4-4h3L3 9Zm7-4h1.01L11 9.36l3.22 2.1-.6.93L10 10V5Z"></path>
+</svg></a></div>
+</div>
+<div class="postcell post-layout--right">
+<div class="s-prose js-post-body" itemprop="text">
+<p>Currently in the page we have a mesh loaded with TreeJS and
+displayed in a canvas: <a href=
+"https://i.stack.imgur.com/j8Ztj.png" rel=
+"nofollow noreferrer"><img alt="enter image description here" src=
+"https://i.stack.imgur.com/j8Ztj.png"></a></p>
+<p><strong><em>How could we get the color of the point where we
+click on?</em></strong></p>
+<p>I have tried as it has been suggested here: <a href=
+"https://stackoverflow.com/questions/43583012/getting-the-color-value-of-a-pixel-on-click-of-a-mesh-with-three-js">
+Getting the color value of a pixel on click of a mesh with
+three.js</a> , to create a canvas with a 2d context on top of the
+one using webgl context.</p>
+<p>The problem is that when we convert the model to PNG, the image
+is white:</p>
+<p>Our img 2d src:</p>
+<p><a href="https://i.stack.imgur.com/YTcRt.png" rel=
+"nofollow noreferrer"><img alt="enter image description here" src=
+"https://i.stack.imgur.com/YTcRt.png"></a></p>
+<p>If we click on it:</p>
+<p><a href="https://i.stack.imgur.com/2eT0e.png" rel=
+"nofollow noreferrer"><img alt="enter image description here" src=
+"https://i.stack.imgur.com/2eT0e.png"></a></p>
+<p>So then the console logs that the color is: <code>0 0 0
+0</code></p>
+<p>Also I will show the code where we generate the webgl canvas and
+the 2d canvas:</p>
+<pre><code>// this class handles the load and the canva for a nrrd
+// Using programming based on prototype: https://javascript.info/class
+// This class should be improved:
+//   - Canvas Width and height
+
+InitCanvas = function (IdDiv, Filename) {
+
+
+    this.IdDiv = IdDiv;
+    this.Filename = Filename
+}
+
+InitCanvas.prototype = {
+
+    constructor: InitCanvas,
+
+    init: function () {
+
+        this.container = document.getElementById(this.IdDiv);
+
+        // this should be changed.
+        this.container.innerHeight = 600;
+        this.container.innerWidth = 800;
+
+        //These statenments should be changed to improve the image position
+        this.camera = new THREE.PerspectiveCamera(60, this.container.innerWidth / this.container.innerHeight, 0.01, 1e10);
+        this.camera.position.z = 300;
+
+        let scene = new THREE.Scene();
+        scene.add(this.camera);
+
+        // light
+
+        let dirLight = new THREE.DirectionalLight(0xffffff);
+        dirLight.position.set(200, 200, 1000).normalize();
+
+        this.camera.add(dirLight);
+        this.camera.add(dirLight.target);
+
+
+        // read file
+
+        let loader = new THREE.NRRDLoader();
+        loader.load(this.Filename, function (volume) {
+
+            //z plane
+            let sliceZ = volume.extractSlice('z', Math.floor(volume.RASDimensions[2] / 4));
+
+            this.container.innerWidth = sliceZ.iLength;
+            this.container.innerHeight = sliceZ.jLength;
+
+            sliceZ.mesh.material.color.setRGB(0,1,1);
+
+
+            console.log('Our slice is: ', sliceZ);
+
+            scene.add(sliceZ.mesh);
+        }.bind(this));
+
+
+        this.scene = scene;
+
+
+
+        var canvas2d = document.createElement('canvas');
+
+        canvas2d.id = "canvas2D";
+        canvas2d.style.width = `${this.container.innerWidth}px`;
+        canvas2d.style.height = `${this.container.innerHeight}px`;
+        canvas2d.style.zIndex = 8;
+
+
+
+
+        this.container.appendChild(canvas2d);
+
+
+
+
+
+        // renderer
+        this.renderer = new THREE.WebGLRenderer({alpha: true});
+        this.renderer.setPixelRatio(this.container.devicePixelRatio);
+        this.renderer.setSize(this.container.innerWidth, this.container.innerHeight);
+
+        // add canvas in container
+        this.container.appendChild(this.renderer.domElement);
+
+
+
+
+
+    },
+
+    animate: function () {
+
+        this.renderer.render(this.scene, this.camera);
+    }
+
+}
+</code></pre>
+<p>Also we use it in the logic.js</p>
+<pre><code>if (!Detector.webgl) Detector.addGetWebGLMessage();
+
+// global variables for this scripts
+let OriginalImg,
+    SegmentImg,
+    myFileReader;
+
+var mouse = new THREE.Vector2();
+var raycaster = new THREE.Raycaster();
+var mousePressed = false;
+var clickCount = 0;
+var allText;
+
+
+init();
+animate();
+
+
+// initilize the page
+function init() {
+
+
+    readTextFile("columna01-es-latin1.txt");
+
+    let originalImgPath = getParameterByName('originalImgPath');
+    let filename = originalImgPath || "models/nrrd/columna02.nrrd"; // change your nrrd file
+    let idDiv = 'original';
+    OriginalImg = new InitCanvas(idDiv, filename);
+    OriginalImg.init();
+    console.log(OriginalImg);
+
+    let segmentedImgPath = getParameterByName('segmentedImgPath');
+
+    filename = segmentedImgPath || "models/nrrd/columnasegmentado02.nrrd"; // change your nrrd file
+    idDiv = 'segment';
+    SegmentImg = new InitCanvas(idDiv, filename);
+    SegmentImg.init();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    let canvas2D = document.getElementById('canvas2D');
+    let ctx2D = canvas2D.getContext('2d');
+
+    var img2D = new Image();
+    img2D.src = OriginalImg.renderer.domElement.toDataURL("img/png");
+    console.log('Our img 2d source is:::: ',img2D.src);
+    img2D.addEventListener("load", function () {
+        ctx2D.clearRect(0, 0, canvas2D.width, canvas2D.height);
+        ctx2D.drawImage(img2D, 0, 0);
+        // from here, get your pixel data
+        var imgData = ctx2D.getImageData(10, 10, 1, 1);
+        red = imgData.data[0];
+        green = imgData.data[1];
+        blue = imgData.data[2];
+        alpha = imgData.data[3];
+        console.log(red + " " + green + " " + blue + " " + alpha);
+    });
+}
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&amp;");
+    var regex = new RegExp("[?&amp;]" + name + "(=([^&amp;#]*)|&amp;|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+let originalCanvas = document.getElementById('original');
+originalCanvas.addEventListener('mousedown', onDocumentMouseDown, false);
+originalCanvas.addEventListener('mouseup', onDocumentMouseUp, false);
+
+
+function onDocumentMouseDown(event) {
+    mousePressed = true;
+
+    clickCount++;
+
+    let realClickedCanvasX = event.offsetX;
+    let realClickedCanvasY = event.offsetY;
+
+    mouse.x = ( ( event.clientX - OriginalImg.renderer.domElement.offsetLeft ) / OriginalImg.renderer.domElement.clientWidth ) * 2 - 1;
+    mouse.y = -( ( event.clientY - OriginalImg.renderer.domElement.offsetTop ) / OriginalImg.renderer.domElement.clientHeight ) * 2 + 1
+
+
+    console.log('Mouse x position is: ', realClickedCanvasX, 'the click number was: ', clickCount);
+    console.log('Mouse x position is: ', realClickedCanvasY, 'the click number was: ', clickCount);
+
+    //console.log('Mouse x position is: ', mouse.x, 'the click number was: ', clickCount);
+    //console.log('Mouse Y position is: ', mouse.y);
+
+    raycaster.setFromCamera(mouse.clone(), OriginalImg.camera);
+    var objects = raycaster.intersectObjects(OriginalImg.scene.children);
+
+    console.log(objects);
+}
+
+function onDocumentMouseUp(event) {
+    mousePressed = false
+}
+
+
+function animate() {
+
+
+    requestAnimationFrame(animate);
+    OriginalImg.animate();
+    SegmentImg.animate();
+
+
+}
+</code></pre>
+<p>I have also read:</p>
+<p><a href=
+"https://stackoverflow.com/questions/33433305/threejs-how-to-pick-the-intersection-point-color-of-an-object">
+ThreeJS How to pick the intersection point color of an
+object</a></p>
+<p><a href=
+"https://stackoverflow.com/questions/17789076/get-pixel-color-from-an-image">
+Get pixel color from an image</a></p>
+<p><a href=
+"https://stackoverflow.com/questions/8751020/how-to-get-a-pixels-x-y-coordinate-color-from-an-image">
+How to get a pixel's x,y coordinate color from an image?</a></p>
+<p><a href=
+"https://stackoverflow.com/questions/667045/getpixel-from-html-canvas">
+getPixel from HTML Canvas?</a></p>
+<p><a href=
+"https://johnresig.com/blog/ocr-and-neural-nets-in-javascript/"
+rel="nofollow noreferrer">https://johnresig.com/blog/ocr-and-neural-nets-in-javascript/</a></p>
+<p><a href=
+"https://dev.opera.com/articles/html5-canvas-basics/#pixelbasedmanipulation"
+rel=
+"nofollow noreferrer">https://dev.opera.com/articles/html5-canvas-basics/#pixelbasedmanipulation</a></p>
+<p><a href=
+"https://stackoverflow.com/questions/43172115/get-the-mouse-coordinates-when-clicking-on-canvas">
+Get the mouse coordinates when clicking on canvas</a></p>
+<p><a href=
+"https://stackoverflow.com/questions/10652513/html5-dynamically-create-canvas">
+HTML5 Dynamically create Canvas</a></p>
+<p><a href=
+"https://stackoverflow.com/questions/4938346/canvas-width-and-height-in-html5">
+Canvas width and height in HTML5</a></p>
+<p><a href=
+"https://stackoverflow.com/questions/9251480/set-canvas-size-using-javascript">
+Set Canvas size using javascript</a></p>
+<p>Thank you for your help, in advance.</p>
+<p>EDIT:</p>
+<p>Thank you @TheJim01 for your help.</p>
+<p>I have tried your suggestion, and with the following code:</p>
+<p>Into OnDocumentMouseDown function:</p>
+<pre><code>var target = OriginalImg.renderer.getRenderTarget();
+    console.log('Our target which should be a WebGLRenderTarget is: ');
+    console.log(target);
+
+    var outputBuffer = new Uint8Array( OriginalImg.renderer.width * OriginalImg.renderer.height * 4 );
+
+    OriginalImg.renderer.readRenderTargetPixels ( target, 0, 0, OriginalImg.renderer.width, OriginalImg.renderer.height, outputBuffer );
+
+    var pixelIndex = ((realClickedCanvasX * OriginalImg.renderer.width) + realClickedCanvasY) * 4;
+
+    var color = {
+        r: outputBuffer[pixelIndex + 0],
+        g: outputBuffer[pixelIndex + 1],
+        b: outputBuffer[pixelIndex + 2],
+        a: outputBuffer[pixelIndex + 3]
+    };
+
+    console.log('Color of clicked pixel is: ');
+    console.log(color);
+</code></pre>
+<p>We see in the web console:</p>
+<pre><code>Our target which sould be a WebGLRenderTarget is:
+
+null
+
+THREE.WebGLRenderer.readRenderTargetPixels: renderTarget is not THREE.WebGLRenderTarget.
+
+Color of clicked pixel is:
+
+Object { r: undefined, g: undefined, b: undefined, a: undefined }
+</code></pre>
+<p>I tried to understand what happened and to solve this I
+read:</p>
+<p><a href=
+"https://stackoverflow.com/questions/38583219/three-js-render-to-texture">
+Three.js render to texture</a></p>
+<p>And I added a WebGlRenderTarget as:</p>
+<pre><code>... more code...
+
+    this.renderTarget = new THREE.WebGLRenderTarget(this.renderer.domElement.clientWidth, this.renderer.domElement.clientHeight);
+
+        this.renderer.render(this.scene, this.camera, this.renderTarget);
+
+... more code...
+</code></pre>
+<p>And now we see in our web console:</p>
+<pre><code>    Error: WebGL warning: clear: Framebuffer not complete. (status: 0x8cd6) COLOR_ATTACHMENT0 has no width or height
+    three.js:21370:4
+    Error: WebGL warning: clear: Framebuffer must be complete.
+    three.js:21370:4
+    Error: WebGL warning: clear: Framebuffer not complete. (status: 0x8cd6) COLOR_ATTACHMENT0 has no width or height
+    three.js:21370:4
+    Error: WebGL warning: clear: Framebuffer must be complete.
+    three.js:21370:4
+  ...
+</code></pre>
+<p>I have tried to look for it and I have seen this issue in
+GitHub:</p>
+<p><a href="https://github.com/pixijs/pixi.js/issues/3767" rel=
+"nofollow noreferrer">https://github.com/pixijs/pixi.js/issues/3767</a></p>
+<p>However I do not see it could be related.</p>
+<p>EDIT2:</p>
+<p><strong>Thank you @TheJim01 for your help, I appreciate it!!
+With your help and code the Render Target issue looks like it is
+solved. In fact I see a strange warning in the web
+console:</strong></p>
+<pre><code>Error: WebGL warning: Exceeded 16 live WebGL contexts for this principal, losing the least recently used one.
+</code></pre>
+<p>After searching for this warning, I saw this great topic:
+<a href=
+"https://stackoverflow.com/questions/33800600/error-webgl-exceeded-16-live-webgl-contexts-for-this-principal-losing-the-lea">
+Error: WebGL: Exceeded 16 live WebGL contexts for this principal,
+losing the least recently used one</a></p>
+<p>And after closing the tab, and reloading the project it has
+dissapeared.</p>
+<p><strong><em>In addition, the colors we obtain are undefined, I
+will show a console log:</em></strong></p>
+<pre><code>Our OriginalImg where we want to get the color is:
+
+Object { IdDiv: "original", Filename: "models/nrrd/columna02.nrrd", container: div#original.column, camera: {…}, scene: {…}, renderer: {…} }
+
+Error: WebGL warning: Exceeded 16 live WebGL contexts for this principal, losing the least recently used one.
+
+Error: WebGL warning: Exceeded 16 live WebGL contexts for this principal, losing the least recently used one.
+
+The target being used in this click is:
+
+Object { uuid: "8EAEFD8F-5C55-4973-84BC-471D43C006F8", width: undefined, height: undefined, scissor: {…}, scissorTest: false, viewport: {…}, texture: {…}, depthBuffer: true, stencilBuffer: true, depthTexture: null }
+
+Our target which should be a WebGLRenderTarget is:
+onMouseDownLogic.js:23:5
+Object { uuid: "8EAEFD8F-5C55-4973-84BC-471D43C006F8", width: 800, height: 600, scissor: {…}, scissorTest: false, viewport: {…}, texture: {…}, depthBuffer: true, stencilBuffer: true, depthTexture: null, … }
+onMouseDownLogic.js:24:5
+Color of clicked pixel is:
+onMouseDownLogic.js:39:5
+{…}
+​
+a: undefined
+​
+b: undefined
+​
+g: undefined
+​
+r: undefined
+​
+__proto__: Object { … }
+</code></pre>
+<p><strong>To help better understand what I am writting about I
+refactored the code to better explain and write it.</strong></p>
+<p>We have logic.js wich aims is to initialize canvas and animate
+them:</p>
+<pre><code>if (!Detector.webgl) Detector.addGetWebGLMessage();
+
+// global variables for this scripts
+let OriginalImg,
+    SegmentImg;
+
+var mouse = new THREE.Vector2();
+var raycaster = new THREE.Raycaster();
+var allText;
+
+init();
+animate();
+
+// initilize the page
+function init() {
+
+    readTextFile("columna01-es-latin1.txt");
+    OriginalImg = initCanvasOfOriginalImg();
+    initCanvasOfSegmentedImg();
+
+}
+
+let originalCanvas = document.getElementById('original');
+originalCanvas.addEventListener('mousedown', onDocumentMouseDown, false);
+
+// re-usable objects defined outside your mouse event
+console.log('Our OriginalImg where we want to get the color is: ');
+console.log(OriginalImg);
+
+var size = OriginalImg.renderer.getSize();
+var reusableTarget = new THREE.WebGLRenderTarget(OriginalImg.renderer.width, OriginalImg.renderer.height);
+
+function onDocumentMouseDown(event) {
+
+    let {realClickedCanvasX, realClickedCanvasY} = calculateClickedPointWindowCoordinates(event);
+    let OriginalImgRenderer = calculateNormalizedClickedPointCoordinates(event);
+
+
+    var target = OriginalImgRenderer.getRenderTarget() || reusableTarget;
+    console.log('The target being used in this click is: ');
+    console.log(target);
+
+    size = OriginalImgRenderer.getSize();
+    target.setSize(size.width, size.height);
+
+    OriginalImgRenderer.render( OriginalImg.scene, OriginalImg.camera, target );
+
+    calculateClickedPointColor(OriginalImgRenderer, realClickedCanvasX, realClickedCanvasY);
+    projectRayAndGetIntersectedObject();
+}
+
+function animate() {
+
+
+    requestAnimationFrame(animate);
+    OriginalImg.animate();
+    SegmentImg.animate();
+
+
+}
+</code></pre>
+<p>Then we have InitCanvas.js which is the Prototype which joins
+the div, with the canvas and the model being loaded:</p>
+<pre><code>// this class handles the load and the canva for a nrrd
+// Using programming based on prototype: https://javascript.info/class
+// This class should be improved:
+//   - Canvas Width and height
+
+InitCanvas = function (IdDiv, Filename) {
+
+
+    this.IdDiv = IdDiv;
+    this.Filename = Filename
+}
+
+InitCanvas.prototype = {
+
+    constructor: InitCanvas,
+
+    init: function () {
+
+        this.container = document.getElementById(this.IdDiv);
+
+        // this should be changed.
+        this.container.innerHeight = 600;
+        this.container.innerWidth = 800;
+
+        //These statenments should be changed to improve the image position
+        this.camera = new THREE.PerspectiveCamera(60, this.container.innerWidth / this.container.innerHeight, 0.01, 1e10);
+        this.camera.position.z = 300;
+
+        let scene = new THREE.Scene();
+        scene.add(this.camera);
+
+        // light
+
+        let dirLight = new THREE.DirectionalLight(0xffffff);
+        dirLight.position.set(200, 200, 1000).normalize();
+
+        this.camera.add(dirLight);
+        this.camera.add(dirLight.target);
+
+
+        // read file
+
+        let loader = new THREE.NRRDLoader();
+        loader.load(this.Filename, function (volume) {
+
+            //z plane
+            let sliceZ = volume.extractSlice('z', Math.floor(volume.RASDimensions[2] / 4));
+
+            this.container.innerWidth = sliceZ.iLength;
+            this.container.innerHeight = sliceZ.jLength;
+
+            sliceZ.mesh.material.color.setRGB(0, 1, 1);
+
+
+           // console.log('Our slice is: ', sliceZ);
+
+            scene.add(sliceZ.mesh);
+        }.bind(this));
+
+
+        this.scene = scene;
+
+
+        // renderer
+        this.renderer = new THREE.WebGLRenderer({alpha: true});
+        this.renderer.setPixelRatio(this.container.devicePixelRatio);
+        this.renderer.setSize(this.container.innerWidth, this.container.innerHeight);
+
+        // add canvas in container
+        this.container.appendChild(this.renderer.domElement);
+
+
+    },
+
+    animate: function () {
+
+        this.renderer.render(this.scene, this.camera);
+    }
+
+}
+</code></pre>
+<p>Plus we have the functions being used when we click the Mouse,
+into OnDocumentMouseDown():</p>
+<pre><code>let projectRayAndGetIntersectedObject = function () {
+    raycaster.setFromCamera(mouse.clone(), OriginalImg.camera);
+    var objects = raycaster.intersectObjects(OriginalImg.scene.children);
+
+    console.log(objects);
+};
+
+let calculateClickedPointWindowCoordinates = function (event) {
+    let realClickedCanvasX = event.offsetX;
+    let realClickedCanvasY = event.offsetY;
+    return {realClickedCanvasX, realClickedCanvasY};
+};
+
+let calculateNormalizedClickedPointCoordinates = function (event) {
+    let OriginalImgRenderer = OriginalImg.renderer;
+    mouse.x = ( ( event.clientX - OriginalImgRenderer.domElement.offsetLeft ) / OriginalImgRenderer.domElement.clientWidth ) * 2 - 1;
+    mouse.y = -( ( event.clientY - OriginalImgRenderer.domElement.offsetTop ) / OriginalImgRenderer.domElement.clientHeight ) * 2 + 1
+    return OriginalImgRenderer;
+};
+
+let calculateClickedPointColor = function (OriginalImgRenderer, realClickedCanvasX, realClickedCanvasY) {
+    var target = OriginalImgRenderer.getRenderTarget();
+    console.log('Our target which should be a WebGLRenderTarget is: ');
+    console.log(target);
+
+    var outputBuffer = new Uint8Array(OriginalImgRenderer.width * OriginalImgRenderer.height * 4);
+
+    OriginalImgRenderer.readRenderTargetPixels(target, 0, 0, OriginalImgRenderer.width, OriginalImgRenderer.height, outputBuffer);
+
+    var pixelIndex = ((realClickedCanvasX * OriginalImgRenderer.width) + realClickedCanvasY) * 4;
+
+    var color = {
+        r: outputBuffer[pixelIndex + 0],
+        g: outputBuffer[pixelIndex + 1],
+        b: outputBuffer[pixelIndex + 2],
+        a: outputBuffer[pixelIndex + 3]
+    };
+
+    console.log('Color of clicked pixel is: ');
+    console.log(color);
+};
+</code></pre>
+<p>I have no clue about how could we fix this issue.</p>
+<p>EDIT:3</p>
+<p>Thank you @TheJim01 your example code solved the problem, here I
+show the one I am using:</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+
+&lt;head&gt;
+    &lt;meta charset="utf-8"/&gt;
+    &lt;meta http-equiv="X-UA-Compatible" content="chrome=1,IE=edge"&gt;
+    &lt;title&gt;TEST&lt;/title&gt;
+
+    &lt;script src="https://threejs.org/build/three.js"&gt;&lt;/script&gt;
+    &lt;script src="https://threejs.org/examples/js/controls/TrackballControls.js"&gt;&lt;/script&gt;
+    &lt;script src="js/NRRDLoader.js"&gt;&lt;/script&gt;
+    &lt;script src="js/Volume.js"&gt;&lt;/script&gt;
+    &lt;script src="js/VolumeSlice.js"&gt;&lt;/script&gt;
+
+&lt;/head&gt;
+
+&lt;body&gt;
+
+&lt;canvas id="view" width="500" height="500" style="border: 1px black solid;"&gt;&lt;/canvas&gt;
+
+
+&lt;script type="text/javascript"&gt;
+    /**********************/
+    /*   Initialization   */
+    /**********************/
+
+    let realClickedCanvasX, realClickedCanvasY, clickCount=0;
+
+    var pixelBuffer = new Uint8Array(500 * 500 * 4);
+
+    function testPixelBuffer() {
+        var x, y, r, g, b, a, i1, i2;
+        i1 = realClickedCanvasX * size.width;
+        i2 = i1 + realClickedCanvasY;
+        i2 *= 4;
+        r = pixelBuffer[i2 + 0];
+        g = pixelBuffer[i2 + 1];
+        b = pixelBuffer[i2 + 2];
+        a = pixelBuffer[i2 + 3];
+            console.log(i2, r, g, b, a);
+
+
+    }
+
+    document.getElementById('view').addEventListener('mousedown', onDocumentMouseDown, false);
+
+    function onDocumentMouseDown(event) {
+        clickCount++;
+        realClickedCanvasX = event.offsetX;
+        realClickedCanvasY = event.offsetY;
+        console.log('You have clicked on: ' + realClickedCanvasY
+            + ' , ' + realClickedCanvasY +
+            ' it is the click number: ' +
+            clickCount);
+        testPixelBuffer();
+    }
+
+    var renderer = new THREE.WebGLRenderer({
+        canvas: document.getElementById("view"),
+        antialias: true,
+        alpha: true
+    });
+
+    var scene = new THREE.Scene();
+
+    var camera = new THREE.PerspectiveCamera(28, 1, 1, 1000);
+    camera.position.z = 50;
+
+    camera.add(new THREE.PointLight(0xffffff, 1, Infinity));
+
+    scene.add(camera);
+
+    var controls = new THREE.TrackballControls(camera, renderer.domElement);
+    controls.addEventListener("change", render);
+
+    /**********************/
+    /* Populate the Scene */
+    /**********************/
+
+    let loader = new THREE.NRRDLoader();
+    loader.load('models/nrrd/columnasegmentado01.nrrd', function (volume) {
+        //z plane
+        let sliceZ = volume.extractSlice('z', Math.floor(volume.RASDimensions[2] / 4));
+        scene.add(sliceZ.mesh);
+    });
+
+    /**********************/
+    /*   Render Function  */
+    /**********************/
+
+    var externalTarget = new THREE.WebGLRenderTarget();
+    var size = renderer.getSize();
+    externalTarget.setSize(size.width, size.height);
+
+    function render() {
+        renderer.render(scene, camera);
+        renderer.render(scene, camera, externalTarget);
+    }
+
+    render();
+
+    /**********************/
+    /*   Animation Loop   */
+    /**********************/
+
+    function animate() {
+        requestAnimationFrame(animate);
+        renderer.readRenderTargetPixels(externalTarget, 0, 0, size.width, size.height, pixelBuffer);
+        controls.update();
+    }
+
+    animate();
+
+&lt;/script&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;
+</code></pre>
+<p>I have clicked on the following zones:</p>
+<p><a href="https://i.stack.imgur.com/fwszR.png" rel=
+"nofollow noreferrer"><img alt="enter image description here" src=
+"https://i.stack.imgur.com/fwszR.png"></a></p>
+<p>And the result were:</p>
+<pre><code>You have clicked on: 81 , 81 it is the click number: 1
+index.html?_ijt=uvc1m089ec37ho5kobp4qir885:40 194324 0 0 0 255
+index.html?_ijt=uvc1m089ec37ho5kobp4qir885:51 You have clicked on: 94 , 94 it is the click number: 2
+index.html?_ijt=uvc1m089ec37ho5kobp4qir885:40 440376 23 23 23 255
+index.html?_ijt=uvc1m089ec37ho5kobp4qir885:51 You have clicked on: 150 , 150 it is the click number: 3
+index.html?_ijt=uvc1m089ec37ho5kobp4qir885:40 246600 23 23 23 255
+index.html?_ijt=uvc1m089ec37ho5kobp4qir885:51 You have clicked on: 195 , 195 it is the click number: 4
+index.html?_ijt=uvc1m089ec37ho5kobp4qir885:40 122780 0 0 0 0
+index.html?_ijt=uvc1m089ec37ho5kobp4qir885:51 You have clicked on: 210 , 210 it is the click number: 5
+index.html?_ijt=uvc1m089ec37ho5kobp4qir885:40 12840 0 0 0 0
+index.html?_ijt=uvc1m089ec37ho5kobp4qir885:51 You have clicked on: 310 , 310 it is the click number: 6
+index.html?_ijt=uvc1m089ec37ho5kobp4qir885:40 69240 0 0 0 0
+index.html?_ijt=uvc1m089ec37ho5kobp4qir885:51 You have clicked on: 271 , 271 it is the click number: 7
+index.html?_ijt=uvc1m089ec37ho5kobp4qir885:40 255084 255 255 255 255
+index.html?_ijt=uvc1m089ec37ho5kobp4qir885:51 You have clicked on: 360 , 360 it is the click number: 8
+index.html?_ijt=uvc1m089ec37ho5kobp4qir885:40 495440 23 23 23 255
+index.html?_ijt=uvc1m089ec37ho5kobp4qir885:51 You have clicked on: 318 , 318 it is the click number: 9
+index.html?_ijt=uvc1m089ec37ho5kobp4qir885:40 511272 23 23 23 255
+index.html?_ijt=uvc1m089ec37ho5kobp4qir885:51 You have clicked on: 291 , 291 it is the click number: 10
+index.html?_ijt=uvc1m089ec37ho5kobp4qir885:40 685164 92 92 92 255
+index.html?_ijt=uvc1m089ec37ho5kobp4qir885:51 You have clicked on: 283 , 283 it is the click number: 11
+index.html?_ijt=uvc1m089ec37ho5kobp4qir885:40 963132 0 0 0 0
+index.html?_ijt=uvc1m089ec37ho5kobp4qir885:51 You have clicked on: 180 , 180 it is the click number: 12
+index.html?_ijt=uvc1m089ec37ho5kobp4qir885:40 960720 0 0 0 0
+index.html?_ijt=uvc1m089ec37ho5kobp4qir885:51 You have clicked on: 174 , 174 it is the click number: 13
+index.html?_ijt=uvc1m089ec37ho5kobp4qir885:40 864696 0 0 0 0
+index.html?_ijt=uvc1m089ec37ho5kobp4qir885:51 You have clicked on: 216 , 216 it is the click number: 14
+index.html?_ijt=uvc1m089ec37ho5kobp4qir885:40 510864 46 46 46 255
+</code></pre>
+<p>I wonder why regions 2, 3 are logged as being with the same
+color!</p>
+<p>I also wonder why zones 4,5,6 are logged as they are of equal
+color!.</p>
+<p>I do not fully understand the following code in your
+example:</p>
+<pre><code>function testPixelBuffer() {
+        var x, y, r, g, b, a, i1, i2;
+        i1 = realClickedCanvasX * size.width;
+        i2 = i1 + realClickedCanvasY;
+        i2 *= 4;
+</code></pre>
+<p><em>Could you help me please?</em></p>
+<p><strong>Thank you in advance!</strong></p>
+</div>
+<div class="mt24 mb12">
+<div class="post-taglist d-flex gs4 gsy fd-column">
+<div class="d-flex ps-relative fw-wrap">
+<ul class='ml0 list-ls-none js-post-tag-list-wrapper d-inline'>
+<li class='d-inline mr4 js-post-tag-list-item'><a aria-label=
+"show questions tagged 'javascript'" aria-labelledby=
+"javascript-container" class="post-tag" href=
+"/questions/tagged/javascript" rel="tag" title=
+"show questions tagged 'javascript'">javascript</a></li>
+<li class='d-inline mr4 js-post-tag-list-item'><a aria-label=
+"show questions tagged 'html'" aria-labelledby="html-container"
+class="post-tag" href="/questions/tagged/html" rel="tag" title=
+"show questions tagged 'html'">html</a></li>
+<li class='d-inline mr4 js-post-tag-list-item'><a aria-label=
+"show questions tagged 'canvas'" aria-labelledby="canvas-container"
+class="post-tag" href="/questions/tagged/canvas" rel="tag" title=
+"show questions tagged 'canvas'">canvas</a></li>
+<li class='d-inline mr4 js-post-tag-list-item'><a aria-label=
+"show questions tagged 'three.js'" aria-labelledby=
+"three.js-container" class="post-tag" href=
+"/questions/tagged/three.js" rel="tag" title=
+"show questions tagged 'three.js'">three.js</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="mb0">
+<div class="mt16 d-flex gs8 gsy fw-wrap jc-end ai-start pt4 mb16">
+<div class="flex--item mr16 fl1 w96">
+<div class="js-post-menu pt2" data-post-id="49495681">
+<div class="d-flex gs8 s-anchors s-anchors__muted fw-wrap">
+<div class="flex--item"><a class="js-share-link js-gps-track"
+data-controller="se-share-sheet" data-gps-track=
+"post.click({ item: 2, priv: 0, post_type: 1 })"
+data-s-popover-placement="bottom-start"
+data-se-share-sheet-license-name="CC BY-SA 3.0"
+data-se-share-sheet-license-url=
+"https%3a%2f%2fcreativecommons.org%2flicenses%2fby-sa%2f3.0%2f"
+data-se-share-sheet-location="1" data-se-share-sheet-post-type=
+"question" data-se-share-sheet-social="facebook twitter devto"
+data-se-share-sheet-subtitle="" data-se-share-sheet-title=
+"Share a link to this question" href="/q/49495681" itemprop="url"
+rel="nofollow" title=
+"Short permalink to this question">Share</a></div>
+<div class="flex--item"><button aria-controls="" class=
+"s-btn s-btn__link js-follow-post js-follow-question js-gps-track"
+data-controller="s-tooltip" data-gps-track=
+"post.click({ item: 14, priv: 0, post_type: 1 })"
+data-s-popover-placement="bottom" data-s-tooltip-placement="bottom"
+id="btnFollowPost-49495681" title=
+"Follow this question to receive notifications" type=
+"button">Follow</button></div>
+</div>
+<div class="js-menu-popup-container"></div>
+</div>
+</div>
+<div class="post-signature flex--item">
+<div class="user-info">
+<div class="user-action-time"><a class="js-gps-track"
+data-gps-track="post.click({ item: 4, priv: 0, post_type: 1 })"
+href="/posts/49495681/revisions" title=
+"show all edits to this post">edited <span class='relativetime'
+title='2018-03-28 16:50:01Z'>Mar 28, 2018 at 16:50</span></a></div>
+<div class="user-gravatar32"></div>
+<div class="user-details" itemprop="author" itemscope itemtype=
+"http://schema.org/Person"><span class="d-none" itemprop=
+"name">Yone</span>
+<div class="-flair"></div>
+</div>
+</div>
+</div>
+<div class="post-signature owner flex--item">
+<div class="user-info">
+<div class="user-action-time">asked <span class='relativetime'
+title='2018-03-26 15:53:39Z'>Mar 26, 2018 at 15:53</span></div>
+<div class="user-gravatar32"><a href="/users/5149345/yone">
+<div class="gravatar-wrapper-32"><img alt="Yone's user avatar"
+class="bar-sm" height="32" src=
+"https://www.gravatar.com/avatar/5e2573b9dc1940465c1fd9bd4a50e8ea?s=64&amp;d=identicon&amp;r=PG&amp;f=1"
+width="32"></div>
+</a></div>
+<div class="user-details" itemprop="author" itemscope itemtype=
+"http://schema.org/Person"><a href=
+"/users/5149345/yone">Yone</a><span class="d-none" itemprop=
+"name">Yone</span>
+<div class="-flair"><span class="reputation-score" dir="ltr" title=
+"reputation score ">1,994</span><span aria-hidden="true" title=
+"5 gold badges"><span class="badge1"></span><span class=
+"badgecount">5</span></span><span class="v-visible-sr">5 gold
+badges</span><span aria-hidden="true" title=
+"23 silver badges"><span class="badge2"></span><span class=
+"badgecount">23</span></span><span class="v-visible-sr">23 silver
+badges</span><span aria-hidden="true" title=
+"52 bronze badges"><span class="badge3"></span><span class=
+"badgecount">52</span></span><span class="v-visible-sr">52 bronze
+badges</span></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<span class="d-none" itemprop="commentCount"></span>
+<div class="post-layout--right js-post-comments-component">
+<div class=
+"comments js-comments-container bt bc-black-075 mt12 dno"
+data-min-length="15" data-post-id="49495681" id=
+"comments-49495681">
+<ul class="comments-list js-comments-list" data-addlink-disabled=
+"true" data-canpost="false" data-cansee="true"
+data-comments-unavailable="false" data-remaining-comments-count=
+"0"></ul>
+</div>
+<div data-anon="true" data-rep="50" id="comments-link-49495681">
+<a class="js-add-link comments-link disabled-link" href="#" role=
+"button" title=
+"Use comments to ask for more information or suggest improvements. Avoid answering questions in comments.">
+Add a comment</a> <span class=
+"js-link-separator dno">&nbsp;|&nbsp;</span> <a class=
+"js-show-link comments-link dno" href="#" onclick="" role="button"
+title="Expand to show all comments on this post"></a></div>
+</div>
+</div>
+</div>
+<div class="js-zone-container zone-container-responsive">
+<div class=
+"everyonelovesstackoverflow everyoneloves__inline-sidebar mx-auto"
+id="dfp-isb"></div>
+<div class="js-report-ad-button-container mx-auto" style=
+"width: 300px"></div>
+</div>
+<div id="answers"><a name="tab-top" id="tab-top"></a>
+<div id="answers-header">
+<div class="answers-subheader d-flex ai-center mb8">
+<div class="flex--item fl1">
+<h2 class="mb0" data-answercount="1">1 Answer <span itemprop=
+"answerCount" style="display:none;">1</span></h2>
+</div>
+<div class="flex--item">
+<div class="d-flex g4 gsx ai-center sm:fd-column sm:ai-start">
+<div class="d-flex fd-column ai-end sm:ai-start"><label class=
+"flex--item fs-caption" for=
+"answer-sort-dropdown-select-menu">Sorted by:</label> <a class=
+"js-sort-preference-change s-link flex--item fs-fine d-none"
+data-value="ScoreDesc" href=
+"/questions/49495681/how-could-we-get-the-pixels-color-of-a-mesh-when-we-click-on-it-using-javascri?answertab=scoredesc#tab-top">
+Reset to default</a></div>
+<div class="flex--item s-select"><select id=
+"answer-sort-dropdown-select-menu">
+<option selected="selected" value="scoredesc">Highest score
+(default)</option>
+<option value="trending">Trending (recent votes count
+more)</option>
+<option value="modifieddesc">Date modified (newest first)</option>
+<option value="createdasc">Date created (oldest first)</option>
+</select></div>
+</div>
+</div>
+</div>
+</div>
+<a name="49497303" id="49497303"></a>
+<div class="answer js-answer accepted-answer js-accepted-answer"
+data-answerid="49497303" data-highest-scored="1" data-parentid=
+"49495681" data-position-on-page="1"
+data-question-has-accepted-highest-score="1" data-score="2" id=
+"answer-49497303" itemprop="acceptedAnswer" itemscope itemtype=
+"https://schema.org/Answer">
+<div class="post-layout">
+<div class="votecell post-layout--left">
+<div class=
+"js-voting-container d-flex jc-center fd-column ai-stretch gs4 fc-black-200"
+data-post-id="49497303"><button aria-label="Up vote" aria-pressed=
+"false" class=
+"js-vote-up-btn flex--item s-btn s-btn__unset c-pointer"
+data-controller="s-tooltip" data-s-tooltip-placement="right"
+data-selected-classes="fc-theme-primary" data-unselected-classes=""
+title="This answer is useful"><svg aria-hidden="true" class=
+"svg-icon iconArrowUpLg" height="36" viewbox="0 0 36 36" width=
+"36">
+<path d="M2 25h32L18 9 2 25Z"></path></svg></button>
+<div class=
+"js-vote-count flex--item d-flex fd-column ai-center fc-black-500 fs-title"
+data-value="2" itemprop="upvoteCount">2</div>
+<button aria-label="Down vote" aria-pressed="false" class=
+"js-vote-down-btn flex--item s-btn s-btn__unset c-pointer"
+data-controller="s-tooltip" data-s-tooltip-placement="right"
+data-selected-classes="fc-theme-primary" data-unselected-classes=""
+title="This answer is not useful"><svg aria-hidden="true" class=
+"svg-icon iconArrowDownLg" height="36" viewbox="0 0 36 36" width=
+"36">
+<path d="M2 11h32L18 27 2 11Z"></path></svg></button>
+<button aria-controls="" aria-pressed="false" class=
+"js-saves-btn s-btn s-btn__unset c-pointer py4" data-controller=
+"s-tooltip" data-post-id="49497303" data-post-type-id="2"
+data-s-popover-auto-show="false" data-s-popover-placement=""
+data-s-tooltip-placement="right"
+data-user-privilege-for-post-click="0" id="saves-btn-49497303"
+title="Save this answer."><svg aria-hidden="true" class=
+"fc-theme-primary-500 js-saves-btn-selected d-none svg-icon iconBookmark"
+height="18" viewbox="0 0 18 18" width="18">
+<path d=
+"M3 17V3c0-1.1.9-2 2-2h8a2 2 0 0 1 2 2v14l-6-4-6 4Z"></path></svg>
+<svg aria-hidden="true" class=
+"js-saves-btn-unselected svg-icon iconBookmarkAlt" height="18"
+viewbox="0 0 18 18" width="18">
+<path d=
+"m9 10.6 4 2.66V3H5v10.26l4-2.66ZM3 17V3c0-1.1.9-2 2-2h8a2 2 0 0 1 2 2v14l-6-4-6 4Z"></path>
+</svg></button>
+<div aria-label="Accepted" class=
+"js-accepted-answer-indicator flex--item fc-green-700 py6 mtn8"
+data-s-tooltip-placement="right" role="note" tabindex="0" title=
+"Loading when this answer was accepted…">
+<div class="ta-center"><svg aria-hidden="true" class=
+"svg-icon iconCheckmarkLg" height="36" viewbox="0 0 36 36" width=
+"36">
+<path d="m6 14 8 8L30 6v8L14 30l-8-8v-8Z"></path></svg></div>
+</div>
+<a aria-label="Timeline" class=
+"js-post-issue flex--item s-btn s-btn__unset c-pointer py6 mx-auto"
+data-controller="s-tooltip" data-ks-title="timeline"
+data-s-tooltip-placement="right" data-shortcut="T" href=
+"/posts/49497303/timeline" title=
+"Show activity on this post."><svg aria-hidden="true" class=
+"mln2 mr0 svg-icon iconHistory" height="18" viewbox="0 0 19 18"
+width="19">
+<path d=
+"M3 9a8 8 0 1 1 3.73 6.77L8.2 14.3A6 6 0 1 0 5 9l3.01-.01-4 4-4-4h3L3 9Zm7-4h1.01L11 9.36l3.22 2.1-.6.93L10 10V5Z"></path>
+</svg></a></div>
+</div>
+<div class="answercell post-layout--right">
+<div class="s-prose js-post-body" itemprop="text">
+<p><a href=
+"https://threejs.org/docs/#api/renderers/WebGLRenderer.readRenderTargetPixels"
+rel=
+"nofollow noreferrer"><code>WebGLRenderer.readRenderTargetPixels</code></a></p>
+<p>This gives you access to the render target's buffer, much like
+how you would read the data directly from a 2D canvas's
+<code>ImageData</code> buffer.</p>
+<pre><code>// re-usable objects defined outside your mouse event
+var size = renderer.getSize();
+var reusableTarget = new THREE.WebGLRenderTarget(renderer.width, renderer.height);
+
+// inside your mouse event...
+var target = renderer.getRenderTarget() || reusableTarget;
+
+size = renderer.getSize();
+target.setSize(size.width, size.height);
+
+renderer.render( scene, camera, target );
+
+var outputBuffer = new Uint8Array( width * height * 4 );
+
+renderer.readRenderTargetPixels( target, 0, 0, width, height, outputBuffer );
+
+var pixelIndex = ((mousePosition.y * width) + mousePosition.x) * 4;
+
+var color = {
+  r: outputBuffer[pixelIndex + 0],
+  g: outputBuffer[pixelIndex + 1],
+  b: outputBuffer[pixelIndex + 2],
+  a: outputBuffer[pixelIndex + 3]
+};
+</code></pre>
+<p><strong>EDIT:</strong></p>
+<p>You're right, you have to render to an external render target.
+I've edited my code above.</p>
+<p>If you're getting errors when trying to render to an external
+render target, I think that's worthy of creating a separate
+question (it goes beyond the scope of "how to I get a pixel color
+at x,y"). Do reference/link to this question, so readers can get
+the whole story.</p>
+<p>Once the render target issue is resolved, this issue will likely
+become resolved in the process.</p>
+<p><strong>Adding a snippet-based test:</strong></p>
+<p>I'm honestly not sure why you're getting the results you're
+getting. Below you can find a simple snippet that implements
+<code>readRenderTargetPixels</code>, and succeeds.</p>
+<p>(Open the Dev Console in your browser to see the results.)</p>
+<p></p>
+<div class="snippet" data-babel="false" data-console="false"
+data-hide="true" data-lang="js">
+<div class="snippet-code snippet-currently-hidden">
+<pre class=
+"snippet-code-js lang-js prettyprint-override"><code>/**********************/
+/*   Initialization   */
+/**********************/
+
+var pixelBuffer = new Uint8Array( 500 * 500 * 4 );
+function testPixelBuffer () {
+        var x, y, r, g, b, a, i1, i2;
+        for ( x = 0; x &lt; size.width; ++x ) {
+                i1 = x * size.width;
+                for ( y = 0; y &lt; size.height; ++y ) {
+                        i2 = i1 + y;
+                        i2 *= 4;
+                        r = pixelBuffer[ i2 + 0 ];
+                        g = pixelBuffer[ i2 + 1 ];
+                        b = pixelBuffer[ i2 + 2 ];
+                        a = pixelBuffer[ i2 + 3 ];
+                        if ( a &gt; 0 ) {
+                                console.log( i2, r, g, b, a );
+        console.count("Colored pixels count:");
+                        }
+                }
+        }
+}
+document.getElementById("test").addEventListener("click", testPixelBuffer);
+
+var renderer = new THREE.WebGLRenderer( {
+        canvas: document.getElementById( "view" ),
+        antialias: true,
+        alpha: true
+} );
+
+var scene = new THREE.Scene();
+
+var camera = new THREE.PerspectiveCamera( 28, 1, 1, 1000 );
+camera.position.z = 50;
+
+camera.add( new THREE.PointLight( 0xffffff, 1, Infinity ) );
+
+scene.add( camera );
+
+var controls = new THREE.TrackballControls( camera, renderer.domElement );
+controls.addEventListener( "change", render );
+
+/**********************/
+/* Populate the Scene */
+/**********************/
+
+var geo = new THREE.BoxBufferGeometry( 5, 5, 5 );
+
+var mat = new THREE.MeshPhongMaterial( {
+        color: "red"
+} );
+
+var mesh = new THREE.Mesh( geo, mat );
+
+scene.add( mesh );
+
+/**********************/
+/*   Render Function  */
+/**********************/
+
+var externalTarget = new THREE.WebGLRenderTarget();
+var size = renderer.getSize();
+externalTarget.setSize( size.width, size.height );
+
+function render () {
+        renderer.render( scene, camera );
+        renderer.render( scene, camera, externalTarget );
+}
+render();
+
+/**********************/
+/*   Animation Loop   */
+/**********************/
+
+function animate () {
+        requestAnimationFrame( animate );
+        renderer.readRenderTargetPixels( externalTarget, 0, 0, size.width, size.height, pixelBuffer );
+        controls.update();
+}
+animate();</code></pre>
+<pre class=
+"snippet-code-html lang-html prettyprint-override"><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+
+&lt;head&gt;
+        &lt;meta charset="utf-8" /&gt;
+        &lt;meta http-equiv="X-UA-Compatible" content="chrome=1,IE=edge"&gt;
+        &lt;title&gt;TEST&lt;/title&gt;
+
+        &lt;script src="https://threejs.org/build/three.js"&gt;&lt;/script&gt;
+        &lt;script src="https://threejs.org/examples/js/controls/TrackballControls.js"&gt;&lt;/script&gt;
+
+&lt;/head&gt;
+
+&lt;body&gt;
+
+        &lt;input id="test" value="Test Pixel Buffer" type="button" /&gt;&lt;br /&gt;
+
+        &lt;canvas id="view" width="500" height="500" style="border: 1px black solid;"&gt;&lt;/canvas&gt;
+
+&lt;/body&gt;
+
+&lt;/html&gt;</code></pre></div>
+</div>
+<p></p></div>
+<div class="mt24">
+<div class="d-flex fw-wrap ai-start jc-end gs8 gsy"><time datetime=
+"2018-03-26T17:31:33" itemprop="dateCreated"></time>
+<div class="flex--item mr16" style="flex: 1 1 100px;">
+<div class="js-post-menu pt2" data-post-id="49497303">
+<div class="d-flex gs8 s-anchors s-anchors__muted fw-wrap">
+<div class="flex--item"><a class="js-share-link js-gps-track"
+data-controller="se-share-sheet" data-gps-track=
+"post.click({ item: 2, priv: 0, post_type: 2 })"
+data-s-popover-placement="bottom-start"
+data-se-share-sheet-license-name="CC BY-SA 3.0"
+data-se-share-sheet-license-url=
+"https%3a%2f%2fcreativecommons.org%2flicenses%2fby-sa%2f3.0%2f"
+data-se-share-sheet-location="2" data-se-share-sheet-post-type=
+"answer" data-se-share-sheet-social="facebook twitter devto"
+data-se-share-sheet-subtitle="" data-se-share-sheet-title=
+"Share a link to this answer" href="/a/49497303" itemprop="url"
+rel="nofollow" title=
+"Short permalink to this answer">Share</a></div>
+<div class="flex--item"><button aria-controls="" class=
+"s-btn s-btn__link js-follow-post js-follow-answer js-gps-track"
+data-controller="s-tooltip" data-gps-track=
+"post.click({ item: 14, priv: 0, post_type: 2 })"
+data-s-popover-placement="bottom" data-s-tooltip-placement="bottom"
+id="btnFollowPost-49497303" title=
+"Follow this answer to receive notifications" type=
+"button">Follow</button></div>
+</div>
+<div class="js-menu-popup-container"></div>
+</div>
+</div>
+<div class="post-signature flex--item fl0">
+<div class="user-info">
+<div class="user-action-time"><a class="js-gps-track"
+data-gps-track="post.click({ item: 4, priv: 0, post_type: 2 })"
+href="/posts/49497303/revisions" title=
+"show all edits to this post">edited <span class='relativetime'
+title='2018-03-27 21:13:51Z'>Mar 27, 2018 at 21:13</span></a></div>
+<div class="user-gravatar32"></div>
+<div class="user-details">
+<div class="-flair"></div>
+</div>
+</div>
+</div>
+<div class="post-signature flex--item fl0">
+<div class="user-info user-hover">
+<div class="user-action-time">answered <span class='relativetime'
+title='2018-03-26 17:31:33Z'>Mar 26, 2018 at 17:31</span></div>
+<div class="user-gravatar32"><a href="/users/3889100/thejim01">
+<div class="gravatar-wrapper-32"><img alt="TheJim01's user avatar"
+class="bar-sm" height="32" src=
+"https://i.stack.imgur.com/mhI6k.png?s=64&amp;g=1" width=
+"32"></div>
+</a></div>
+<div class="user-details" itemprop="author" itemscope itemtype=
+"http://schema.org/Person"><a href=
+"/users/3889100/thejim01">TheJim01</a><span class="d-none"
+itemprop="name">TheJim01</span>
+<div class="-flair"><span class="reputation-score" dir="ltr" title=
+"reputation score ">8,066</span><span aria-hidden="true" title=
+"1 gold badge"><span class="badge1"></span><span class=
+"badgecount">1</span></span><span class="v-visible-sr">1 gold
+badge</span><span aria-hidden="true" title=
+"28 silver badges"><span class="badge2"></span><span class=
+"badgecount">28</span></span><span class="v-visible-sr">28 silver
+badges</span><span aria-hidden="true" title=
+"52 bronze badges"><span class="badge3"></span><span class=
+"badgecount">52</span></span><span class="v-visible-sr">52 bronze
+badges</span></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<span class="d-none" itemprop="commentCount">4</span>
+<div class="post-layout--right js-post-comments-component">
+<div class="comments js-comments-container bt bc-black-075 mt12"
+data-min-length="15" data-post-id="49497303" id=
+"comments-49497303">
+<ul class="comments-list js-comments-list" data-addlink-disabled=
+"true" data-canpost="false" data-cansee="true"
+data-comments-unavailable="false" data-remaining-comments-count=
+"0">
+<li class="comment js-comment" data-comment-id="86049478"
+data-comment-owner-id="5149345" data-comment-score="0" id=
+"comment-86049478">
+<div class="js-comment-actions comment-actions">
+<div class="comment-score js-comment-score js-comment-edit-hide">
+</div>
+</div>
+<div class="comment-text js-comment-text-and-form">
+<div class="comment-body js-comment-edit-hide"><span class=
+"comment-copy">Thank you for your kind help. I have edited the
+question, and now Render Target is right, however the colors are
+all undefined!</span>
+<div class="d-inline-flex ai-center">–&nbsp;<a class=
+"comment-user owner" href="/users/5149345/yone" title=
+"1,994 reputation">Yone</a></div>
+<span class="comment-date" dir="ltr"><span class=
+'relativetime-clean' title=
+'2018-03-27 20:24:14Z, License: CC BY-SA 3.0'>Mar 27, 2018 at
+20:24</span></span></div>
+</div>
+</li>
+<li class="comment js-comment" data-comment-id="86050957"
+data-comment-owner-id="3889100" data-comment-score="0" id=
+"comment-86050957">
+<div class="js-comment-actions comment-actions">
+<div class="comment-score js-comment-score js-comment-edit-hide">
+</div>
+</div>
+<div class="comment-text js-comment-text-and-form">
+<div class="comment-body js-comment-edit-hide"><span class=
+"comment-copy">@Enoy I've added a snippet to test checking pixels
+using <code>readRenderTargetPixels</code>. Please cross-check it
+against you implementation. If the code looks OK, you may still
+need to open another topic on why your values are undefined.</span>
+<div class="d-inline-flex ai-center">–&nbsp;<a class="comment-user"
+href="/users/3889100/thejim01" title=
+"8,066 reputation">TheJim01</a></div>
+<span class="comment-date" dir="ltr"><span class=
+'relativetime-clean' title=
+'2018-03-27 21:15:49Z, License: CC BY-SA 3.0'>Mar 27, 2018 at
+21:15</span></span></div>
+</div>
+</li>
+<li class="comment js-comment" data-comment-id="86087228"
+data-comment-owner-id="5149345" data-comment-score="0" id=
+"comment-86087228">
+<div class="js-comment-actions comment-actions">
+<div class="comment-score js-comment-score js-comment-edit-hide">
+</div>
+</div>
+<div class="comment-text js-comment-text-and-form">
+<div class="comment-body js-comment-edit-hide"><span class=
+"comment-copy">Thank you @TheJim01 for your great help. Your answer
+solved the problem. I would like you could explain in you code why
+do you put i1 and i2. I mean, why do you need to add/multiply to
+x,y the size.width? I have edited the question to show what code
+worked for me. Plus some pictures about what have I tried to
+understand how colors are detected and to verify if they are good
+detected. Thank you for your help.</span>
+<div class="d-inline-flex ai-center">–&nbsp;<a class=
+"comment-user owner" href="/users/5149345/yone" title=
+"1,994 reputation">Yone</a></div>
+<span class="comment-date" dir="ltr"><span class=
+'relativetime-clean' title=
+'2018-03-28 16:45:38Z, License: CC BY-SA 3.0'>Mar 28, 2018 at
+16:45</span></span></div>
+</div>
+</li>
+<li class="comment js-comment" data-comment-id="86087964"
+data-comment-owner-id="3889100" data-comment-score="1" id=
+"comment-86087964">
+<div class="js-comment-actions comment-actions">
+<div class="comment-score js-comment-score js-comment-edit-hide">
+<span class="cool" title=
+"number of 'useful comment' votes received">1</span></div>
+</div>
+<div class="comment-text js-comment-text-and-form">
+<div class="comment-body js-comment-edit-hide"><span class=
+"comment-copy">@Enoy I used <code>i1</code> and <code>i2</code>
+simply so I would only have to do the math of mapping a 2D
+coordinate into a 1D index once, rather than for every color value.
+<a href=
+"https://softwareengineering.stackexchange.com/questions/212808/treating-a-1d-data-structure-as-2d-grid">
+This answer</a> covers the 2D (screen coordinates) to 1D
+(<code>pixelBuffer</code>) mapping really well. I multiply the
+final value by <code>4</code> because there are 4 values per pixel
+(RGBA). Pixel index <code>1</code> actually covers indices
+<code>4</code>, <code>5</code>, <code>6</code>, and <code>7</code>
+in <code>pixelBuffer</code>.</span>
+<div class="d-inline-flex ai-center">–&nbsp;<a class="comment-user"
+href="/users/3889100/thejim01" title=
+"8,066 reputation">TheJim01</a></div>
+<span class="comment-date" dir="ltr"><span class=
+'relativetime-clean' title=
+'2018-03-28 17:06:29Z, License: CC BY-SA 3.0'>Mar 28, 2018 at
+17:06</span></span></div>
+</div>
+</li>
+</ul>
+</div>
+<div data-anon="true" data-rep="50" id="comments-link-49497303">
+<a class="js-add-link comments-link disabled-link" href="#" role=
+"button" title=
+"Use comments to ask for more information or suggest improvements. Avoid comments like “+1” or “thanks”.">
+Add a comment</a> <span class=
+"js-link-separator dno">&nbsp;|&nbsp;</span> <a class=
+"js-show-link comments-link dno" href="#" onclick="" role="button"
+title="Expand to show all comments on this post"></a></div>
+</div>
+</div>
+</div>
+<div class="js-zone-container zone-container-main">
+<div class=
+"everyonelovesstackoverflow everyoneloves__bot-mid-leaderboard everyoneloves__leaderboard"
+id="dfp-bmlb"></div>
+<div class="js-report-ad-button-container" style="width: 728px">
+</div>
+</div>
+<a name='new-answer' id="new-answer"></a>
+<form action="/questions/49495681/answer/submit" class=
+"js-add-answer-component post-form" id="post-form" method="post"
+name="post-form"><input id="post-id" type="hidden" value=
+"49495681"> <input id="qualityBanWarningShown" name=
+"qualityBanWarningShown" type="hidden" value="false"> <input name=
+"referrer" type="hidden" value="">
+<h2 class="space" id="your-answer-header">Your Answer</h2>
+<script>
+                StackExchange.ifUsing("editor", function () {
+                  StackExchange.using("externalEditor", function () {
+                    StackExchange.using("snippets", function () {
+                      StackExchange.snippets.init();
+                    });
+                  });
+                }, "code-snippets");
+</script>
+<script>
+
+                StackExchange.ready(function () {
+                  var channelOptions = {
+                    tags: "".split(" "),
+                    id: "1"
+                  };
+                  initTagRenderer("".split(" "), "".split(" "), channelOptions);
+
+                  StackExchange.using("externalEditor", function () {
+                    // Have to fire editor after snippets, if snippets enabled
+                    if (StackExchange.settings.snippets.snippetsEnabled) {
+                      StackExchange.using("snippets", function () {
+                        createEditor();
+                      });
+                    } else {
+                      createEditor();
+                    }
+                  });
+
+                  function createEditor() {
+                    StackExchange.prepareEditor({
+                      useStacksEditor: false,
+                      heartbeatType: 'answer',
+                      autoActivateHeartbeat: false,
+                      convertImagesToLinks: true,
+                      noModals: true,
+                      showLowRepImageUploadWarning: true,
+                      reputationToPostImages: 10,
+                      bindNavPrevention: true,
+                      postfix: "",
+                      imageUploader: {
+                        brandingHtml: "Powered by \u003ca href=\"https://imgur.com/\"\u003e\u003csvg class=\"svg-icon\" width=\"50\" height=\"18\" viewBox=\"0 0 50 18\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\"\u003e\u003ctitle\u003eImgur Logo\u003c/title\u003e\u003cpath d=\"M46.1709 9.17788C46.1709 8.26454 46.2665 7.94324 47.1084 7.58816C47.4091 7.46349 47.7169 7.36433 48.0099 7.26993C48.9099 6.97997 49.672 6.73443 49.672 5.93063C49.672 5.22043 48.9832 4.61182 48.1414 4.61182C47.4335 4.61182 46.7256 4.91628 46.0943 5.50789C45.7307 4.9328 45.2525 4.66231 44.6595 4.66231C43.6264 4.66231 43.1481 5.28821 43.1481 6.59048V11.9512C43.1481 13.2535 43.6264 13.8962 44.6595 13.8962C45.6924 13.8962 46.1709 13.2535 46.1709 11.9512V9.17788Z\"/\u003e\u003cpath d=\"M32.492 10.1419C32.492 12.6954 34.1182 14.0484 37.0451 14.0484C39.9723 14.0484 41.5985 12.6954 41.5985 10.1419V6.59049C41.5985 5.28821 41.1394 4.66232 40.1061 4.66232C39.0732 4.66232 38.5948 5.28821 38.5948 6.59049V9.60062C38.5948 10.8521 38.2696 11.5455 37.0451 11.5455C35.8209 11.5455 35.4954 10.8521 35.4954 9.60062V6.59049C35.4954 5.28821 35.0173 4.66232 34.0034 4.66232C32.9703 4.66232 32.492 5.28821 32.492 6.59049V10.1419Z\" /\u003e\u003cpath fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M25.6622 17.6335C27.8049 17.6335 29.3739 16.9402 30.2537 15.6379C30.8468 14.7755 30.9615 13.5579 30.9615 11.9512V6.59049C30.9615 5.28821 30.4833 4.66231 29.4502 4.66231C28.9913 4.66231 28.4555 4.94978 28.1109 5.50789C27.499 4.86533 26.7335 4.56087 25.7005 4.56087C23.1369 4.56087 21.0134 6.57349 21.0134 9.27932C21.0134 11.9852 23.003 13.913 25.3754 13.913C26.5612 13.913 27.4607 13.4902 28.1109 12.6616C28.1109 12.7229 28.1161 12.7799 28.121 12.8346C28.1256 12.8854 28.1301 12.9342 28.1301 12.983C28.1301 14.4373 27.2502 15.2321 25.777 15.2321C24.8349 15.2321 24.1352 14.9821 23.5661 14.7787C23.176 14.6393 22.8472 14.5218 22.5437 14.5218C21.7977 14.5218 21.2429 15.0123 21.2429 15.6887C21.2429 16.7375 22.9072 17.6335 25.6622 17.6335ZM24.1317 9.27932C24.1317 7.94324 24.9928 7.09766 26.1024 7.09766C27.2119 7.09766 28.0918 7.94324 28.0918 9.27932C28.0918 10.6321 27.2311 11.5116 26.1024 11.5116C24.9737 11.5116 24.1317 10.6491 24.1317 9.27932Z\"/\u003e\u003cpath d=\"M16.8045 11.9512C16.8045 13.2535 17.2637 13.8962 18.2965 13.8962C19.3298 13.8962 19.8079 13.2535 19.8079 11.9512V8.12928C19.8079 5.82936 18.4879 4.62866 16.4027 4.62866C15.1594 4.62866 14.279 4.98375 13.3609 5.88013C12.653 5.05154 11.6581 4.62866 10.3573 4.62866C9.34336 4.62866 8.57809 4.89931 7.9466 5.5079C7.58314 4.9328 7.10506 4.66232 6.51203 4.66232C5.47873 4.66232 5.00066 5.28821 5.00066 6.59049V11.9512C5.00066 13.2535 5.47873 13.8962 6.51203 13.8962C7.54479 13.8962 8.0232 13.2535 8.0232 11.9512V8.90741C8.0232 7.58817 8.44431 6.91179 9.53458 6.91179C10.5104 6.91179 10.893 7.58817 10.893 8.94108V11.9512C10.893 13.2535 11.3711 13.8962 12.4044 13.8962C13.4375 13.8962 13.9157 13.2535 13.9157 11.9512V8.90741C13.9157 7.58817 14.3365 6.91179 15.4269 6.91179C16.4027 6.91179 16.8045 7.58817 16.8045 8.94108V11.9512Z\"/\u003e\u003cpath d=\"M3.31675 6.59049C3.31675 5.28821 2.83866 4.66232 1.82471 4.66232C0.791758 4.66232 0.313354 5.28821 0.313354 6.59049V11.9512C0.313354 13.2535 0.791758 13.8962 1.82471 13.8962C2.85798 13.8962 3.31675 13.2535 3.31675 11.9512V6.59049Z\" /\u003e\u003cpath d=\"M1.87209 0.400291C0.843612 0.400291 0 1.1159 0 1.98861C0 2.87869 0.822846 3.57676 1.87209 3.57676C2.90056 3.57676 3.7234 2.87869 3.7234 1.98861C3.7234 1.1159 2.90056 0.400291 1.87209 0.400291Z\" fill=\"#1BB76E\"/\u003e\u003c/svg\u003e\u003c/a\u003e",
+                        contentPolicyHtml: "User contributions licensed under \u003ca href=\"https://stackoverflow.com/help/licensing\"\u003eCC BY-SA\u003c/a\u003e \u003ca href=\"https://stackoverflow.com/legal/content-policy\"\u003e(content policy)\u003c/a\u003e",
+                        allowUrls: true
+                      },
+                      onDemand: true,
+                      discardSelector: ".discard-answer",
+                      enableTables: true,
+                      isStacksEditorPreviewEnabled: false
+                      , immediatelyShowMarkdownHelp: true, enableTables: true, enableSnippets: true
+                    });
+                  }
+                });
+</script>
+<div class="post-editor js-post-editor" id="post-editor">
+<div class="ps-relative">
+<div class="wmd-container mb8">
+<div class="wmd-button-bar btr-sm" id="wmd-button-bar"></div>
+<div class="js-stacks-validation">
+<div class="ps-relative">
+<textarea aria-labelledby="your-answer-header" class=
+"wmd-input s-input bar0 js-post-body-field" cols="92"
+data-editor-type="wmd" data-min-length="" data-post-type-id="2" id=
+"wmd-input" name="post-text" rows="15" tabindex=
+"101"></textarea></div>
+<div class=
+"s-input-message mt4 d-none js-stacks-validation-message"></div>
+</div>
+</div>
+</div>
+<aside aria-hidden="true" class=
+"d-flex ai-start jc-space-between js-answer-help s-notice s-notice__warning pb0 pr4 pt4 mb8 d-none"
+role="status">
+<div class="flex--item pt8">
+<p>Thanks for contributing an answer to Stack Overflow!</p>
+<ul>
+<li>Please be sure to <em>answer the question</em>. Provide details
+and share your research!</li>
+</ul>
+<p>But <em>avoid</em> …</p>
+<ul>
+<li>Asking for help, clarification, or responding to other
+answers.</li>
+<li>Making statements based on opinion; back them up with
+references or personal experience.</li>
+</ul>
+<p>To learn more, see our <a href="/help/how-to-answer">tips on
+writing great answers</a>.</p>
+</div>
+<button class=
+"flex--item js-answer-help-close-btn s-btn s-btn__muted fc-dark"><svg aria-hidden="true"
+class="svg-icon iconClear" height="18" viewbox="0 0 18 18" width=
+"18">
+<path d=
+"M15 4.41 13.59 3 9 7.59 4.41 3 3 4.41 7.59 9 3 13.59 4.41 15 9 10.41 13.59 15 15 13.59 10.41 9 15 4.41Z"></path>
+</svg></button></aside>
+<div>
+<div class="fc-success h24" id="draft-saved" style="display:none;">
+Draft saved</div>
+<div class="fc-error h24" id="draft-discarded" style=
+"display:none;">Draft discarded</div>
+</div>
+<div class="s-prose mb16 wmd-preview js-wmd-preview" id=
+"wmd-preview"></div>
+<div></div>
+<div class="edit-block"><input id="fkey" name="fkey" type="hidden"
+value=
+"295ea9cc4850ab27575162d550a88e803ee5966a203ade3e5591a2b11e6158e7">
+<input id="author" name="author" type="text"></div>
+</div>
+<div class="ps-relative">
+<div class="form-item dno new-post-login p0 my16">
+<div class="d-flex gs16 md:fd-column new-login-form">
+<div class=
+"d-flex fd-column w50 md:w-auto gsy gs8 jc-space-between new-login-left">
+<h3 class="flex--item fs-title">Sign up or <a href=
+"/users/login?ssrc=question_page&amp;returnurl=https%3a%2f%2fstackoverflow.com%2fquestions%2f49495681%2fhow-could-we-get-the-pixels-color-of-a-mesh-when-we-click-on-it-using-javascri%23new-answer"
+id="login-link">log in</a></h3>
+<script>
+                        StackExchange.ready(function () {
+                          StackExchange.helpers.onClickDraftSave('#login-link');
+                        });
+</script>
+<div class=
+"flex--item s-btn s-btn__muted s-btn__outlined s-btn__icon google-login"
+data-ga=
+"[&quot;sign up&quot;,&quot;Sign Up Started - Google&quot;,&quot;New Post&quot;,null,null]">
+<svg aria-hidden="true" class="native svg-icon iconGoogle" height=
+"18" viewbox="0 0 18 18" width="18">
+<path d=
+"M16.51 8H8.98v3h4.3c-.18 1-.74 1.48-1.6 2.04v2.01h2.6a7.8 7.8 0 0 0 2.38-5.88c0-.57-.05-.66-.15-1.18Z"
+fill="#4285F4"></path>
+<path d=
+"M8.98 17c2.16 0 3.97-.72 5.3-1.94l-2.6-2a4.8 4.8 0 0 1-7.18-2.54H1.83v2.07A8 8 0 0 0 8.98 17Z"
+fill="#34A853"></path>
+<path d=
+"M4.5 10.52a4.8 4.8 0 0 1 0-3.04V5.41H1.83a8 8 0 0 0 0 7.18l2.67-2.07Z"
+fill="#FBBC05"></path>
+<path d=
+"M8.98 4.18c1.17 0 2.23.4 3.06 1.2l2.3-2.3A8 8 0 0 0 1.83 5.4L4.5 7.49a4.77 4.77 0 0 1 4.48-3.3Z"
+fill="#EA4335"></path></svg> Sign up using Google</div>
+<div class=
+"flex--item s-btn s-btn__muted s-btn__icon facebook-login" data-ga=
+"[&quot;sign up&quot;,&quot;Sign Up Started - Facebook&quot;,&quot;New Post&quot;,null,null]">
+<svg aria-hidden="true" class="svg-icon iconFacebook" height="18"
+viewbox="0 0 18 18" width="18">
+<path d=
+"M3 1a2 2 0 0 0-2 2v12c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H3Zm6.55 16v-6.2H7.46V8.4h2.09V6.61c0-2.07 1.26-3.2 3.1-3.2.88 0 1.64.07 1.87.1v2.16h-1.29c-1 0-1.19.48-1.19 1.18V8.4h2.39l-.31 2.42h-2.08V17h-2.5Z"
+fill="#4167B2"></path></svg> Sign up using Facebook</div>
+<div class=
+"flex--item s-btn s-btn__muted s-btn__outlined s-btn__icon stackexchange-login"
+data-ga=
+"[&quot;sign up&quot;,&quot;Sign Up Navigation&quot;,&quot;New Post&quot;,null,null]">
+<svg aria-hidden="true" class="native svg-icon iconLogoGlyphXSm"
+height="18" viewbox="0 0 18 18" width="18">
+<path d="M14 16v-5h2v7H2v-7h2v5h10Z" fill="#BCBBBB"></path>
+<path d=
+"m12.09.72-1.21.9 4.5 6.07 1.22-.9L12.09.71ZM5 15h8v-2H5v2Zm9.15-5.87L8.35 4.3l.96-1.16 5.8 4.83-.96 1.16Zm-7.7-1.47 6.85 3.19.63-1.37-6.85-3.2-.63 1.38Zm6.53 5L5.4 11.39l.38-1.67 7.42 1.48-.22 1.46Z"
+fill="#F48024"></path></svg> Sign up using Email and Password</div>
+</div>
+<input class="use-facebook" name="use-facebook" type="hidden"
+value="false"> <input class="use-google" name="use-google" type=
+"hidden" value="false"> <button class="d-none js-submit-openid"
+type="button">Submit</button>
+<div class=
+"d-flex gsy gs8 fd-column w50 md:w-auto new-login-right form-item p0">
+<h3 class="flex--item fs-title">Post as a guest</h3>
+<div class="flex--item">
+<div class="d-flex gs4 gsy fd-column"><label class="s-label" for=
+"display-name">Name</label>
+<div class="d-flex ps-relative"><input class="s-input" id=
+"display-name" maxlength="30" name="display-name" placeholder=""
+tabindex="105" type="text" value=""></div>
+</div>
+</div>
+<div class="flex--item">
+<div class="d-flex gs4 gsy fd-column">
+<div class="flex--item">
+<div class="d-flex gs2 gsy fd-column"><label class=
+"flex--item s-label" for="m-address">Email</label>
+<p class="flex--item s-description">Required, but never shown</p>
+</div>
+</div>
+<div class="d-flex ps-relative"><input class=
+"s-input js-post-email-field" id="m-address" name="m-address"
+placeholder="" size="40" tabindex="106" type="text" value=""></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+                  StackExchange.ready(
+                    function () {
+                      StackExchange.openid.initPostLogin('.new-post-login', 'https%3a%2f%2fstackoverflow.com%2fquestions%2f49495681%2fhow-could-we-get-the-pixels-color-of-a-mesh-when-we-click-on-it-using-javascri%23new-answer', 'question_page');
+                    }
+                  );
+</script> <noscript>
+<h3 class="flex--item fs-title">Post as a guest</h3>
+<div class="flex--item">
+<div class="d-flex gs4 gsy fd-column"><label class="s-label" for=
+"display-name">Name</label>
+<div class="d-flex ps-relative"><input class="s-input" id=
+"display-name" maxlength="30" name="display-name" placeholder=""
+tabindex="105" type="text" value=""></div>
+</div>
+</div>
+<div class="flex--item">
+<div class="d-flex gs4 gsy fd-column">
+<div class="flex--item">
+<div class="d-flex gs2 gsy fd-column"><label class=
+"flex--item s-label" for="m-address">Email</label>
+<p class="flex--item s-description">Required, but never shown</p>
+</div>
+</div>
+<div class="d-flex ps-relative"><input class=
+"s-input js-post-email-field" id="m-address" name="m-address"
+placeholder="" size="40" tabindex="106" type="text" value=""></div>
+</div>
+</div>
+</noscript></div>
+<div class="form-submit clear-both d-flex gsx gs4">
+<button autocomplete="off" class=
+"flex--item s-btn s-btn__primary s-btn__icon" id="submit-button"
+tabindex="120" type="submit">Post Your Answer</button>
+<button class=
+"flex--item s-btn s-btn__danger discard-answer dno">Discard</button>
+<p class="privacy-policy-agreement">By clicking “Post Your Answer”,
+you agree to our <a class='-link' href=
+'https://stackoverflow.com/legal/terms-of-service/public' name=
+'tos' target='_blank' id="tos">terms of service</a>, <a class=
+'-link' href='https://stackoverflow.com/legal/privacy-policy' name=
+'privacy' target='_blank' id="privacy">privacy policy</a> and
+<a class='-link' href=
+'https://stackoverflow.com/legal/cookie-policy' name='cookie'
+target='_blank' id="cookie">cookie policy</a><input name=
+"legalLinksShown" type="hidden" value="1"></p>
+</div>
+<div aria-live="polite" class=
+"js-general-error general-error clear-both d-none"></div>
+</form>
+<h2 class="bottom-notice" data-loc="1"></h2>
+<div>
+<h2 class="bottom-notice" data-loc="1">Not the answer you're
+looking for? Browse other questions tagged</h2>
+</div>
+<ul class='ml0 list-ls-none js-post-tag-list-wrapper d-inline'>
+<li class='d-inline mr4 js-post-tag-list-item'><a aria-label=
+"show questions tagged 'javascript'" aria-labelledby=
+"javascript-container" class="post-tag" href=
+"/questions/tagged/javascript" rel="tag" title=
+"show questions tagged 'javascript'">javascript</a></li>
+<li class='d-inline mr4 js-post-tag-list-item'><a aria-label=
+"show questions tagged 'html'" aria-labelledby="html-container"
+class="post-tag" href="/questions/tagged/html" rel="tag" title=
+"show questions tagged 'html'">html</a></li>
+<li class='d-inline mr4 js-post-tag-list-item'><a aria-label=
+"show questions tagged 'canvas'" aria-labelledby="canvas-container"
+class="post-tag" href="/questions/tagged/canvas" rel="tag" title=
+"show questions tagged 'canvas'">canvas</a></li>
+<li class='d-inline mr4 js-post-tag-list-item'><a aria-label=
+"show questions tagged 'three.js'" aria-labelledby=
+"three.js-container" class="post-tag" href=
+"/questions/tagged/three.js" rel="tag" title=
+"show questions tagged 'three.js'">three.js</a></li>
+</ul>
+or <a href="/questions/ask">ask your own question</a>.</div>
+</div>
+</div>
+<div aria-label="sidebar" class="show-votes" id="sidebar" role=
+"complementary">
+<div class=
+"s-sidebarwidget s-sidebarwidget__yellow s-anchors s-anchors__grayscale mb16"
+data-tracker="cb=1">
+<ul class="d-block p0 m0">
+<li class=
+"s-sidebarwidget--header s-sidebarwidget__small-bold-text d-flex fc-black-600 d:fc-black-900 bb bbw1">
+The Overflow Blog</li>
+<li class="s-sidebarwidget--item d-flex px16">
+<div class="flex--item1 fl-shrink0"><svg aria-hidden="true" class=
+"va-text-top svg-icon iconPencilSm" height="14" viewbox="0 0 14 14"
+width="14">
+<path d=
+"m11.1 1.71 1.13 1.12c.2.2.2.51 0 .71L11.1 4.7 9.21 2.86l1.17-1.15c.2-.2.51-.2.71 0ZM2 10.12l6.37-6.43 1.88 1.88L3.88 12H2v-1.88Z"></path>
+</svg></div>
+<div class="flex--item wmn0 ow-break-word"><a class="js-gps-track"
+data-ga=
+"[&quot;community bulletin board&quot;,&quot;The Overflow Blog&quot;,&quot;https://stackoverflow.blog/2023/01/19/adding-structure-to-dynamic-languages/&quot;,null,null]"
+data-gps-track=
+"communitybulletin.click({ priority: 1, position: 0 })" href=
+"https://stackoverflow.blog/2023/01/19/adding-structure-to-dynamic-languages/">
+Minimizing the downsides of dynamic programming languages</a></div>
+</li>
+<li class="s-sidebarwidget--item d-flex px16">
+<div class="flex--item1 fl-shrink0"><svg aria-hidden="true" class=
+"va-text-top svg-icon iconPencilSm" height="14" viewbox="0 0 14 14"
+width="14">
+<path d=
+"m11.1 1.71 1.13 1.12c.2.2.2.51 0 .71L11.1 4.7 9.21 2.86l1.17-1.15c.2-.2.51-.2.71 0ZM2 10.12l6.37-6.43 1.88 1.88L3.88 12H2v-1.88Z"></path>
+</svg></div>
+<div class="flex--item wmn0 ow-break-word"><a class="js-gps-track"
+data-ga=
+"[&quot;community bulletin board&quot;,&quot;The Overflow Blog&quot;,&quot;https://stackoverflow.blog/2023/01/20/how-to-build-a-universal-computation-machine-with-tetris-ep-529/&quot;,null,null]"
+data-gps-track=
+"communitybulletin.click({ priority: 1, position: 1 })" href=
+"https://stackoverflow.blog/2023/01/20/how-to-build-a-universal-computation-machine-with-tetris-ep-529/">
+How to build a universal computation machine with Tetris (Ep.
+529)</a></div>
+</li>
+<li class=
+"s-sidebarwidget--header s-sidebarwidget__small-bold-text d-flex fc-black-600 d:fc-black-900 bb bbw1">
+Featured on Meta</li>
+<li class="s-sidebarwidget--item d-flex px16">
+<div class="flex--item1 fl-shrink0">
+<div class="favicon favicon-stackexchangemeta" title=
+"Meta Stack Exchange"></div>
+</div>
+<div class="flex--item wmn0 ow-break-word"><a class="js-gps-track"
+data-ga=
+"[&quot;community bulletin board&quot;,&quot;Featured on Meta&quot;,&quot;https://meta.stackexchange.com/questions/385683/2022-community-a-thon-recap&quot;,null,null]"
+data-gps-track=
+"communitybulletin.click({ priority: 3, position: 2 })" href=
+"https://meta.stackexchange.com/questions/385683/2022-community-a-thon-recap">
+2022 Community-a-thon Recap</a></div>
+</li>
+<li class="s-sidebarwidget--item d-flex px16">
+<div class="flex--item1 fl-shrink0">
+<div class="favicon favicon-stackoverflowmeta" title=
+"Meta Stack Overflow"></div>
+</div>
+<div class="flex--item wmn0 ow-break-word"><a class="js-gps-track"
+data-ga=
+"[&quot;community bulletin board&quot;,&quot;Featured on Meta&quot;,&quot;https://meta.stackoverflow.com/questions/421831/temporary-policy-chatgpt-is-banned&quot;,null,null]"
+data-gps-track=
+"communitybulletin.click({ priority: 6, position: 3 })" href=
+"https://meta.stackoverflow.com/questions/421831/temporary-policy-chatgpt-is-banned">
+Temporary policy: ChatGPT is banned</a></div>
+</li>
+<li class="s-sidebarwidget--item d-flex px16">
+<div class="flex--item1 fl-shrink0">
+<div class="favicon favicon-stackoverflowmeta" title=
+"Meta Stack Overflow"></div>
+</div>
+<div class="flex--item wmn0 ow-break-word"><a class="js-gps-track"
+data-ga=
+"[&quot;community bulletin board&quot;,&quot;Featured on Meta&quot;,&quot;https://meta.stackoverflow.com/questions/418577/the-colon-tag-is-being-burninated&quot;,null,null]"
+data-gps-track=
+"communitybulletin.click({ priority: 6, position: 4 })" href=
+"https://meta.stackoverflow.com/questions/418577/the-colon-tag-is-being-burninated">
+The [colon] tag is being burninated</a></div>
+</li>
+<li class="s-sidebarwidget--item d-flex px16">
+<div class="flex--item1 fl-shrink0">
+<div class="favicon favicon-stackoverflowmeta" title=
+"Meta Stack Overflow"></div>
+</div>
+<div class="flex--item wmn0 ow-break-word"><a class="js-gps-track"
+data-ga=
+"[&quot;community bulletin board&quot;,&quot;Featured on Meta&quot;,&quot;https://meta.stackoverflow.com/questions/422723/we-re-bringing-advertisements-for-technology-courses-to-stack-overflow&quot;,null,null]"
+data-gps-track=
+"communitybulletin.click({ priority: 6, position: 5 })" href=
+"https://meta.stackoverflow.com/questions/422723/we-re-bringing-advertisements-for-technology-courses-to-stack-overflow">
+We’re bringing advertisements for technology courses to Stack
+Overflow</a></div>
+</li>
+<li class="s-sidebarwidget--item d-flex px16">
+<div class="flex--item1 fl-shrink0">
+<div class="favicon favicon-stackoverflowmeta" title=
+"Meta Stack Overflow"></div>
+</div>
+<div class="flex--item wmn0 ow-break-word"><a class="js-gps-track"
+data-ga=
+"[&quot;community bulletin board&quot;,&quot;Featured on Meta&quot;,&quot;https://meta.stackoverflow.com/questions/422751/introducing-a-new-close-reason-specifically-for-non-english-questions&quot;,null,null]"
+data-gps-track=
+"communitybulletin.click({ priority: 6, position: 6 })" href=
+"https://meta.stackoverflow.com/questions/422751/introducing-a-new-close-reason-specifically-for-non-english-questions">
+Introducing a new close reason specifically for non-English
+questions</a></div>
+</li>
+</ul>
+</div>
+<div class="js-zone-container zone-container-sidebar">
+<div class="everyonelovesstackoverflow everyoneloves__top-sidebar"
+id="dfp-tsb"></div>
+<div class="js-report-ad-button-container" style="width: 300px">
+</div>
+</div>
+<div class="js-zone-container zone-container-sidebar">
+<div class="everyonelovesstackoverflow everyoneloves__mid-sidebar"
+id="dfp-msb"></div>
+<div class="js-report-ad-button-container" style="width: 300px">
+</div>
+</div>
+<div id="hireme"></div>
+<div class="module sidebar-linked">
+<h4 id="h-linked">Linked</h4>
+<div class="linked" data-tracker="lq=1">
+<div class="spacer js-gps-track" data-gps-track=
+"linkedquestion.click({ source_post_id: 49495681, target_question_id: 4938346, position: 0 })">
+<a href="/q/4938346" title="Question score (upvotes - downvotes)">
+<div class="answer-votes answered-accepted large">233</div>
+</a> <a class="question-hyperlink" href=
+"/questions/4938346/canvas-width-and-height-in-html5?noredirect=1">Canvas
+width and height in HTML5</a></div>
+<div class="spacer js-gps-track" data-gps-track=
+"linkedquestion.click({ source_post_id: 49495681, target_question_id: 667045, position: 1 })">
+<a href="/q/667045" title="Question score (upvotes - downvotes)">
+<div class="answer-votes answered-accepted large">125</div>
+</a> <a class="question-hyperlink" href=
+"/questions/667045/get-a-pixel-from-html-canvas?noredirect=1">Get a
+pixel from HTML Canvas?</a></div>
+<div class="spacer js-gps-track" data-gps-track=
+"linkedquestion.click({ source_post_id: 49495681, target_question_id: 8751020, position: 2 })">
+<a href="/q/8751020" title="Question score (upvotes - downvotes)">
+<div class="answer-votes answered-accepted large">143</div>
+</a> <a class="question-hyperlink" href=
+"/questions/8751020/how-to-check-if-a-specific-pixel-of-an-image-is-transparent?noredirect=1">
+How to check if a specific pixel of an image is
+transparent?</a></div>
+<div class="spacer js-gps-track" data-gps-track=
+"linkedquestion.click({ source_post_id: 49495681, target_question_id: 10652513, position: 3 })">
+<a href="/q/10652513" title="Question score (upvotes - downvotes)">
+<div class="answer-votes answered-accepted default">87</div>
+</a> <a class="question-hyperlink" href=
+"/questions/10652513/html5-dynamically-create-canvas?noredirect=1">HTML5
+Dynamically create Canvas</a></div>
+<div class="spacer js-gps-track" data-gps-track=
+"linkedquestion.click({ source_post_id: 49495681, target_question_id: 9251480, position: 4 })">
+<a href="/q/9251480" title="Question score (upvotes - downvotes)">
+<div class="answer-votes default">75</div>
+</a> <a class="question-hyperlink" href=
+"/questions/9251480/set-canvas-size-using-javascript?noredirect=1">Set
+Canvas size using javascript</a></div>
+<div class="spacer js-gps-track" data-gps-track=
+"linkedquestion.click({ source_post_id: 49495681, target_question_id: 17789076, position: 5 })">
+<a href="/q/17789076" title="Question score (upvotes - downvotes)">
+<div class="answer-votes answered-accepted default">23</div>
+</a> <a class="question-hyperlink" href=
+"/questions/17789076/get-pixel-color-from-an-image?noredirect=1">Get
+pixel color from an image</a></div>
+<div class="spacer js-gps-track" data-gps-track=
+"linkedquestion.click({ source_post_id: 49495681, target_question_id: 33800600, position: 6 })">
+<a href="/q/33800600" title="Question score (upvotes - downvotes)">
+<div class="answer-votes default">36</div>
+</a> <a class="question-hyperlink" href=
+"/questions/33800600/error-webgl-exceeded-16-live-webgl-contexts-for-this-principal-losing-the-lea?noredirect=1">
+Error: WebGL: Exceeded 16 live WebGL contexts for this principal,
+losing the least recently used one</a></div>
+<div class="spacer js-gps-track" data-gps-track=
+"linkedquestion.click({ source_post_id: 49495681, target_question_id: 43172115, position: 7 })">
+<a href="/q/43172115" title="Question score (upvotes - downvotes)">
+<div class="answer-votes answered-accepted default">9</div>
+</a> <a class="question-hyperlink" href=
+"/questions/43172115/get-the-mouse-coordinates-when-clicking-on-canvas?noredirect=1">
+Get the mouse coordinates when clicking on canvas</a></div>
+<div class="spacer js-gps-track" data-gps-track=
+"linkedquestion.click({ source_post_id: 49495681, target_question_id: 43583012, position: 8 })">
+<a href="/q/43583012" title="Question score (upvotes - downvotes)">
+<div class="answer-votes answered-accepted default">3</div>
+</a> <a class="question-hyperlink" href=
+"/questions/43583012/getting-the-color-value-of-a-pixel-on-click-of-a-mesh-with-three-js?noredirect=1">
+Getting the color value of a pixel on click of a mesh with
+three.js</a></div>
+<div class="spacer js-gps-track" data-gps-track=
+"linkedquestion.click({ source_post_id: 49495681, target_question_id: 33433305, position: 9 })">
+<a href="/q/33433305" title="Question score (upvotes - downvotes)">
+<div class="answer-votes answered-accepted default">0</div>
+</a> <a class="question-hyperlink" href=
+"/questions/33433305/threejs-how-to-pick-the-intersection-point-color-of-an-object?noredirect=1">
+ThreeJS How to pick the intersection point color of an
+object</a></div>
+<div class="spacer more ml32 pl16 pt8"><a href=
+"/questions/linked/49495681">See more linked questions</a></div>
+</div>
+</div>
+<div class="module sidebar-related">
+<h4 id="h-related">Related</h4>
+<div class="related js-gps-related-questions" data-tracker="rq=1">
+<div class="spacer"><a href="/q/221294" title=
+"Question score (upvotes - downvotes)">
+<div class="answer-votes answered-accepted extra-large">4669</div>
+</a> <a class="question-hyperlink" href=
+"/questions/221294/how-do-i-get-a-timestamp-in-javascript">How do I
+get a timestamp in JavaScript?</a></div>
+<div class="spacer"><a href="/q/306583" title=
+"Question score (upvotes - downvotes)">
+<div class="answer-votes answered-accepted extra-large">2382</div>
+</a> <a class="question-hyperlink" href=
+"/questions/306583/how-to-get-the-children-of-the-this-selector">How
+to get the children of the $(this) selector?</a></div>
+<div class="spacer"><a href="/q/400212" title=
+"Question score (upvotes - downvotes)">
+<div class="answer-votes answered-accepted extra-large">4336</div>
+</a> <a class="question-hyperlink" href=
+"/questions/400212/how-do-i-copy-to-the-clipboard-in-javascript">How
+do I copy to the clipboard in JavaScript?</a></div>
+<div class="spacer"><a href="/q/901115" title=
+"Question score (upvotes - downvotes)">
+<div class="answer-votes answered-accepted extra-large">2694</div>
+</a> <a class="question-hyperlink" href=
+"/questions/901115/how-can-i-get-query-string-values-in-javascript">
+How can I get query string values in JavaScript?</a></div>
+<div class="spacer"><a href="/q/1026069" title=
+"Question score (upvotes - downvotes)">
+<div class="answer-votes extra-large">4921</div>
+</a> <a class="question-hyperlink" href=
+"/questions/1026069/how-do-i-make-the-first-letter-of-a-string-uppercase-in-javascript">
+How do I make the first letter of a string uppercase in
+JavaScript?</a></div>
+<div class="spacer"><a href="/q/1034621" title=
+"Question score (upvotes - downvotes)">
+<div class="answer-votes answered-accepted extra-large">3606</div>
+</a> <a class="question-hyperlink" href=
+"/questions/1034621/get-the-current-url-with-javascript">Get the
+current URL with JavaScript?</a></div>
+<div class="spacer"><a href="/q/1085801" title=
+"Question score (upvotes - downvotes)">
+<div class="answer-votes answered-accepted extra-large">2268</div>
+</a> <a class="question-hyperlink" href=
+"/questions/1085801/get-selected-value-in-dropdown-list-using-javascript">
+Get selected value in dropdown list using JavaScript</a></div>
+<div class="spacer"><a href="/q/1144805" title=
+"Question score (upvotes - downvotes)">
+<div class="answer-votes answered-accepted extra-large">1936</div>
+</a> <a class="question-hyperlink" href=
+"/questions/1144805/scroll-to-the-top-of-the-page-using-javascript">
+Scroll to the top of the page using JavaScript?</a></div>
+<div class="spacer"><a href="/q/1531093" title=
+"Question score (upvotes - downvotes)">
+<div class="answer-votes answered-accepted extra-large">2913</div>
+</a> <a class="question-hyperlink" href=
+"/questions/1531093/how-do-i-get-the-current-date-in-javascript">How
+do I get the current date in JavaScript?</a></div>
+</div>
+</div>
+<div class="module tex2jax_ignore" id="hot-network-questions">
+<h4><a class="js-gps-track s-link s-link__inherit" data-gps-track=
+"posts_hot_network.click({ item_type:1, location:11 })" href=
+"https://stackexchange.com/questions?tab=hot">Hot Network
+Questions</a></h4>
+<ul>
+<li>
+<div class="favicon favicon-spanish" title=
+"Spanish Language Stack Exchange"></div>
+<a class="js-gps-track question-hyperlink mb0" data-gps-track=
+"site.switch({ item_type:11, target_site:353 }); posts_hot_network.click({ item_type:2, location:11 })"
+href=
+"https://spanish.stackexchange.com/questions/41724/when-does-poco-mean-a-lot-instead-of-few">When
+does "poco" mean "a lot" instead of "few"?</a></li>
+<li>
+<div class="favicon favicon-mechanics" title=
+"Motor Vehicle Maintenance &amp; Repair Stack Exchange"></div>
+<a class="js-gps-track question-hyperlink mb0" data-gps-track=
+"site.switch({ item_type:11, target_site:224 }); posts_hot_network.click({ item_type:2, location:11 })"
+href=
+"https://mechanics.stackexchange.com/questions/90858/how-to-properly-reaffix-this-rubber-belt-onto-the-car-body">How
+to properly reaffix this rubber (?) belt onto the car
+body?</a></li>
+<li>
+<div class="favicon favicon-worldbuilding" title=
+"Worldbuilding Stack Exchange"></div>
+<a class="js-gps-track question-hyperlink mb0" data-gps-track=
+"site.switch({ item_type:11, target_site:579 }); posts_hot_network.click({ item_type:2, location:11 })"
+href=
+"https://worldbuilding.stackexchange.com/questions/240916/could-bioengineered-trees-grow-high-explosives">Could
+bioengineered trees grow high explosives?</a></li>
+<li>
+<div class="favicon favicon-mathoverflow" title="MathOverflow">
+</div>
+<a class="js-gps-track question-hyperlink mb0" data-gps-track=
+"site.switch({ item_type:11, target_site:504 }); posts_hot_network.click({ item_type:2, location:11 })"
+href=
+"https://mathoverflow.net/questions/438747/topology-in-non-mathematical-literature">Topology
+in non-mathematical literature</a></li>
+<li>
+<div class="favicon favicon-substrate" title=
+"Substrate and Polkadot Stack Exchange"></div>
+<a class="js-gps-track question-hyperlink mb0" data-gps-track=
+"site.switch({ item_type:11, target_site:710 }); posts_hot_network.click({ item_type:2, location:11 })"
+href=
+"https://substrate.stackexchange.com/questions/6810/how-to-create-a-bounded-vec-from-a-normal-vec">How
+to create a bounded vec from a normal vec?</a></li>
+<li class="dno js-hidden">
+<div class="favicon favicon-space" title=
+"Space Exploration Stack Exchange"></div>
+<a class="js-gps-track question-hyperlink mb0" data-gps-track=
+"site.switch({ item_type:11, target_site:508 }); posts_hot_network.click({ item_type:2, location:11 })"
+href=
+"https://space.stackexchange.com/questions/61580/was-the-shot-on-the-iss-movie-the-challenge-ever-released-or-is-there-a-releas">Was
+the shot-on-the-ISS movie "The Challenge" ever released or is there
+a release date?</a></li>
+<li class="dno js-hidden">
+<div class="favicon favicon-judaism" title="Mi Yodeya"></div>
+<a class="js-gps-track question-hyperlink mb0" data-gps-track=
+"site.switch({ item_type:11, target_site:248 }); posts_hot_network.click({ item_type:2, location:11 })"
+href=
+"https://judaism.stackexchange.com/questions/132793/halacha-of-not-biting-into-a-sandwich-when-someone-else-is-eating-with-you">Halacha
+of not biting into a sandwich when someone else is eating with
+you</a></li>
+<li class="dno js-hidden">
+<div class="favicon favicon-mathematica" title=
+"Mathematica Stack Exchange"></div>
+<a class="js-gps-track question-hyperlink mb0" data-gps-track=
+"site.switch({ item_type:11, target_site:387 }); posts_hot_network.click({ item_type:2, location:11 })"
+href=
+"https://mathematica.stackexchange.com/questions/278817/couple-pde-of-order-three">Couple
+PDE of order three</a></li>
+<li class="dno js-hidden">
+<div class="favicon favicon-codegolf" title=
+"Code Golf Stack Exchange"></div>
+<a class="js-gps-track question-hyperlink mb0" data-gps-track=
+"site.switch({ item_type:11, target_site:200 }); posts_hot_network.click({ item_type:2, location:11 })"
+href=
+"https://codegolf.stackexchange.com/questions/256863/find-the-length-of-the-longest-substring-with-all-different-characters-in-on-t">Find
+the length of the longest substring with all different characters
+in O(n) time</a></li>
+<li class="dno js-hidden">
+<div class="favicon favicon-electronics" title=
+"Electrical Engineering Stack Exchange"></div>
+<a class="js-gps-track question-hyperlink mb0" data-gps-track=
+"site.switch({ item_type:11, target_site:135 }); posts_hot_network.click({ item_type:2, location:11 })"
+href=
+"https://electronics.stackexchange.com/questions/650680/power-on-reset-discharge-circuitry">Power
+on reset discharge circuitry</a></li>
+<li class="dno js-hidden">
+<div class="favicon favicon-academia" title=
+"Academia Stack Exchange"></div>
+<a class="js-gps-track question-hyperlink mb0" data-gps-track=
+"site.switch({ item_type:11, target_site:415 }); posts_hot_network.click({ item_type:2, location:11 })"
+href=
+"https://academia.stackexchange.com/questions/192607/do-peer-reviewers-ignore-details-in-complicated-mathematical-computations-and-th">Do
+peer-reviewers ignore details in complicated mathematical
+computations and theorems?</a></li>
+<li class="dno js-hidden">
+<div class="favicon favicon-puzzling" title=
+"Puzzling Stack Exchange"></div>
+<a class="js-gps-track question-hyperlink mb0" data-gps-track=
+"site.switch({ item_type:11, target_site:559 }); posts_hot_network.click({ item_type:2, location:11 })"
+href=
+"https://puzzling.stackexchange.com/questions/119418/actors-puzzle-triple-t">Actors
+puzzle (Triple T)</a></li>
+<li class="dno js-hidden">
+<div class="favicon favicon-scifi" title=
+"Science Fiction &amp; Fantasy Stack Exchange"></div>
+<a class="js-gps-track question-hyperlink mb0" data-gps-track=
+"site.switch({ item_type:11, target_site:186 }); posts_hot_network.click({ item_type:2, location:11 })"
+href=
+"https://scifi.stackexchange.com/questions/271317/looking-for-an-old-story-about-undercover-reporter-in-pvc-latex-tech-suit">Looking
+for an old story about undercover reporter in pvc latex tech
+suit</a></li>
+<li class="dno js-hidden">
+<div class="favicon favicon-travel" title="Travel Stack Exchange">
+</div>
+<a class="js-gps-track question-hyperlink mb0" data-gps-track=
+"site.switch({ item_type:11, target_site:273 }); posts_hot_network.click({ item_type:2, location:11 })"
+href=
+"https://travel.stackexchange.com/questions/178900/is-1-hour-sufficient-to-transfer-terminals-at-changi-airport">Is
+1 hour sufficient to transfer terminals at Changi airport?</a></li>
+<li class="dno js-hidden">
+<div class="favicon favicon-physics" title=
+"Physics Stack Exchange"></div>
+<a class="js-gps-track question-hyperlink mb0" data-gps-track=
+"site.switch({ item_type:11, target_site:151 }); posts_hot_network.click({ item_type:2, location:11 })"
+href=
+"https://physics.stackexchange.com/questions/746211/why-is-clock-synchronisation-such-a-big-deal-in-physics">Why
+is clock synchronisation such a big deal in physics?</a></li>
+<li class="dno js-hidden">
+<div class="favicon favicon-scifi" title=
+"Science Fiction &amp; Fantasy Stack Exchange"></div>
+<a class="js-gps-track question-hyperlink mb0" data-gps-track=
+"site.switch({ item_type:11, target_site:186 }); posts_hot_network.click({ item_type:2, location:11 })"
+href=
+"https://scifi.stackexchange.com/questions/271285/does-any-marvel-superhero-have-a-no-kill-policy">Does
+any Marvel superhero have a no kill policy?</a></li>
+<li class="dno js-hidden">
+<div class="favicon favicon-codegolf" title=
+"Code Golf Stack Exchange"></div>
+<a class="js-gps-track question-hyperlink mb0" data-gps-track=
+"site.switch({ item_type:11, target_site:200 }); posts_hot_network.click({ item_type:2, location:11 })"
+href=
+"https://codegolf.stackexchange.com/questions/256890/shortest-digid-app-getpercentagerounds-function">Shortest
+digid-app GetPercentageRounds function</a></li>
+<li class="dno js-hidden">
+<div class="favicon favicon-tex" title=
+"TeX - LaTeX Stack Exchange"></div>
+<a class="js-gps-track question-hyperlink mb0" data-gps-track=
+"site.switch({ item_type:11, target_site:85 }); posts_hot_network.click({ item_type:2, location:11 })"
+href=
+"https://tex.stackexchange.com/questions/672243/passing-values-from-a-lua-function-to-tex">Passing
+values from a Lua function to TeX</a></li>
+<li class="dno js-hidden">
+<div class="favicon favicon-movies" title=
+"Movies &amp; TV Stack Exchange"></div>
+<a class="js-gps-track question-hyperlink mb0" data-gps-track=
+"site.switch({ item_type:11, target_site:367 }); posts_hot_network.click({ item_type:2, location:11 })"
+href=
+"https://movies.stackexchange.com/questions/119423/did-joe-dempsie-make-a-cameo-appearance-in-harry-potter-and-the-prisoner-of-azka">Did
+Joe Dempsie make a cameo appearance in Harry Potter and the
+Prisoner of Azkaban?</a></li>
+<li class="dno js-hidden">
+<div class="favicon favicon-philosophy" title=
+"Philosophy Stack Exchange"></div>
+<a class="js-gps-track question-hyperlink mb0" data-gps-track=
+"site.switch({ item_type:11, target_site:265 }); posts_hot_network.click({ item_type:2, location:11 })"
+href=
+"https://philosophy.stackexchange.com/questions/96202/is-the-temperance-resulting-from-the-socratic-maxim-know-thyself-always-about">Is
+the temperance resulting from the socratic maxim "know thyself"
+always about knowing others?</a></li>
+<li class="dno js-hidden">
+<div class="favicon favicon-codegolf" title=
+"Code Golf Stack Exchange"></div>
+<a class="js-gps-track question-hyperlink mb0" data-gps-track=
+"site.switch({ item_type:11, target_site:200 }); posts_hot_network.click({ item_type:2, location:11 })"
+href=
+"https://codegolf.stackexchange.com/questions/256828/change-the-subject">Change
+the subject</a></li>
+<li class="dno js-hidden">
+<div class="favicon favicon-blender" title=
+"Blender Stack Exchange"></div>
+<a class="js-gps-track question-hyperlink mb0" data-gps-track=
+"site.switch({ item_type:11, target_site:502 }); posts_hot_network.click({ item_type:2, location:11 })"
+href=
+"https://blender.stackexchange.com/questions/284162/return-a-color-from-the-themes-text-editor-panel-in-blender">Return
+a color from the Themes -&gt; Text Editor panel in Blender</a></li>
+<li class="dno js-hidden">
+<div class="favicon favicon-law" title="Law Stack Exchange"></div>
+<a class="js-gps-track question-hyperlink mb0" data-gps-track=
+"site.switch({ item_type:11, target_site:617 }); posts_hot_network.click({ item_type:2, location:11 })"
+href=
+"https://law.stackexchange.com/questions/88364/why-was-nine-pin-bowling-illegal-in-most-states-unlike-ten-pin-bowling">Why
+was nine-pin bowling illegal in most states, unlike ten-pin
+bowling?</a></li>
+<li class="dno js-hidden">
+<div class="favicon favicon-physics" title=
+"Physics Stack Exchange"></div>
+<a class="js-gps-track question-hyperlink mb0" data-gps-track=
+"site.switch({ item_type:11, target_site:151 }); posts_hot_network.click({ item_type:2, location:11 })"
+href=
+"https://physics.stackexchange.com/questions/746153/planetary-atmosphere-interfacing-with-near-vacuum-now-put-it-in-a-jar">Planetary
+atmosphere interfacing with near vacuum - now put it in a
+jar</a></li>
+</ul>
+<a class="show-more js-show-more js-gps-track" data-gps-track=
+"posts_hot_network.click({ item_type:3, location:11 })" href=
+"#">more hot questions</a></div>
+<div class="js-feed-link" id="feed-link"><a href=
+"/feeds/question/49495681" title=
+"Feed of this question and its answers"><svg aria-hidden="true"
+class="fc-orange-400 svg-icon iconRss" height="18" viewbox=
+"0 0 18 18" width="18">
+<path d=
+"M3 1a2 2 0 0 0-2 2v12c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H3Zm0 1.5c6.9 0 12.5 5.6 12.5 12.5H13C13 9.55 8.45 5 3 5V2.5Zm0 5c4.08 0 7.5 3.41 7.5 7.5H8c0-2.72-2.28-5-5-5V7.5Zm0 5c1.36 0 2.5 1.14 2.5 2.5H3v-2.5Z"></path>
+</svg> Question feed</a></div>
+<aside aria-describedby="feed-modal-description" aria-hidden="true"
+aria-labelledby="feed-modal-title" class=
+"s-modal js-feed-link-modal" role="dialog" tabindex="-1">
+<div class="s-modal--dialog js-modal-dialog wmx4" data-controller=
+"se-draggable" role="document">
+<h1 class="s-modal--header fw-bold js-first-tabbable"
+data-se-draggable-target="handle" id="feed-modal-title" tabindex=
+"0">Subscribe to RSS</h1>
+<div class="d-flex gs4 gsy fd-column">
+<div class="flex--item"><label class="d-block s-label c-default"
+for="feed-url">Question feed</label>
+<p class="s-description mt2" id="feed-modal-description">
+<label class="d-block s-label c-default" for="feed-url">To
+subscribe to this RSS feed, copy and paste this URL into your RSS
+reader.</label></p>
+</div>
+<div class="d-flex ps-relative"><input class="s-input" id=
+"feed-url" name="feed-url" readonly="readonly" type="text" value=
+"https://stackoverflow.com/feeds/question/49495681">
+<svg aria-hidden="true" class=
+"s-input-icon fc-orange-400 svg-icon iconRss" height="18" viewbox=
+"0 0 18 18" width="18">
+<path d=
+"M3 1a2 2 0 0 0-2 2v12c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H3Zm0 1.5c6.9 0 12.5 5.6 12.5 12.5H13C13 9.55 8.45 5 3 5V2.5Zm0 5c4.08 0 7.5 3.41 7.5 7.5H8c0-2.72-2.28-5-5-5V7.5Zm0 5c1.36 0 2.5 1.14 2.5 2.5H3v-2.5Z"></path>
+</svg></div>
+</div>
+<a aria-label="Close" class=
+"s-modal--close s-btn s-btn__muted js-modal-close js-last-tabbable"
+href="#"><svg aria-hidden="true" class="svg-icon iconClearSm"
+height="14" viewbox="0 0 14 14" width="14">
+<path d=
+"M12 3.41 10.59 2 7 5.59 3.41 2 2 3.41 5.59 7 2 10.59 3.41 12 7 8.41 10.59 12 12 10.59 8.41 7 12 3.41Z"></path>
+</svg></a></div>
+</aside>
+</div>
+</div>
+<script>
+StackExchange.ready(function () {
+        $.get('/posts/49495681/ivc/6f54');
+      });
+</script> <noscript>
+<div><img alt="" class="dno" height="0" src=
+"/posts/49495681/ivc/6f54" width="0"></div>
+</noscript>
+<div id="js-codeblock-lang" style="display:none">default</div>
+</div>
+</div>
+<script type="text/javascript">
+  var cam = cam || {opt: {}};
+  var clcGamLoaderOptions = cam || {opt: {}};
+  var opt = clcGamLoaderOptions.opt;
+
+  opt.omni = 'BVWYsHMA-9oIAAAAAIE-8wICAAAAAgAAAAAAAiEAAAB8amF2YXNjcmlwdHxodG1sfGNhbnZhc3x0aHJlZS5qc3wAKTdOAtxr5PmzWA';
+
+  opt.sf = !0;
+  opt.hb = !1;
+  opt.ll = !0;
+  opt.tlb_position = 0;
+  opt.personalization_consent = !0;
+  opt.targeting_consent = !1;
+  opt.performance_consent = !1;
+
+  opt.targeting = {
+    Registered: ['false'],
+    'so-tag': ['javascript', 'html', 'canvas', 'three.js'],
+    'tag-reportable': ['javascript', 'html', 'canvas', 'three.js'],
+    'tag-non-reportable': ['javascript', 'html', 'canvas', 'three.js'],
+    NumberOfAnswers: ['1']
+  };
+  opt.adReportEnabled = !0;
+  opt.adReportUrl = '/ads/report-ad';
+  opt.adReportText = 'Report this ad';
+  opt.adReportFileTypeErrorMessage = 'Please select a PNG or JPG file.';
+  opt.adReportFileSizeErrorMessage = 'The file must be under 2 MiB.';
+  opt.adReportErrorText = 'Error uploading ad report.';
+  opt.adReportThanksText = 'Thanks for your feedback. We’ll review this against our code of conduct and take action if necessary.';
+  opt.adReportLoginExpiredMessage = 'Your login session has expired, please login and try again.';
+  opt.adReportLoginErrorMessage = 'An error occurred when loading the report form - please try again';
+  opt.adReportModalClass = 'js-ad-report';
+
+
+  opt.targeting.TargetingConsent = ['False_Passive'];
+
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.has('dfptestads')) {
+    const dfptestads = urlParams.get('dfptestads');
+    opt.targeting.DfpTestAds = dfptestads;
+  }
+</script>
+<script>
+(() => {
+  "use strict";
+  var __webpack_modules__ = {
+    23: (e, t, o) => {
+      o.d(t, {Z7: () => l, eq: () => r, kG: () => n});
+      const a = /^\/tags\//.test(location.pathname) || /^\/questions\/tagged\//.test(location.pathname) ? "tag-pages" : /^\/$/.test(location.pathname) || /^\/home/.test(location.pathname) ? "home-page" : "question-pages";
+      let s = location.hostname;
+      const i = {
+        slots: {
+          lb: [[728, 90]],
+          mlb: [[728, 90]],
+          smlb: [[728, 90]],
+          bmlb: [[728, 90]],
+          sb: e => "dfp-tsb" === e ? [[300, 250], [300, 600]] : [[300, 250]],
+          "tag-sponsorship": [[730, 135]],
+          "mobile-below-question": [[320, 50], [300, 250]],
+          msb: [[300, 250], [300, 600]],
+          "talent-conversion-tracking": [[1, 1]],
+          "site-sponsorship": [[230, 60]]
+        },
+        ids: {
+          "dfp-tlb": "lb",
+          "dfp-mlb": "mlb",
+          "dfp-smlb": "smlb",
+          "dfp-bmlb": "bmlb",
+          "dfp-tsb": "sb",
+          "dfp-isb": "sb",
+          "dfp-tag": "tag-sponsorship",
+          "dfp-msb": "msb",
+          "dfp-sspon": "site-sponsorship",
+          "dfp-m-aq": "mobile-below-question"
+        },
+        idsToExcludeFromAdReports: ["dfp-sspon"]
+      };
+
+      function n() {
+        return Object.keys(i.ids)
+      }
+
+      function r(e) {
+        return i.idsToExcludeFromAdReports.indexOf(e) < 0
+      }
+
+      function l(e) {
+        var t = e.split("_")[0];
+        const o = i.ids[t];
+        let n = i.slots[o];
+        return "function" == typeof n && (n = n(t)), {path: `/248424177/${s}/${o}/${a}`, sizes: n, zone: o}
+      }
+    }, 865: (e, t, o) => {
+      function a(e) {
+        return "string" == typeof e ? document.getElementById(e) : e
+      }
+
+      function s(e) {
+        return !!(e = a(e)) && "none" === getComputedStyle(e).display
+      }
+
+      function i(e) {
+        return !s(e)
+      }
+
+      function n(e) {
+        return !!e
+      }
+
+      function r(e) {
+        return /^\s*$/.test(a(e).innerHTML)
+      }
+
+      function l(e) {
+        const {style: t} = e;
+        t.height = t.maxHeight = t.minHeight = "auto", t.display = "none"
+      }
+
+      function d(e) {
+        const {style: t} = e;
+        t.height = t.maxHeight = t.minHeight = "auto", t.display = "none", [].forEach.call(e.children, d)
+      }
+
+      function c(e) {
+        const {style: t} = e;
+        t.height = t.maxHeight = t.minHeight = "auto", t.removeProperty("display")
+      }
+
+      function p(e) {
+        const t = document.createElement("script");
+        t.src = e, document.body.appendChild(t)
+      }
+
+      function g(e) {
+        return o = e, (t = []).push = function (e) {
+          return o(), delete this.push, this.push(e)
+        }, t;
+        var t, o
+      }
+
+      function h(e) {
+        let t = "function" == typeof HTMLTemplateElement;
+        var o = document.createElement(t ? "template" : "div");
+        return e = e.trim(), o.innerHTML = e, t ? o.content.firstChild : o.firstChild
+      }
+
+      o.d(t, {
+        $Z: () => c,
+        Bv: () => h,
+        Gx: () => p,
+        Nj: () => a,
+        QZ: () => g,
+        cf: () => l,
+        pn: () => i,
+        wo: () => d,
+        xb: () => r,
+        xj: () => s,
+        yb: () => n
+      })
+    }, 763: (__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+      __webpack_require__.d(__webpack_exports__, {t: () => AdReports});
+      var _common_helper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(865),
+        _console__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(276),
+        _ad_units__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(23);
+
+      class AdReports {
+        constructor(e, t) {
+          if (this.googletag = e, this.cam = t, this.allowedFileTypes = ["image/png", "image/jpg", "image/jpeg"], this.ignoreValidation = !1, _console__WEBPACK_IMPORTED_MODULE_1__.cM("Ad reporting init"), this.cam = t, this.callOnButtonClick = e => this.onButtonClick(e), this.googletag.pubads().addEventListener("slotRenderEnded", e => this.handleSlotRendered(e)), Array.isArray(t.slotsRenderedEvents)) {
+            _console__WEBPACK_IMPORTED_MODULE_1__.cM("Adding report button to " + t.slotsRenderedEvents.length + " events that have transpired");
+            for (var o = 0; o < t.slotsRenderedEvents.length; o++) this.handleSlotRendered(t.slotsRenderedEvents[o])
+          }
+        }
+
+        handleSlotRendered(e) {
+          if (e && e.slot && !e.isEmpty && (e.creativeId || e.lineItemId || !e.isEmpty)) {
+            var t = e.slot.getSlotElementId();
+            if (t) {
+              var o = document.getElementById(t);
+              if (o) if ((0, _ad_units__WEBPACK_IMPORTED_MODULE_0__.eq)(t)) {
+                var a = o?.closest(".js-zone-container")?.querySelector(".js-report-ad-button-container");
+                a.append(this.createButton(e)), a.style.height = "24px", _console__WEBPACK_IMPORTED_MODULE_1__.cM("Added report button to the bottom of " + t)
+              } else _console__WEBPACK_IMPORTED_MODULE_1__.cM("Not adding report button to the bottom of " + t + ": shouldHaveReportButton = false"); else _console__WEBPACK_IMPORTED_MODULE_1__.cM("Not adding report button to the bottom of " + t + ": resolved invalid adUnit element")
+            } else _console__WEBPACK_IMPORTED_MODULE_1__.cM("Not adding report button to the bottom of element: invalid adUnitElementId")
+          } else _console__WEBPACK_IMPORTED_MODULE_1__.cM("Not adding report button to the bottom of element: invalid SlotRenderEndedEvent")
+        }
+
+        async onButtonClick(e) {
+          e.preventDefault();
+          let t = e.target;
+          const o = t.dataset.modalUrl, a = t.dataset.googleEventData;
+          return await this.loadModal(o, t, a), !1
+        }
+
+        createButton(e) {
+          let t = document.createElement("button");
+          var o = JSON.stringify(e);
+          return t.dataset.googleEventData = o, t.dataset.modalUrl = this.cam.opt.adReportUrl, t.dataset.adUnit = e.slot.getSlotElementId(), t.classList.add("js-report-ad", "s-btn", "s-btn__link", "fs-fine", "mt2", "float-right"), t.append(document.createTextNode(this.cam.opt.adReportText)), t.removeEventListener("click", this.callOnButtonClick), t.addEventListener("click", this.callOnButtonClick), t
+        }
+
+        async loadModal(url, $link, googleEventData) {
+          try {
+            await window.StackExchange.helpers.loadModal(url, {returnElements: window.$($link)}), this.initForm(googleEventData)
+          } catch (e) {
+            var message = "", response = e.responseText ? eval(`(${e.responseText})`) : null;
+            message = response && response.isLoggedOut ? this.cam.opt.adReportLoginExpiredMessage : this.cam.opt.adReportLoginErrorMessage, window.StackExchange.helpers.showToast(message, {type: "danger"})
+          }
+        }
+
+        removeModal() {
+          window.StackExchange.helpers.closePopups(document.querySelectorAll("." + this.cam.opt.adReportModalClass), "dismiss")
+        }
+
+        initForm(e, t = !1) {
+          this.ignoreValidation = t, this.$form = document.querySelector(".js-ad-report-form"), this.$googleEventData = this.$form.querySelector(".js-json-data"), this.$adReportReasons = this.$form.querySelectorAll(".js-ad-report-reason"), this.$adReportReasonOther = this.$form.querySelector(".js-ad-report-reason-other"), this.$fileUploaderInput = this.$form.querySelector(".js-file-uploader-input"), this.$imageUploader = this.$form.querySelector(".js-image-uploader"), this.$clearImageUpload = this.$form.querySelector(".js-clear-image-upload"), this.$imageUploaderText = this.$form.querySelector(".js-image-uploader-text"), this.$imageUploaderPreview = this.$form.querySelector(".js-image-uploader-preview"), this.$fileErrorMessage = this.$form.querySelector(".js-file-error");
+          const o = this.$form.querySelector(".js-drag-drop-enabled"),
+            a = this.$form.querySelector(".js-drag-drop-disabled");
+          this.$googleEventData.value = e, this.$adReportReasons.forEach((e, t) => e.addEventListener("change", e => {
+            this.$adReportReasonOther.classList.toggle("d-none", "3" !== e.target.value)
+          })), this.$fileUploaderInput.addEventListener("change", () => {
+            this.validateFileInput() && this.updateImagePreview(this.$fileUploaderInput.files)
+          }), this.$clearImageUpload.addEventListener("click", e => {
+            e.preventDefault(), this.clearImageUpload()
+          });
+          try {
+            this.$fileUploaderInput[0].value = "", this.$imageUploader.addEventListener("dragenter dragover dragleave drop", this.preventDefaults), this.$imageUploader.addEventListener("dragenter dragover", this.handleDragStart), this.$imageUploader.addEventListener("dragleave drop", this.handleDragEnd), this.$imageUploader.addEventListener("drop", this.handleDrop)
+          } catch (e) {
+            o.classList.add("d-none"), a.classList.remove("d-none")
+          }
+          this.$form.removeEventListener("", this.handleDragEnd), this.$form.addEventListener("submit", async e => (e.preventDefault(), this.submitForm(), !1))
+        }
+
+        clearImageUpload() {
+          this.$fileUploaderInput.value = "", this.$imageUploaderPreview.setAttribute("src", ""), this.$imageUploaderPreview.classList.add("d-none"), this.$clearImageUpload.classList.add("d-none"), this.$imageUploaderText.classList.remove("d-none"), this.$imageUploader.classList.add("p16", "ba", "bas-dashed", "bc-black-100")
+        }
+
+        preventDefaults(e) {
+          e.preventDefault(), e.stopPropagation()
+        }
+
+        handleDragStart(e) {
+          this.$imageUploader.classList.remove("bas-dashed"), this.$imageUploader.classList.add("bas-solid", "bc-black-100")
+        }
+
+        handleDragEnd(e) {
+          this.$imageUploader.classList.remove("bas-solid", "bc-black-100"), this.$imageUploader.classList.add("bas-dashed")
+        }
+
+        handleDrop(e) {
+          var t = e.originalEvent.dataTransfer.files;
+          FileReader && t && 1 === t.length && (this.$fileUploaderInput.files = t, this.validateFileInput() && this.updateImagePreview(t))
+        }
+
+        setError(e) {
+          this.$fileErrorMessage.parentElement.classList.toggle("has-error", e)
+        }
+
+        updateImagePreview(e) {
+          this.$imageUploader.classList.remove("p16", "ba", "bas-dashed", "bc-black-100"), this.$clearImageUpload.classList.remove("d-none"), this.$imageUploaderText.classList.add("d-none");
+          var t = new FileReader;
+          t.onload = e => {
+            null != e.target && (this.$imageUploaderPreview.setAttribute("src", e.target.result), this.$imageUploaderPreview.classList.remove("d-none"))
+          }, t.readAsDataURL(e[0])
+        }
+
+        validateFileInput() {
+          if (this.ignoreValidation) return !0;
+          const e = this.cam.opt.adReportFileTypeErrorMessage, t = this.cam.opt.adReportFileSizeErrorMessage;
+          if (null == this.$fileUploaderInput.files) return !1;
+          var o = this.$fileUploaderInput.files[0];
+          return null == o ? (this.setError(!0), !1) : this.allowedFileTypes.indexOf(o.type) < 0 ? (this.$fileErrorMessage.textContent = e, this.$fileErrorMessage.classList.remove("d-none"), this.setError(!0), !1) : o.size > 2097152 ? (this.$fileErrorMessage.textContent = t, this.$fileErrorMessage.classList.remove("d-none"), this.setError(!0), !1) : (this.$fileErrorMessage.classList.add("d-none"), this.setError(!1), !0)
+        }
+
+        async submitForm() {
+          if (!this.validateFileInput()) return !1;
+          this.$form.querySelector("[type=submit]").setAttribute("disabled", "true");
+          var e = JSON.parse(this.$googleEventData.value || "{}");
+          e.Reason = parseInt(this.$form.querySelector(".js-ad-report-reason:checked").value, 10), e.Description = this.$adReportReasonOther.value, this.$googleEventData.value = JSON.stringify(e);
+          var t = new FormData(this.$form);
+          try {
+            const e = await window.fetch(this.$form.getAttribute("action"), {
+              method: this.$form.getAttribute("method"),
+              body: t,
+              cache: "no-cache"
+            }), a = e.headers.get("content-type") || "", s = await e.text();
+            if (!e.ok) throw new Error("response not valid");
+            if (0 === a.indexOf("text/html")) {
+              var o = (0, _common_helper__WEBPACK_IMPORTED_MODULE_2__.Bv)(s);
+              const e = o ? o.querySelector(".js-modal-content") : null;
+              if (_console__WEBPACK_IMPORTED_MODULE_1__.cM("$popupContent"), _console__WEBPACK_IMPORTED_MODULE_1__.cM(e), !e) throw new Error(`Could not find .js-modal-content in response from ${this.$form.getAttribute("action")}`);
+              document.querySelector(".js-modal-content").replaceWith(e)
+            } else window.StackExchange.helpers.showToast(this.cam.opt.adReportThanksText, {type: "success"}), this.removeModal()
+          } catch (e) {
+            window.StackExchange.helpers.showToast(this.cam.opt.adReportErrorText, {type: "danger"})
+          } finally {
+            let e = this.$form.querySelector("[type=submit]");
+            e && e.removeAttribute("disabled")
+          }
+        }
+      }
+    }, 276: (e, t, o) => {
+      function a(...e) {
+      }
+
+      o.d(t, {cM: () => a})
+    }
+  }, __webpack_module_cache__ = {};
+
+  function __webpack_require__(e) {
+    var t = __webpack_module_cache__[e];
+    if (void 0 !== t) return t.exports;
+    var o = __webpack_module_cache__[e] = {exports: {}};
+    return __webpack_modules__[e](o, o.exports, __webpack_require__), o.exports
+  }
+
+  __webpack_require__.d = (e, t) => {
+    for (var o in t) __webpack_require__.o(t, o) && !__webpack_require__.o(e, o) && Object.defineProperty(e, o, {
+      enumerable: !0,
+      get: t[o]
+    })
+  }, __webpack_require__.o = (e, t) => Object.prototype.hasOwnProperty.call(e, t);
+  var __webpack_exports__ = {};
+  (() => {
+    var e = __webpack_require__(276), t = (e => (e[e.Above = 0] = "Above", e[e.Below = 1] = "Below", e))(t || {});
+    const o = Object.assign({}, {
+      "lib": "https://cdn.sstatic.net/clc/js/bundles/gam_loader_script/gam_loader_script.bundle.741.94f162d0df827001eb39.min.js",
+      "style": null,
+      "u": null,
+      "wa": true,
+      "kt": 2000,
+      "tto": true,
+      "h": "clc.stackoverflow.com",
+      "allowed": "^(((talent\\.)?stackoverflow)|(blog\\.codinghorror)|(.*\\.googlesyndication)|(serverfault|askubuntu)|([^\\.]+\\.stackexchange))\\.com$",
+      "wv": true,
+      "al": false,
+      "abd": true,
+      "cpa_liid": [5882654614],
+      "cpa_cid": [138377597667],
+      "dp": false
+    });
+    var a = __webpack_require__(23), s = __webpack_require__(865), i = __webpack_require__(763);
+    window.cam = new class {
+      constructor() {
+        this.gptImported = !1, this.collapsed = {}, e.cM("constructor"), this.clc_options = o, window.clcGamLoaderOptions ? Object.assign(this, window.clcGamLoaderOptions) : void 0 === this.opt && (this.opt = window.opt)
+      }
+
+      init() {
+        if (e.cM("init"), void 0 === this.opt) throw new Error("opt not set, required by GAM Loader");
+        e.cM("setup message handler"), window.addEventListener("message", e => {
+          this.onmessage(e)
+        })
+      }
+
+      handleSlotRenderedNoAdReport() {
+        if (googletag.pubads().addEventListener("slotRenderEnded", e => this.applyExtraMarginBottom(e)), Array.isArray(this.slotsRenderedEvents)) for (var e = 0; e < this.slotsRenderedEvents.length; e++) this.applyExtraMarginBottom(this.slotsRenderedEvents[e])
+      }
+
+      onmessage(t) {
+        let o = "omni";
+        if (t.data && ("string" == typeof t.data || t.data instanceof String)) if (0 === t.data.indexOf("get-omni-")) {
+          e.cM("Recevied get-omni message, sending back omni");
+          var a = t.source, i = this.opt.omni, n = "string" == typeof i ? i : "";
+          a.postMessage([o, n].join("|"), "*")
+        } else if (0 === t.data.indexOf("collapse-")) {
+          e.cM("Recevied collapse message, collapse ad iframe"), e.cM(t);
+          for (var r = t.source.window, l = document.getElementsByTagName("IFRAME"), d = 0; d < l.length; d++) {
+            var c = l[d];
+            if (c.contentWindow == r) return void (0, s.wo)(c.parentElement.parentElement.parentElement)
+          }
+        } else if (0 === t.data.indexOf("resize|")) {
+          e.cM("Recevied resize message, resize ad iframe"), e.cM(t);
+          let o = this._getFrameByEvent(t), a = t.data.split("|"), s = parseFloat(a[1]) + .5;
+          e.cM("New iframe height " + s), o.height = s.toString(), o.parentElement.style.height = s.toString() + "px"
+        }
+      }
+
+      _getFrameByEvent(e) {
+        return Array.from(document.getElementsByTagName("iframe")).filter(t => t.contentWindow === e.source)[0]
+      }
+
+      classifyZoneIds(e) {
+        const t = e.map(s.Nj).filter(s.yb);
+        return {eligible: t.filter(s.xb).filter(s.pn), ineligible: t.filter(s.xj)}
+      }
+
+      applyExtraMarginBottom(t) {
+        if (t && t.slot && !t.isEmpty && (t.creativeId || t.lineItemId || !t.isEmpty)) {
+          var o = t.slot.getSlotElementId();
+          if (o) {
+            var s = document.getElementById(o);
+            if (s) if ((0, a.eq)(o)) {
+              var i = s?.closest(".js-zone-container");
+              i.style.marginBottom = "24px", e.cM("Applied extra margin to the bottom of " + o)
+            } else e.cM("Not applying extra margin to the bottom of " + o + ": shouldHaveReportButton = false"); else e.cM("Not applying extra margin to the bottom of " + o + ": resolved invalid adUnit element")
+          } else e.cM("Not applying extra margin to the bottom of element: invalid adUnitElementId")
+        } else e.cM("Not applying extra margin to the bottom of element: invalid SlotRenderEndedEvent")
+      }
+
+      load(o = (0, a.kG)()) {
+        const n = this.opt.tlb_position === t.Above ? ["dfp-mlb", "dfp-smlb"] : ["dfp-mlb", "dfp-smlb", "dfp-tlb"];
+        if (!this.isGptReady()) return e.cM("Initializing..."), this.initGpt(), void googletag.cmd.push(() => this.load(o));
+        this.opt.adReportEnabled ? (e.cM("Ad reporting enabled"), this.adReports = new i.t(googletag, this)) : (e.cM("Ad reporting not enabled"), this.handleSlotRenderedNoAdReport()), e.cM("Attempting to load ads into ids: ", o);
+        const {eligible: r, ineligible: l} = this.classifyZoneIds(o);
+        if (this.initDebugPanel(googletag, r.concat(l)), r.forEach(e => (0, s.cf)(e)), l.forEach(s.wo), 0 === r.length) return void e.cM("Found no ad ids on page");
+        e.cM("Eligible ids:", r), this.opt.abd && this.appendAdblockDetector();
+        var d = googletag.pubads().getSlots().filter(e => o.indexOf(e.getSlotElementId()) >= 0);
+        googletag.destroySlots(d), this.opt.sf && (googletag.pubads().setForceSafeFrame(!0), googletag.pubads().setSafeFrameConfig({
+          allowOverlayExpansion: !0,
+          allowPushExpansion: !0,
+          sandbox: !0
+        })), e.cM("Targeting consent: Checking...");
+        let c = !1, p = !1;
+        void 0 !== this.opt.targeting_consent && (p = !0, e.cM("Targeting consent: Parameter set"), e.cM("Targeting consent: Consent given? ", this.opt.targeting_consent), c = this.opt.targeting_consent), void 0 !== this.opt.personalization_consent && (e.cM("Personalization consent: Parameter set"), e.cM("Personalization consent: Consent given? ", this.opt.personalization_consent), c = c && this.opt.personalization_consent), c = c && p, googletag.pubads().setRequestNonPersonalizedAds(c ? 0 : 1), c || googletag.pubads().setPrivacySettings({limitedAds: !0}), this.opt.ll || googletag.pubads().enableSingleRequest(), cam.sreEvent || (googletag.pubads().addEventListener("slotRenderEnded", e => this.onSlotRendered(e)), cam.sreEvent = !0), this.setTargeting(googletag);
+        var g = r.filter(e => !this.opt.ll || n.indexOf(e.id) < 0),
+          h = r.filter(e => !!this.opt.ll && n.indexOf(e.id) >= 0);
+        e.cM("Up front ids:", g), e.cM("Lazy loaded ids:", h), g.forEach(t => {
+          e.cM(`Defining ad for element ${t.id}`), this.defineSlot(t.id, googletag), t.setAttribute("data-dfp-zone", "true")
+        }), googletag.enableServices(), g.forEach(t => {
+          e.cM(`Displaying ad for element ${t.id}`), googletag.cmd.push(() => googletag.display(t.id))
+        }), this.opt.ll && (e.cM("Enabling lazy loading for GAM"), googletag.pubads().enableLazyLoad({
+          fetchMarginPercent: 0,
+          renderMarginPercent: 0
+        }), e.cM("Setting up lazy loaded ad units"), h.forEach(t => {
+          e.cM(`Lazy loading - Defining Slot ${t.id}`), this.defineSlot(t.id, googletag)
+        }), h.forEach(t => {
+          e.cM(`Lazy loading - Displaying ad for element ${t.id}`), googletag.cmd.push(() => googletag.display(t.id))
+        }))
+      }
+
+      setTargeting(t) {
+        let o = this.opt.targeting;
+        if (!o) throw new Error("Targeting not defined");
+        "SystemDefault" === o.ProductVariant && (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? o.ProductVariant = "Dark" : o.ProductVariant = "Light"), Object.keys(o).forEach(a => {
+          e.cM(`-> targeting - ${a}: ${o[a]}`), t.pubads().setTargeting(a, o[a])
+        })
+      }
+
+      appendAdblockDetector() {
+        const e = document.createElement("div");
+        e.className = "adsbox", e.id = "clc-abd", e.style.position = "absolute", e.style.pointerEvents = "none", e.innerHTML = "&nbsp;", document.body.appendChild(e)
+      }
+
+      onSlotRendered(o) {
+        try {
+          const n = o.slot.getSlotElementId();
+          let r = [];
+          n || r.push("id=0");
+          const l = document.getElementById(n);
+          if (n && !l && r.push("el=0"), 0 !== r.length) return void this.stalled(r.join("&"));
+          const {path: d, sizes: c, zone: p} = (0, a.Z7)(n);
+          if (this.collapsed[p] && o.isEmpty) return e.cM(`No line item for the element #${l.id}... collapsing.`), void (0, s.wo)(l);
+          if (this.slotsRenderedEvents.push(o), o.lineItemId || o.creativeId || !o.isEmpty) {
+            e.cM(`Rendered ad for element #${l.id} [line item #${o.lineItemId}]`), e.cM(o);
+            var i = l.parentElement;
+            if (i.classList.contains("js-zone-container")) {
+              switch ((0, s.cf)(i), n) {
+                case"dfp-tlb":
+                  this.opt.tlb_position === t.Above ? i.classList.add("mb8") : i.classList.add("mt16");
+                  break;
+                case"dfp-tag":
+                  i.classList.add("mb8");
+                  break;
+                case"dfp-msb":
+                  i.classList.add("mt16");
+                  break;
+                case"dfp-mlb":
+                case"dfp-smlb":
+                case"dfp-bmlb":
+                  i.classList.add("my8");
+                  break;
+                case"dfp-isb":
+                  i.classList.add("mt24");
+                  break;
+                case"dfp-m-aq":
+                  i.classList.add("my12"), i.classList.add("mx-auto")
+              }
+              (0, s.$Z)(i), (0, s.$Z)(l)
+            } else e.cM(`No ad for element #${l.id}, collapsing`), e.cM(o), (0, s.wo)(l)
+          }
+        } catch (e) {
+          this.stalled("e=1")
+        }
+      }
+
+      stalled(e) {
+        (new Image).src = `https://${this.clc_options.h}/stalled.gif?${e}`
+      }
+
+      defineSlot(t, o) {
+        "dfp-isb" === t && (e.cM("-> targeting - Sidebar: Inline"), o.pubads().setTargeting("Sidebar", ["Inline"])), "dfp-tsb" === t && (e.cM("-> targeting - Sidebar: Right"), o.pubads().setTargeting("Sidebar", ["Right"]));
+        const {path: s, sizes: i, zone: n} = (0, a.Z7)(t);
+        e.cM(`Defining slot for ${t}: ${s}, sizes: ${JSON.stringify(i)}`), o.defineSlot(s, i, t).addService(o.pubads())
+      }
+
+      importGptLibrary() {
+        this.gptImported || (this.gptImported = !0, void 0 === this.opt.targeting_consent || this.opt.targeting_consent ? (0, s.Gx)("https://securepubads.g.doubleclick.net/tag/js/gpt.js") : (0, s.Gx)("https://pagead2.googlesyndication.com/tag/js/gpt.js"))
+      }
+
+      isGptReady() {
+        return "undefined" != typeof googletag && !!googletag.apiReady
+      }
+
+      initGpt() {
+        "undefined" == typeof googletag && (window.googletag = {cmd: (0, s.QZ)(() => this.importGptLibrary())})
+      }
+
+      initDebugPanel(t, o) {
+        e.cM("initDebugPanel"), e.cM("Not showing debug panel")
+      }
+    }, window.clcGamLoaderOptions && (cam.init(), cam.load())
+  })()
+})();
+</script>
+<footer class="site-footer js-footer" id="footer" role=
+"contentinfo">
+<div class="site-footer--container">
+<div class="site-footer--logo"><a aria-label="Stack Overflow" href=
+"https://stackoverflow.com"><svg aria-hidden="true" class=
+"native svg-icon iconLogoGlyphMd" height="37" viewbox="0 0 32 37"
+width="32">
+<path d="M26 33v-9h4v13H0V24h4v9h22Z" fill="#BCBBBB"></path>
+<path d=
+"m21.5 0-2.7 2 9.9 13.3 2.7-2L21.5 0ZM26 18.4 13.3 7.8l2.1-2.5 12.7 10.6-2.1 2.5ZM9.1 15.2l15 7 1.4-3-15-7-1.4 3Zm14 10.79.68-2.95-16.1-3.35L7 23l16.1 2.99ZM23 30H7v-3h16v3Z"
+fill="#F48024"></path></svg></a></div>
+<nav class="site-footer--nav">
+<div class="site-footer--col">
+<h5 class="-title"><a class="js-gps-track" data-gps-track=
+"footer.click({ location: 2, link: 15})" href=
+"https://stackoverflow.com">Stack Overflow</a></h5>
+<ul class="-list js-primary-footer-links">
+<li><a class="js-gps-track -link" data-gps-track=
+"footer.click({ location: 2, link: 16})" href=
+"/questions">Questions</a></li>
+<li><a class="js-gps-track -link" data-gps-track=
+"footer.click({ location: 2, link: 3 })" href="/help">Help</a></li>
+</ul>
+</div>
+<div class="site-footer--col">
+<h5 class="-title"><a class="js-gps-track" data-gps-track=
+"footer.click({ location: 2, link: 19 })" href=
+"https://stackoverflow.co/">Products</a></h5>
+<ul class="-list">
+<li><a class="js-gps-track -link" data-ga=
+"[&quot;teams traffic&quot;,&quot;footer - site nav&quot;,&quot;stackoverflow.com/teams&quot;,null,{&quot;dimension4&quot;:&quot;teams&quot;}]"
+data-gps-track="footer.click({ location: 2, link: 29 })" href=
+"https://stackoverflow.co/teams">Teams</a></li>
+<li><a class="js-gps-track -link" data-gps-track=
+"footer.click({ location: 2, link: 21 })" href=
+"https://stackoverflow.co/advertising">Advertising</a></li>
+<li><a class="js-gps-track -link" data-gps-track=
+"footer.click({ location: 2, link: 40 })" href=
+"https://stackoverflow.co/collectives">Collectives</a></li>
+<li><a class="js-gps-track -link" data-gps-track=
+"footer.click({ location: 2, link: 20 })" href=
+"https://stackoverflow.co/talent">Talent</a></li>
+</ul>
+</div>
+<div class="site-footer--col">
+<h5 class="-title"><a class="js-gps-track" data-gps-track=
+"footer.click({ location: 2, link: 1 })" href=
+"https://stackoverflow.co/">Company</a></h5>
+<ul class="-list">
+<li><a class="js-gps-track -link" data-gps-track=
+"footer.click({ location: 2, link: 1 })" href=
+"https://stackoverflow.co/">About</a></li>
+<li><a class="js-gps-track -link" data-gps-track=
+"footer.click({ location: 2, link: 27 })" href=
+"https://stackoverflow.co/company/press">Press</a></li>
+<li><a class="js-gps-track -link" data-gps-track=
+"footer.click({ location: 2, link: 9 })" href=
+"https://stackoverflow.co/company/work-here">Work Here</a></li>
+<li><a class="js-gps-track -link" data-gps-track=
+"footer.click({ location: 2, link: 7 })" href=
+"https://stackoverflow.com/legal">Legal</a></li>
+<li><a class="js-gps-track -link" data-gps-track=
+"footer.click({ location: 2, link: 8 })" href=
+"https://stackoverflow.com/legal/privacy-policy">Privacy
+Policy</a></li>
+<li><a class="js-gps-track -link" data-gps-track=
+"footer.click({ location: 2, link: 37 })" href=
+"https://stackoverflow.com/legal/terms-of-service">Terms of
+Service</a></li>
+<li><a class="js-gps-track -link" data-gps-track=
+"footer.click({ location: 2, link: 13 })" href=
+"https://stackoverflow.co/company/contact">Contact Us</a></li>
+<li class="" id="consent-footer-link"><a class=
+"js-gps-track -link js-cookie-settings" data-consent-popup-loader=
+"footer" data-gps-track="footer.click({ location: 2, link: 38 })"
+href="#">Cookie Settings</a></li>
+<li><a class="js-gps-track -link" data-gps-track=
+"footer.click({ location: 2, link: 39 })" href=
+"https://stackoverflow.com/legal/cookie-policy">Cookie
+Policy</a></li>
+</ul>
+</div>
+<div class="site-footer--col site-footer--categories-nav">
+<div>
+<h5 class="-title"><a data-gps-track=
+"footer.click({ location: 2, link: 30 })" href=
+"https://stackexchange.com">Stack Exchange Network</a></h5>
+<ul class="-list">
+<li><a class="-link js-gps-track" data-gps-track=
+"footer.click({ location: 2, link: 24 })" href=
+"https://stackexchange.com/sites#technology">Technology</a></li>
+<li><a class="-link js-gps-track" data-gps-track=
+"footer.click({ location: 2, link: 24 })" href=
+"https://stackexchange.com/sites#culturerecreation">Culture &
+recreation</a></li>
+<li><a class="-link js-gps-track" data-gps-track=
+"footer.click({ location: 2, link: 24 })" href=
+"https://stackexchange.com/sites#lifearts">Life & arts</a></li>
+<li><a class="-link js-gps-track" data-gps-track=
+"footer.click({ location: 2, link: 24 })" href=
+"https://stackexchange.com/sites#science">Science</a></li>
+<li><a class="-link js-gps-track" data-gps-track=
+"footer.click({ location: 2, link: 24 })" href=
+"https://stackexchange.com/sites#professional">Professional</a></li>
+<li><a class="-link js-gps-track" data-gps-track=
+"footer.click({ location: 2, link: 24 })" href=
+"https://stackexchange.com/sites#business">Business</a></li>
+<li class="mt16 md:mt0"><a class="-link js-gps-track"
+data-gps-track="footer.click({ location: 2, link: 24 })" href=
+"https://api.stackexchange.com/">API</a></li>
+<li><a class="-link js-gps-track" data-gps-track=
+"footer.click({ location: 2, link: 24 })" href=
+"https://data.stackexchange.com/">Data</a></li>
+</ul>
+</div>
+</div>
+</nav>
+<div class="site-footer--copyright fs-fine md:mt24">
+<ul class="-list -social md:mb8">
+<li><a class="js-gps-track -link" data-gps-track=
+"footer.click({ location: 2, link:4 })" href=
+"https://stackoverflow.blog?blb=1">Blog</a></li>
+<li><a class="-link js-gps-track" data-gps-track=
+"footer.click({ location: 2, link: 31 })" href=
+"https://www.facebook.com/officialstackoverflow/">Facebook</a></li>
+<li><a class="-link js-gps-track" data-gps-track=
+"footer.click({ location: 2, link: 32 })" href=
+"https://twitter.com/stackoverflow">Twitter</a></li>
+<li><a class="-link js-gps-track" data-gps-track=
+"footer.click({ location: 2, link: 33 })" href=
+"https://linkedin.com/company/stack-overflow">LinkedIn</a></li>
+<li><a class="-link js-gps-track" data-gps-track=
+"footer.click({ location: 2, link: 36 })" href=
+"https://www.instagram.com/thestackoverflow">Instagram</a></li>
+</ul>
+<p class="md:mb0">Site design / logo © 2023 Stack Exchange Inc;
+user contributions licensed under <span class=
+'td-underline'><a href=
+"https://stackoverflow.com/help/licensing">CC BY-SA</a></span>.
+<span id="svnrev">rev&nbsp;2023.1.20.43181</span></p>
+</div>
+</div>
+</footer>
+<!-- Google tag (gtag.js) -->
+<script async src=
+"https://www.googletagmanager.com/gtag/js?id=G-WCZ03SZFCQ"></script>
+
+<script>
+
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+</script>
+<script>
+
+  StackExchange.ready(function () {
+
+    var ga3Settings = {
+      autoLink: ["stackoverflow.blog", "info.stackoverflowsolutions.com", "stackoverflowsolutions.com"],
+      sendTitles: true,
+      tracker: window.ga,
+      trackingCodes: [
+        'UA-108242619-1'
+      ],
+      checkDimension: 'dimension42'
+    };
+
+    var customGA4Dimensions = {};
+
+
+    var ga4Settings = {
+      tracker: gtag,
+      trackingCodes: [
+        'G-WCZ03SZFCQ'
+      ],
+      consentsToPerformanceCookies: "denied",
+      consentsToTargetingCookies: "denied",
+      eventParameters: customGA4Dimensions,
+      checkForAdBlock: true
+    };
+
+    StackExchange.ga.init({GA3: ga3Settings, GA4: ga4Settings});
+
+
+    StackExchange.ga.setDimension('dimension2', '|javascript|html|canvas|three.js|');
+
+
+    StackExchange.ga.setDimension('dimension3', 'Questions/Show');
+
+
+    StackExchange.ga.setDimension('dimension7', "1674230858.505689258");
+
+    StackExchange.ga.trackPageView();
+  });
+</script>
+<div class=
+"ff-sans ps-fixed z-nav-fixed ws4 sm:w-auto p32 sm:p16 bg-black-750 fc-white bar-lg b16 l16 r16 js-consent-banner">
+<svg aria-hidden="true" class=
+"mln4 mb24 sm:d-none svg-spot spotCookieLg" height="96" style=
+"color: var(--theme-button-filled-background-color)" viewbox=
+"0 0 96 96" width="96">
+<path d=
+"M35 45.5a7.5 7.5 0 11-15 0 7.5 7.5 0 0115 0zM63.5 63a7.5 7.5 0 100-15 7.5 7.5 0 000 15zm-19 19a7.5 7.5 0 100-15 7.5 7.5 0 000 15z"
+opacity=".2"></path>
+<path d=
+"M56.99 2.53a23.1 23.1 0 0114.66 6.15h.01l.01.02c.57.55.61 1.27.5 1.74v.07a10.95 10.95 0 01-3.07 4.77 9 9 0 01-6.9 2.5 10.34 10.34 0 01-9.72-10.44v-.08a10 10 0 011.03-3.74l.01-.03.02-.02c.28-.5.82-.92 1.52-.95.63-.02 1.27-.02 1.93.01zm12.04 7.83a20.1 20.1 0 00-12.2-4.83l-.92-.03c-.23.6-.38 1.25-.43 1.94a7.34 7.34 0 006.95 7.34 6 6 0 004.64-1.7c.94-.88 1.6-1.9 1.96-2.72zm15.3 8.76a6.84 6.84 0 00-5.09-.24 7.9 7.9 0 00-3.28 2.05 1.8 1.8 0 00-.3 1.95l.02.02v.02a15.16 15.16 0 008.74 7.47c.64.23 1.32.08 1.8-.33a6.63 6.63 0 001.63-1.97l.01-.03.01-.03c1.67-3.5-.12-7.32-3.54-8.91zm-5.5 3.28c.36-.25.82-.5 1.35-.67.92-.3 1.92-.35 2.89.1 2.14 1 2.92 3.14 2.11 4.88-.12.21-.26.41-.43.6l-.26-.1a12.29 12.29 0 01-5.66-4.81zM32 24a2 2 0 11-4 0 2 2 0 014 0zm12 21a2 2 0 11-4 0 2 2 0 014 0zm36 4a2 2 0 11-4 0 2 2 0 014 0zm-7 21a2 2 0 11-4 0 2 2 0 014 0zM59 81a2 2 0 11-4 0 2 2 0 014 0zM22 63a2 2 0 11-4 0 2 2 0 014 0zm27 7a9 9 0 11-18 0 9 9 0 0118 0zm-3 0a6 6 0 10-12 0 6 6 0 0012 0zM33 41a9 9 0 11-18 0 9 9 0 0118 0zm-15 0a6 6 0 1012 0 6 6 0 00-12 0zm50 11a9 9 0 11-18 0 9 9 0 0118 0zm-3 0a6 6 0 10-12 0 6 6 0 0012 0zM44.08 4.24c.31.48.33 1.09.05 1.58a17.46 17.46 0 00-2.36 8.8c0 9.55 7.58 17.24 16.85 17.24 2.97 0 5.75-.78 8.16-2.15a1.5 1.5 0 012.1.66 12.08 12.08 0 0011 6.74 12.4 12.4 0 007.85-2.75 1.5 1.5 0 012.38.74A45.76 45.76 0 0192 48.16c0 24.77-19.67 44.9-44 44.9S4 72.93 4 48.16C4 25.23 20.84 6.28 42.64 3.58a1.5 1.5 0 011.44.66zM40.22 7C21.32 10.71 7 27.7 7 48.16c0 23.17 18.39 41.9 41 41.9s41-18.73 41-41.9c0-3.52-.42-6.93-1.22-10.2a15.5 15.5 0 01-7.9 2.15c-5.5 0-10.36-2.83-12.97-7.1a19.46 19.46 0 01-8.28 1.85c-11 0-19.86-9.1-19.86-20.24 0-2.7.52-5.26 1.45-7.62zM92 91a2 2 0 100-4 2 2 0 000 4zM7 8.5a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0zM82.5 90a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm9.5-7.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM13.5 8a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM80 14.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM53.5 20a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"></path>
+</svg>
+<p class="fs-body2 fw-bold mb4">Your privacy</p>
+<p class="mb16 s-anchors s-anchors__inherit s-anchors__underlined">
+By clicking “Accept all cookies”, you agree Stack Exchange can
+store cookies on your device and disclose information in accordance
+with our <a href=
+"https://stackoverflow.com/legal/cookie-policy">Cookie
+Policy</a>.</p>
+<div class="d-flex gs8 ai-stretch fd-column sm:fd-row">
+<button class=
+"flex--item s-btn s-btn__primary js-accept-cookies js-consent-banner-hide">
+Accept all cookies</button> <button class=
+"flex--item s-btn s-btn__filled js-cookie-settings"
+data-consent-popup-loader="banner">Customize
+settings</button></div>
+</div>
+<div class="d-none" id="onetrust-consent-sdk"></div>
+<div data-controller="s-modal" id="onetrust-banner-sdk"></div>
+<div class="d-none" id="ot-pc-content"></div>
+<div class="d-none" id="onetrust-style">&nbsp;</div>
+<div class="d-none js-consent-banner-version"
+data-consent-banner-version="baseline"></div>
+</body>
+</html>
