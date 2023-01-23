@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Document</title>
+  <title>Update Material of Cube</title>
+  <!-- https://stackoverflow.com/questions/11468558/how-to-update-material-of-cube-on-runtime-using-webgl -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.148.0/three.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
   <style>
@@ -23,16 +24,15 @@
   init();
   animate();
 
-  $('body').click(() => {
-    console.log(scene.children.length);
+  $("body").click(() => {
+    // console.log(scene.children.length);
     let rand = 0xffffff * Math.random();
     material = new THREE.MeshLambertMaterial({
       color: rand,
-      ambient: rand,
       side: THREE.DoubleSide
     });
-    mesh = new THREE.Mesh(geometry, material);
-    scene.add(mesh);
+    // console.log(mesh.material);
+    mesh.material = material;
   });
 
   function init() {
@@ -62,9 +62,8 @@
     geometry = new THREE.BoxGeometry(100, 100, 100);
 
     // material
-    let rand = 0xffffff * Math.random();
     material = new THREE.MeshLambertMaterial({
-      color: 0xBEE2FF,
+      color: 0xffff00,
       side: THREE.DoubleSide
     });
 
