@@ -27,6 +27,32 @@
   init();
   animate();
 
+  function pixelFun(img) {
+    // console.log("image", img);
+    const canvas = document.createElement("canvas");
+    canvas.width = img.width;
+    canvas.height = img.height;
+
+    document.body.appendChild(canvas);
+
+    const context = canvas.getContext("2d");
+    context.drawImage(img, 0, 0);
+
+    const data = context.getImageData(0, 0, canvas.width, canvas.height);
+    console.log(data);
+
+    const pxl = data.data;
+    for (let i = 0; i < pxl.length; i += 4) {
+      if (pxl[i] > 200) {
+        pxl[i] = 255 * pxl[i];
+        pxl[i + 1] = 0;
+        pxl[i + 2] = 255 * pxl[i + 2];
+        pxl[i + 3] = 255;
+      }
+    }
+    context.putImageData(data, 0, 0);
+  }
+
   function init() {
     camera = new THREE.PerspectiveCamera(70, width / height, 0.01, 10);
     camera.position.z = 2;
@@ -36,28 +62,7 @@
     const loader = new THREE.TextureLoader();
     const texture = loader.load("https://threejs.org/examples/textures/uv_grid_opengl.jpg", texture => {
 
-      const canvas = document.createElement("canvas"); // off-screen canvas
-      canvas.width = texture.image.width;
-      canvas.height = texture.image.height;
-
-      document.body.appendChild(canvas); // Let's add the canvas anyway.
-
-      const context = canvas.getContext("2d");
-      context.drawImage(texture.image, 0, 0);
-
-      const data = context.getImageData(0, 0, canvas.width, canvas.height);
-      console.log(data);
-
-      const pxl = data.data;
-      for (let i = 0; i < pxl.length; i += 4) {
-        if (pxl[i] > 200) {
-          pxl[i] = 255 * pxl[i];
-          pxl[i + 1] = 0;
-          pxl[i + 2] = 255 * pxl[i + 2];
-          pxl[i + 3] = 255;
-        }
-      }
-      context.putImageData(data, 0, 0);
+      pixelFun(texture.image);
 
       const geometry = new THREE.PlaneGeometry();
       const material = new THREE.MeshBasicMaterial({ map: texture });
