@@ -56,11 +56,10 @@
           pxl[i + 3] = 255;
         }
       }
-      context.putImageData(data, 0, 0); // create image, load as texture, Russian Doll.
+      context.putImageData(data, 0, 0);
 
       const geometry = new THREE.PlaneGeometry();
       const material = new THREE.MeshBasicMaterial({ map: texture });
-
 
       const mesh = new THREE.Mesh(geometry, material);
       scene.add(mesh);
