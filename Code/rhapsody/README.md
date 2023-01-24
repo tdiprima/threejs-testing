@@ -43,12 +43,6 @@ spImgWidth = bottomRight[0] - topLeft[0];
 spImgHeight = bottomRight[1] - topLeft[1];
 ```
 
-# Get Image Data
-
-[Is there a way to get the pixel data of the Texture without going through the canvas](https://discourse.threejs.org/t/is-there-a-way-to-get-the-pixel-data-of-the-texture-without-going-through-the-canvas/40988)
-
-[three.js pixel manipulation](https://www.reddit.com/r/threejs/comments/3og8xj/pixel_manipulation/)
-
 # I did it (extra stuff)
 
 https://jsfiddle.net/q2fdu7p9/
