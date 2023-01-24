@@ -92,7 +92,6 @@
   // ATTEMPT #2
   const imgPath = 'https://cdn.pixabay.com/photo/2022/05/23/13/16/bird-7216181_1280.jpg';
   loader.load(imgPath, texture => {
-    let textureData = texture;
     let planeMesh = new THREE.Mesh(
       new THREE.PlaneGeometry(texture.image.width, texture.image.height),
       new THREE.MeshBasicMaterial({ map: texture })
