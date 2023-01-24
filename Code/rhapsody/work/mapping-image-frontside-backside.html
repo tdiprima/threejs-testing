@@ -180,13 +180,13 @@
     e = e || window.event;
     e.preventDefault();
 
-    if (e.keyCode == '38') {
+    if (e.keyCode === '38') {
       animateDirection.up(); // Arrow up
-    } else if (e.keyCode == '40') {
+    } else if (e.keyCode === '40') {
       animateDirection.down(); // Arrow down
-    } else if (e.keyCode == '37') {
+    } else if (e.keyCode === '37') {
       animateDirection.left(); // Arrow left
-    } else if (e.keyCode == '39') {
+    } else if (e.keyCode === '39') {
       animateDirection.right(); // Arrow right
     }
   }
