@@ -5,6 +5,10 @@ Rendering the texture to a RenderTexture and then calling renderer.readRenderTar
 
 https://r105.threejsfundamentals.org/threejs/lessons/threejs-rendertargets.html
 
+https://stackoverflow.com/questions/43583012/getting-the-color-value-of-a-pixel-on-click-of-a-mesh-with-three-js
+
+https://stackoverflow.com/questions/33433305/threejs-how-to-pick-the-intersection-point-color-of-an-object
+
 # Slide info
 
 Where? `$HOME/trabajo/Halcyon/src/main/java/com/df/halcyon/wicket/ethereal`
