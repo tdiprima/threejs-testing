@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>94</title>
+  <!-- https://stackoverflow.com/questions/51207094/mapping-image-frontside-backside-onto-a-sphere-in-three-js -->
+  <style>
+    body {
+      margin: 0;
+      background: #ddd;
+    }
+
+    .logo {
+      position: absolute;
+      top: 10px;
+      width: 100px;
+      height: 100px;
+      background-repeat: no-repeat;
+      background-size: 100% auto;
+    }
+
+    .front {
+      left: 10px;
+      background-image: url("https://image.ibb.co/mmsJ7J/logo_front.png");
+    }
+
+    .back {
+      left: 120px;
+      background-image: url("https://image.ibb.co/bE8i7J/logo_back.png");
+    }
+  </style>
+</head>
+<body>
+<div class="logo front"></div>
+<div class="logo back"></div>
+
+<div height="100vh" id="container" width="100vw"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/94/three.min.js"></script>
+
+<script>
+  // Setup:
+  let container = document.querySelector('#container');
+  let renderer = new THREE.WebGLRenderer({ alpha: true });
+  let WIDTH = window.innerWidth;
+  let HEIGHT = window.innerHeight;
+  renderer.setSize(WIDTH, HEIGHT);
+
+  let VIEW_ANGLE = 40;
+  let ASPECT = WIDTH / HEIGHT;
+  let NEAR = 0.1;
+  let FAR = 1000;
+
+  let camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
+  camera.position.set(0, 0, 50);
+
+  let scene = new THREE.Scene();
+  scene.background = null;
+  scene.add(camera);
+
+  container.appendChild(renderer.domElement);
+
+  let group = new THREE.Group();
+  scene.add(group);
+
+  // THREE.WebGLRenderer: image is not power of two (400x400). Resized to 256x256.
+  let texture = new THREE.TextureLoader().load('https://image.ibb.co/mmsJ7J/logo_front.png');
+
+  let material;
+
+  // DOOR #1
+  material = new THREE.MeshBasicMaterial({
+    map: texture,
+    overdraw: 0
+  });
+
+  // DOOR #2
+  // material = [
+  //   new THREE.MeshBasicMaterial({
+  //     map: texture,
+  //     overdraw: 0
+  //   }),
+  //   new THREE.MeshBasicMaterial({
+  //     map: texture,
+  //     overdraw: 0
+  //   })
+  // ];
+
+  scene.add(new THREE.AmbientLight(0xffffff, 0.2));
+
+  let light = new THREE.PointLight(0xffffff, 0.2);
+  camera.add(light);
+
+  let geometry = new THREE.SphereGeometry(60, 64, 32);
+
+  geometry.computeBoundingBox();
+
+  let max, min;
+  max = geometry.boundingBox.max;
+  min = geometry.boundingBox.min;
+  // max = geometry.boundingBox.max.clone().add(new THREE.Vector3(1, 1, 1));
+  // min = geometry.boundingBox.min.clone().add(new THREE.Vector3(-1, -1, -1));
+
+  let offset = new THREE.Vector2(0 - min.x, 0 - min.y);
+  let range = new THREE.Vector2(max.x - min.x, max.y - min.y);
+  let faces = geometry.faces;
+
+  geometry.faceVertexUvs[0] = [];
+
+  for (let i = 0; i < faces.length; i++) {
+    let v1 = geometry.vertices[faces[i].a],
+      v2 = geometry.vertices[faces[i].b],
+      v3 = geometry.vertices[faces[i].c];
+
+    // Why?
+    // if (v1.z < 0) {
+    //   faces[i].materialIndex = 1;
+    // }
+
+    geometry.faceVertexUvs[0].push([
+      new THREE.Vector2((v1.x + offset.x) / range.x, (v1.y + offset.y) / range.y),
+      new THREE.Vector2((v2.x + offset.x) / range.x, (v2.y + offset.y) / range.y),
+      new THREE.Vector2((v3.x + offset.x) / range.x, (v3.y + offset.y) / range.y)
+    ]);
+  }
+
+  // geometry.groupsNeedUpdate = true;
+  geometry.uvsNeedUpdate = true;
+
+  let mesh = new THREE.Mesh(geometry, material);
+
+  group.add(mesh);
+  group.position.z = -270;
+
+  let pointLight = new THREE.PointLight(0xffffff);
+  pointLight.position.x = -100;
+  pointLight.position.y = 0;
+  pointLight.position.z = 200;
+
+  scene.add(pointLight);
+
+  function update() {
+    renderer.render(scene, camera);
+    requestAnimationFrame(update);
+  }
+
+  requestAnimationFrame(update);
+
+  function animationBuilder(direction) {
+    return function animateRotate() {
+      switch (direction) {
+        case 'up':
+          group.rotation.x -= 0.2;
+          break;
+        case 'down':
+          group.rotation.x += 0.2;
+          break;
+        case 'left':
+          group.rotation.y -= 0.2;
+          break;
+        case 'right':
+          group.rotation.y += 0.2;
+          break;
+        default:
+          break;
+      }
+    };
+  }
+
+  let animateDirection = {
+    up: animationBuilder('up'),
+    down: animationBuilder('down'),
+    left: animationBuilder('left'),
+    right: animationBuilder('right')
+  };
+
+  function checkKey(e) {
+    e = e || window.event;
+    e.preventDefault();
+
+    if (e.keyCode == '38') {
+      animateDirection.up(); // Arrow up
+    } else if (e.keyCode == '40') {
+      animateDirection.down(); // Arrow down
+    } else if (e.keyCode == '37') {
+      animateDirection.left(); // Arrow left
+    } else if (e.keyCode == '39') {
+      animateDirection.right(); // Arrow right
+    }
+  }
+
+  document.onkeydown = checkKey;
+
+  let lastMove = [window.innerWidth / 2, window.innerHeight / 2];
+
+  function rotateOnMouseMove(e) {
+    e = e || window.event;
+
+    let moveX = e.clientX - lastMove[0];
+    let moveY = e.clientY - lastMove[1];
+
+    group.rotation.y += moveX * 0.004;
+    group.rotation.x += moveY * 0.004;
+
+    lastMove[0] = e.clientX;
+    lastMove[1] = e.clientY;
+  }
+
+  document.addEventListener('mousemove', rotateOnMouseMove);
+</script>
+</body>
+</html>
