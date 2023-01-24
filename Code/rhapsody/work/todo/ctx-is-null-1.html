@@ -5,7 +5,11 @@
   <meta content="chrome=1,IE=edge" http-equiv="X-UA-Compatible">
   <title>TEST</title>
   <!-- https://stackoverflow.com/questions/49495681/how-could-we-get-the-pixels-color-of-a-mesh-when-we-click-on-it-using-javascri -->
+
+  <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/three.js/r100/three.min.js"></script> -->
+
   <script src="/build/three.js"></script>
+
   <!-- <script src="https://threejs.org/build/three.js"></script> -->
   <!-- <script src="https://threejs.org/examples/js/controls/TrackballControls.js"></script> -->
   <!-- <script src="js/NRRDLoader.js"></script>
@@ -61,14 +65,6 @@
   camera.add(new THREE.PointLight(0xffffff, 1));
   scene.add(camera);
 
-  // const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 10000);
-  // camera.position.copy(new THREE.Vector3(100, 100, 100));
-  // camera.lookAt(new THREE.Vector3(0, 0, 0));
-  // scene.add(camera);
-
-  // var controls = new THREE.TrackballControls(camera, renderer.domElement);
-  // controls.addEventListener("change", render);
-
   /**********************/
   /* Populate the Scene */
   /**********************/
@@ -110,9 +106,9 @@
 
   const externalTarget = new THREE.WebGLRenderTarget();
 
-  // let size = renderer.getSize();
   let size = new THREE.Vector2();
   renderer.getSize(size);
+  // let size = renderer.getSize();
   externalTarget.setSize(size.width, size.height);
 
   function render() {
