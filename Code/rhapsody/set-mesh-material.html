@@ -25,6 +25,13 @@
   animate();
 
   function setMaterial() {
+    material = new THREE.MeshLambertMaterial({
+      color: 0xffffff * Math.random()
+    });
+    mesh.material = material;
+  }
+
+  function setColor() {
     // material.color = {
     //   "r": 1,
     //   "g": 0,
@@ -35,17 +42,10 @@
     material.color = new THREE.Color(0xffffff * Math.random());
   }
 
-  function newMaterial() {
-    material = new THREE.MeshLambertMaterial({
-      color: 0xffffff * Math.random()
-    });
-    mesh.material = material;
-  }
-
   $("body").click(() => {
     console.log("click");
     setMaterial();
-    // newMaterial();
+    // setColor();
   });
 
   function init() {

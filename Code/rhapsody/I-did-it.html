@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>>How to color-correct a texture</title>
+  <title>>I did it</title>
   <!-- https://discourse.threejs.org/t/how-to-get-pixel-data-from-maps/25966 -->
   <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
   <style>
@@ -30,15 +30,17 @@
   animate();
 
   $("body").click(() => {
-    console.log(scene.children.length);
+    // Canvas to image, then set mesh material
     let image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
     material = new THREE.MeshBasicMaterial({
       map: loader.load(image)
     });
     mesh.material = material;
+    // console.log(scene.children.length);
   });
 
   function pixelFun(img) {
+    // Image onLoad - grab & alter the pixels.
     canvas = document.createElement("canvas");
     canvas.width = img.width;
     canvas.height = img.height;
