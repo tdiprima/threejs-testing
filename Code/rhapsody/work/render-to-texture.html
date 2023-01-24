@@ -6,10 +6,8 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <!-- <meta content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" name="viewport"> -->
   <title>render-to-texture</title>
-  <!-- https://gamedevelopment.tutsplus.com/tutorials/quick-tip-how-to-render-to-a-texture-in-threejs--cms-25686 -->
-  <!-- webgl_rtt.html -->
-  <!-- webgl_read_float_buffer.html -->
   <!-- https://discourse.threejs.org/t/how-to-get-texture-color-at-intersection-with-raycast/38631/8 -->
+  <!-- https://gamedevelopment.tutsplus.com/tutorials/quick-tip-how-to-render-to-a-texture-in-threejs--cms-25686 -->
 </head>
 <body>
 
@@ -27,9 +25,7 @@
   uniform sampler2D tDiffuse;
 
   void main() {
-
     gl_FragColor = texture2D(tDiffuse, vUv);
-
   }
 </script>
 
@@ -37,19 +33,18 @@
   varying vec2 vUv;
 
   void main() {
-
     vUv = uv;
     gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-
   }
 </script>
 
 <script type="module">
+  // https://discourse.threejs.org/t/how-to-get-texture-color-at-intersection-with-raycast/38631/8
   import * as THREE from "three";
   import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
-  const width = window.innerWidth;
-  const height = window.innerHeight;
+  let width = window.innerWidth;
+  let height = window.innerHeight;
 
   // initialize renderer
   const renderer = new THREE.WebGLRenderer();
@@ -87,17 +82,16 @@
   });
 
   const plane = new THREE.PlaneGeometry(window.innerWidth, window.innerHeight);
-  const quad = new THREE.Mesh(plane, materialScreen);
+  const quad = new THREE.Mesh(plane, materialScreen); // signature mismatch
   quad.position.z = -100;
   sceneScreen.add(quad);
 
-  const rayCaster = new THREE.Raycaster();
-
+  // const rayCaster = new THREE.Raycaster();
+  const rayCaster = new THREE.Raycaster(undefined, undefined, 0, undefined);
   const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 10000);
   camera.position.copy(new THREE.Vector3(100, 100, 100));
   camera.lookAt(new THREE.Vector3(0, 0, 0));
   scene.add(camera);
-
   const controls = new OrbitControls(camera, renderer.domElement);
 
   // global variables
@@ -105,7 +99,7 @@
   let planeMesh;
   let textureData;
 
-  const imgPath = "https://cdn.pixabay.com/photo/2022/05/23/13/16/bird-7216181_1280.jpg";
+  const imgPath = 'https://cdn.pixabay.com/photo/2022/05/23/13/16/bird-7216181_1280.jpg';
 
   // load texture and initialize planeMesh, textureData and renderTargetTexture
   new THREE.TextureLoader().load(imgPath, texture => {
@@ -138,6 +132,7 @@
   window.addEventListener('resize', resize);
 
   window.addEventListener('pointerup', event => {
+    // To calculate pages scrolling coordinates:
     const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
@@ -148,29 +143,26 @@
     const intersections = rayCaster.intersectObject(planeMesh);
 
     if (intersections.length > 0) {
+      // renderer.domElement.width, instead of window.innerWidth
       mouse.x = parseInt(renderer.domElement.width / 2 + (mouse.x * renderer.domElement.width) / 2);
       mouse.y = parseInt(renderer.domElement.height / 2 + (mouse.y * renderer.domElement.height) / 2);
 
       renderer.clear();
 
       // Render first scene into texture
-
       renderer.setRenderTarget(renderTargetTexture);
       renderer.clear();
-      renderer.render(scene, camera); // ( sceneRTT, cameraRTT )
-      // Render full screen quad with generated texture
+      renderer.render(scene, camera); // See webgl_rtt.html, line 251.
 
+      // Render full screen quad with generated texture
       renderer.setRenderTarget(null);
       renderer.render(sceneScreen, cameraRTT);
 
-      // todo: rendering the texture to a RenderTexture and then calling renderer.readRenderTargetPixels to get pixel data
       const read = new Float32Array(4);
       renderer.readRenderTargetPixels(renderTargetTexture, mouse.x, mouse.y, 1, 1, read);
-
-      const r = parseInt(read[0] * 255);
+      const r = parseInt(read[0] * 255); // signature mismatch
       const g = parseInt(read[1] * 255);
       const b = parseInt(read[2] * 255);
-
       console.log(`X:${mouse.x} Y:${mouse.y} RGB: [${r},${g},${b}] Color: %c     `, `background:rgb(${r},${g},${b});`);
     }
   });
