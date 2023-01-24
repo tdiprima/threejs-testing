@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="chrome=1,IE=edge" http-equiv="X-UA-Compatible">
+  <title>TEST</title>
+  <!-- https://stackoverflow.com/questions/49495681/how-could-we-get-the-pixels-color-of-a-mesh-when-we-click-on-it-using-javascri#49497303 -->
+  <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/three.js/r91/three.min.js"></script> -->
+  <script src="https://unpkg.com/three@0.91.0/build/three.js"></script>
+  <script src="https://unpkg.com/three@0.91.0/examples/js/controls/TrackballControls.js"></script>
+</head>
+<body>
+
+<input id="test" type="button" value="Test Pixel Buffer"><br>
+
+<canvas height="500" id="view" style="border: 1px black solid;" width="500"></canvas>
+
+<script>
+  /**********************/
+  /*   Initialization   */
+  /**********************/
+
+  let size;
+  let pixelBuffer = new Uint8Array(500 * 500 * 4);
+  let externalTarget = new THREE.WebGLRenderTarget();
+
+  function testPixelBuffer() {
+    let x, y, r, g, b, a;
+
+    // Mapping a 2D coordinate into a 1D index
+    // 2D (screen coordinates) to 1D (pixelBuffer) mapping:
+    // https://softwareengineering.stackexchange.com/questions/212808/treating-a-1d-data-structure-as-2d-grid
+    let i1;
+    let i2;
+
+    for (x = 0; x < size.width; ++x) {
+      i1 = x * size.width;
+      for (y = 0; y < size.height; ++y) {
+        i2 = i1 + y;
+        i2 *= 4; // Multiply the final value by 4 b/c ∃ 4 values per pixel RGBA
+
+        // Pixel index 1 actually covers indices 4, 5, 6, and 7 in pixelBuffer
+        r = pixelBuffer[i2 + 0];
+        g = pixelBuffer[i2 + 1];
+        b = pixelBuffer[i2 + 2];
+        a = pixelBuffer[i2 + 3];
+
+        if (a > 0) {
+          console.log(i2, r, g, b, a);
+          console.count("Colored pixels count:");
+        }
+      }
+    }
+  }
+
+  document.getElementById("test").addEventListener("click", testPixelBuffer);
+
+  let renderer = new THREE.WebGLRenderer({
+    canvas: document.getElementById('view'),
+    antialias: true,
+    alpha: true
+  });
+
+  let scene = new THREE.Scene();
+
+  let camera = new THREE.PerspectiveCamera(28, 1, 1, 1000);
+  camera.position.z = 50;
+
+  camera.add(new THREE.PointLight(0xffffff, 1, Infinity));
+
+  scene.add(camera);
+
+  let controls = new THREE.TrackballControls(camera, renderer.domElement);
+  controls.addEventListener('change', render);
+
+  /**********************/
+  /* Populate the Scene */
+  /**********************/
+
+  let geo = new THREE.BoxBufferGeometry(5, 5, 5);
+
+  let mat = new THREE.MeshPhongMaterial({
+    color: 'red'
+  });
+
+  let mesh = new THREE.Mesh(geo, mat);
+
+  scene.add(mesh);
+
+  /**********************/
+  /*   Render Function  */
+  /**********************/
+
+  size = renderer.getSize();
+  // You have to render to an external render target.
+  externalTarget.setSize(size.width, size.height);
+
+  function render() {
+    renderer.render(scene, camera);
+    renderer.render(scene, camera, externalTarget);
+  }
+
+  render();
+
+  /**********************/
+  /*   Animation Loop   */
+  /**********************/
+
+  function animate() {
+    requestAnimationFrame(animate);
+    // readRenderTargetPixels gives you access to the render target's buffer,
+    // much like how you would read the data directly from a 2D canvas's
+    // ImageData buffer.
+    renderer.readRenderTargetPixels(
+      externalTarget, // renderTarget
+      0, // x
+      0, // y
+      size.width, // width
+      size.height, // height
+      pixelBuffer // buffer
+    );
+    controls.update();
+  }
+
+  animate();
+</script>
+</body>
+</html>

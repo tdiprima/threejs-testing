@@ -6,7 +6,7 @@
   <title>TEST</title>
   <!-- https://stackoverflow.com/questions/49495681/how-could-we-get-the-pixels-color-of-a-mesh-when-we-click-on-it-using-javascri -->
 
-  <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/three.js/r100/three.min.js"></script> -->
+  <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/three.js/r91/three.min.js"></script> -->
 
   <script src="/build/three.js"></script>
 
@@ -63,7 +63,7 @@
 
   const camera = new THREE.PerspectiveCamera(28, 1, 1, 1000);
   camera.position.z = 50;
-  camera.add(new THREE.PointLight(0xffffff, 1));
+  camera.add(new THREE.PointLight(0xffffff, 1, Infinity));
   scene.add(camera);
 
   /**********************/
