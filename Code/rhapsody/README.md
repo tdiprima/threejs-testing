@@ -5,11 +5,9 @@ Rendering the texture to a RenderTexture and then calling renderer.readRenderTar
 
 https://r105.threejsfundamentals.org/threejs/lessons/threejs-rendertargets.html
 
-https://stackoverflow.com/questions/38583219/three-js-render-to-texture
-
 # Slide info
 
-<!-- $HOME/trabajo/Halcyon/src/main/java/com/ebremer/halcyon/wicket/ethereal -->
+Where? `$HOME/trabajo/Halcyon/src/main/java/com/df/halcyon/wicket/ethereal`
 
 ## Example from COAD (colon adenocarcinoma)
 
