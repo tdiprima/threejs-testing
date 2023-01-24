@@ -3,8 +3,6 @@
 Rendering the texture to a RenderTexture and then calling renderer.readRenderTargetPixels to get pixel data.
 `work/render-to-texture.html`
 
-Check: https://stackoverflow.com/questions/43583012/getting-the-color-value-of-a-pixel-on-click-of-a-mesh-with-three-js
-
 https://stackoverflow.com/questions/49495681/how-could-we-get-the-pixels-color-of-a-mesh-when-we-click-on-it-using-javascri#49497303
 
 https://r105.threejsfundamentals.org/threejs/lessons/threejs-rendertargets.html
@@ -73,8 +71,6 @@ const texture = loader.load(image, texture => {
   // do pixel manipulation
 });
 ```
-
-https://stackoverflow.com/questions/43583012/getting-the-color-value-of-a-pixel-on-click-of-a-mesh-with-three-js
 
 If I wanted it smaller, I'd have to scale it or something. &ndash; How the F did they get it to be so small?  Mine came out original size.
 
