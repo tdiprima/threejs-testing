@@ -1,24 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta content="IE=edge" http-equiv="X-UA-Compatible">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>get a pixel value directly from the renderer</title>
-  <!-- https://stackoverflow.com/questions/43583012/getting-the-color-value-of-a-pixel-on-click-of-a-mesh-with-three-js -->
+  <meta charset="utf-8" />
+  <meta content="chrome=1,IE=edge" http-equiv="X-UA-Compatible">
+  <title>TEST</title>
+  <!-- https://stackoverflow.com/questions/49495681/how-could-we-get-the-pixels-color-of-a-mesh-when-we-click-on-it-using-javascri -->
+  <script src="/build/three.js"></script>
+  <!-- <script src="https://threejs.org/build/three.js"></script> -->
+  <!-- <script src="https://threejs.org/examples/js/controls/TrackballControls.js"></script> -->
+  <!-- <script src="js/NRRDLoader.js"></script>
+  <script src="js/Volume.js"></script>
+  <script src="js/VolumeSlice.js"></script> -->
 </head>
 <body>
-You can also get a pixel value directly from the renderer, but it will cost you an extra render pass.
 
-See this THREE.js example: https://threejs.org/examples/?q=instanc#webgl_interactive_instances_gpu
+<canvas height="500" id="view" style="border: 1px black solid;" width="500"></canvas>
 
-(https://threejs.org/examples/?q=instanc#webgl_instancing_performance)?
-
-webgl_interactive_instances_gpu.html => webgl_instancing_interactive.html
-
-This example uses readRenderTargetPixels in the THREE.WebGLRenderer.
-https://threejs.org/docs/#api/renderers/WebGLRenderer
 <script>
+  /**********************/
+  /*   Initialization   */
+  /**********************/
+  let realClickedCanvasX;
+  let realClickedCanvasY;
+  let clickCount = 0;
+
+  const pixelBuffer = new Uint8Array(500 * 500 * 4);
+
+  function testPixelBuffer() {
+    let i1 = realClickedCanvasX * size.width;
+    let i2 = i1 + realClickedCanvasY;
+    i2 *= 4;
+    let r = pixelBuffer[i2 + 0];
+    let g = pixelBuffer[i2 + 1];
+    let b = pixelBuffer[i2 + 2];
+    let a = pixelBuffer[i2 + 3];
+    console.log(i2, r, g, b, a);
+  }
+
+  document.getElementById('view').addEventListener('mousedown', onDocumentMouseDown, false);
+  function onDocumentMouseDown(event) {
+    clickCount++;
+    realClickedCanvasX = event.offsetX;
+    realClickedCanvasY = event.offsetY;
+    console.log(
+      `You have clicked on: ${realClickedCanvasY} , ${realClickedCanvasY} it is the click number: ${clickCount}`
+    );
+    testPixelBuffer();
+  }
+
+  const renderer = new THREE.WebGLRenderer({
+    canvas: document.getElementById('view'),
+    antialias: true,
+    alpha: true
+  });
+
+  const scene = new THREE.Scene();
+
+  const camera = new THREE.PerspectiveCamera(28, 1, 1, 1000);
+  camera.position.z = 50;
+  camera.add(new THREE.PointLight(0xffffff, 1));
+  scene.add(camera);
+
+  // const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 10000);
+  // camera.position.copy(new THREE.Vector3(100, 100, 100));
+  // camera.lookAt(new THREE.Vector3(0, 0, 0));
+  // scene.add(camera);
+
+  // var controls = new THREE.TrackballControls(camera, renderer.domElement);
+  // controls.addEventListener("change", render);
+
+  /**********************/
+  /* Populate the Scene */
+  /**********************/
+
+  // THEIR EXAMPLE
+  // const loader = new THREE.NRRDLoader();
+  // loader.load('models/nrrd/columnasegmentado01.nrrd', volume => {
+  //   // z plane
+  //   const sliceZ = volume.extractSlice('z', Math.floor(volume.RASDimensions[2] / 4));
+  //   scene.add(sliceZ.mesh);
+  // });
+
+  const loader = new THREE.TextureLoader();
+
+  // ATTEMPT #1
+  // const geometry = new THREE.BoxGeometry(16, 16, 16);
+  // loader.load('https://cdn.pixabay.com/photo/2022/05/23/13/16/bird-7216181_1280.jpg', texture => {
+  //   const material = new THREE.MeshBasicMaterial({
+  //     map: texture
+  //   });
+  //   const cube = new THREE.Mesh(geometry, material);
+  //   scene.add(cube);
+  // });
+
+  // ATTEMPT #2
+  const imgPath = 'https://cdn.pixabay.com/photo/2022/05/23/13/16/bird-7216181_1280.jpg';
+  loader.load(imgPath, texture => {
+    let textureData = texture;
+    let planeMesh = new THREE.Mesh(
+      new THREE.PlaneGeometry(texture.image.width, texture.image.height),
+      new THREE.MeshBasicMaterial({ map: texture })
+    );
+    scene.add(planeMesh);
+  });
+
+  /**********************/
+  /*   Render Function  */
+  /**********************/
+
+  const externalTarget = new THREE.WebGLRenderTarget();
+
+  // let size = renderer.getSize();
+  let size = new THREE.Vector2();
+  renderer.getSize(size);
+  externalTarget.setSize(size.width, size.height);
+
+  function render() {
+    renderer.render(scene, camera);
+    renderer.render(scene, camera, externalTarget);
+  }
+
+  render();
+
+  /**********************/
+  /*   Animation Loop   */
+  /**********************/
+  function animate() {
+    requestAnimationFrame(animate);
+    renderer.readRenderTargetPixels(externalTarget, 0, 0, size.width, size.height, pixelBuffer);
+    // controls.update();
+  }
+
+  animate();
 </script>
 </body>
 </html>
