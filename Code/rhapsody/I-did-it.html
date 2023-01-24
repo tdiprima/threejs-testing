@@ -31,9 +31,9 @@
 
   $("body").click(() => {
     // Canvas to image, then set mesh material
-    let image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+    let img2D = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
     material = new THREE.MeshBasicMaterial({
-      map: loader.load(image)
+      map: loader.load(img2D)
     });
     mesh.material = material;
     // console.log(scene.children.length);
