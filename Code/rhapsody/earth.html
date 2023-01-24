@@ -20,41 +20,49 @@
 </script>
 
 <script type="module">
-  import * as THREE from "three";
-  import {OrbitControls} from "/jsm/controls/OrbitControls.js";
+  import * as THREE from 'three';
+  import { OrbitControls } from '/jsm/controls/OrbitControls.js';
 
-  let scene = new THREE.Scene();
-  let camera = window._camera = new THREE.PerspectiveCamera(
+  console.clear();
+
+  // Create a texture loader so that we can load our image file
+  const loader = new THREE.TextureLoader();
+
+  const scene = new THREE.Scene();
+  const camera = (window._camera = new THREE.PerspectiveCamera(
     75, // Field of view
     window.innerWidth / window.innerHeight, // Aspect ratio
     0.1, // Near
     10000 // Far
-  );
+  ));
   camera.position.z = 6.5;
 
-  let renderer = new THREE.WebGLRenderer();
+  const renderer = new THREE.WebGLRenderer();
+  renderer.setPixelRatio(window.devicePixelRatio);
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
 
-  let controls = new OrbitControls(camera, renderer.domElement);
+  const controls = new OrbitControls(camera, renderer.domElement);
 
   let light = new THREE.DirectionalLight(0xffffff, 1);
-  // light.position.set(1, 1, 100);
   light.position.set(0, 0, 100);
   scene.add(light);
 
+  // So that we have light on the backside too:
   light = new THREE.DirectionalLight(0xffffff, 1);
   light.position.set(0, 0, -100);
   scene.add(light);
 
   // https://www.instagram.com/p/CeWtN3pvYjT/
-  let resourceURL = "simon_dev.jpg";
+  const resourceURL = 'simon_dev.jpg';
+
   /* Textures */
-  f();
-  // f1();
+  imageAspectRatio();
+  // manualAspectRatio();
+  // sphere();
 
   /* Resize Event */
-  window.addEventListener("resize", function () {
+  window.addEventListener('resize', () => {
     renderer.setSize(window.innerWidth, window.innerHeight);
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
@@ -66,27 +74,16 @@
     requestAnimationFrame(animate);
     controls.update();
     renderer.render(scene, camera);
-  })();
+  }());
 
-  function f() {
-    // https://codepen.io/duhaime/pen/jaYdLg
-    // Create a texture loader so that we can load our image file
-    let loader = new THREE.TextureLoader();
-
-    // Load an image file into a custom material
-    // let material = new THREE.MeshLambertMaterial({
-    //   map: loader.load(resourceURL)
-    // });
-
-    // If you use "basic", the "DoubleSide" works :)
-    let material = new THREE.MeshBasicMaterial({
-      map: loader.load(resourceURL),
-      side: THREE.DoubleSide
-    });
-
-    // https://stackoverflow.com/questions/51207094/mapping-image-frontside-backside-onto-a-sphere-in-three-js
-    // use material array to apply multiple materials
-    // let material = [
+  /**
+   * https://jsfiddle.net/fk8thLsq/36/
+   * https://stackoverflow.com/questions/51207094/mapping-image-frontside-backside-onto-a-sphere-in-three-js
+   */
+  function sphere() {
+    // Assign two materials to the object; one for the front and one for the back.
+    // But alas, it doesn't work right now.
+    // const material = [
     //   new THREE.MeshBasicMaterial({
     //     map: loader.load("https://image.ibb.co/mmsJ7J/logo_front.png")
     //   }),
@@ -95,15 +92,40 @@
     //   })
     // ];
 
+    const texture = loader.load('https://image.ibb.co/mmsJ7J/logo_front.png');
+    const material = new THREE.MeshBasicMaterial({
+      map: texture,
+      overdraw: 0
+    });
+
+    const geometry = new THREE.SphereGeometry(60, 64, 32);
+
+    const mesh = new THREE.Mesh(geometry, material);
+
+    scene.add(mesh);
+    scene.position.z = -270;
+  }
+
+  /**
+   * Adding an Image to a Scene
+   * https://codepen.io/duhaime/pen/jaYdLg
+   */
+  function manualAspectRatio() {
+    // Load an image file into a custom material
+    const material = new THREE.MeshBasicMaterial({
+      map: loader.load(resourceURL),
+      side: THREE.DoubleSide
+    });
+
     // create a plane geometry for the image with a width of 10
     // and a height that preserves the image's aspect ratio
-    let width = 10;
+    const width = 10;
     // let height = width * 0.75; <- wrong! aspect ratio is 1.
-    let height = 10;
-    let geometry = new THREE.PlaneGeometry(width, height);
+    const height = 10;
+    const planeGeom = new THREE.PlaneGeometry(width, height);
 
     // combine our image geometry and material into a mesh
-    let mesh = new THREE.Mesh(geometry, material);
+    const mesh = new THREE.Mesh(planeGeom, material);
 
     // set the position of the image mesh in the x,y,z dimensions
     mesh.position.set(0, 0, 0);
@@ -112,17 +134,23 @@
     scene.add(mesh);
   }
 
-  function f1() {
-    // https://stackoverflow.com/questions/51722754/three-js-image-aspect-ratio
-    let planeGeom = new THREE.PlaneGeometry(10, 10);
+  /**
+   * How do I know the aspect ratio?
+   * https://stackoverflow.com/questions/51722754/three-js-image-aspect-ratio
+   */
+  function imageAspectRatio() {
     let mesh;
-    let tex = new THREE.TextureLoader().load(resourceURL, tex => {
+    const planeGeom = new THREE.PlaneGeometry(10, 10);
+
+    // Get texture
+    const tex = loader.load(resourceURL, tex => {
       tex.needsUpdate = true;
-      // console.log("aspect", tex.image.height / tex.image.width);
+      console.log('aspect', tex.image.height / tex.image.width);
       mesh.scale.set(1.0, tex.image.height / tex.image.width, 1.0);
     });
 
-    let material = new THREE.MeshBasicMaterial({
+    // Set material texture
+    const material = new THREE.MeshBasicMaterial({
       map: tex,
       side: THREE.DoubleSide
     });
