@@ -4,13 +4,10 @@
   <meta charset="UTF-8">
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <!-- <meta content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" name="viewport"> -->
-  <title>render-to-texture</title>
+  <title>Using intersections</title>
   <!-- https://discourse.threejs.org/t/how-to-get-texture-color-at-intersection-with-raycast/38631/8 -->
-  <!-- https://gamedevelopment.tutsplus.com/tutorials/quick-tip-how-to-render-to-a-texture-in-threejs--cms-25686 -->
 </head>
 <body>
-
 <script type="importmap">{
   "imports": {
     "three": "/build/three.module.js",
@@ -39,20 +36,19 @@
 </script>
 
 <script type="module">
-  // https://discourse.threejs.org/t/how-to-get-texture-color-at-intersection-with-raycast/38631/8
   import * as THREE from "three";
   import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
   let width = window.innerWidth;
   let height = window.innerHeight;
 
-  // initialize renderer
+  // Initialize renderer
   const renderer = new THREE.WebGLRenderer();
   renderer.setSize(width, height);
   renderer.autoClear = false;
   document.body.appendChild(renderer.domElement);
 
-  // scene / raycaster / camera / controls
+  // Scene / Raycaster / Camera / Controls
   const scene = new THREE.Scene();
 
   const cameraRTT = new THREE.OrthographicCamera(
@@ -87,6 +83,7 @@
   sceneScreen.add(quad);
 
   // const rayCaster = new THREE.Raycaster();
+  // ( origin, direction, near = 0, far = Infinity )
   const rayCaster = new THREE.Raycaster(undefined, undefined, 0, undefined);
   const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 10000);
   camera.position.copy(new THREE.Vector3(100, 100, 100));
@@ -94,14 +91,14 @@
   scene.add(camera);
   const controls = new OrbitControls(camera, renderer.domElement);
 
-  // global variables
+  // Global variables
   const mouse = new THREE.Vector2();
   let planeMesh;
   let textureData;
 
   const imgPath = 'https://cdn.pixabay.com/photo/2022/05/23/13/16/bird-7216181_1280.jpg';
 
-  // load texture and initialize planeMesh, textureData and renderTargetTexture
+  // Load texture; initialize planeMesh, textureData, and renderTargetTexture.
   new THREE.TextureLoader().load(imgPath, texture => {
     textureData = texture;
 
