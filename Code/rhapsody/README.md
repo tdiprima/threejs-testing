@@ -1,4 +1,44 @@
-# Todo:
+# What is UV in raycast three.js
+
+**uv** &ndash; U,V coordinates at point of intersection
+
+Simple.
+
+[According to this](https://stackoverflow.com/questions/49426805/where-is-the-documentation-for-uv-and-other-webgl-variables), since the vertex shader is used to create a THREE.ShaderMaterial, uv is provided as a default attribute by three.js.
+
+**So I did this** (right in webgl\_geometry\_cube.html):
+
+```js
+const shaderMaterial = new THREE.ShaderMaterial();
+console.log("shaderMaterial", shaderMaterial.defaultAttributeValues);
+```
+
+And behold:
+
+```json
+{
+  "color": [1, 1, 1],
+  "uv": [0, 0],
+  "uv2": [0, 0]
+}
+```
+
+[Shader Material](https://threejs.org/docs/index.html#api/en/materials/ShaderMaterial) (go look at "Built-in attributes and uniforms" and "Custom attributes and uniforms").
+
+And there's [WebGLProgram docs](https://threejs.org/docs/#api/en/renderers/webgl/WebGLProgram).
+
+<br>
+
+# explain three.js "webgl_rtt." html
+
+<!-- He's doing what I wanna do https://stackoverflow.com/questions/21533757/three-js-use-framebuffer-as-texture
+-->
+
+
+
+<br>
+
+# RenderTexture
 
 Rendering the texture to a <span style="color:red"> RenderTexture</span> and then calling <span style="color:blue"> renderer.readRenderTargetPixels</span> to get pixel data.
 
@@ -16,6 +56,11 @@ After you render to it, you can use that texture like any other texture.
 
 It is used in different effects, such as applying **postprocessing** to a rendered image before displaying it on the screen.-->
 
+
+<br>
+
+# Todo:
+
 https://stackoverflow.com/questions/43583012/getting-the-color-value-of-a-pixel-on-click-of-a-mesh-with-three-js
 
 https://stackoverflow.com/questions/33433305/threejs-how-to-pick-the-intersection-point-color-of-an-object
@@ -23,6 +68,8 @@ https://stackoverflow.com/questions/33433305/threejs-how-to-pick-the-intersectio
 https://stackoverflow.com/questions/45331120/readrendertargetpixels-results-all-zeroes
 
 https://discourse.threejs.org/t/readrendertargetpixels-without-any-shader-just-to-get-the-pixelcolor-returns-0-0-0/7022
+
+<br>
 
 # Slide info
 
@@ -44,6 +91,7 @@ tiff.ResolutionUnit: 'inch'
 
 [TCGA Study Abbreviations](https://gdc.cancer.gov/resources-tcga-users/tcga-code-tables/tcga-study-abbreviations)
 
+<br>
 
 # Contains moveTo
 
@@ -59,6 +107,8 @@ Usually we do something like this when we wanna get the size of something.
 spImgWidth = bottomRight[0] - topLeft[0];
 spImgHeight = bottomRight[1] - topLeft[1];
 ```
+
+<br>
 
 # I did it (extra stuff)
 
