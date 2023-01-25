@@ -1,13 +1,26 @@
 # Todo:
 
 Rendering the texture to a RenderTexture and then calling renderer.readRenderTargetPixels to get pixel data.
-`work/render-to-texture.html`
+
+### [WebGL RenderTarget](https://threejs.org/docs/#api/en/renderers/WebGLRenderTarget)
+
+A render target is a buffer where the video card draws pixels for a scene that is being rendered in the background.
+
+It is used in different effects, such as applying **postprocessing** to a rendered image before displaying it on the screen.
+
+### [WebGL RenderTexture Demo](https://threejs.org/examples/webgl_rtt.html)
+
+### [read Render Target Pixels](https://threejs.org/docs/#api/en/renderers/WebGLRenderer.readRenderTargetPixels)
 
 https://r105.threejsfundamentals.org/threejs/lessons/threejs-rendertargets.html
 
 https://stackoverflow.com/questions/43583012/getting-the-color-value-of-a-pixel-on-click-of-a-mesh-with-three-js
 
 https://stackoverflow.com/questions/33433305/threejs-how-to-pick-the-intersection-point-color-of-an-object
+
+https://stackoverflow.com/questions/45331120/readrendertargetpixels-results-all-zeroes
+
+https://discourse.threejs.org/t/readrendertargetpixels-without-any-shader-just-to-get-the-pixelcolor-returns-0-0-0/7022
 
 # Slide info
 
