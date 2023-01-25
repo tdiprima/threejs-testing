@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Render to a texture</title>
+  <title>Read float buffer</title>
   <!-- https://discourse.threejs.org/t/how-to-get-texture-color-at-intersection-with-raycast/38631/8 -->
 </head>
 <body>
@@ -18,6 +18,7 @@
 </script>
 <script async src="/es-module-shims-1.3.6/dist/es-module-shims.js"></script>
 
+<!-- Straight outta webgl_read_float_buffer.html -->
 <script id="fragment_shader_screen" type="x-shader/x-fragment">
   varying vec2 vUv;
   uniform sampler2D tDiffuse;
@@ -36,7 +37,6 @@
   }
 </script>
 
-<!-- COLOR PICKING WITH IMAGE -->
 <script type="module">
   import * as THREE from "three";
   import { OrbitControls } from "three/addons/controls/OrbitControls.js";
@@ -66,14 +66,14 @@
   const sceneScreen = new THREE.Scene();
 
   const renderTargetTexture = new THREE.WebGLRenderTarget(
-    window.innerWidth,
-    window.innerHeight,
+    window.innerWidth, // width
+    window.innerHeight, // height
     {
-      minFilter: THREE.LinearFilter,
-      magFilter: THREE.NearestFilter,
-      format: THREE.RGBAFormat,
+      minFilter: THREE.LinearFilter, // takes the four closest pixels
+      magFilter: THREE.NearestFilter, // uses the value of the closest pixel
+      format: THREE.RGBAFormat, // reads the red, green, blue and alpha
       type: THREE.FloatType
-    }
+    } // options
   );
 
   // It's using a custom shader to sample the texture at point of intersection.
