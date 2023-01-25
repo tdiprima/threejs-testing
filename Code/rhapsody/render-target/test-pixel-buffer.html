@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<input id="test" type="button" value="Test Pixel Buffer"><br>
+<!-- <input id="test" type="button" value="Test Pixel Buffer"><br> -->
 
 <canvas height="500" id="view" style="border: 1px black solid;" width="500"></canvas>
 
@@ -21,42 +21,68 @@
   /**********************/
 
   let size;
-  let pixelBuffer = new Uint8Array(500 * 500 * 4);
+  let realClickedCanvasX;
+  let realClickedCanvasY;
+  let clickCount = 0;
+
+  const pixelBuffer = new Uint8Array(500 * 500 * 4);
   let externalTarget = new THREE.WebGLRenderTarget();
 
   function testPixelBuffer() {
-    let x, y, r, g, b, a;
+    let x, y; //, r, g, b, a;
 
     // Mapping a 2D coordinate into a 1D index
     // 2D (screen coordinates) to 1D (pixelBuffer) mapping:
     // https://softwareengineering.stackexchange.com/questions/212808/treating-a-1d-data-structure-as-2d-grid
-    let i1;
-    let i2;
 
-    for (x = 0; x < size.width; ++x) {
-      i1 = x * size.width;
-      for (y = 0; y < size.height; ++y) {
-        i2 = i1 + y;
-        i2 *= 4; // Multiply the final value by 4 b/c ∃ 4 values per pixel RGBA
+    let i1 = realClickedCanvasX * size.width;
+    let i2 = i1 + realClickedCanvasY;
+    i2 *= 4;
+    let r = pixelBuffer[i2 + 0];
+    let g = pixelBuffer[i2 + 1];
+    let b = pixelBuffer[i2 + 2];
+    let a = pixelBuffer[i2 + 3];
+    console.log(i2, r, g, b, a);
 
-        // Pixel index 1 actually covers indices 4, 5, 6, and 7 in pixelBuffer
-        r = pixelBuffer[i2 + 0];
-        g = pixelBuffer[i2 + 1];
-        b = pixelBuffer[i2 + 2];
-        a = pixelBuffer[i2 + 3];
+    /*
+        let i1;
+        let i2;
+        for (x = 0; x < size.width; ++x) {
+          i1 = x * size.width;
+          for (y = 0; y < size.height; ++y) {
+            i2 = i1 + y;
+            i2 *= 4; // Multiply the final value by 4 b/c ∃ 4 values per pixel RGBA
 
-        if (a > 0) {
-          console.log(i2, r, g, b, a);
-          console.count("Colored pixels count:");
+            // Pixel index 1 actually covers indices 4, 5, 6, and 7 in pixelBuffer
+            r = pixelBuffer[i2 + 0];
+            g = pixelBuffer[i2 + 1];
+            b = pixelBuffer[i2 + 2];
+            a = pixelBuffer[i2 + 3];
+
+            if (a > 0) {
+              console.log(i2, r, g, b, a);
+              console.count("Colored pixels count:");
+            }
+          }
         }
-      }
-    }
+    */
   }
 
-  document.getElementById("test").addEventListener("click", testPixelBuffer);
+  // document.getElementById("test").addEventListener("click", testPixelBuffer);
+  document.getElementById("view").addEventListener("mousedown", onDocumentMouseDown, false);
+
+  function onDocumentMouseDown(event) {
+    clickCount++;
+    realClickedCanvasX = event.offsetX;
+    realClickedCanvasY = event.offsetY;
+    console.log(
+      `You have clicked on: ${realClickedCanvasY} , ${realClickedCanvasY} it is the click number: ${clickCount}`
+    );
+    testPixelBuffer();
+  }
 
   let renderer = new THREE.WebGLRenderer({
-    canvas: document.getElementById('view'),
+    canvas: document.getElementById("view"),
     antialias: true,
     alpha: true
   });
@@ -71,7 +97,7 @@
   scene.add(camera);
 
   let controls = new THREE.TrackballControls(camera, renderer.domElement);
-  controls.addEventListener('change', render);
+  controls.addEventListener("change", render);
 
   /**********************/
   /* Populate the Scene */
@@ -80,7 +106,7 @@
   let geo = new THREE.BoxBufferGeometry(5, 5, 5);
 
   let mat = new THREE.MeshPhongMaterial({
-    color: 'red'
+    color: "red"
   });
 
   let mesh = new THREE.Mesh(geo, mat);
