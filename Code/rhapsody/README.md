@@ -8,15 +8,13 @@ Rendering the texture to a <span style="color:red"> RenderTexture</span> and the
 
 ### [WebGL RenderTarget](https://threejs.org/docs/#api/en/renderers/WebGLRenderTarget) 🎯
 
-A render target in three.js is basicaly a texture you can render to.
+A render target in three.js is basically a texture you can render to.
 
 After you render to it, you can use that texture like any other texture.
 
 <!--A render target is a buffer where the video card draws pixels for a scene that is being rendered in the background.
 
 It is used in different effects, such as applying **postprocessing** to a rendered image before displaying it on the screen.-->
-
-https://r105.threejsfundamentals.org/threejs/lessons/threejs-rendertargets.html
 
 https://stackoverflow.com/questions/43583012/getting-the-color-value-of-a-pixel-on-click-of-a-mesh-with-three-js
 
