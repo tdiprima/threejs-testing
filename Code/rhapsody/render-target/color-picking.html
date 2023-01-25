@@ -87,7 +87,7 @@
 
   let rayCaster = new THREE.Raycaster();
 
-  // We have an extra camera that the example doesn't have.
+  // webgl_read_float_buffer doesn't have this extra camera, but webgl_rtt does.
   let camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 10000);
   camera.position.copy(new THREE.Vector3(100, 100, 100));
   camera.lookAt(new THREE.Vector3(0, 0, 0));
