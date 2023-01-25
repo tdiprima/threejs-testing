@@ -44,41 +44,36 @@
   let width = window.innerWidth;
   let height = window.innerHeight;
 
-  // Initialize renderer
-  const renderer = new THREE.WebGLRenderer();
-  renderer.setSize(width, height);
-  renderer.autoClear = false; // clear
-  document.body.appendChild(renderer.domElement);
+  let cameraRTT, sceneRTT, sceneScreen, renderer;
 
-  // Scene / Raycaster / Camera / Controls
-  const scene = new THREE.Scene();
-
-  const cameraRTT = new THREE.OrthographicCamera(
-    window.innerWidth / -2,
-    window.innerWidth / 2,
-    window.innerHeight / 2,
-    window.innerHeight / -2,
-    -10000,
-    10000
+  let rtTexture, material, quad;
+  cameraRTT = new THREE.OrthographicCamera(
+    window.innerWidth / -2,  // left
+    window.innerWidth / 2,   // right
+    window.innerHeight / 2,  // top
+    window.innerHeight / -2, // bottom
+    -10000,                  // near
+    10000                    // far
   );
   cameraRTT.position.z = 100;
 
-  const sceneScreen = new THREE.Scene();
+  sceneRTT = new THREE.Scene();
+  sceneScreen = new THREE.Scene();
 
-  const renderTargetTexture = new THREE.WebGLRenderTarget(
-    window.innerWidth, // width
-    window.innerHeight, // height
+  rtTexture = new THREE.WebGLRenderTarget(
+    window.innerWidth,                // width
+    window.innerHeight,               // height
     {
-      minFilter: THREE.LinearFilter, // takes the four closest pixels
+      minFilter: THREE.LinearFilter,  // takes the four closest pixels
       magFilter: THREE.NearestFilter, // uses the value of the closest pixel
-      format: THREE.RGBAFormat, // reads the red, green, blue and alpha
+      format: THREE.RGBAFormat,       // reads the red, green, blue and alpha
       type: THREE.FloatType
-    } // options
+    }                                 // options
   );
 
   // It's using a custom shader to sample the texture at point of intersection.
   const materialScreen = new THREE.ShaderMaterial({
-    uniforms: { tDiffuse: { value: renderTargetTexture.texture } },
+    uniforms: { tDiffuse: { value: rtTexture.texture } },
     vertexShader: document.getElementById("vertexShader").textContent,
     fragmentShader: document.getElementById("fragment_shader_screen").textContent,
     depthWrite: false
@@ -86,28 +81,35 @@
 
   const plane = new THREE.PlaneGeometry(window.innerWidth, window.innerHeight);
 
-  const quad = new THREE.Mesh(plane, materialScreen);
+  quad = new THREE.Mesh(plane, materialScreen);
   quad.position.z = -100;
   sceneScreen.add(quad);
 
-  // ( origin, direction, near = 0, far = Infinity )
-  const rayCaster = new THREE.Raycaster(undefined, undefined, 0, undefined);
+  let rayCaster = new THREE.Raycaster();
 
-  const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 10000);
+  // We have an extra camera that the example doesn't have.
+  let camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 10000);
   camera.position.copy(new THREE.Vector3(100, 100, 100));
   camera.lookAt(new THREE.Vector3(0, 0, 0));
-  scene.add(camera);
+  sceneRTT.add(camera);
 
-  const controls = new OrbitControls(camera, renderer.domElement);
+  renderer = new THREE.WebGLRenderer();
+  // Do NOT setPixelRatio()
+  renderer.setSize(width, height);
+  renderer.autoClear = false; // clear
+
+  document.body.appendChild(renderer.domElement);
+
+  let controls = new OrbitControls(camera, renderer.domElement);
 
   // Global variables
-  const mouse = new THREE.Vector2();
+  let mouse = new THREE.Vector2();
   let planeMesh;
   let textureData;
 
-  const imgPath = "https://cdn.pixabay.com/photo/2022/05/23/13/16/bird-7216181_1280.jpg";
+  let imgPath = "https://cdn.pixabay.com/photo/2022/05/23/13/16/bird-7216181_1280.jpg";
 
-  // Load texture and initialize planeMesh, textureData and renderTargetTexture
+  // Load texture and initialize planeMesh, textureData and rtTexture
   new THREE.TextureLoader().load(imgPath, texture => {
     textureData = texture;
 
@@ -116,7 +118,7 @@
       new THREE.MeshBasicMaterial({ map: texture })
     );
 
-    scene.add(planeMesh);
+    sceneRTT.add(planeMesh);
   });
 
   resize();
@@ -130,7 +132,7 @@
 
   function animate() {
     renderer.clear(); // clear
-    renderer.render(scene, camera);
+    renderer.render(sceneRTT, camera);
     requestAnimationFrame(animate);
     controls.update();
   }
@@ -141,15 +143,15 @@
   // POINTER UP
   window.addEventListener("pointerup", event => {
     // To calculate pages scrolling coordinates:
-    const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    let scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
     mouse.x = ((event.clientX - renderer.domElement.offsetLeft + scrollLeft) / renderer.domElement.width) * 2 - 1;
     mouse.y = -((event.clientY - renderer.domElement.offsetTop + scrollTop) / renderer.domElement.height) * 2 + 1;
 
     rayCaster.setFromCamera(mouse, camera);
 
-    const intersections = rayCaster.intersectObject(planeMesh);
+    let intersections = rayCaster.intersectObject(planeMesh);
 
     // Raycast to get U,V coordinates at point of intersection
     if (intersections.length > 0) {
@@ -159,12 +161,12 @@
 
       renderer.clear(); // clear
 
-      // Load Texture into buffer
-      renderer.setRenderTarget(renderTargetTexture);
+      // Render first scene into texture
+      renderer.setRenderTarget(rtTexture);
       renderer.clear();
-      renderer.render(scene, camera); // See webgl_rtt.html, line 251.
+      renderer.render(sceneRTT, camera);
 
-      // Huh?
+      // Render full screen quad with generated texture
       renderer.setRenderTarget(null);
       renderer.render(sceneScreen, cameraRTT);
 
@@ -172,7 +174,7 @@
 
       // Read target pixels from target Texture
       renderer.readRenderTargetPixels(
-        renderTargetTexture, // render target
+        rtTexture, // render target
         mouse.x, // x
         mouse.y, // y
         1, // width
@@ -180,9 +182,9 @@
         read // buffer (output that 1px color to "read")
       );
 
-      const r = parseInt(read[0] * 255);
-      const g = parseInt(read[1] * 255);
-      const b = parseInt(read[2] * 255);
+      let r = parseInt(read[0] * 255);
+      let g = parseInt(read[1] * 255);
+      let b = parseInt(read[2] * 255);
 
       console.log(`X:${mouse.x} Y:${mouse.y} RGB: [${r},${g},${b}] Color: %c     `, `background:rgb(${r},${g},${b});`);
     }
