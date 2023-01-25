@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Document</title>
+  <!-- https://r105.threejsfundamentals.org/threejs/lessons/threejs-rendertargets.html -->
+  <style>
+    body {
+      margin: 0;
+    }
+
+    #c {
+      display: block;
+      width: 100vw;
+      height: 100vh;
+    }
+  </style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<script src="https://r105.threejsfundamentals.org/threejs/resources/threejs/r105/three.min.js"></script>
+<script>
+  // Global variables
+  const canvas = document.querySelector("#c");
+  const renderer = new THREE.WebGLRenderer({ canvas });
+  const geometry = new THREE.BoxGeometry(1, 1, 1);
+  let rotateRt = false;
+  let rotateCubes = false;
+
+  // Rendering to a render target is almost exactly the same as normal rendering.
+  // First, we create a WebGLRenderTarget.
+  const rtWidth = 512;
+  const rtHeight = 512;
+  const renderTarget = new THREE.WebGLRenderTarget(rtWidth, rtHeight);
+
+  // Then we need a Scene and a Camera
+  const rtScene = new THREE.Scene();
+  rtScene.background = new THREE.Color("red");
+
+  // Notice we set the aspect to the aspect for the render target; not the canvas.
+  const rtCamera = new THREE.PerspectiveCamera(
+    75,
+    rtWidth / rtHeight,
+    0.1,
+    5
+  );
+  rtCamera.position.z = 2;
+
+  // We fill the scene with stuff; a light and 3 cubes.
+  {
+    const color = 0xffffff;
+    const intensity = 1;
+    const light = new THREE.DirectionalLight(color, intensity);
+    light.position.set(-1, 2, 4);
+    rtScene.add(light);
+  }
+
+  /**
+   * Cube factory
+   */
+  function makeInstance(geometry, color, x) {
+    const material = new THREE.MeshPhongMaterial({ color });
+
+    const cube = new THREE.Mesh(geometry, material);
+    cube.position.x = x;
+    rtScene.add(cube);
+
+    return cube;
+  }
+
+  const rtCubes = [
+    makeInstance(geometry, 0x44aa88, 0),
+    makeInstance(geometry, 0x8844aa, -2),
+    makeInstance(geometry, 0xaa8844, 2)
+  ];
+
+  // We make a mesh phong material, and we map it to the render target's texture.
+  const material = new THREE.MeshPhongMaterial({
+    map: renderTarget.texture
+  });
+  // Then, we make a cube out of it.
+  const cube = new THREE.Mesh(geometry, material);
+
+  // Make scene & camera for cube
+  const camera = new THREE.PerspectiveCamera(75, 2, 0.1, 5);
+  camera.position.z = 2;
+
+  const scene = new THREE.Scene();
+
+  scene.add(cube); // Now that we have the scene, add the cube.
+
+  {
+    // We need a light for the cube.
+    const color = 0xffffff;
+    const intensity = 1;
+    const light = new THREE.DirectionalLight(color, intensity);
+    light.position.set(-1, 2, 4);
+    scene.add(light);
+  }
+
+  /**
+   * 'scuse me... housekeeping stuff...
+   */
+  function resizeRendererToDisplaySize(renderer) {
+    // Make smoooooth...
+    const canvas = renderer.domElement;
+    const width = canvas.clientWidth;
+    const height = canvas.clientHeight;
+    const needResize = canvas.width !== width || canvas.height !== height;
+    if (needResize) {
+      renderer.setSize(width, height, false);
+    }
+    return needResize;
+  }
+
+  /**
+   * Render time!
+   * 1) Display the 3 cubes on the big cube.
+   * 2) Display the big cube.
+   */
+  function render(time) {
+    time *= 0.001;
+
+    // Don't mind me, carry on...
+    if (resizeRendererToDisplaySize(renderer)) {
+      const canvas = renderer.domElement;
+      camera.aspect = canvas.clientWidth / canvas.clientHeight;
+      camera.updateProjectionMatrix();
+    }
+
+    // Rotate all the cubes in the render target scene
+    if (rotateCubes) {
+      rtCubes.forEach((cube, ndx) => {
+        const speed = 1 + ndx * 0.1;
+        const rot = time * speed;
+        cube.rotation.x = rot;
+        cube.rotation.y = rot;
+      });
+    }
+
+    // Draw render target scene to render target
+    renderer.setRenderTarget(renderTarget);
+    renderer.render(rtScene, rtCamera);
+    renderer.setRenderTarget(null);
+
+    // Rotate the cube in the scene
+    if (rotateRt) {
+      cube.rotation.x = time;
+      cube.rotation.y = time * 1.1;
+    }
+
+    // Render the scene to the canvas
+    renderer.render(scene, camera);
+
+    requestAnimationFrame(render);
+  }
+
+  requestAnimationFrame(render);
+</script>
+</body>
+</html>

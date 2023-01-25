@@ -1,16 +1,20 @@
 # Todo:
 
-Rendering the texture to a RenderTexture and then calling renderer.readRenderTargetPixels to get pixel data.
+Rendering the texture to a <span style="color:red"> RenderTexture</span> and then calling <span style="color:blue"> renderer.readRenderTargetPixels</span> to get pixel data.
 
-### [WebGL RenderTarget](https://threejs.org/docs/#api/en/renderers/WebGLRenderTarget)
+### [WebGL RenderTexture Demo](https://threejs.org/examples/webgl_rtt.html) <span style="color:red">&lt;&mdash; RenderTexture</span> 🌾
 
-A render target is a buffer where the video card draws pixels for a scene that is being rendered in the background.
+### [readRenderTargetPixels](https://threejs.org/docs/#api/en/renderers/WebGLRenderer.readRenderTargetPixels) <span style="color:blue">&lt;&mdash; renderer.readRenderTargetPixels</span> 🎯
 
-It is used in different effects, such as applying **postprocessing** to a rendered image before displaying it on the screen.
+### [WebGL RenderTarget](https://threejs.org/docs/#api/en/renderers/WebGLRenderTarget) 🎯
 
-### [WebGL RenderTexture Demo](https://threejs.org/examples/webgl_rtt.html)
+A render target in three.js is basicaly a texture you can render to.
 
-### [read Render Target Pixels](https://threejs.org/docs/#api/en/renderers/WebGLRenderer.readRenderTargetPixels)
+After you render to it, you can use that texture like any other texture.
+
+<!--A render target is a buffer where the video card draws pixels for a scene that is being rendered in the background.
+
+It is used in different effects, such as applying **postprocessing** to a rendered image before displaying it on the screen.-->
 
 https://r105.threejsfundamentals.org/threejs/lessons/threejs-rendertargets.html
 
