@@ -1,34 +1,3 @@
-# What is UV in raycast three.js
-
-**uv** &ndash; U,V coordinates at point of intersection
-
-Simple.
-
-[According to this](https://stackoverflow.com/questions/49426805/where-is-the-documentation-for-uv-and-other-webgl-variables), since the vertex shader is used to create a THREE.ShaderMaterial, uv is provided as a default attribute by three.js.
-
-**So I did this** (right in webgl\_geometry\_cube.html):
-
-```js
-const shaderMaterial = new THREE.ShaderMaterial();
-console.log("shaderMaterial", shaderMaterial.defaultAttributeValues);
-```
-
-And behold:
-
-```json
-{
-  "color": [1, 1, 1],
-  "uv": [0, 0],
-  "uv2": [0, 0]
-}
-```
-
-[Shader Material](https://threejs.org/docs/index.html#api/en/materials/ShaderMaterial) (go look at "Built-in attributes and uniforms" and "Custom attributes and uniforms").
-
-And there's [WebGLProgram docs](https://threejs.org/docs/#api/en/renderers/webgl/WebGLProgram).
-
-<br>
-
 # explain three.js "webgl_rtt." html
 
 <!-- He's doing what I wanna do https://stackoverflow.com/questions/21533757/three-js-use-framebuffer-as-texture
