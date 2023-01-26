@@ -1,20 +1,66 @@
-# Geometry parameters
+# Random
 
 ```js
-// "Cube" or "Frinkahedron", named after its discoverer. ;)
-const geometry = new THREE.BoxGeometry(
-  1, // width
-  1, // height
-  1 // Depth; that is, the length of the edges parallel to the Z axis.
-);
+scene.background = new THREE.Color("#1f4277"); // Space Blue
+scene.background = new THREE.Color("#182141"); // Blue Zodiac
 
-const geometry2 = new THREE.CircleGeometry(
-  1, // Radius of the circle
-  100 // Number of segments
-);
+controls.enableDamping = true; // Simon's Cat
+
+// OBJECT DESTRUCTURING SYNTAX
+let { geometry, material } = flatEarth();
+
+// Object.assign() is used for cloning an object,
+// or to merge object with same properties.
+returnedTarget = Object.assign(target, source);
 ```
 
 <br>
+
+# Data to canvas
+
+https://threejs.org/manual/#en/optimize-lots-of-objects
+
+```js
+/**
+ * Load the text file
+ * Returns a Promise with the contents of the file at url
+ * @param url
+ * @return {Promise<string>}
+ */
+async function loadFile(url) {
+  const res = await fetch(url);
+  return res.text();
+}
+
+// truncated
+function parseData(text) {
+  // split into lines
+  text.split('\n').forEach((line) => {
+      // split the line by whitespace
+      const parts = line.trim().split(/\s+/);
+      if (parts.length === 2) {
+        // only 2 parts, must be a key/value pair
+        settings[parts[0]] = parseFloat(parts[1]);
+      } else if (parts.length > 2) {
+        // more than 2 parts, must be data
+        const values = parts.map((v) => {
+          const value = parseFloat(v);
+          return value;
+        });
+        data.push(values);
+      }
+    }
+  }
+}
+
+loadFile(url)
+  .then(parseData)
+  .then(drawData);
+```
+
+<br>
+
+# Geometry parameters
 
 ```js
 // Illustrating what's going on when we set attribute "color".
