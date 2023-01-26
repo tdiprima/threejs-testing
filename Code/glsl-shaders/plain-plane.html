@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>A plain PlaneGeometry</title>
+  <!-- https://youtu.be/xZM8UJqN1eY -->
+  <style>
+    body {
+      margin: 0
+    }
+  </style>
+</head>
+<body>
+<script id="vertexShader" type="x-shader/x-vertex">
+  void main() {
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    // gl_Position = projectionMatrix * modelViewMatrix * vec4(sin(position), 1.0);
+    // gl_Position = projectionMatrix * modelViewMatrix * vec4(tan(position), 1.0);
+  }
+</script>
+<script id="fragmentShader" type="x-shader/x-fragment">
+  void main() {
+    gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+  }
+</script>
+<script async src="/es-module-shims-1.3.6/dist/es-module-shims.js"></script>
+<script type="importmap">
+  {
+    "imports": {
+      "three": "/build/three.module.js"
+    }
+  }
+</script>
+<script type="module">
+  import * as THREE from "/build/three.module.js";
+  import {OrbitControls} from "/jsm/controls/OrbitControls.js";
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
+
+  // Sets the color of the background
+  renderer.setClearColor("#1f4277");
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+  // Sets orbit control to move the camera around
+  const orbit = new OrbitControls(camera, renderer.domElement);
+
+  // Camera positioning
+  camera.position.set(0, 0, 12);
+  orbit.update();
+
+  const geometry = new THREE.PlaneGeometry(10, 10, 30, 30);
+
+  const material = new THREE.ShaderMaterial({
+    vertexShader: document.getElementById("vertexShader").textContent,
+    fragmentShader: document.getElementById("fragmentShader").textContent,
+    wireframe: true
+  });
+
+  const mesh = new THREE.Mesh(geometry, material);
+  scene.add(mesh);
+
+  function animate() {
+    renderer.render(scene, camera);
+  }
+
+  renderer.setAnimationLoop(animate);
+
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+</script>
+</body>
+</html>
