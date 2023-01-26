@@ -175,7 +175,7 @@ function main() {
       // 0 = exactly on tangent of the sphere from the camera
       // < 0 = facing away
       const dot = tempV.dot(cameraToPoint);
-      testDot(dot);
+      // testDot(dot);
 
       // if the orientation is not facing us hide it.
       if (dot > settings.maxVisibleDot) {
