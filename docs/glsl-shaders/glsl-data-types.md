@@ -13,14 +13,14 @@ The following **simple data types** are available in GLSL:
 These all behave like regular C types, apart from bool.
 
 > Not sure about this section:
-
+>
 > **Vectors** with 2,3 or 4 components are also available for each of the simple data types mentioned above. These are declared as:
-
+>
 > * vec{2,3,4} a vector of 2, 3, or 4, floats
-* dvec{2,3,4} vector of doubles
-* bvec{2,3,4} bool vector
-* ivec{2,3,4} vector of integers
-* uvec{2,3,4} vector of unsigned integers
+> * dvec{2,3,4} vector of doubles
+> * bvec{2,3,4} bool vector
+> * ivec{2,3,4} vector of integers
+> * uvec{2,3,4} vector of unsigned integers
 
 **Square matrices** 2×2, 3×3 and 4×4 are provided, for floats and doubles, since they are heavily used in graphics. The respective data types are:
 
@@ -28,10 +28,10 @@ These all behave like regular C types, apart from bool.
 * mat3, dmat3
 * mat4, dmat4
 
-There are also **non-square matrices**, also for float and doubles which have the generic form:
-
-* mat{2,3,4}x{2,3,4}
-* dmat{2,3,4}x{2,3,4}
+> There are also **non-square matrices**, also for float and doubles which have the generic form:
+> 
+> * mat{2,3,4}x{2,3,4}
+> * dmat{2,3,4}x{2,3,4}
 
 If columns and rows (first and second number respectively), are equal, then these are equivalent to the previous definition of square matrices.
 
@@ -86,7 +86,7 @@ GLSL is pretty **flexible** when initializing variables using other variables. A
 vec2 a = vec2(1.0, 2.0);
 vec2 b = vec2(3.0, 4.0);
 
-vec4 c = vec4(a, b); // c = vec4(1.0,2.0,3.0,4.0);
+vec4 c = vec4(a, b); // c = vec4(1.0, 2.0, 3.0, 4.0);
 
 vec2 g = vec2(1.0, 2.0);
 
