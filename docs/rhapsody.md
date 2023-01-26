@@ -1,11 +1,12 @@
+<!-- 
 # explain three.js "webgl_rtt." html
-
-<!-- He's doing what I wanna do https://stackoverflow.com/questions/21533757/three-js-use-framebuffer-as-texture
+He's doing what I wanna do https://stackoverflow.com/questions/21533757/three-js-use-framebuffer-as-texture
 -->
 
-
-
-<br>
+<!-- https://www.airtightinteractive.com/2013/02/intro-to-pixel-shaders-in-three-js/ -->
+<!-- http://www.lighthouse3d.com/tutorials/glsl-core-tutorial/glsl-core-tutorial-data-types/ -->
+<!-- OpenGL: Basic Coding -->
+<!-- https://community.khronos.org/t/transmit-image-data-to-shader-sampler2d/73869 -->
 
 # RenderTexture
 
