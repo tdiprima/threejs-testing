@@ -14,10 +14,15 @@
 </head>
 <body>
 <script id="vertexShader" type="x-shader/x-vertex">
+  uniform float u_time;
   void main() {
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    // gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
     // gl_Position = projectionMatrix * modelViewMatrix * vec4(sin(position), 1.0);
     // gl_Position = projectionMatrix * modelViewMatrix * vec4(tan(position), 1.0);
+
+    float newX = sin(position.x * u_time) * sin(position.y * u_time);
+    vec3 newPosition = vec3(newX, position.y, position.z);
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
   }
 </script>
 <script id="fragmentShader" type="x-shader/x-fragment">
@@ -54,18 +59,25 @@
   camera.position.set(0, 0, 12);
   orbit.update();
 
+  const uniforms = {
+    u_time: {type: "f", value: 0.0}
+  }
+
   const geometry = new THREE.PlaneGeometry(10, 10, 30, 30);
 
   const material = new THREE.ShaderMaterial({
     vertexShader: document.getElementById("vertexShader").textContent,
     fragmentShader: document.getElementById("fragmentShader").textContent,
-    wireframe: true
+    wireframe: true,
+    uniforms
   });
 
   const mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
 
+  const clock = new THREE.Clock();
   function animate() {
+    uniforms.u_time.value = clock.getElapsedTime();
     renderer.render(scene, camera);
   }
 
