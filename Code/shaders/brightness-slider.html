@@ -25,13 +25,12 @@
     a {
       color: #ddd;
     }
-
   </style>
 </head>
 <body>
 
-<div id="info">Simple three.js brightness shader. <a href="http://www.airtightinteractive.com/?p=1306">View Blog
-  Post</a>.
+<div id="info">Simple three.js brightness shader.
+  <a href="http://www.airtightinteractive.com/?p=1306">View Blog Post</a>.
 </div>
 <div id="container"></div>
 
@@ -67,7 +66,7 @@
     scene = new THREE.Scene();
 
     // Create an image texture
-    let imgTexture = THREE.ImageUtils.loadTexture("../img/sky.jpeg");
+    let imgTexture = THREE.ImageUtils.loadTexture("img/sky.jpeg");
     let imgMaterial = new THREE.MeshBasicMaterial({
       map: imgTexture
     });
@@ -102,14 +101,18 @@
     document.body.appendChild(renderer.domElement);
 
     // POST PROCESSING
+
     // Create Effects Composer
     composer = new THREE.EffectComposer(renderer);
+
     // Create Shader Passes
     let renderPass = new THREE.RenderPass(scene, camera);
     testPass = new THREE.ShaderPass(THREE.TestShader);
+
     // Add Shader Passes to Composer - order is important
     composer.addPass(renderPass);
     composer.addPass(testPass);
+
     // set last pass in composer chain to renderToScreen
     testPass.renderToScreen = true;
 
@@ -119,10 +122,7 @@
     };
 
     let gui = new dat.GUI();
-    gui
-      .add(testParams, "amount", 0, 4)
-      .step(0.1)
-      .onChange(onParamsChange);
+    gui.add(testParams, "amount", 0, 4).step(0.1).onChange(onParamsChange);
     onParamsChange();
   }
 

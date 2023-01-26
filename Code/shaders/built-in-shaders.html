@@ -67,12 +67,9 @@
   // Preview three.js shaders
   // Using Three.js r.55
   // by Felix Turner - www.airtight.cc
-  let camera,
-    scene,
-    renderer;
+  let camera, scene, renderer, geometry;
   let composer;
   let cube;
-  let geometry;
 
   // Global variables
   let renderPass;
@@ -212,40 +209,23 @@
     };
 
     let gui = new dat.GUI();
-    gui.add(shaderParams, "bleach")
-      .onChange(onToggleShaders);
-    gui.add(shaderParams, "bloom")
-      .onChange(onToggleShaders);
-    gui.add(shaderParams, "brightnessContrast")
-      .onChange(onToggleShaders);
-    gui.add(shaderParams, "colorCorrection")
-      .onChange(onToggleShaders);
-    gui.add(shaderParams, "colorify")
-      .onChange(onToggleShaders);
-    gui.add(shaderParams, "dotScreen")
-      .onChange(onToggleShaders);
-    gui.add(shaderParams, "film")
-      .onChange(onToggleShaders);
-    gui.add(shaderParams, "focus")
-      .onChange(onToggleShaders);
-    gui.add(shaderParams, "horizontalBlur")
-      .onChange(onToggleShaders);
-    gui.add(shaderParams, "hueSaturation")
-      .onChange(onToggleShaders);
-    gui.add(shaderParams, "kaleido")
-      .onChange(onToggleShaders);
-    gui.add(shaderParams, "luminosity")
-      .onChange(onToggleShaders);
-    gui.add(shaderParams, "mirror")
-      .onChange(onToggleShaders);
-    gui.add(shaderParams, "RGBShift")
-      .onChange(onToggleShaders);
-    gui.add(shaderParams, "sepia")
-      .onChange(onToggleShaders);
-    gui.add(shaderParams, "verticalBlur")
-      .onChange(onToggleShaders);
-    gui.add(shaderParams, "vignette")
-      .onChange(onToggleShaders);
+    gui.add(shaderParams, "bleach").onChange(onToggleShaders);
+    gui.add(shaderParams, "bloom").onChange(onToggleShaders);
+    gui.add(shaderParams, "brightnessContrast").onChange(onToggleShaders);
+    gui.add(shaderParams, "colorCorrection").onChange(onToggleShaders);
+    gui.add(shaderParams, "colorify").onChange(onToggleShaders);
+    gui.add(shaderParams, "dotScreen").onChange(onToggleShaders);
+    gui.add(shaderParams, "film").onChange(onToggleShaders);
+    gui.add(shaderParams, "focus").onChange(onToggleShaders);
+    gui.add(shaderParams, "horizontalBlur").onChange(onToggleShaders);
+    gui.add(shaderParams, "hueSaturation").onChange(onToggleShaders);
+    gui.add(shaderParams, "kaleido").onChange(onToggleShaders);
+    gui.add(shaderParams, "luminosity").onChange(onToggleShaders);
+    gui.add(shaderParams, "mirror").onChange(onToggleShaders);
+    gui.add(shaderParams, "RGBShift").onChange(onToggleShaders);
+    gui.add(shaderParams, "sepia").onChange(onToggleShaders);
+    gui.add(shaderParams, "verticalBlur").onChange(onToggleShaders);
+    gui.add(shaderParams, "vignette").onChange(onToggleShaders);
     onToggleShaders();
   }
 
@@ -253,62 +233,78 @@
     composer = new THREE.EffectComposer(renderer);
 
     // Add Shader Passes to Composer
-
     composer.addPass(renderPass);
 
     if (shaderParams.bleach) {
       composer.addPass(bleachPass);
     }
+
     if (shaderParams.bloom) {
       composer.addPass(bloomPass);
     }
+
     if (shaderParams.brightnessContrast) {
       composer.addPass(brightnessContrastPass);
     }
+
     if (shaderParams.colorCorrection) {
       composer.addPass(colorCorrectionPass);
     }
+
     if (shaderParams.colorify) {
       composer.addPass(colorifyPass);
     }
+
     if (shaderParams.dotScreen) {
       composer.addPass(dotScreenPass);
     }
+
     if (shaderParams.film) {
       composer.addPass(filmPass);
     }
+
     if (shaderParams.focus) {
       composer.addPass(focusPass);
     }
+
     if (shaderParams.horizontalBlur) {
       composer.addPass(horizontalBlurPass);
     }
+
     if (shaderParams.hueSaturation) {
       composer.addPass(hueSaturationPass);
     }
+
     if (shaderParams.kaleido) {
       composer.addPass(kaleidoPass);
     }
+
     if (shaderParams.luminosity) {
       composer.addPass(luminosityPass);
     }
+
     if (shaderParams.mirror) {
       composer.addPass(mirrorPass);
     }
+
     if (shaderParams.RGBShift) {
       composer.addPass(RGBShiftPass);
     }
+
     if (shaderParams.sepia) {
       composer.addPass(sepiaPass);
     }
+
     if (shaderParams.verticalBlur) {
       composer.addPass(verticalBlurPass);
     }
+
     if (shaderParams.vignette) {
       composer.addPass(vignettePass);
     }
 
     composer.addPass(copyPass);
+
     // set last pass in composer chain to renderToScreen
     copyPass.renderToScreen = true;
   }
