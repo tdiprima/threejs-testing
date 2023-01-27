@@ -4,6 +4,10 @@
 
 [The Book of Shaders](https://thebookofshaders.com/)
 
+[As mentioned](threejs-post-processing.html) about all the details of how to write GLSL and custom shaders is too much for these articles. If you really want to know how WebGL itself works then check out [these articles](https://webglfundamentals.org/). Another great resource is just to [read through the existing post processing shaders in the THREE.js repo](https://github.com/mrdoob/three.js/tree/master/examples/js/shaders). Some are more complicated than others but if you start with the smaller ones you can hopefully get an idea of how they work.
+
+Most of the post processing effects in the THREE.js repo are unfortunately undocumented so to use them you'll have to [read through the examples](https://github.com/mrdoob/three.js/tree/master/examples) or [the code for the effects themselves](https://web.archive.org/web/20220929122146/https://github.com/mrdoob/three.js/tree/master/examples/js/postprocessing). Hopefully these simple example and the article on [render targets](https://r105.threejsfundamentals.org/threejs/lessons/threejs-rendertargets.html) provide enough context to get started.
+
 **Shaders** run in parallel.
 
 Instead of looping sequentially through each pixel one-by-one, shaders are applied to each pixel ***simultaneously***, thus taking advantage of the parallel architecture of the GPU.
