@@ -1,3 +1,5 @@
+# Three.js Post Processing
+
 [GLSL (Graphics Library Shading Language)](https://www.khronos.org/files/opengles_shading_language.pdf)
 
 [this article](https://webglfundamentals.org/webgl/lessons/webgl-shaders-and-glsl.html)
@@ -7,6 +9,11 @@
 [As mentioned](threejs-post-processing.html) about all the details of how to write GLSL and custom shaders is too much for these articles. If you really want to know how WebGL itself works then check out [these articles](https://webglfundamentals.org/). Another great resource is just to [read through the existing post processing shaders in the THREE.js repo](https://github.com/mrdoob/three.js/tree/master/examples/js/shaders). Some are more complicated than others but if you start with the smaller ones you can hopefully get an idea of how they work.
 
 Most of the post processing effects in the THREE.js repo are unfortunately undocumented so to use them you'll have to [read through the examples](https://github.com/mrdoob/three.js/tree/master/examples) or [the code for the effects themselves](https://web.archive.org/web/20220929122146/https://github.com/mrdoob/three.js/tree/master/examples/js/postprocessing). Hopefully these simple example and the article on [render targets](https://r105.threejsfundamentals.org/threejs/lessons/threejs-rendertargets.html) provide enough context to get started.
+
+# UV mapping
+UV mapping is the 3D modeling process of projecting a 3D model's surface to a 2D image for texture mapping. The letters "U" and "V" denote the axes of the 2D texture because "X", "Y", and "Z" are already used to denote the axes of the 3D object in model space, while "W" (in addition to XYZ) is used in calculating quaternion rotations, a common operation in computer graphics.
+
+# Shaders
 
 **Shaders** run in parallel.
 
