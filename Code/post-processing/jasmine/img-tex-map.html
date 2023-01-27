@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Gradient</title>
+  <title>Image Texture Mapping</title>
+  <!-- Images: ain't nothin' but a collection of colors -->
   <!-- https://youtu.be/xZM8UJqN1eY -->
   <style>
     body {
@@ -23,13 +24,19 @@
 <script id="fragmentShader" type="x-shader/x-fragment">
   uniform float u_time;
   uniform vec2 u_resolution;
+  uniform sampler2D image; // will use to colorize plane
   void main() {
-    // gl_FragColor = vec4(0.2, 0.5, 1.0, 1.0);
-    // gl_FragColor = vec4(0.2, sin(u_time), 1.0, 1.0);
-    // gl_FragColor = vec4(0.0, u_resolution.x, 0.0, 1.0);
-
     vec2 st = gl_FragCoord.xy / u_resolution;
-    gl_FragColor = vec4(0.0, st.x, st.y, 1.0);
+    // Need to convert it to a texture first
+    vec4 texture = texture2D(image, st); // image, location (st = entire scene)
+
+    // Colorize plane by taking the colors from the image
+    gl_FragColor = vec4(0.0, texture.g, 0.0, 1.0);
+
+    // Create an effect using time
+    // float effect = abs(sin(texture.x + u_time));
+    // gl_FragColor = vec4(texture.r, texture.r, texture.r, 1.0); // LOL I made it grayscale
+    // gl_FragColor = vec4(vec3(effect), 1.0);
   }
 </script>
 <script async src="/es-module-shims-1.3.6/dist/es-module-shims.js"></script>
@@ -58,12 +65,14 @@
   camera.position.set(0, 0, 12);
   orbit.update();
 
+  // ADD IMAGE UNIFORM
   const uniforms = {
     u_time: {type: "f", value: 0.0},
     u_resolution: {
       type: "v2",
       value: new THREE.Vector2(window.innerWidth, window.innerHeight)
-    }
+    },
+    image: {type: "t", value: new THREE.TextureLoader().load("../simondev-dog.jpg")}
   }
 
   const geometry = new THREE.PlaneGeometry(10, 10, 30, 30);

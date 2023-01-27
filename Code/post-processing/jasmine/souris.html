@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Gradient</title>
+  <title>Souris</title>
   <!-- https://youtu.be/xZM8UJqN1eY -->
   <style>
     body {
@@ -19,6 +19,7 @@
     gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
   }
 </script>
+<!-- todo: EXPERIMENT WITH FRAGMENT -->
 <script id="fragmentShader" type="x-shader/x-fragment">
   uniform float u_time;
   uniform vec2 u_resolution;
@@ -55,6 +56,7 @@
   camera.position.set(0, 0, 12);
   orbit.update();
 
+  // ADD MORE UNIFORMS
   const uniforms = {
     u_time: {type: "f", value: 0.0},
     u_resolution: {
@@ -64,6 +66,7 @@
     u_mouse: {type: "v2", value: new THREE.Vector2(0.0, 0.0)}
   }
 
+  // ADD A MOUSE LISTENER
   window.addEventListener("mousemove", function(evt) {
     uniforms.u_mouse.value.set(
       evt.screenX / window.innerWidth,
