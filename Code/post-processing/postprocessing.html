@@ -115,7 +115,7 @@
 
     // SHADERS
     function shaders() {
-      // Multiply the image by a color
+      // Multiply the image (the previous pass's result) by a color
       colorShader = {
         uniforms: {
           tDiffuse: { value: null },
