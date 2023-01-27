@@ -1,3 +1,9 @@
+[GLSL (Graphics Library Shading Language)](https://www.khronos.org/files/opengles_shading_language.pdf)
+
+[this article](https://webglfundamentals.org/webgl/lessons/webgl-shaders-and-glsl.html)
+
+[The Book of Shaders](https://thebookofshaders.com/)
+
 **Shaders** run in parallel.
 
 Instead of looping sequentially through each pixel one-by-one, shaders are applied to each pixel ***simultaneously***, thus taking advantage of the parallel architecture of the GPU.
