@@ -115,7 +115,7 @@
 
     // SHADERS
     function shaders() {
-      // Multiply the image (the previous pass's result) by a color
+      // A simple postprocessing effect that multiplies by a color
       colorShader = {
         uniforms: {
           // tDiffuse is the name that ShaderPass uses to pass in the previous pass's result texture
@@ -136,7 +136,9 @@
       uniform sampler2D tDiffuse; // T-DIFFUSE
       varying vec2 vUv;
       void main() {
+        // We get pixel color from the previous pass with this line
         vec4 previousPassColor = texture2D(tDiffuse, vUv);
+        // We multiply it by our color and set gl_FragColor to the result
         gl_FragColor = vec4(
             previousPassColor.rgb * color,
             previousPassColor.a);
