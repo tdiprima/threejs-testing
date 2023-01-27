@@ -41,7 +41,6 @@
 </script>
 <script type="module">
   import * as THREE from "/build/three.module.js";
-  import {OrbitControls} from "/jsm/controls/OrbitControls.js";
 
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
@@ -53,13 +52,9 @@
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-  // Sets orbit control to move the camera around
-  const orbit = new OrbitControls(camera, renderer.domElement);
-
   // Camera positioning
   camera.position.set(0, 0, 12);
-  orbit.update();
-
+  
   const uniforms = {
     u_time: {type: "f", value: 0.0}
   }

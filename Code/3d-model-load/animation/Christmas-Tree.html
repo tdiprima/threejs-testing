@@ -553,8 +553,7 @@
     scene.add(p);
   }
 
-  // Add an orbit control which allows us to move around the scene. See the three.js example for more details
-  // https://github.com/mrdoob/three.js/blob/dev/examples/js/controls/OrbitControls.
+  // Set orbit control to move the camera around
   let controls = new OrbitControls(camera, renderer.domElement);
   controls.target = new THREE.Vector3(0, 80, 0);
   controls.maxPolarAngle = Math.PI / 2;
