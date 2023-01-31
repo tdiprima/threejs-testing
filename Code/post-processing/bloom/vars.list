@@ -1,0 +1,10 @@
+bloomLayer = THREE.Layers 
+bloomPass = UnrealBloomPass
+bloomComposer = EffectComposer
+
+renderScene = RenderPass
+
+(plus regular scene)
+
+finalPass = ShaderPass
+finalComposer = EffectComposer
