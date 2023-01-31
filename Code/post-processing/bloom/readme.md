@@ -1,88 +1,146 @@
-`webgl_postprocessing_unreal_bloom_selective.html`
+At first, I found this example:
+[Three Effectcomposer Es6 Examples](https://codesandbox.io/examples/package/three-effectcomposer-es6) (bloom),
+only to discover that it's a copy of [webgl\_postprocessing\_unreal\_bloom\_selective.html](http://127.0.0.1:5501/examples/webgl_postprocessing_unreal_bloom_selective.html)
 
-https://codesandbox.io/examples/package/three-effectcomposer-es6
+**Important read:** [**Post Processing**](http://127.0.0.1:5501/manual/#en/post-processing)
 
-**Important read:**
-manual/en/post-processing.html
+# bloomLayer
 
-https://forum.unity.com/threads/what-is-a-shader-pass.381970/
+```js
+const bloomLayer = new THREE.Layers();
+bloomLayer.set(BLOOM_SCENE); // set channel
+
+if (bloomLayer.test(obj.layers) === false) {
+  //...
+}
+```
+
+# RenderPass
 
 **RenderPass** is normally placed at the beginning of the chain in order to
 provide the rendered scene as an input for the next post-processing step.
 
+```js
+const renderScene = new RenderPass(scene, camera);
+bloomComposer.addPass(renderScene);
+finalComposer.addPass(renderScene);
+```
+
+# ShaderPass
+
 **ShaderPass** for our custom post-processing shader
 
-**ShaderMaterial** is material rendered with custom shaders
+[**What is a "shader pass"?**](https://forum.unity.com/threads/what-is-a-shader-pass.381970/)
 
-https://doc.babylonjs.com/features/featuresDeepDive/postProcesses/renderTargetTextureMultiPass
+```js
+const finalPass = new ShaderPass(shader, textureID);
+finalPass.needsSwap = true;
+finalComposer.addPass(finalPass);
+```
+
+**needsSwap** means: Swap render targets A and B after finishing this pass.
 
 ```js
 finalPass.needsSwap = true;
 ```
 
-**needsSwap** means: Swap render targets A and B after finishing this pass.
+# ShaderMaterial
+
+**ShaderMaterial** is material rendered with custom shaders
+
+```js
+const material = new THREE.ShaderMaterial({
+  uniforms: {
+    time: {
+      value: 1.0
+    },
+    resolution: {
+      value: new THREE.Vector2()
+    }
+  },
+  vertexShader: document.getElementById('vertexShader').textContent,
+  fragmentShader: document.getElementById('fragmentShader').textContent
+});
+```
 
 **Vertex Shader**
 
 vertex information (aka a mesh)
-processed by vertex function
+
+processed by vertex function
 
 **Fragment Shader**
 
 think texture
 
-**I can haz template?**
+
+# What the heck is renderTarget2?
+
+[**Club Babylon, Render Target**](https://doc.babylonjs.com/features/featuresDeepDive/postProcesses/renderTargetTextureMultiPass)
 
 ```js
-// https://www.8thwall.com/playground/postprocessing-bloom
-const renderer = new WebGLRenderer({
-  canvas,
-  context: GLctx,
-  alpha: true,
-  antialias: true
-});
+uniforms: {
+  bloomTexture: {
+    value: bloomComposer.renderTarget2.texture
+  }
+}
+```
 
-renderer.debug.checkShaderErrors = false;
-renderer.autoClear = false;
-renderer.autoClearDepth = false;
-renderer.setClearColor(0xffffff, 0);
+# What is a Pass?
 
-sceneTarget = new WebGLRenderTarget(canvasWidth, canvasHeight, {
-  generateMipmaps: false
-});
+It's the actual thing that does what you want.
 
-// Bloom Composer
-const bloomComposer = new EffectComposer(renderer);
-bloomComposer.renderToScreen = false;
-
-// Copy scene into bloom
-copyPass = new TexturePass(sceneTarget.texture);
-bloomComposer.addPass(copyPass);
-
-// Bloom Pass
-bloomPass = new UnrealBloomPass(
-  new Vector2(canvasWidth, canvasHeight),
-  1.5,
-  0.4,
-  0.85
-);
-
-bloomPass.clearColor = new Color(0xffffff);
-
-bloomPass.threshold = params.bloomThreshold;
+```js
+const bloomPass = new UnrealBloomPass(resolution, strength, radius, threshold);
 bloomPass.strength = params.bloomStrength;
-bloomPass.radius = params.bloomRadius;
+// etc.
+bloomComposer.addPass(bloomPass);
+```
 
+# EffectComposer
+
+```js
+const bloomComposer = new EffectComposer(renderer);
+
+bloomComposer.addPass(renderScene);
 bloomComposer.addPass(bloomPass);
 
-// Final composer
-const composer = new EffectComposer(renderer);
-composer.addPass(copyPass);
+bloomComposer.renderToScreen = false;
+bloomComposer.renderToScreen = true;
 
-// Combine scene and camera feed pass
-combinePass = new ShaderPass(combineShader);
-combinePass.clear = false;
-combinePass.renderToScreen = true;
+bloomComposer.setSize(width, height);
 
-composer.addPass(combinePass);
+bloomComposer.render();
+```
+
+```js
+const finalComposer = new EffectComposer(renderer);
+
+finalComposer.addPass(renderScene);
+finalComposer.addPass(finalPass);
+
+finalComposer.setSize(width, height);
+
+finalComposer.render();
+```
+
+## And here we have the totality of the thing
+
+Basically, you need a Pass and a Composer.
+
+Both for "the thing you want", and the... let's call it a controller.  Or a conductor. Dispatcher, I don't know.
+
+# 🧑‍🏭 🧑‍🎤 👨‍🎨
+
+And you also need a RenderPass to represent the scene.
+
+```js
+bloomLayer = THREE.Layers 
+bloomPass = UnrealBloomPass
+bloomComposer = EffectComposer
+
+renderScene = RenderPass
+
+finalPass = ShaderPass
+finalComposer = EffectComposer
 ```

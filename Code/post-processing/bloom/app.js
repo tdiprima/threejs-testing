@@ -11,7 +11,7 @@ const BLOOM_SCENE = 1;
 
 // BLOOM LAYER
 const bloomLayer = new THREE.Layers();
-bloomLayer.set(BLOOM_SCENE);
+bloomLayer.set(BLOOM_SCENE); // set channel
 
 const params = {
   exposure: 1,
@@ -22,7 +22,6 @@ const params = {
 };
 
 const darkMaterial = new THREE.MeshBasicMaterial({ color: "black" });
-const materials = {};
 
 // RENDERER
 const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -152,6 +151,7 @@ folder
 
 setupScene();
 
+// MOUSE DOWN
 function onPointerDown(event) {
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
@@ -165,6 +165,7 @@ function onPointerDown(event) {
   }
 }
 
+// RESIZE
 window.onresize = function() {
   const width = window.innerWidth;
   const height = window.innerHeight;
@@ -180,6 +181,7 @@ window.onresize = function() {
   render();
 };
 
+// SET UP SCENE
 function setupScene() {
   scene.traverse(disposeMaterial);
   scene.children.length = 0;
@@ -208,12 +210,14 @@ function setupScene() {
   render();
 }
 
+// DISPOSE MATERIAL
 function disposeMaterial(obj) {
   if (obj.material) {
     obj.material.dispose();
   }
 }
 
+// RENDER
 function render() {
   switch (params.scene) {
     case "Scene only":
@@ -229,32 +233,49 @@ function render() {
 
       // render the entire scene, then render bloom scene on top
       finalComposer.render();
+
       break;
   }
 }
 
+// RENDER BLOOM
 function renderBloom(mask) {
   if (mask === true) {
+    // Render scene with bloom (glow)
     scene.traverse(darkenNonBloomed);
     bloomComposer.render();
-    scene.traverse(restoreMaterial); // original doesn't use this
+    scene.traverse(restoreMaterial);
   } else {
+    // Render glow only
     camera.layers.set(BLOOM_SCENE);
     bloomComposer.render();
     camera.layers.set(ENTIRE_SCENE);
   }
 }
 
+let materials = {}; // Save the altered materials
+
+// DARKEN NON-BLOOMED
 function darkenNonBloomed(obj) {
-  if (obj.isMesh && bloomLayer.test(obj.layers) === false) {
-    materials[obj.uuid] = obj.material;
-    obj.material = darkMaterial;
+  // obj could be one of the many meshes, or the scene
+  // We're only interested in the mesh
+  if (obj.isMesh) {
+    // obj.layers has a "mask" with a value of 1 or 3
+    // We only want the 1's
+    if (bloomLayer.test(obj.layers) === false) {
+      materials[obj.uuid] = obj.material; // Save it
+      obj.material = darkMaterial; // Set it
+    }
   }
 }
 
+// RESTORE MATERIAL
 function restoreMaterial(obj) {
+  // If we saved that uuid
   if (materials[obj.uuid]) {
+    // Restore it
     obj.material = materials[obj.uuid];
+    // Delete the saved one
     delete materials[obj.uuid];
   }
 }
