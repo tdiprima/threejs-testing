@@ -79,6 +79,8 @@
 
     let annotationMesh = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), annotationMaterial);
     annotationMesh.position.set(0, 0, -0.01);
+    console.log("mesh", mesh);
+    // TODO: The mesh that was created in loader.load is undefined outside the closure.
     mesh.add(annotationMesh);
 
     // Event listener for annotations
