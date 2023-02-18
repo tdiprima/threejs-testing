@@ -58,3 +58,39 @@ If your program is not rendering anything to the screen, it could be due to a nu
 5. Double-check that the image file is loaded correctly and the texture is applied to the plane mesh. You can check this by inspecting the `mesh` object in the console to see if it has a `material` with a valid `map` property.
 
 If none of these steps solve the issue, try debugging the program by adding console logs and breakpoints to identify where the issue is occurring.
+
+## Light
+
+To create a light source in Three.js, we can use one of the built-in light types. For this example, let's add a point light that will illuminate the scene from a single point in space. Here's how we can create and position the light source:
+
+```js
+// create a point light
+const light = new THREE.PointLight(0xffffff, 1, 100);
+light.position.set(0, 0, 10); // set the position of the light
+
+// add the light to the scene
+scene.add(light);
+```
+
+In this code, we create a new `PointLight` object with a white color and an intensity of `1`. We then set the position of the light to `(0, 0, 10)`, which means it will be positioned at the origin and 10 units along the positive z-axis. Finally, we add the light to the scene by calling the `scene.add` function...
+
+### Oops. Grr.
+
+Create a three.js light source that is positioned correctly for the scene we just created.
+
+Sure, here's an example of how to create a light source in Three.js and position it correctly for the scene we just created:
+
+```js
+// create a directional light
+const light = new THREE.DirectionalLight(0xffffff, 1);
+
+// position the light source
+light.position.set(1, 1, 1);
+
+// add the light to the scene
+scene.add(light);
+```
+
+In this code, we created a new `DirectionalLight` object with a white color and an intensity of `1`. We then positioned the light source at `(1, 1, 1)` which means the light will be positioned at `(1, 1, 1)` in world space and shine towards the origin of the scene. Finally, we added the light to the scene by calling the scene.add function.
+
+The `DirectionalLight` is a type of light that simulates the sun, so it has a direction associated with it. When the light shines on objects in the scene, it will illuminate them from a single direction, which can create interesting shadows and highlights.

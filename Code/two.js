@@ -1,4 +1,4 @@
-let scene, camera, renderer;
+let scene, camera, renderer, controls;
 let mesh, texture, canvasTexture, canvas, context, isDrawing;
 let annotations = [];
 
@@ -14,13 +14,14 @@ function init() {
     0.1,
     1000
   );
-  camera.position.z = 2;
+  // camera.position.z = 2;
+  camera.position.z = 10;
 
   renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
 
-  const controls = new THREE.OrbitControls(camera, renderer.domElement);
+  controls = new THREE.OrbitControls(camera, renderer.domElement);
 
   const loader = new THREE.TextureLoader();
 
@@ -35,6 +36,10 @@ function init() {
       canvasTexture = new THREE.CanvasTexture(canvas);
       const material = new THREE.MeshBasicMaterial({ map: canvasTexture });
       mesh = new THREE.Mesh(geometry, material);
+      // TODO: why is parent: null?  Should be scene.
+      console.log("mesh", mesh);
+      console.log("material", mesh.material);
+      console.log("map", mesh.material.map);
       scene.add(mesh);
     },
     undefined,
@@ -42,6 +47,22 @@ function init() {
       console.error('An error happened', error);
     }
   );
+
+  // create a point light
+  const light = new THREE.PointLight(0xffffff, 1, 100);
+  light.position.set(0, 0, 10); // set the position of the light
+
+  // add the light to the scene
+  scene.add(light);
+
+  // create a directional light
+  const light1 = new THREE.DirectionalLight(0xffffff, 1);
+
+  // position the light source
+  light1.position.set(1, 1, 1);
+
+  // add the light to the scene
+  scene.add(light1);
 
   isDrawing = false;
 
@@ -75,6 +96,7 @@ function stopDrawing(event) {
 
 function animate() {
   requestAnimationFrame(animate);
+  controls.update();
   renderer.render(scene, camera);
   drawAnnotations();
 }
@@ -96,7 +118,9 @@ function drawAnnotations() {
 window.addEventListener('mousedown', addAnnotation);
 
 function addAnnotation(event) {
-  if (!mesh) return;
+  if (!mesh) {
+    return;
+  }
   let rect = event.target.getBoundingClientRect();
   let x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
   let y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
