@@ -25,7 +25,7 @@ function init() {
   const loader = new THREE.TextureLoader();
 
   loader.load(
-    'image.jpg',
+    "./portfolio/squirrel_portfolio/squirrel.jpg",
     function (texture) {
       const geometry = new THREE.PlaneGeometry(1, 1);
       canvas = document.createElement('canvas');
