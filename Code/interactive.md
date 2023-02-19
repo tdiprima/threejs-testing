@@ -10,7 +10,7 @@ Write a three.js program, in r1.4.3, that loads an image to a plane, allows the 
 * allows the user to free-draw on the image, and 
 * allows the user to make annotations on the image.
 
-[program.html](interactive-image-annotation.html)
+[program.html](interactive-image-annotation.html) + `one.js`
 
 The [draw](interactive-image-annotation.html#L108) function handles the actual drawing on the canvas, while [startDrawing](interactive-image-annotation.html#L102) and [stopDrawing](interactive-image-annotation.html#L102) set and unset a **flag** that indicates whether or not the user is currently **drawing**.
 
@@ -30,9 +30,7 @@ To make `mesh` defined outside the `loader.load` closure, we can **declare it in
 
 ### Here's an updated version of the code:
 
-```js
-// Code.
-```
+[two.js](two.js)
 
 In this completed code, we added **two new functions** `addAnnotationMesh` and `addAnnotation`.
 
@@ -128,73 +126,11 @@ By testing and debugging each of these parts of the code, you should be able to 
 
 Sure! Here's a modified version of the code that allows the user to add text annotations to the image:
 
-```js
-// initialize text geometry and material
-const textGeometry = new THREE.TextGeometry("", {
-  font: font,
-  size: 0.5,
-  height: 0.05
-});
-const textMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 });
+[three.js](three.js)
 
-// initialize text mesh
-let textMesh = new THREE.Mesh(textGeometry, textMaterial);
-textMesh.visible = false;
-scene.add(textMesh);
+In this modified code, we added the `textGeometry`, `textMaterial`, and `textMesh` objects to handle the text annotations. We also added the `startAddingText`, `updateTextAnnotation`, and `endAddingText` functions to handle adding and updating the text annotations.
 
-// function to start adding text annotation
-function startAddingText() {
-  // show text mesh
-  textMesh.visible = true;
-  // set position of text mesh
-  textMesh.position.copy(intersection.point);
-  // set default text
-  textMesh.geometry = new THREE.TextGeometry("Type your text here", {
-    font: font,
-    size: 0.5,
-    height: 0.05
-  });
-  textMesh.rotation.copy(camera.rotation);
-  // add text mesh to scene
-  scene.add(textMesh);
-  // set flag to indicate that we are adding a text annotation
-  addingText = true;
-}
-
-// function to update text annotation
-function updateTextAnnotation() {
-  // update text mesh with user input
-  const text = document.getElementById("text-input").value;
-  textMesh.geometry = new THREE.TextGeometry(text, {
-    font: font,
-    size: 0.5,
-    height: 0.05
-  });
-}
-
-// function to end adding text annotation
-function endAddingText() {
-  // hide text mesh
-  textMesh.visible = false;
-  // add text annotation to annotations array
-  annotations.push({
-    type: "text",
-    text: textMesh.geometry.parameters.text,
-    position: textMesh.position.clone(),
-    rotation: textMesh.rotation.clone()
-  });
-  // remove text mesh from scene
-  scene.remove(textMesh);
-  // clear text input field
-  document.getElementById("text-input").value = "";
-  // set flag to indicate that we are not adding a text annotation
-  addingText = false;
-}
-```
-
-In this modified code, we added the textGeometry, textMaterial, and textMesh objects to handle the text annotations. We also added the startAddingText, updateTextAnnotation, and endAddingText functions to handle adding and updating the text annotations.
-
-The startAddingText function sets the textMesh position and rotation to the intersection point and the camera rotation, respectively, and shows the textMesh. The updateTextAnnotation function updates the textMesh geometry based on the user input. The endAddingText function adds the text annotation to the annotations array and removes the textMesh from the scene.
+The `startAddingText` function sets the `textMesh` position and rotation to the intersection point and the camera rotation, respectively, and shows the `textMesh`. The `updateTextAnnotation` function updates the `textMesh` geometry based on the user input. The `endAddingText` function adds the text annotation to the `annotations` array and removes the `textMesh` from the scene.
 
 To make this work, you'll also need to add an HTML input field for the user to enter the text. Here's an example of how you could add an input field to the HTML:
 
@@ -210,81 +146,14 @@ With these changes, the user can now add text annotations to the image by clicki
 
 Yes, it's definitely possible to allow the user to add multiple text annotations dynamically. Here's a modified version of the code that allows the user to add multiple text annotations:
 
-```js
-// initialize text geometry and material
-const textGeometry = new THREE.TextGeometry("", {
-  font: font,
-  size: 0.5,
-  height: 0.05
-});
-const textMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 });
+[four.js](four.js)
 
-// array to hold text meshes
-const textMeshes = [];
-
-// function to start adding text annotation
-function startAddingText() {
-  // initialize new text mesh
-  const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-  // set position of text mesh
-  textMesh.position.copy(intersection.point);
-  // set default text
-  textMesh.geometry = new THREE.TextGeometry("Type your text here", {
-    font: font,
-    size: 0.5,
-    height: 0.05
-  });
-  textMesh.rotation.copy(camera.rotation);
-  // add text mesh to scene
-  scene.add(textMesh);
-  // add text mesh to textMeshes array
-  textMeshes.push(textMesh);
-  // set flag to indicate that we are adding a text annotation
-  addingText = true;
-}
-
-// function to update text annotation
-function updateTextAnnotation() {
-  // update the most recently added text mesh with user input
-  const text = document.getElementById("text-input").value;
-  const textMesh = textMeshes[textMeshes.length - 1];
-  textMesh.geometry = new THREE.TextGeometry(text, {
-    font: font,
-    size: 0.5,
-    height: 0.05
-  });
-}
-
-// function to end adding text annotation
-function endAddingText() {
-  // add text annotation to annotations array
-  const textMesh = textMeshes[textMeshes.length - 1];
-  annotations.push({
-    type: "text",
-    text: textMesh.geometry.parameters.text,
-    position: textMesh.position.clone(),
-    rotation: textMesh.rotation.clone()
-  });
-  // clear text input field
-  document.getElementById("text-input").value = "";
-  // set flag to indicate that we are not adding a text annotation
-  addingText = false;
-}
-
-// function to remove the most recently added text annotation
-function removeLastTextAnnotation() {
-  const textMesh = textMeshes.pop();
-  scene.remove(textMesh);
-  annotations.pop();
-}
-```
-
-In this modified code, we added an array textMeshes to hold the text meshes for each text annotation. When the user starts adding a new text annotation, we create a new text mesh, set its position and rotation, add it to the scene and to the textMeshes array.
+In this modified code, we added an array `textMeshes` to hold the text meshes for each text annotation. When the user starts adding a new text annotation, we create a new text mesh, set its position and rotation, add it to the scene and to the `textMeshes` array.
 
 When the user updates the text, we update the most recently added text mesh with the new text.
 
-When the user ends adding the text, we add the text annotation to the annotations array and clear the text input field. We also set the addingText flag to false.
+When the user ends adding the text, we add the text annotation to the `annotations` array and clear the text input field. We also set the `addingText` flag to `false`.
 
-Finally, we added a new function removeLastTextAnnotation to remove the most recently added text annotation. This function removes the last text mesh from the textMeshes array, removes it from the scene, and removes the last annotation from the annotations array.
+Finally, we added a new function `removeLastTextAnnotation` to remove the most recently added text annotation. This function removes the last text mesh from the `textMeshes` array, removes it from the scene, and removes the last annotation from the `annotations` array.
 
-With these changes, the user can add multiple text annotations to the image and remove them dynamically by calling the removeLastTextAnnotation function.
+With these changes, the user can add multiple text annotations to the image and remove them dynamically by calling the `removeLastTextAnnotation` function.
