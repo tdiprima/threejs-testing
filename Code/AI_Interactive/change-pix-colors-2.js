@@ -18,15 +18,15 @@ textureLoader.load(IMAGE, (texture) => {
   scene.add(mesh);
 
   // Handle mouse move event to change pixel colors
-  mesh.on('mousemove', (event) => {
+  mesh.on("mousemove", (event) => {
     const uv = event.uv;
     const texture = mesh.material.map;
     const pixelBuffer = new Uint8Array(4);
     texture.image.onload = () => {
-      const canvas = document.createElement('canvas');
+      const canvas = document.createElement("canvas");
       canvas.width = texture.image.width;
       canvas.height = texture.image.height;
-      const context = canvas.getContext('2d');
+      const context = canvas.getContext("2d");
       context.drawImage(texture.image, 0, 0);
       const pixelData = context.getImageData(uv.x * texture.image.width, uv.y * texture.image.height, 1, 1);
       const color = new THREE.Color(`rgb(${pixelData.data[0]}, ${pixelData.data[1]}, ${pixelData.data[2]})`);

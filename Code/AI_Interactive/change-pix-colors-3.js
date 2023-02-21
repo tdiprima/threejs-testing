@@ -18,20 +18,20 @@ textureLoader.load(IMAGE, (texture) => {
   scene.add(mesh);
 
   // Handle mouse move event to change pixel colors
-  const canvas = document.createElement('canvas');
-  const context = canvas.getContext('2d');
+  const canvas = document.createElement("canvas");
+  const context = canvas.getContext("2d");
   let mouseDown = false;
   let pixelData;
   let color;
 
-  mesh.addEventListener('mousedown', (event) => {
+  mesh.addEventListener("mousedown", (event) => {
     mouseDown = true;
     pixelData = getPixelData(event, mesh, context);
     color = new THREE.Color(`rgb(${pixelData.data[0]}, ${pixelData.data[1]}, ${pixelData.data[2]})`);
     color.offsetHSL(0, 0.5, 0);
   });
 
-  mesh.addEventListener('mousemove', (event) => {
+  mesh.addEventListener("mousemove", (event) => {
     if (mouseDown) {
       const newPixelData = getPixelData(event, mesh, context);
       newPixelData.data[0] = color.r * 255;
@@ -42,7 +42,7 @@ textureLoader.load(IMAGE, (texture) => {
     }
   });
 
-  mesh.addEventListener('mouseup', () => {
+  mesh.addEventListener("mouseup", () => {
     mouseDown = false;
   });
 

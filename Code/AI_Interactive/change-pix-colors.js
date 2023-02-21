@@ -1,19 +1,22 @@
+const IMAGE = "https://threejs.org/examples/textures/uv_grid_opengl.jpg";
+
 // Create a new image object
 var image = new Image();
 
 // Set the source of the image
-image.src = 'https://example.com/image.png';
+// image.src = "https://example.com/image.png";
+image.src = IMAGE;
 
 // Wait for the image to load
 image.onload = function() {
 
   // Create a canvas element
-  var canvas = document.createElement('canvas');
+  var canvas = document.createElement("canvas");
   canvas.width = image.width;
   canvas.height = image.height;
 
   // Get the 2D context of the canvas
-  var context = canvas.getContext('2d');
+  var context = canvas.getContext("2d");
 
   // Draw the image on the canvas
   context.drawImage(image, 0, 0);
