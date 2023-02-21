@@ -28,20 +28,20 @@ image.onload = function() {
 
   // Manipulate each pixel
   for (var i = 0; i < data.length; i += 4) {
-    // Get the red, green, blue, and alpha values of the pixel
-    var red = data[i];
-    var green = data[i + 1];
-    var blue = data[i + 2];
-    var alpha = data[i + 3];
-
     // Manipulate the red, green, blue, and alpha values as desired
     // For example, set the red value to 255 to create a red tint
     data[i] = 255;
 
+    // Get the red, green, blue, and alpha values of the pixel
+    // var red = data[i];
+    // var green = data[i + 1];
+    // var blue = data[i + 2];
+    // var alpha = data[i + 3];
+
     // Alternatively, invert the colors by subtracting the current values from 255
-    data[i] = 255 - red;
-    data[i + 1] = 255 - green;
-    data[i + 2] = 255 - blue;
+    // data[i] = 255 - red;
+    // data[i + 1] = 255 - green;
+    // data[i + 2] = 255 - blue;
   }
 
   // Set the modified pixel data back on the canvas
