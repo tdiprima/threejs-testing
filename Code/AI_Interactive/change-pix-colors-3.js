@@ -1,4 +1,4 @@
-const IMAGE = "https://threejs.org/examples/textures/uv_grid_opengl.jpg";
+const IMAGE = "uv_grid_opengl.jpg";
 
 // Set up the scene, camera and renderer
 const scene = new THREE.Scene();

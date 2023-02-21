@@ -1,4 +1,5 @@
-const IMAGE = "https://threejs.org/examples/textures/uv_grid_opengl.jpg";
+const IMAGE = "uv_grid_opengl.jpg";
+let scene, camera, renderer;
 
 // Create a new image object
 var image = new Image();
@@ -55,8 +56,26 @@ image.onload = function() {
     map: texture
   });
 
+  // TODO: DOESN'T WORK BECAUSE THERE'S NO GEOMETRY, SCENE, CAMERA, RENDERER,
+  //  NO LIGHTS, NOTHING.  AND WHERE'S OUR ANIMATE FUNCTION??
+
+  scene = new THREE.Scene();
+  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.z = 5;
+
+  renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
+
+  const geometry = new THREE.PlaneGeometry(5, 5);
+
   // Create a mesh and add it to the scene
   var mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
 };
 
+const animate = () => {
+  requestAnimationFrame(animate);
+  renderer.render(scene, camera);
+};
+animate();
