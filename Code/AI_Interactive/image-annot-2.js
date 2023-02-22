@@ -127,12 +127,6 @@ function addAnnotation(event) {
   }
 }
 
-// function getIntersection(x, y) {
-//   const raycaster = new THREE.Raycaster();
-//   raycaster.setFromCamera({ x, y }, camera);
-//   const intersects = raycaster.intersectObjects([mesh]);
-//   if (intersects.length > 0) {
-
 function getIntersection(x, y) {
   const raycaster = new THREE.Raycaster();
   raycaster.setFromCamera({
