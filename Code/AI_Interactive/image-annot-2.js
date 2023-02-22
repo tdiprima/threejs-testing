@@ -1,6 +1,8 @@
 let scene, camera, renderer, controls;
-let mesh, texture, canvasTexture, canvas, context, isDrawing;
+let mesh, texture, canvasTexture, canvas, context;
 let annotations = [];
+let intersection;
+let isDrawing = false;
 
 function init() {
   scene = new THREE.Scene();
@@ -40,24 +42,6 @@ function init() {
     }
   );
 
-  // create a point light
-  const light = new THREE.PointLight(0xffffff, 1, 100);
-  light.position.set(0, 0, 10); // set the position of the light
-
-  // add the light to the scene
-  scene.add(light);
-
-  // create a directional light
-  const light1 = new THREE.DirectionalLight(0xffffff, 1);
-
-  // position the light source
-  light1.position.set(1, 1, 1);
-
-  // add the light to the scene
-  scene.add(light1);
-
-  isDrawing = false;
-
   window.addEventListener('mousedown', startDrawing);
   window.addEventListener('mousemove', draw);
   window.addEventListener('mouseup', stopDrawing);
@@ -94,7 +78,13 @@ function animate() {
 }
 
 function drawAnnotations() {
-  if (!mesh) return;
+  if (mesh) {
+    console.log("%cGot Mesh", "color: #ccff00;");
+  } else {
+    console.log("%cGot Mesh?", "color: deeppink;");
+    return;
+  }
+
   context.clearRect(0, 0, canvas.width, canvas.height);
   for (let i = 0; i < annotations.length; i++) {
     let x = annotations[i].x * canvas.width;
@@ -109,14 +99,20 @@ function drawAnnotations() {
 
 window.addEventListener('mousedown', addAnnotation);
 
+// TODO
+// document.getElementById("text-input").addEventListener("blur", addAnnotation)
+
 function addAnnotation(event) {
-  if (!mesh) {
+  if (mesh) {
+    console.log("%cGot Mesh", "color: #ccff00");
+  } else {
+    console.log("%cGot Mesh?", "color: deeppink");
     return;
   }
   let rect = event.target.getBoundingClientRect();
   let x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
   let y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-  let intersection = getIntersection(x, y);
+  intersection = getIntersection(x, y);
   if (intersection) {
     let annotation = {
       x: intersection.uv.x,
@@ -156,7 +152,12 @@ function addAnnotationMesh(annotation) {
 }
 
 function addAnnotation(event) {
-  if (!mesh) return;
+  if (mesh) {
+    console.log("%cGot Mesh", "color: #ccff00;");
+  } else {
+    console.log("%cGot Mesh?", "color: deeppink;");
+    return;
+  }
   let rect = event.target.getBoundingClientRect();
   let x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
   let y = -((event.clientY - rect.top) / rect.height) * 2 + 1;

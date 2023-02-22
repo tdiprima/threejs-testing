@@ -1,4 +1,5 @@
-// initialize text geometry and material
+// Improvement upon image-annot-3
+// Initialize text geometry and material
 const textGeometry = new THREE.TextGeometry("", {
   font: font,
   size: 0.5,

@@ -1,3 +1,4 @@
+// TODO: "font" and "intersection"
 // initialize text geometry and material
 const textGeometry = new THREE.TextGeometry("", {
   font: font,
