@@ -1,5 +1,10 @@
+/*
+To make mesh defined outside the loader.load closure, we can declare it 
+in the parent scope, and assign its value inside the onLoad function.
+*/
+let mesh;
 let scene, camera, renderer, controls;
-let mesh, texture, canvasTexture, canvas, context;
+let texture, canvasTexture, canvas, context;
 let annotations = [];
 let intersection;
 let isDrawing = false;
