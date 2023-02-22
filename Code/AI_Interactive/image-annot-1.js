@@ -18,6 +18,20 @@ function init() {
 
   controls = new THREE.OrbitControls(camera, renderer.domElement);
 
+  // let loader = new THREE.TextureLoader();
+  // loader.load("../portfolio/squirrel_portfolio/squirrel.jpg", function(texture) {
+  //   texture.minFilter = THREE.LinearFilter;
+  //   material = new THREE.MeshBasicMaterial({ map: texture });
+  //   mesh = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), material);
+  //   console.log(mesh)
+  //   scene.add(mesh);
+  //   // Resize plane to fit image aspect ratio
+  //   let aspect = texture.image.width / texture.image.height;
+  //   mesh.scale.set(aspect, 1, 1);
+  // });
+  
+  // Doing it like this instead, allowed the image to be drawn to the scene.  Because now "mesh" is defined.
+  // See above - the log didn't print, so it hadn't even run yet, but we tried to use it.
   let texture = new THREE.TextureLoader().load("../portfolio/squirrel_portfolio/squirrel.jpg");
   texture.minFilter = THREE.LinearFilter;
   material = new THREE.MeshBasicMaterial({ map: texture });
@@ -26,8 +40,8 @@ function init() {
 
   // Create canvas for drawing and annotations
   canvas = document.createElement("canvas");
-  canvas.width = 1024;
-  canvas.height = 1024;
+  canvas.width = 1024; // window.innerWidth
+  canvas.height = 1024; // window.innerHeight
   context = canvas.getContext("2d");
   context.strokeStyle = "#FF0000";
   context.lineWidth = 5;
