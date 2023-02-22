@@ -17,23 +17,31 @@ let light = new THREE.DirectionalLight(0xffffff, 2);
 light.position.setScalar(10);
 scene.add(light);
 
-// create a 2D canvas element
-let canvas = document.createElement("canvas");
-let context = canvas.getContext("2d");
+// LULU
+// create a plane geometry with a texture
+let planeGeometry = new THREE.PlaneGeometry(10, 10, 1, 1);
+
+let texture = new THREE.TextureLoader().load("uv_grid_opengl.jpg");
+
+// let planeMaterial = new THREE.MeshBasicMaterial({ map: texture, side: THREE.DoubleSide });
+let planeMaterial = new THREE.MeshLambertMaterial({ map: texture, side: THREE.DoubleSide });
+
+let plane = new THREE.Mesh(planeGeometry, planeMaterial);
+scene.add(plane);
+
+// Create a canvas element and add it as a texture to the plane geometry
+let canvas = document.createElement('canvas');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
-// canvas.width = 1024;
-// canvas.height = 1024;
+
+let context = canvas.getContext("2d");
+
+let canvasTexture = new THREE.CanvasTexture(canvas);
+planeMaterial.map = canvasTexture;
+// DEEDEE
 
 context.strokeStyle = "#FF0000";
 context.lineWidth = 5;
-
-// add the canvas as a texture to a plane geometry
-let texture = new THREE.Texture(canvas);
-let material = new THREE.MeshBasicMaterial({ map: texture, side: THREE.DoubleSide });
-let geometry = new THREE.PlaneGeometry(10, 10);
-let mesh = new THREE.Mesh(geometry, material);
-scene.add(mesh);
 
 // allow the user to draw on the canvas
 function onCanvasMouseDown(event) {
@@ -43,6 +51,7 @@ function onCanvasMouseDown(event) {
   let y = event.clientY - canvas.offsetTop;
   context.beginPath();
   context.moveTo(x, y);
+  // canvas.addEventListener('mousemove', onCanvasMouseMove); // MOVED
 }
 
 function onCanvasMouseMove(event) {
@@ -52,7 +61,7 @@ function onCanvasMouseMove(event) {
     let y = event.clientY - canvas.offsetTop;
     context.lineTo(x, y);
     context.stroke();
-    texture.needsUpdate = true;
+    canvasTexture.needsUpdate = true;
   }
 }
 
