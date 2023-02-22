@@ -129,3 +129,61 @@ In this example, we create a new TextureLoader object and use it to load the ima
 By using the callback function, we ensure that the texture is fully loaded before creating the mesh and adding it to the scene.
 
 If the image still doesn't show up after using the TextureLoader, make sure that the image is a valid format (such as JPG, PNG, or GIF) and that the file is not corrupt.
+
+
+
+
+Tammy Diprima
+I verified that our original texture loading method is correct.  I believe the problem is when we "add the canvas as a texture to a plane geometry".  When I change `planeMaterial.map = canvasTexture` to `canvasTexture.map = planeMaterial;`, I can see the image, but now I can't draw.
+When you change planeMaterial.map = canvasTexture to canvasTexture.map = planeMaterial, you are setting the map property of the canvas texture to the MeshBasicMaterial of the plane geometry. This means that the canvas texture is no longer used as the material of the plane, and instead, the original image texture is used.
+
+If you want to see the original image texture, you can set the map property of the MeshBasicMaterial back to the original image texture:
+
+javascript
+Copy code
+var geometry = new THREE.PlaneGeometry(10, 10);
+var textureLoader = new THREE.TextureLoader();
+var texture = textureLoader.load('path/to/image.jpg');
+var material = new THREE.MeshBasicMaterial({map: texture, side: THREE.DoubleSide});
+var mesh = new THREE.Mesh(geometry, material);
+scene.add(mesh);
+
+// create a canvas element and add it as a texture to the plane geometry
+var canvas = document.createElement('canvas');
+var context = canvas.getContext('2d');
+canvas.width = 512;
+canvas.height = 512;
+var
+
+
+
+Tammy Diprima
+`planeMaterial.map = canvasTexture` does not work.
+If planeMaterial.map = canvasTexture is not working, it's possible that there is an issue with the canvasTexture object.
+
+Make sure that you have created the canvasTexture object correctly and that it is loaded before assigning it to the map property of the material.
+
+Also, check that the canvasTexture object has the correct dimensions and format. In three.js, textures must have power-of-two dimensions (e.g. 256x256, 512x512, etc.), and some formats (such as SVG) may not be supported.
+
+Here's an example of how to create a canvas texture and apply it to a plane geometry:
+
+javascript
+Copy code
+var geometry = new THREE.PlaneGeometry(10, 10);
+var textureLoader = new THREE.TextureLoader();
+var texture = textureLoader.load('path/to/image.jpg');
+var material = new THREE.MeshBasicMaterial({map: texture, side: THREE.DoubleSide});
+var mesh = new THREE.Mesh(geometry, material);
+scene.add(mesh);
+
+// create a canvas element and add it as a texture to the plane geometry
+var canvas = document.createElement('canvas');
+var context = canvas.getContext('2d');
+canvas.width = 512;
+canvas.height = 512;
+var canvasTexture = new THREE.CanvasTexture(canvas);
+var planeMaterial = new THREE.MeshBasicMaterial({map: canvasTexture, side: THREE.DoubleSide});
+mesh.material = planeMaterial;
+In this example, we create a CanvasTexture object from a canvas element and assign it to the map property of a MeshBasicMaterial. Then we create a Mesh object with a PlaneGeometry and the original image texture. Finally, we set the material property of the mesh to the MeshBasicMaterial with the canvas texture.
+
+If the problem persists, try checking the console for any error messages that may help you identify the issue.
