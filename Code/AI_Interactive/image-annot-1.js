@@ -47,6 +47,7 @@ function init() {
   context.lineWidth = 5;
 
   // Event listeners for drawing
+  // NOTE: Changed it to "window", because "canvas" was not firing.
   window.addEventListener("mousedown", startDrawing);
   window.addEventListener("mousemove", draw);
   window.addEventListener("mouseup", stopDrawing);
