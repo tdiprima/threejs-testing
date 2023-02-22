@@ -108,6 +108,5 @@ function drawAnnotations() {
 
 (function render() {
   requestAnimationFrame(render);
-  // controls.update();
   renderer.render(scene, camera);
 })();
