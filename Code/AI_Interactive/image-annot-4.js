@@ -1,4 +1,5 @@
-// Improvement upon image-annot-3
+// Allow the user to add multiple text annotations
+
 // Initialize text geometry and material
 const textGeometry = new THREE.TextGeometry("", {
   font: font,
