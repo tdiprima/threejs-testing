@@ -1,10 +1,5 @@
-/*
-To make mesh defined outside the loader.load closure, we can declare it 
-in the parent scope, and assign its value inside the onLoad function.
-*/
-let mesh;
 let scene, camera, renderer, controls;
-let texture, canvasTexture, canvas, context;
+let mesh, texture, canvasTexture, canvas, context;
 let annotations = [];
 let intersection;
 let isDrawing = false;
@@ -21,8 +16,9 @@ function init() {
 
   controls = new THREE.OrbitControls(camera, renderer.domElement);
 
+  // Either way.  The trick to getting the image to show, is to
+  // do the wrong thing (not connect the canvas with the image)!
   const loader = new THREE.TextureLoader();
-
   loader.load(
     "../portfolio/squirrel_portfolio/squirrel.jpg",
     function(texture) {
@@ -46,6 +42,26 @@ function init() {
       console.error("An error happened", error);
     }
   );
+
+  /*
+  {
+    canvas = document.createElement("canvas");
+    // canvas.width = 1024;
+    // canvas.height = 1024;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    context = canvas.getContext("2d");
+    canvasTexture = new THREE.CanvasTexture(canvas);
+    const material = new THREE.MeshBasicMaterial({ map: canvasTexture });
+
+    let texture = new THREE.TextureLoader().load("../portfolio/squirrel_portfolio/squirrel.jpg");
+    texture.minFilter = THREE.LinearFilter;
+    let material1 = new THREE.MeshBasicMaterial({ map: texture });
+    mesh = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), material1);
+    scene.add(mesh);
+  }
+  */
 
   window.addEventListener("mousedown", startDrawing);
   window.addEventListener("mousemove", draw);
@@ -83,10 +99,7 @@ function animate() {
 }
 
 function drawAnnotations() {
-  if (mesh) {
-    // console.log("%cGot Mesh", "color: #ccff00;");
-  } else {
-    // console.log("%cGot Mesh?", "color: deeppink;");
+  if (!mesh) {
     return;
   }
 
@@ -108,15 +121,13 @@ window.addEventListener("mousedown", addAnnotation);
 // document.getElementById("text-input").addEventListener("blur", addAnnotation)
 
 function addAnnotation(event) {
-  if (mesh) {
-    console.log("%cGot Mesh", "color: #ccff00");
-  } else {
-    console.log("%cGot Mesh?", "color: deeppink");
+  if (!mesh) {
     return;
   }
   let rect = event.target.getBoundingClientRect();
   let x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
   let y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+  // Global variable (yes, I forget why)
   intersection = getIntersection(x, y);
   if (intersection) {
     let annotation = {
@@ -129,10 +140,7 @@ function addAnnotation(event) {
 
 function getIntersection(x, y) {
   const raycaster = new THREE.Raycaster();
-  raycaster.setFromCamera({
-    x,
-    y
-  }, camera);
+  raycaster.setFromCamera({ x, y }, camera);
   const intersects = raycaster.intersectObjects([mesh]);
   if (intersects.length > 0) {
     return intersects[0];
@@ -154,10 +162,7 @@ function addAnnotationMesh(annotation) {
 }
 
 function addAnnotation(event) {
-  if (mesh) {
-    // console.log("%cGot Mesh", "color: #ccff00;");
-  } else {
-    // console.log("%cGot Mesh?", "color: deeppink;");
+  if (!mesh) {
     return;
   }
   let rect = event.target.getBoundingClientRect();
