@@ -1,4 +1,5 @@
-// TODO: "font" and "intersection"
+// Add Text Annotations, Rather Than Red Dot Annotations
+
 // initialize text geometry and material
 const textGeometry = new THREE.TextGeometry("", {
   font: font,
