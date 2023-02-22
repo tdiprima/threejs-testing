@@ -2,18 +2,10 @@ let scene, camera, renderer, controls;
 let mesh, texture, canvasTexture, canvas, context, isDrawing;
 let annotations = [];
 
-init();
-animate();
-
 function init() {
   scene = new THREE.Scene();
 
-  camera = new THREE.PerspectiveCamera(
-    75,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    1000
-  );
+  camera = new THREE.PerspectiveCamera(75,  window.innerWidth / window.innerHeight, 0.1, 1000);
   // camera.position.z = 2;
   camera.position.z = 10;
 
@@ -179,4 +171,5 @@ function addAnnotation(event) {
   }
 }
 
-
+init();
+animate();
