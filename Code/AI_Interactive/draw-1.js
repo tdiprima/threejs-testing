@@ -1,7 +1,8 @@
 import * as THREE from "three";
 
 let isDrawing = false;
-console.log(THREE.REVISION)
+let planeMaterial;
+console.log(THREE.REVISION);
 
 let scene = new THREE.Scene();
 
@@ -17,17 +18,30 @@ let light = new THREE.DirectionalLight(0xffffff, 2);
 light.position.setScalar(10);
 scene.add(light);
 
-// LULU
-// create a plane geometry with a texture
-let planeGeometry = new THREE.PlaneGeometry(10, 10, 1, 1);
+{
+  // create a plane geometry with a texture
+  let planeGeometry = new THREE.PlaneGeometry(10, 10, 1, 1);
+  let texture = new THREE.TextureLoader().load("uv_grid_opengl.jpg");
+  // planeMaterial = new THREE.MeshBasicMaterial({ map: texture, side: THREE.DoubleSide });
+  planeMaterial = new THREE.MeshLambertMaterial({
+    map: texture,
+    side: THREE.DoubleSide
+  });
+  let plane = new THREE.Mesh(planeGeometry, planeMaterial);
+  scene.add(plane);
+}
 
-let texture = new THREE.TextureLoader().load("uv_grid_opengl.jpg");
-
-// let planeMaterial = new THREE.MeshBasicMaterial({ map: texture, side: THREE.DoubleSide });
-let planeMaterial = new THREE.MeshLambertMaterial({ map: texture, side: THREE.DoubleSide });
-
-let plane = new THREE.Mesh(planeGeometry, planeMaterial);
-scene.add(plane);
+// {
+//   let textureLoader = new THREE.TextureLoader();
+//   // load the texture
+//   textureLoader.load('uv_grid_opengl.jpg', function (texture) {
+//     // create a plane geometry with a texture
+//     let geometry = new THREE.PlaneGeometry(10, 10);
+//     let material = new THREE.MeshBasicMaterial({map: texture, side: THREE.DoubleSide});
+//     let mesh = new THREE.Mesh(geometry, material);
+//     scene.add(mesh);
+//   });
+// }
 
 // Create a canvas element and add it as a texture to the plane geometry
 let canvas = document.createElement('canvas');
@@ -38,7 +52,6 @@ let context = canvas.getContext("2d");
 
 let canvasTexture = new THREE.CanvasTexture(canvas);
 planeMaterial.map = canvasTexture;
-// DEEDEE
 
 context.strokeStyle = "#FF0000";
 context.lineWidth = 5;
