@@ -67,7 +67,10 @@
     // Use raycaster to get intersection point with scene
     raycaster.setFromCamera(mouse, camera);
     const intersects = raycaster.intersectObjects(scene.children, true);
+    console.log("%cintersects", styles);
+
     if (intersects.length > 0) {
+      console.log("%cIntersected!", styles);
       const point = intersects[0].point;
       positions.push(point.x, point.y, point.z);
       color.setHex(Math.random() * 0xffffff);
@@ -80,11 +83,17 @@
   function onMouseUp() {
     // console.log("%conMouseUp", styles);
 
-    // Remove mouse event listeners
-    document.removeEventListener("mousemove", onMouseMove);
-    document.removeEventListener("mouseup", onMouseUp);
+    // Remove mouse event listeners (?)
+    // document.removeEventListener("mousemove", onMouseMove);
+    // document.removeEventListener("mouseup", onMouseUp);
+    document.removeEventListener("mousemove", onMouseMove, false);
+    document.removeEventListener("mouseup", onMouseUp, false);
+
+    // Update the line material to show the colors (?)
+    // material.vertexColors = THREE.VertexColors;
 
     // Draw the final line
+    console.log("%cpositions", styles, positions);
     line.geometry.setDrawRange(0, positions.length / 3);
     line.geometry.computeBoundingSphere();
   }
@@ -92,6 +101,7 @@
   // Render scene
   function render() {
     requestAnimationFrame(render);
+    // Tell the renderer to render the scene
     renderer.render(scene, camera);
   }
 
