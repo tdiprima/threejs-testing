@@ -5,6 +5,7 @@
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>BoxGeometry Raycasting Example</title>
+  <!-- How to use raycasting in Three.js with a BoxGeometry -->
   <link rel="stylesheet" href="/css/main.css">
   <script src="/build/three.min.js"></script>
 </head>
@@ -73,5 +74,14 @@
 
   render();
 </script>
+<!--
+In this example, we create a scene, a camera, and a renderer as usual. We also create a box geometry, a material for the box, and a mesh for the box, which we add to the scene.
+
+We then create a Raycaster object and a Vector2 object to represent the mouse position. We add an event listener for mouse movements, which updates the mouse position and uses the Raycaster object to check for intersections between the ray and the box.
+
+If there is an intersection, we change the color of the box to green; otherwise, we change it back to red.
+
+Finally, we set the camera position and render the scene.
+ -->
 </body>
 </html>
