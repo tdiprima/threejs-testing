@@ -1,8 +1,10 @@
-## Follow the bouncing error messages 🥎
+## Follow the bouncing error messages <span style="font-size: 27px;">🥎</span>
 
 <!-- can you write a three.js script that uses raycasting to collect a series of mouse coordinates into a vector on mouse move, then on mouseup, draw a line on the screen, using those mouse coordinates? -->
 
-How to use raycasting to collect mouse coordinates and draw a line in three.js 🏹 🍎
+How to use raycasting to **collect mouse coordinates** and **draw a line** in three.js
+
+<span style="font-size: 27px;">🏹 🍎</span>
 
 ```html
 <!DOCTYPE html>
@@ -110,12 +112,14 @@ If `intersects.length > 0` is not executing, it's likely because the raycasting 
 1. Make sure the objects in your scene have their `geometry` property set. The `intersectObjects` method uses the `geometry` property of objects to calculate intersections. If the objects don't have a `geometry`, the raycasting won't work.
 
 2. Make sure the raycaster is set up correctly. The raycaster needs to be created with the correct parameters, including the **position** and **direction** of the **ray**.
-    3. In the example I provided, the raycaster is set up to use the **normalized** device coordinates of the **mouse** position and the **camera's** position and direction. If your setup is different, make sure you adjust the raycaster parameters accordingly.
+    * In the example, the raycaster is set up to use the **normalized** device coordinates of the **mouse** position and the **camera's** position and direction.
+    * If your setup is different, make sure you adjust the raycaster parameters accordingly.
 
 3. Make sure the mouse coordinates are being **calculated** correctly.
-    4. In the example, the `mousemove` event listener calculates the normalized device coordinates of the mouse position. Make sure your code is doing something similar.
+    * In the example, the `mousemove` event listener *calculates* the normalized device coordinates of the mouse position.
+    * Make sure your code is doing something similar.
 
-Includes some additional debugging information:
+### Includes some additional debugging information:
 
 ```js
 // Set up the scene and camera
@@ -188,7 +192,7 @@ function onMouseUp() {
 
 `intersects` is an empty array.  Is the parameter `scene.children` correct, when calling `intersectObjects`?
 
-It's possible that the `scene.children` array doesn't contain the objects you're trying to raycast against, which would result in an empty intersects array.
+<mark>It's possible that the `scene.children` array **doesn't contain the objects you're trying to raycast against,** which would result in an empty intersects array.</mark>
 
 When calling `intersectObjects`, the first argument should be an array of objects that you want to test for intersection.
 
@@ -198,10 +202,11 @@ If you're not getting any intersections, it's possible that you're not passing t
 
 1. Make sure that the objects you want to test for intersection are added to the scene using `scene.add(object)` **before** calling `intersectObjects`.
 
-2. If your scene has nested objects, you can set the **second argument** of `intersectObjects` to `true` to test for intersection with child objects as well.
-   3. `raycaster.intersectObjects(scene.children, true)`
+2. If your scene has nested objects, you can set the **second argument** of `intersectObjects` to `true` to test for intersection with **child objects** as well.
+   * `raycaster.intersectObjects(scene.children, true)`
 
-3. If you're still not getting any intersections, you can try **logging** the `scene.children` array to the console to make sure that it contains the objects you're expecting. You can also **log** the `intersects` array to see if any intersections are being detected at all. This can help you narrow down the issue.
+3. If you're still not getting any intersections, you can try **logging** the `scene.children` array to the console to make sure that it contains the objects you're expecting.
+    * You can also **log** the `intersects` array to see if any intersections are being detected at all. This can help you narrow down the issue.
 
 ### There are no objects.
 
@@ -281,7 +286,10 @@ In this modified version of the script, the **`unproject`** method of the **came
 
 
 ### are you sure `intersectPlane` is being used on the correct object?  it's saying "ray.intersectPlane is not a function"
-My apologies, you are correct. The intersectPlane method is actually part of the THREE.Plane object, not the THREE.Raycaster object. Here's the corrected code:
+
+My apologies, you are correct.
+
+The **`intersectPlane`** method is actually part of the **THREE.Plane** object, not the THREE.Raycaster object. Here's the corrected code:
 
 ```js
 // Set up the scene and camera
@@ -351,5 +359,6 @@ function onMouseUp() {
 ```
 
 <br>
+
 * `THREE.Plane` object that represents a plane at `z=0`
 * Pass that object to the `intersectPlane` method of the `THREE...`
