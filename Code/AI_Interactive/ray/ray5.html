@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <title>Raycasting Example</title>
@@ -15,27 +15,27 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.131.2/build/three.min.js"></script>
     <script>
       // Set up the scene and camera
-      const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      let scene = new THREE.Scene();
+      let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
       camera.position.z = 5;
-      const renderer = new THREE.WebGLRenderer();
+      let renderer = new THREE.WebGLRenderer();
       renderer.setSize(window.innerWidth, window.innerHeight);
       document.body.appendChild(renderer.domElement);
 
       // Set up the mouse vector
-      const mouse = new THREE.Vector2();
+      let mouse = new THREE.Vector2();
 
       // Set up the line material and geometry
-      const material = new THREE.LineBasicMaterial({ color: 0xff0000 });
-      const geometry = new THREE.BufferGeometry();
+      let material = new THREE.LineBasicMaterial({ color: 0xff0000 });
+      let geometry = new THREE.BufferGeometry();
 
       // Set up the arrays to hold the line data
-      const positions = [];
-      const colors = [];
-      const color = new THREE.Color();
+      let positions = [];
+      let colors = [];
+      let color = new THREE.Color();
 
       // Set up the line object
-      const line = new THREE.Line(geometry, material);
+      let line = new THREE.Line(geometry, material);
       scene.add(line);
 
       // Set up the mouse event listeners
@@ -48,20 +48,20 @@
         mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
         // Use the camera to unproject the mouse coordinates into the scene
-        const point = new THREE.Vector3(mouse.x, mouse.y, 0);
+        let point = new THREE.Vector3(mouse.x, mouse.y, 0);
         point.unproject(camera);
 
         // Perform your own intersection test against the unprojected point
         // In this example, we're just testing against a plane at z=0
-        const plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
-        const raycaster = new THREE.Raycaster(camera.position, point.sub(camera.position).normalize());
-        const intersection = raycaster.intersectPlane(plane);
+        let plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
+        let raycaster = new THREE.Raycaster(camera.position, point.sub(camera.position).normalize());
+        let intersection = raycaster.intersectPlane(plane);
         if (intersection) {
           positions.push(intersection.point.x, intersection.point.y, intersection.point.z);
           color.setHex(Math.random() * 0xffffff);
           colors.push(color.r, color.g, color.b);
-          line.geometry.addAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-          line.geometry.addAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+          line.geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+          line.geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
         }
       }
 
