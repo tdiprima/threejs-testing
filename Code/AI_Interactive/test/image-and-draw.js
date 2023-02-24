@@ -21,7 +21,7 @@ scene.add(light);
 {
   // create a plane geometry with a texture
   let planeGeometry = new THREE.PlaneGeometry(10, 10, 1, 1);
-  let texture = new THREE.TextureLoader().load("uv_grid_opengl.jpg");
+  let texture = new THREE.TextureLoader().load("../pixels/uv_grid_opengl.jpg");
   // planeMaterial = new THREE.MeshBasicMaterial({ map: texture, side: THREE.DoubleSide });
   planeMaterial = new THREE.MeshLambertMaterial({
     map: texture,
@@ -34,7 +34,7 @@ scene.add(light);
 // {
 //   let textureLoader = new THREE.TextureLoader();
 //   // load the texture
-//   textureLoader.load('uv_grid_opengl.jpg', function (texture) {
+//   textureLoader.load('../pixels/uv_grid_opengl.jpg', function (texture) {
 //     // create a plane geometry with a texture
 //     let geometry = new THREE.PlaneGeometry(10, 10);
 //     let material = new THREE.MeshBasicMaterial({map: texture, side: THREE.DoubleSide});

@@ -20,7 +20,7 @@ scene.add(light);
 
 let planeGeometry = new THREE.PlaneGeometry(10, 10, 1, 1);
 
-let texture = new THREE.TextureLoader().load("uv_grid_opengl.jpg");
+let texture = new THREE.TextureLoader().load("../pixels/uv_grid_opengl.jpg");
 
 let planeMaterial = new THREE.MeshLambertMaterial({ map: texture });
 
