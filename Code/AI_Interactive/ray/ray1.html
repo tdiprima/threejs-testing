@@ -60,9 +60,10 @@
     // Use the raycaster to get the intersection point with the scene
     raycaster.setFromCamera(mouse, camera);
     let intersects = raycaster.intersectObjects(scene.children, true);
-    console.log(intersects.length);
+    // console.log(intersects.length);
+
     if (intersects.length > 0) {
-      console.log("Intersected!");
+      // console.log("Intersected!");
       let point = intersects[0].point;
       positions.push(point.x, point.y, point.z);
       color.setHex(Math.random() * 0xffffff);
