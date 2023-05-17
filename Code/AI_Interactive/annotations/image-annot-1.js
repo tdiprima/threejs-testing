@@ -19,7 +19,7 @@ function init() {
   controls = new THREE.OrbitControls(camera, renderer.domElement);
 
   // let loader = new THREE.TextureLoader();
-  // loader.load("../portfolio/squirrel_portfolio/squirrel.jpg", function(texture) {
+  // loader.load("/Code/portfolio/squirrel_portfolio/squirrel.jpg", function(texture) {
   //   texture.minFilter = THREE.LinearFilter;
   //   material = new THREE.MeshBasicMaterial({ map: texture });
   //   mesh = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), material);
@@ -29,10 +29,10 @@ function init() {
   //   let aspect = texture.image.width / texture.image.height;
   //   mesh.scale.set(aspect, 1, 1);
   // });
-  
+
   // Doing it like this instead, allowed the image to be drawn to the scene.  Because now "mesh" is defined.
   // See above - the log didn't print, so it hadn't even run yet, but we tried to use it.
-  let texture = new THREE.TextureLoader().load("../portfolio/squirrel_portfolio/squirrel.jpg");
+  let texture = new THREE.TextureLoader().load("/Code/portfolio/squirrel_portfolio/squirrel.jpg");
   texture.minFilter = THREE.LinearFilter;
   material = new THREE.MeshBasicMaterial({ map: texture });
   mesh = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), material);

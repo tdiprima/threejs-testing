@@ -19,8 +19,7 @@ function init() {
   // Either way.  The trick to getting the image to show, is to
   // do the wrong thing (not connect the canvas with the image)!
   const loader = new THREE.TextureLoader();
-  loader.load(
-    "../portfolio/squirrel_portfolio/squirrel.jpg",
+  loader.load("/Code/portfolio/squirrel_portfolio/squirrel.jpg",
     function(texture) {
       const geometry = new THREE.PlaneGeometry(1, 1);
 
@@ -55,7 +54,7 @@ function init() {
     canvasTexture = new THREE.CanvasTexture(canvas);
     const material = new THREE.MeshBasicMaterial({ map: canvasTexture });
 
-    let texture = new THREE.TextureLoader().load("../portfolio/squirrel_portfolio/squirrel.jpg");
+    let texture = new THREE.TextureLoader().load("/Code/portfolio/squirrel_portfolio/squirrel.jpg");
     texture.minFilter = THREE.LinearFilter;
     let material1 = new THREE.MeshBasicMaterial({ map: texture });
     mesh = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), material1);
