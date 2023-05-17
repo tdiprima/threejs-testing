@@ -49,6 +49,7 @@ new THREE.TextureLoader().load( "./img.png", function (tex) {
   // Tex and texture are the same in this example, but that might not always be the case.
   console.log( tex.image.width, tex.image.height );
   console.log( texture.image.width, texture.image.height );
+  mesh.scale.set(1.0, tex.image.height / tex.image.width, 1.0);
 });
 
 let geometry = new THREE.BoxGeometry(1, 1, 1);
