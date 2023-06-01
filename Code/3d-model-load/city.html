@@ -38,6 +38,10 @@
   import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
   function main() {
+    // TODO:
+    const camHelperViz = false;
+    const lightHelperViz = false;
+
     let canvas = document.querySelector("#c");
     let renderer = new THREE.WebGLRenderer({ canvas });
     renderer.outputEncoding = THREE.sRGBEncoding;
@@ -59,31 +63,6 @@
 
     let scene = new THREE.Scene();
     scene.background = new THREE.Color("#d7ffff");
-
-    {
-      let planeSize = 40;
-
-      let loader = new THREE.TextureLoader();
-
-      let texture = loader.load("/models/gltf/checker.png");
-      texture.wrapS = THREE.RepeatWrapping;
-      texture.wrapT = THREE.RepeatWrapping;
-      texture.magFilter = THREE.NearestFilter;
-
-      let repeats = planeSize / 2;
-      texture.repeat.set(repeats, repeats);
-
-      let planeGeo = new THREE.PlaneGeometry(planeSize, planeSize);
-
-      let planeMat = new THREE.MeshPhongMaterial({
-        map: texture,
-        side: THREE.DoubleSide,
-      });
-
-      let mesh = new THREE.Mesh(planeGeo, planeMat);
-      mesh.rotation.x = Math.PI * -0.5;
-      scene.add(mesh);
-    }
 
     {
       let skyColor = 0xb1e1ff; // light blue
@@ -125,11 +104,11 @@
       // Camera helper
       const cameraHelper = new THREE.CameraHelper(cam);
       scene.add(cameraHelper);
-      cameraHelper.visible = false;
+      cameraHelper.visible = camHelperViz;
 
       const helper = new THREE.DirectionalLightHelper(light, 100);
       scene.add(helper);
-      helper.visible = false;
+      helper.visible = lightHelperViz;
 
       function updateCamera() {
         // update the light target's matrixWorld because it's needed by the helper
