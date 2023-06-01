@@ -6,6 +6,9 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Read float buffer</title>
   <!-- https://discourse.threejs.org/t/how-to-get-texture-color-at-intersection-with-raycast/38631/8 -->
+  <style>
+    body { margin: 0; }
+  </style>
 </head>
 <body>
 
@@ -89,9 +92,11 @@
 
   // webgl_read_float_buffer doesn't have this extra camera, but webgl_rtt does.
   let camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 10000);
-  camera.position.copy(new THREE.Vector3(100, 100, 100));
+  // camera.position.copy(new THREE.Vector3(100, 100, 100));
+  camera.position.set(41, 47, 1346);
   camera.lookAt(new THREE.Vector3(0, 0, 0));
   sceneRTT.add(camera);
+  // window.cam = camera;
 
   renderer = new THREE.WebGLRenderer();
   // Do NOT setPixelRatio()
