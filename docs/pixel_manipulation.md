@@ -1,6 +1,85 @@
 ## Pixel manipulation · three.js
 
-[](https://www.reddit.com/r/threejs/comments/3og8xj/pixel_manipulation/)
+[Get pixel data from maps](https://discourse.threejs.org/t/how-to-get-pixel-data-from-maps/2596)
+
+### Read image data from texture and output it to the console
+
+```js
+const loader = new THREE.TextureLoader();
+
+const texture = loader.load('https://threejs.org/examples/textures/uv_grid_opengl.jpg', texture => {
+    // You NEED a canvas element to extract data.
+    const canvas = document.createElement('canvas');
+    canvas.width = texture.image.width;
+    canvas.height = texture.image.height;
+
+    // Create a 2D canvas context
+    const context = canvas.getContext('2d');
+    context.drawImage(texture.image, 0, 0); // Draw texture.image
+
+    // Read texture data
+    const data = context.getImageData(0, 0, canvas.width, canvas.height);
+    console.log('%ccontext.getImageData', 'color: #ccff00;', data);
+
+    // Visualize the (original) texture
+    const geometry = new THREE.PlaneGeometry();
+    const material = new THREE.MeshBasicMaterial({
+        map: texture
+    });
+
+    const mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
+});
+```
+
+### Set Material Color
+
+[How to color-correct a texture](https://discourse.threejs.org/t/is-it-possible-to-color-correct-a-texture/17144)
+
+```js
+const loader = new THREE.TextureLoader();
+
+const texture = loader.load('https://threejs.org/examples/textures/uv_grid_opengl.jpg', texture => {
+    // https://threejs.org/docs/index.html#api/en/textures/CanvasTexture
+    // todo: CanvasTexture - sets needsUpdate to true immediately.
+
+    const geometry = new THREE.PlaneGeometry();
+    const material = new THREE.MeshBasicMaterial({
+        map: texture
+    });
+
+    // SET MATERIAL COLOR
+    // Texture color is multiplied by color property (red)
+    material.color = {
+        "r": 1,
+        "g": 0,
+        "b": 0
+    };
+
+    const mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
+});
+```
+
+You can use CanvasTexture (docs). Paint your texture on the canvas, manipulate the pixels and then use it as a texture.
+Another option would be to use color property of the material that uses the Texture. Texture color is multiplied by color property.
+
+### Renderer
+
+```js
+// Look - no "preserveDrawingBuffer".
+renderer = new THREE.WebGLRenderer({
+    antialias: true
+});
+
+renderer.setPixelRatio(window.devicePixelRatio);
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+```
+
+<br>### Reddit
+
+[Pixel manipulation](https://www.reddit.com/r/threejs/comments/3og8xj/pixel_manipulation/)
 
 I want to create textures/images with pixel arrays similar to what `getImageData` uses in "2d context".
 

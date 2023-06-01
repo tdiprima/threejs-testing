@@ -5,8 +5,8 @@
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Get pixel data from maps</title>
-  <!-- material { map: texture } -->
   <!-- https://discourse.threejs.org/t/how-to-get-pixel-data-from-maps/25966 -->
+  <!-- https://discourse.threejs.org/t/is-it-possible-to-color-correct-a-texture/17144  -->
   <style>
     body {
       margin: 0;
@@ -16,12 +16,53 @@
 <body>
 
 <script type="module">
-  import * as THREE from 'https://cdn.skypack.dev/three@0.128.0/build/three.module.js';
+  import * as THREE from '/build/three.module.js';
 
   let camera, scene, renderer;
 
   init();
   animate();
+
+  function getData(texture) {
+    // You NEED a canvas element to extract data.
+    const canvas = document.createElement('canvas');
+    canvas.width = texture.image.width;
+    canvas.height = texture.image.height;
+
+    // Create a 2D canvas context
+    const context = canvas.getContext('2d');
+    context.drawImage(texture.image, 0, 0); // Draw texture.image
+
+    // Read texture data
+    const data = context.getImageData(0, 0, canvas.width, canvas.height);
+    console.log('%ccontext.getImageData', 'color: #ccff00;', data);
+
+    // Visualize the (original) texture
+    const geometry = new THREE.PlaneGeometry();
+    const material = new THREE.MeshBasicMaterial({ map: texture });
+
+    const mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
+  }
+
+  function setMaterialColor(texture) {
+    // https://threejs.org/docs/index.html#api/en/textures/CanvasTexture
+    // todo: CanvasTexture - sets needsUpdate to true immediately.
+
+    const geometry = new THREE.PlaneGeometry();
+    const material = new THREE.MeshBasicMaterial({ map: texture });
+
+    // SET MATERIAL COLOR
+    // Texture color is multiplied by color property.
+    material.color = {
+      "r": 1,
+      "g": 0,
+      "b": 0
+    };
+
+    const mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
+  }
 
   function init() {
     camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 10);
@@ -33,25 +74,9 @@
 
     // Read image data from texture and output it to the console.
     const texture = loader.load('https://threejs.org/examples/textures/uv_grid_opengl.jpg', texture => {
-      // You NEED a canvas element to extract data.
-      const canvas = document.createElement('canvas');
-      canvas.width = texture.image.width;
-      canvas.height = texture.image.height;
-
-      // Create a 2D canvas context
-      const context = canvas.getContext('2d');
-      context.drawImage(texture.image, 0, 0); // Draw texture.image
-
-      // Read texture data
-      const data = context.getImageData(0, 0, canvas.width, canvas.height);
-      console.log('%ccontext.getImageData', 'color: #ccff00;', data);
-
-      // Visualize the (original) texture
-      const geometry = new THREE.PlaneGeometry();
-      const material = new THREE.MeshBasicMaterial({ map: texture });
-
-      const mesh = new THREE.Mesh(geometry, material);
-      scene.add(mesh);
+      getData(texture);
+      // TODO: OR -
+      // setMaterialColor(texture);
     });
 
     // Look - no "preserveDrawingBuffer".
