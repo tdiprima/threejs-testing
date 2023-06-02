@@ -1,66 +1,76 @@
-### add a 2d context to a scene, and let the user draw on it
+## Free Drawing 🎨
 
-Yes, it is possible to add a 2D context to a three.js scene and allow the user to draw on it. You can create a 2D canvas and then add it as a texture to a 3D plane or quad in your scene.
+Yes, it is possible to add a 2D context to a three.js scene and allow the user to draw on it.
+
+You can create a 2D canvas and then add it as a texture to a 3D plane or quad in your scene.
 
 ```js
+let scene = new THREE.Scene();
+// camera, renderer...
+
 // create a 2D canvas element
-var canvas = document.createElement('canvas');
-var context = canvas.getContext('2d');
+let canvas = document.createElement('canvas');
 canvas.width = 512;
 canvas.height = 512;
 
+let context = canvas.getContext('2d');
+context.strokeStyle = "#ff0000";
+context.lineWidth = 5;
+
 // add the canvas as a texture to a plane geometry
-var texture = new THREE.Texture(canvas);
-var material = new THREE.MeshBasicMaterial({map: texture, side: THREE.DoubleSide});
-var geometry = new THREE.PlaneGeometry(10, 10);
-var mesh = new THREE.Mesh(geometry, material);
+let texture = new THREE.Texture(canvas);
+let material = new THREE.MeshBasicMaterial({ map: texture, side: THREE.DoubleSide });
+let geometry = new THREE.PlaneGeometry(10, 10);
+let mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
+
+function onCanvasMouseMove(event) {
+  let x = event.clientX - canvas.offsetLeft;
+  let y = event.clientY - canvas.offsetTop;
+  context.lineTo(x, y);
+  context.stroke();
+  texture.needsUpdate = true;
+}
 
 // allow the user to draw on the canvas
 function onCanvasMouseDown(event) {
-    var x = event.clientX - canvas.offsetLeft;
-    var y = event.clientY - canvas.offsetTop;
-    context.beginPath();
-    context.moveTo(x, y);
-    canvas.addEventListener('mousemove', onCanvasMouseMove);
-}
-
-function onCanvasMouseMove(event) {
-    var x = event.clientX - canvas.offsetLeft;
-    var y = event.clientY - canvas.offsetTop;
-    context.lineTo(x, y);
-    context.stroke();
-    texture.needsUpdate = true;
+  let x = event.clientX - canvas.offsetLeft;
+  let y = event.clientY - canvas.offsetTop;
+  context.beginPath();
+  context.moveTo(x, y);
+  canvas.addEventListener('mousemove', onCanvasMouseMove);
 }
 
 canvas.addEventListener('mousedown', onCanvasMouseDown);
 ```
 
-In this example, we **create a 2D canvas element** and **add it as a texture** to a **3D plane geometry**.
+<br>
 
-We also define two event listeners for the canvas: one to track mouse **clicks** and the other to track mouse **movements**.
+In this example, we create a 2D canvas element and add it as a texture to a 3D plane geometry.
 
-When the user **clicks** on the canvas, the `onCanvasMouseDown` function is called, which starts a new drawing path.
+We also define two event listeners for the canvas: one to track mouse clicks and the other to track mouse movements.
 
-When the user **moves** the mouse on the canvas, the `onCanvasMouseMove` function is called, which **draws a line from the last position** to the current position and **updates the texture** of the 3D plane.
+When the user clicks on the canvas, the `onCanvasMouseDown` function is called, which starts a new drawing path.
 
-Note that we use the `needsUpdate` property of the texture to tell three.js that the **texture has changed** and **needs to be updated.**
+When the user moves the mouse on the canvas, the `onCanvasMouseMove` function is called, which draws a line from the last position to the current position and updates the texture of the 3D plane.
 
-### Event listener canvas => window 🤔
+Note that we use the `needsUpdate` property of the texture to tell three.js that the texture has changed and needs to be updated.
 
-Cool!  I had to change `canvas.addEventListener` to `window.addEventListener`, but it worked. :)
+## Changed Event Listeners
 
-I'm glad to hear that it worked for you!
+I had to change `canvas.addEventListener` to `window.addEventListener`, but it worked. :)
 
-It's worth noting that if you used `window.addEventListener` instead of `canvas.addEventListener`, the event listeners would be attached to the entire window instead of just the canvas element.
+*Great, Tam.  Because now I can't get it working at all.*
 
-This could cause issues if you have other elements on the page that also respond to mouse events.
+It's worth noting that if you used `window.addEventListener` instead of `canvas.addEventListener`, the event listeners would be attached to the **entire window** instead of just the canvas element.
 
-To avoid conflicts with other elements on the page, it's generally a good idea to attach event listeners directly to the element you want to track events on.
+**This could cause issues** if you have other elements on the page that also respond to mouse events.
+
+To avoid conflicts with other elements on the page, it's generally a good idea to attach event listeners **directly to the element** you want to track events on.
 
 In this case, you would want to use `canvas.addEventListener` instead of `window.addEventListener`.
 
-But in any case, I'm glad you were able to get it working!
+BUT CANVAS DOESN'T WORK!
 
 ## Image and draw
 
@@ -68,36 +78,40 @@ Yes, you can add a `PlaneGeometry` to the scene, **apply an image texture** to i
 
 ```js
 // create a plane geometry with a texture
-var geometry = new THREE.PlaneGeometry(10, 10);
-var textureLoader = new THREE.TextureLoader();
-var texture = textureLoader.load('path/to/image.jpg');
-var material = new THREE.MeshBasicMaterial({map: texture, side: THREE.DoubleSide});
-var mesh = new THREE.Mesh(geometry, material);
+let geometry = new THREE.PlaneGeometry(10, 10);
+let textureLoader = new THREE.TextureLoader();
+let texture = textureLoader.load('path/to/image.jpg');
+let material = new THREE.MeshBasicMaterial({map: texture, side: THREE.DoubleSide});
+let mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
 
-// create a canvas element and add it as a texture to the plane geometry
-var canvas = document.createElement('canvas');
-var context = canvas.getContext('2d');
+// create a 2D canvas element and add it as a texture to the plane geometry
+let canvas = document.createElement('canvas');
 canvas.width = 512;
 canvas.height = 512;
-var canvasTexture = new THREE.CanvasTexture(canvas);
+
+let context = canvas.getContext('2d');
+context.strokeStyle = "#ff0000";
+context.lineWidth = 5;
+
+let canvasTexture = new THREE.CanvasTexture(canvas);
 material.map = canvasTexture;
+
+function onCanvasMouseMove(event) {
+  let x = event.clientX - canvas.offsetLeft;
+  let y = event.clientY - canvas.offsetTop;
+  context.lineTo(x, y);
+  context.stroke();
+  canvasTexture.needsUpdate = true;
+}
 
 // allow the user to draw on the canvas
 function onCanvasMouseDown(event) {
-    var x = event.clientX - canvas.offsetLeft;
-    var y = event.clientY - canvas.offsetTop;
-    context.beginPath();
-    context.moveTo(x, y);
-    canvas.addEventListener('mousemove', onCanvasMouseMove);
-}
-
-function onCanvasMouseMove(event) {
-    var x = event.clientX - canvas.offsetLeft;
-    var y = event.clientY - canvas.offsetTop;
-    context.lineTo(x, y);
-    context.stroke();
-    canvasTexture.needsUpdate = true;
+  let x = event.clientX - canvas.offsetLeft;
+  let y = event.clientY - canvas.offsetTop;
+  context.beginPath();
+  context.moveTo(x, y);
+  canvas.addEventListener('mousemove', onCanvasMouseMove);
 }
 
 canvas.addEventListener('mousedown', onCanvasMouseDown);
@@ -128,17 +142,19 @@ In three.js, textures are loaded asynchronously, which means that they may not b
 You can use the `TextureLoader` to load your image and set the material's map property once the image has finished loading.
 
 ```js
-var textureLoader = new THREE.TextureLoader();
+let textureLoader = new THREE.TextureLoader();
 
 // load the texture
 textureLoader.load('path/to/image.jpg', function (texture) {
   // create a plane geometry with a texture
-  var geometry = new THREE.PlaneGeometry(10, 10);
-  var material = new THREE.MeshBasicMaterial({map: texture, side: THREE.DoubleSide});
-  var mesh = new THREE.Mesh(geometry, material);
+  let geometry = new THREE.PlaneGeometry(10, 10);
+  let material = new THREE.MeshBasicMaterial({map: texture, side: THREE.DoubleSide});
+  let mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
 });
 ```
+
+<br>
 
 In this example, we create a new `TextureLoader` object and use it to load the image file.
 
@@ -178,22 +194,24 @@ Also, check that the `canvasTexture` object has the **correct dimensions** and f
 Here's an example of how to **create a canvas texture** and **apply it** to a **plane geometry**:
 
 ```js
-var geometry = new THREE.PlaneGeometry(10, 10);
-var textureLoader = new THREE.TextureLoader();
-var texture = textureLoader.load('path/to/image.jpg');
-var material = new THREE.MeshBasicMaterial({map: texture, side: THREE.DoubleSide});
-var mesh = new THREE.Mesh(geometry, material);
+let geometry = new THREE.PlaneGeometry(10, 10);
+let textureLoader = new THREE.TextureLoader();
+let texture = textureLoader.load('path/to/image.jpg');
+let material = new THREE.MeshBasicMaterial({map: texture, side: THREE.DoubleSide});
+let mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
 
 // create a canvas element and add it as a texture to the plane geometry
-var canvas = document.createElement('canvas');
-var context = canvas.getContext('2d');
+let canvas = document.createElement('canvas');
+let context = canvas.getContext('2d');
 canvas.width = 512;
 canvas.height = 512;
-var canvasTexture = new THREE.CanvasTexture(canvas);
-var planeMaterial = new THREE.MeshBasicMaterial({map: canvasTexture, side: THREE.DoubleSide});
+let canvasTexture = new THREE.CanvasTexture(canvas);
+let planeMaterial = new THREE.MeshBasicMaterial({map: canvasTexture, side: THREE.DoubleSide});
 mesh.material = planeMaterial;
 ```
+
+<br>
 
 In this example, we create a `CanvasTexture` object from a canvas element and assign it to the `map` property of a `MeshBasicMaterial`.
 
@@ -202,3 +220,5 @@ Then we create a `Mesh` object with a `PlaneGeometry` and the original image tex
 Finally, we set the `material` property of the mesh to the `MeshBasicMaterial` with the canvas texture.
 
 If the problem persists, try checking the console for any error messages that may help you identify the issue.
+
+<br>
