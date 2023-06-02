@@ -19,7 +19,7 @@ context.lineWidth = 5;
 
 // add the canvas as a texture to a plane geometry
 let texture = new THREE.Texture(canvas);
-let material = new THREE.MeshBasicMaterial({ map: texture, side: THREE.DoubleSide });
+let material = new THREE.MeshBasicMaterial({ map: texture });
 let geometry = new THREE.PlaneGeometry(10, 10);
 let mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
@@ -60,8 +60,6 @@ Note that we use the `needsUpdate` property of the texture to tell three.js that
 
 I had to change `canvas.addEventListener` to `window.addEventListener`, but it worked. :)
 
-*Great, Tam.  Because now I can't get it working at all.*
-
 It's worth noting that if you used `window.addEventListener` instead of `canvas.addEventListener`, the event listeners would be attached to the **entire window** instead of just the canvas element.
 
 **This could cause issues** if you have other elements on the page that also respond to mouse events.
@@ -81,7 +79,7 @@ Yes, you can add a `PlaneGeometry` to the scene, **apply an image texture** to i
 let geometry = new THREE.PlaneGeometry(10, 10);
 let textureLoader = new THREE.TextureLoader();
 let texture = textureLoader.load('path/to/image.jpg');
-let material = new THREE.MeshBasicMaterial({map: texture, side: THREE.DoubleSide});
+let material = new THREE.MeshBasicMaterial({map: texture});
 let mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
 
@@ -117,21 +115,23 @@ function onCanvasMouseDown(event) {
 canvas.addEventListener('mousedown', onCanvasMouseDown);
 ```
 
-In this example, we first create a **`PlaneGeometry` with an image texture** and add it to the scene.
+<br>
 
-Then, we create a new **canvas element** and use it as a **texture** for the `PlaneGeometry`.
+In this example, we first create a `PlaneGeometry` with an image texture and add it to the scene.
+
+Then, we create a new canvas element and use it as a texture for the `PlaneGeometry`.
 
 We also define event listeners to allow the user to draw on the canvas texture.
 
-Note that we **update the map property** of the `MeshBasicMaterial` to use the canvas texture instead of the original image texture.
+Note that we update the map property of the `MeshBasicMaterial` to use the canvas texture instead of the original image texture.
 
 <span style="color:red; font-weight:bold">Instead of??</span>
 
 We also use the `needsUpdate` property of the `CanvasTexture` to tell three.js that the texture has changed and needs to be updated.
 
-This way, the **user can draw on the canvas texture** that is applied to the `PlaneGeometry`, while still seeing the underlying image texture.
+This way, the user can draw on the canvas texture that is applied to the `PlaneGeometry`, while still seeing the underlying image texture.
 
-### ¿Problema?
+## ¿Problema?
 
 my image path is correct.  i added a light source.  i checked the code for errors.  but the image is not showing up.  i can still draw.
 
@@ -141,17 +141,89 @@ In three.js, textures are loaded asynchronously, which means that they may not b
 
 You can use the `TextureLoader` to load your image and set the material's map property once the image has finished loading.
 
+<mark>**Still didn't work.**</mark>
+
 ```js
+let isDrawing = false;
+let scene = new THREE.Scene();
+let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.z = 5;
+
+let renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setClearColor(0x101010);
+document.body.appendChild(renderer.domElement);
+
+// create a plane geometry with a texture
+let geometry = new THREE.PlaneGeometry(10, 10);
 let textureLoader = new THREE.TextureLoader();
 
 // load the texture
-textureLoader.load('path/to/image.jpg', function (texture) {
-  // create a plane geometry with a texture
-  let geometry = new THREE.PlaneGeometry(10, 10);
-  let material = new THREE.MeshBasicMaterial({map: texture, side: THREE.DoubleSide});
-  let mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh);
+textureLoader.load('uv_grid_opengl.jpg', function(texture) {
+    // create a plane geometry with a texture
+    let geometry = new THREE.PlaneGeometry(10, 10);
+    let material = new THREE.MeshBasicMaterial({
+        map: texture
+    });
+    let mesh = new THREE.Mesh(geometry, material);
+    scene.add(mesh);
+
+    // create a canvas element and add it as a texture to the plane geometry
+    let canvas = document.createElement('canvas');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let context = canvas.getContext('2d');
+    context.strokeStyle = "#ff0000";
+    context.lineWidth = 2;
+
+    let canvasTexture = new THREE.CanvasTexture(canvas);
+    material.map = canvasTexture;
+
+    // let element = canvas;
+    let element = document;
+
+    // allow the user to draw on the canvas
+    function onCanvasMouseDown(event) {
+        isDrawing = true;
+        let x = event.clientX - canvas.offsetLeft;
+        let y = event.clientY - canvas.offsetTop;
+        context.beginPath();
+        context.moveTo(x, y);
+    }
+    element.addEventListener('mousedown', onCanvasMouseDown);
+
+    function onCanvasMouseMove(event) {
+        if (isDrawing) {
+            let x = event.clientX - canvas.offsetLeft;
+            let y = event.clientY - canvas.offsetTop;
+            context.lineTo(x, y);
+            context.stroke();
+            canvasTexture.needsUpdate = true;
+        }
+    }
+    element.addEventListener('mousemove', onCanvasMouseMove);
+
+    element.addEventListener('mouseup', function() {
+        isDrawing = false;
+        context.closePath();
+        context.stroke();
+    });
 });
+
+/* Resize Event */
+window.addEventListener("resize", function() {
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.render(scene, camera);
+});
+
+/* Animate */
+(function animate() {
+    requestAnimationFrame(animate);
+    renderer.render(scene, camera);
+})();
 ```
 
 <br>
@@ -169,7 +241,7 @@ Right. But now we can't use "material" later on.
 
 If the image still doesn't show up after using the `TextureLoader`, make sure that the image is a valid format (such as JPG, PNG, or GIF) and that the file is not corrupt.
 
-### Add 2D canvas to image plane
+## Add 2D canvas to image plane
 
 (Before we added it to a plain plane.)
 
@@ -181,23 +253,23 @@ This means that the **canvas texture** is no longer **used as the material of th
 
 If you want to see the original image texture, you can set the `map` property of the `MeshBasicMaterial` back to the original image texture.
 
-### Nope, pause... ✋🏼
-
-`planeMaterial.map = canvasTexture` does not work.
+## Nope, pause... ✋🏼
 
 If `planeMaterial.map = canvasTexture` is not working, it's possible that there is an issue with the `canvasTexture` object.
 
-Make sure that you have created the `canvasTexture` object correctly and that it is **loaded before assigning it** to the map property of the material.
+***(If I put it, the image doesn't show; but if I take it out, the image shows, but then I can't draw.)***
 
-Also, check that the `canvasTexture` object has the **correct dimensions** and format. In three.js, **textures must have power-of-two dimensions** (e.g. `256x256`, `512x512`, etc.), and some **formats** (such as `SVG`) may not be supported.
+Make sure that you have created the `canvasTexture` object correctly and that it is loaded before assigning it to the map property of the material.
 
-Here's an example of how to **create a canvas texture** and **apply it** to a **plane geometry**:
+Also, check that the `canvasTexture` object has the correct dimensions and format. In three.js, **textures must have power-of-two dimensions** (e.g. `256x256`, `512x512`, etc.), and some formats (such as `SVG`) may not be supported.
+
+Here's an example of how to create a canvas texture and apply it to a plane geometry:
 
 ```js
 let geometry = new THREE.PlaneGeometry(10, 10);
 let textureLoader = new THREE.TextureLoader();
 let texture = textureLoader.load('path/to/image.jpg');
-let material = new THREE.MeshBasicMaterial({map: texture, side: THREE.DoubleSide});
+let material = new THREE.MeshBasicMaterial({map: texture});
 let mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
 
@@ -207,7 +279,9 @@ let context = canvas.getContext('2d');
 canvas.width = 512;
 canvas.height = 512;
 let canvasTexture = new THREE.CanvasTexture(canvas);
-let planeMaterial = new THREE.MeshBasicMaterial({map: canvasTexture, side: THREE.DoubleSide});
+
+// New:
+let planeMaterial = new THREE.MeshBasicMaterial({map: canvasTexture});
 mesh.material = planeMaterial;
 ```
 
@@ -219,6 +293,6 @@ Then we create a `Mesh` object with a `PlaneGeometry` and the original image tex
 
 Finally, we set the `material` property of the mesh to the `MeshBasicMaterial` with the canvas texture.
 
-If the problem persists, try checking the console for any error messages that may help you identify the issue.
+If the problem persists, go on vacation instead. <span style="font-size:28px;">🏝️ 🌴 🍹</span>
 
 <br>
