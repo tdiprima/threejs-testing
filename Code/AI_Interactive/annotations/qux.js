@@ -7,7 +7,7 @@ const textGeometry = new THREE.TextGeometry("fubar", {
   height: 0.05
 });
 
-const textMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 });
+const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
 
 // hold the text meshes for each text annotation
 const textMeshes = [];

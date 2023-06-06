@@ -12,7 +12,9 @@ textGeometry = new THREE.TextGeometry("fubar", {
   height: 0.05
 });
 
-textMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 });
+// todo: hello font color
+// textMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 });
+textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
 
 // initialize text mesh
 textMesh = new THREE.Mesh(textGeometry, textMaterial);
