@@ -1,3 +1,31 @@
+// FONT LOADER
+import * as THREE from "three";
+import { FontLoader } from "three/addons/loaders/FontLoader.js";
+import { TextGeometry } from "three/addons/geometries/TextGeometry.js";
+
+// Load the font file
+fontLoader.load("helvetiker_regular.typeface.json", function(font) {
+  // Create the text geometry
+  const textGeometry = new TextGeometry("Hello, World!", {
+    font: font, // Set the loaded font
+    size: 1, // Set the size of the text
+    height: 1, // Set the thickness of the text
+    curveSegments: 12, // Set the number of segments used for curve approximation
+    bevelEnabled: false // Disable bevel
+  });
+
+  // Center the text geometry
+  textGeometry.computeBoundingBox();
+  textGeometry.center();
+
+  // Create a mesh using the text geometry
+  const textMesh = new THREE.Mesh(textGeometry, new THREE.MeshBasicMaterial({ color: 0xffffff }));
+
+  // Add the mesh to the scene or perform any other desired operations
+  scene.add(textMesh);
+});
+
+// GL TRANSMISSION FORMAT
 new GLTFLoader().load(
   "/models/gltf/CesiumMilkTruck.glb",
   gltf => {
@@ -11,8 +39,8 @@ new GLTFLoader().load(
   }
 );
 
+// FILE LOADER
 // https://threejs.org/docs/#api/en/loaders/FileLoader
-
 // load a text file and output the result to the console
 new THREE.FileLoader().load(
   // resource URL
@@ -35,7 +63,7 @@ new THREE.FileLoader().load(
   }
 );
 
-// EASY.
+// TEXTURE LOADER
 let loader = new THREE.TextureLoader();
 let material = new THREE.MeshBasicMaterial({
   map: loader.load("./img.png"),

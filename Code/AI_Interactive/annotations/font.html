@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Font</title>
+</head>
+<body>
+
+<script type="importmap">{
+  "imports": {
+    "three": "/build/three.module.js",
+    "three/addons/": "/jsm/"
+  }
+}
+</script>
+<script async src="/es-module-shims-1.3.6/dist/es-module-shims.js"></script>
+
+<script type="module">
+  // Import necessary modules from Three.js
+  import * as THREE from "three";
+  import { FontLoader } from "three/addons/loaders/FontLoader.js";
+  import { TextGeometry } from "three/addons/geometries/TextGeometry.js";
+
+  // Create a scene, camera, and renderer
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  const renderer = new THREE.WebGLRenderer();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
+
+  // Create a FontLoader instance
+  const fontLoader = new FontLoader();
+
+  // Load the font file
+  fontLoader.load("helvetiker_regular.typeface.json", function(font) {
+    // Create the text geometry
+    const textGeometry = new TextGeometry("Hello, World!", {
+      font: font, // Set the loaded font
+      size: 1, // Set the size of the text
+      height: 1, // Set the thickness of the text
+      curveSegments: 12, // Set the number of segments used for curve approximation
+      bevelEnabled: false // Disable bevel
+    });
+
+    // Center the text geometry
+    textGeometry.computeBoundingBox();
+    textGeometry.center();
+
+    // Create a material for the text
+    const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+
+    // Create a mesh using the text geometry and material
+    const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+
+    // Add the mesh to the scene
+    scene.add(textMesh);
+  });
+
+  // Set camera position
+  camera.position.z = 5;
+
+  /* Resize Event */
+  window.addEventListener("resize", function() {
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.render(scene, camera);
+  });
+
+  /* Animate */
+  (function animate() {
+    requestAnimationFrame(animate);
+    renderer.render(scene, camera);
+  })();
+</script>
+</body>
+</html>
