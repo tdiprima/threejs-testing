@@ -1,3 +1,4 @@
+// Event handlers fire, but nothing gets drawn.
 let scene, camera, renderer, controls;
 let texture, material, mesh;
 let canvas, context;
@@ -47,20 +48,26 @@ function init() {
   context.lineWidth = 5;
 
   function startDrawing(event) {
+    // Set a flag that indicates whether the user is currently drawing.
     isDrawing = true;
     currentX = event.offsetX;
     currentY = event.offsetY;
   }
 
   function stopDrawing(event) {
+    // Unset a flag that indicates whether the user is currently drawing.
     isDrawing = false;
   }
 
   function drawAnnotations() {
+    // Clear the canvas
     context.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Redraw any annotations that have been added.
     for (let i = 0; i < annotations.length; i++) {
       const x = annotations[i].x * canvas.width;
       const y = (1 - annotations[i].y) * canvas.height;
+      // Annotations are represented as red circles.
       context.beginPath();
       context.arc(x, y, 5, 0, Math.PI * 2);
       context.fillStyle = '#FF0000';
@@ -69,6 +76,7 @@ function init() {
   }
 
   function draw(event) {
+    // Handles the actual drawing on the canvas
     if (isDrawing) {
       const x = event.offsetX;
       const y = event.offsetY;
@@ -88,7 +96,7 @@ function init() {
   renderer.domElement.addEventListener('mouseup', stopDrawing);
   renderer.domElement.addEventListener('mouseout', stopDrawing);
 
-  // Add canvas to scene as texture
+  // A CanvasTexture is used for the drawing and annotation canvas.
   const annotationTexture = new THREE.CanvasTexture(canvas);
   const annotationMaterial = new THREE.MeshBasicMaterial({
     map: annotationTexture,
