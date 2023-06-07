@@ -5,15 +5,26 @@ Yes, it is possible to add a 2D context to a three.js scene and allow the user t
 You can create a 2D canvas and then add it as a texture to a 3D plane or quad in your scene.
 
 ```js
+// Simply draw on canvas
+let isDrawing = false;
 let scene = new THREE.Scene();
-// camera, renderer...
+let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.z = 5;
+
+let renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
 
 // create a 2D canvas element
-let canvas = document.createElement('canvas');
-canvas.width = 512;
-canvas.height = 512;
+let canvas = document.createElement("canvas");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-let context = canvas.getContext('2d');
+// This is okay, because we just need to trigger the drawing
+// let element = canvas;
+let element = renderer.domElement;
+
+let context = canvas.getContext("2d");
 context.strokeStyle = "#ff0000";
 context.lineWidth = 5;
 
@@ -25,23 +36,51 @@ let mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
 
 function onCanvasMouseMove(event) {
-  let x = event.clientX - canvas.offsetLeft;
-  let y = event.clientY - canvas.offsetTop;
-  context.lineTo(x, y);
-  context.stroke();
-  texture.needsUpdate = true;
+  if (isDrawing) {
+    let x = event.clientX - canvas.offsetLeft;
+    let y = event.clientY - canvas.offsetTop;
+    context.lineTo(x, y);
+    context.stroke();
+    texture.needsUpdate = true;
+  }
 }
 
 // allow the user to draw on the canvas
 function onCanvasMouseDown(event) {
+  isDrawing = true;
   let x = event.clientX - canvas.offsetLeft;
   let y = event.clientY - canvas.offsetTop;
   context.beginPath();
   context.moveTo(x, y);
-  canvas.addEventListener('mousemove', onCanvasMouseMove);
 }
 
-canvas.addEventListener('mousedown', onCanvasMouseDown);
+function onCanvasMouseUp(event) {
+  isDrawing = false;
+  context.closePath();
+  context.stroke();
+}
+
+element.addEventListener("mousedown", onCanvasMouseDown);
+element.addEventListener("mousemove", onCanvasMouseMove);
+element.addEventListener("mouseup", onCanvasMouseUp);
+```
+
+### Resize & Animate
+
+```js
+/* Resize Event */
+window.addEventListener("resize", function() {
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.render(scene, camera);
+});
+
+/* Animate */
+(function animate() {
+  requestAnimationFrame(animate);
+  renderer.render(scene, camera);
+})();
 ```
 
 <br>
@@ -56,63 +95,76 @@ When the user moves the mouse on the canvas, the `onCanvasMouseMove` function is
 
 Note that we use the `needsUpdate` property of the texture to tell three.js that the texture has changed and needs to be updated.
 
-## Changed Event Listeners
-
-I had to change `canvas.addEventListener` to `window.addEventListener`, but it worked. :)
-
-It's worth noting that if you used `window.addEventListener` instead of `canvas.addEventListener`, the event listeners would be attached to the **entire window** instead of just the canvas element.
-
-**This could cause issues** if you have other elements on the page that also respond to mouse events.
-
-To avoid conflicts with other elements on the page, it's generally a good idea to attach event listeners **directly to the element** you want to track events on.
-
-In this case, you would want to use `canvas.addEventListener` instead of `window.addEventListener`.
-
-BUT CANVAS DOESN'T WORK!
-
 ## Image and draw
 
 Yes, you can add a `PlaneGeometry` to the scene, **apply an image texture** to it, and still allow the user to draw on it.
 
 ```js
-// create a plane geometry with a texture
-let geometry = new THREE.PlaneGeometry(10, 10);
-let textureLoader = new THREE.TextureLoader();
-let texture = textureLoader.load('path/to/image.jpg');
-let material = new THREE.MeshBasicMaterial({map: texture});
-let mesh = new THREE.Mesh(geometry, material);
-scene.add(mesh);
+// Simply draw on canvas
+let isDrawing = false;
+let scene = new THREE.Scene();
+let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.z = 5;
 
-// create a 2D canvas element and add it as a texture to the plane geometry
-let canvas = document.createElement('canvas');
-canvas.width = 512;
-canvas.height = 512;
+let renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
 
-let context = canvas.getContext('2d');
+// create a 2D canvas element because (see below)
+let canvas = document.createElement("canvas");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+// let element = canvas;
+let element = renderer.domElement;
+
+let context = canvas.getContext("2d");
 context.strokeStyle = "#ff0000";
 context.lineWidth = 5;
 
+// add canvas as a texture to the plane geometry
 let canvasTexture = new THREE.CanvasTexture(canvas);
 material.map = canvasTexture;
 
+// create a plane geometry with a texture
+let geometry = new THREE.PlaneGeometry(10, 10);
+let textureLoader = new THREE.TextureLoader();
+let texture = textureLoader.load("path/to/image.jpg");
+let material = new THREE.MeshBasicMaterial({ map: texture });
+let mesh = new THREE.Mesh(geometry, material);
+scene.add(mesh);
+
 function onCanvasMouseMove(event) {
-  let x = event.clientX - canvas.offsetLeft;
-  let y = event.clientY - canvas.offsetTop;
-  context.lineTo(x, y);
-  context.stroke();
-  canvasTexture.needsUpdate = true;
+  if (isDrawing) {
+    let x = event.clientX - canvas.offsetLeft;
+    let y = event.clientY - canvas.offsetTop;
+    context.lineTo(x, y);
+    context.stroke();
+    canvasTexture.needsUpdate = true;
+  }
 }
 
 // allow the user to draw on the canvas
 function onCanvasMouseDown(event) {
+  isDrawing = true;
   let x = event.clientX - canvas.offsetLeft;
   let y = event.clientY - canvas.offsetTop;
   context.beginPath();
   context.moveTo(x, y);
-  canvas.addEventListener('mousemove', onCanvasMouseMove);
 }
 
-canvas.addEventListener('mousedown', onCanvasMouseDown);
+function onCanvasMouseUp(event) {
+  isDrawing = false;
+  context.closePath();
+  context.stroke();
+}
+
+element.addEventListener("mousedown", onCanvasMouseDown);
+element.addEventListener("mousemove", onCanvasMouseMove);
+element.addEventListener("mouseup", onCanvasMouseUp);
+
+/* Resize Event */
+/* Animate */
 ```
 
 <br>
@@ -151,7 +203,7 @@ camera.position.z = 5;
 
 let renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setClearColor(0x101010);
+renderer.setClearColor(0x101010); // Set color so we can see canvas
 document.body.appendChild(renderer.domElement);
 
 // create a plane geometry with a texture
@@ -159,71 +211,62 @@ let geometry = new THREE.PlaneGeometry(10, 10);
 let textureLoader = new THREE.TextureLoader();
 
 // load the texture
-textureLoader.load('uv_grid_opengl.jpg', function(texture) {
-    // create a plane geometry with a texture
-    let geometry = new THREE.PlaneGeometry(10, 10);
-    let material = new THREE.MeshBasicMaterial({
-        map: texture
-    });
-    let mesh = new THREE.Mesh(geometry, material);
-    scene.add(mesh);
+textureLoader.load("uv_grid_opengl.jpg", function(texture) {
+  // create a plane geometry with a texture
+  let geometry = new THREE.PlaneGeometry(10, 10);
+  let material = new THREE.MeshBasicMaterial({
+    map: texture
+  });
+  let mesh = new THREE.Mesh(geometry, material);
+  scene.add(mesh);
 
-    // create a canvas element and add it as a texture to the plane geometry
-    let canvas = document.createElement('canvas');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+  // create a canvas element and add it as a texture to the plane geometry
+  let canvas = document.createElement("canvas");
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
 
-    let context = canvas.getContext('2d');
-    context.strokeStyle = "#ff0000";
-    context.lineWidth = 2;
+  let context = canvas.getContext("2d");
+  context.strokeStyle = "#ff0000";
+  context.lineWidth = 2;
 
-    let canvasTexture = new THREE.CanvasTexture(canvas);
-    material.map = canvasTexture;
+  let canvasTexture = new THREE.CanvasTexture(canvas);
+  material.map = canvasTexture;
 
-    // let element = canvas;
-    let element = document;
+  // let element = canvas;
+  let element = document;
 
-    // allow the user to draw on the canvas
-    function onCanvasMouseDown(event) {
-        isDrawing = true;
-        let x = event.clientX - canvas.offsetLeft;
-        let y = event.clientY - canvas.offsetTop;
-        context.beginPath();
-        context.moveTo(x, y);
+  // allow the user to draw on the canvas
+  function onCanvasMouseDown(event) {
+    isDrawing = true;
+    let x = event.clientX - canvas.offsetLeft;
+    let y = event.clientY - canvas.offsetTop;
+    context.beginPath();
+    context.moveTo(x, y);
+  }
+
+  element.addEventListener("mousedown", onCanvasMouseDown);
+
+  function onCanvasMouseMove(event) {
+    if (isDrawing) {
+      let x = event.clientX - canvas.offsetLeft;
+      let y = event.clientY - canvas.offsetTop;
+      context.lineTo(x, y);
+      context.stroke();
+      canvasTexture.needsUpdate = true;
     }
-    element.addEventListener('mousedown', onCanvasMouseDown);
+  }
 
-    function onCanvasMouseMove(event) {
-        if (isDrawing) {
-            let x = event.clientX - canvas.offsetLeft;
-            let y = event.clientY - canvas.offsetTop;
-            context.lineTo(x, y);
-            context.stroke();
-            canvasTexture.needsUpdate = true;
-        }
-    }
-    element.addEventListener('mousemove', onCanvasMouseMove);
+  element.addEventListener("mousemove", onCanvasMouseMove);
 
-    element.addEventListener('mouseup', function() {
-        isDrawing = false;
-        context.closePath();
-        context.stroke();
-    });
+  element.addEventListener("mouseup", function() {
+    isDrawing = false;
+    context.closePath();
+    context.stroke();
+  });
 });
 
 /* Resize Event */
-window.addEventListener("resize", function() {
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.render(scene, camera);
-});
-
 /* Animate */
-(function animate() {
-    requestAnimationFrame(animate);
-    renderer.render(scene, camera);
-})();
 ```
 
 <br>
