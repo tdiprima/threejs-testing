@@ -13,10 +13,10 @@
 <body>
 <script>
   // Create a scene
-  const scene = new THREE.Scene();
+  let scene = new THREE.Scene();
 
   // Create a camera
-  const camera = new THREE.PerspectiveCamera(
+  let camera = new THREE.PerspectiveCamera(
     75, // field of view
     window.innerWidth / window.innerHeight, // aspect ratio
     0.1, // near clipping plane
@@ -24,28 +24,28 @@
   );
 
   // Create a renderer
-  const renderer = new THREE.WebGLRenderer();
+  let renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
 
   // Create a box geometry
-  const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
+  let boxGeometry = new THREE.BoxGeometry(1.5, 1.5, 1.5);
 
   // Create a material for the box
-  const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+  let material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
 
   // Create a mesh for the box
-  const box = new THREE.Mesh(boxGeometry, material);
+  let box = new THREE.Mesh(boxGeometry, material);
   scene.add(box);
 
   // Create a raycaster
-  const raycaster = new THREE.Raycaster();
+  let raycaster = new THREE.Raycaster();
 
   // Create a mouse vector
-  const mouse = new THREE.Vector2();
+  let mouse = new THREE.Vector2();
 
   // Add an event listener for mouse movements
-  document.addEventListener("mousemove", (event) => {
+  document.addEventListener('mousemove', event => {
     // Calculate the mouse position normalized to the screen
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
@@ -54,7 +54,7 @@
     raycaster.setFromCamera(mouse, camera);
 
     // Check for intersections between the raycaster and the box
-    const intersects = raycaster.intersectObject(box);
+    let intersects = raycaster.intersectObject(box);
 
     // If there is an intersection, change the box color
     if (intersects.length > 0) {
@@ -67,13 +67,18 @@
   // Set the camera position
   camera.position.z = 5;
 
+  window.addEventListener("resize", function () {
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.render(scene, camera);
+  });
+
   // Render the scene
-  function render() {
+  (function render() {
     requestAnimationFrame(render);
     renderer.render(scene, camera);
-  }
-
-  render();
+  })();
 </script>
 </body>
 </html>
