@@ -1,4 +1,4 @@
-# Set up camera
+## Set up camera
 
 ```js
 // Camera defines the field of view
@@ -12,9 +12,11 @@ const camera = new THREE.PerspectiveCamera(
 
 <br>
 
-# Camera size
+## Camera size
 
-[Why is **aspect** a property of both the **camera** *and* size of the **renderer**?](https://discourse.threejs.org/t/why-is-aspect-a-property-of-the-camera-and-size-of-the-renderer/13870)
+Why is **aspect** a property of both the **camera** *and* size of the **renderer**?
+
+[Well?](https://discourse.threejs.org/t/why-is-aspect-a-property-of-the-camera-and-size-of-the-renderer/13870)
 
 `WebGLRenderer.setSize()` just defines the **resolution of the canvas** (by taking into account the pixel ratio).
 
@@ -31,9 +33,9 @@ renderer.setSize( window.innerWidth, window.innerHeight );
 
 <br>
 
-# Camera position
+## Camera position
 
-[Camera position in Three JS](https://youtu.be/lSkC-EeStyQ)
+[Video](https://youtu.be/lSkC-EeStyQ)
 
 ```js
 x = width / left and right // horizontal movement
@@ -43,7 +45,7 @@ z = depth / zoom (in or out)
 
 <br>
 
-# Difference between `updateMatrixWorld()` and `updateProjectionMatrix()`
+## Difference between updateMatrixWorld() and updateProjectionMatrix()
 
 One is a world 🌎, one is a camera (projection). 📽️
 
@@ -75,7 +77,7 @@ ackk updateProjectionMatrix
 
 <br>
 
-# updateProjectionMatrix() 📽️
+## updateProjectionMatrix() 📽️
 
 After making changes to most camera properties, you will have to call [updateProjectionMatrix](http://127.0.0.1:5501/docs/#api/en/cameras/PerspectiveCamera.updateProjectionMatrix) for the changes to take effect.
 
@@ -91,7 +93,7 @@ function onWindowResize() {
 
 <br>
 
-# updateMatrixWorld() 🌎
+## updateMatrixWorld() 🌎
 
 **[From the docs:](https://threejs.org/docs/#api/en/core/Object3D)**
 
@@ -107,7 +109,7 @@ When you **move camera via gui**, you update matrix world on every change in cam
 
 <br>
 
-# What is the purpose of glScissor?
+## What is the purpose of glScissor?
 
 The Scissor Test discards Fragments that fall outside of a certain rectangular portion of the screen.
 
@@ -128,13 +130,13 @@ The scissor rectangle can be used to **temporarily restrict drawing to a sub-rec
 
 <br>
 
-# Side by side
+## Side by side
 
 **OrbitControls** lets the user spin or orbit the camera around some point.
 
 <br>
 
-# camera.up
+## camera.up
 
 ```js
 camera.up = new THREE.Vector3(0, 0, 1);
@@ -147,7 +149,7 @@ Altering the `up` vector is done in only a few examples, and normally not necess
 
 <br>
 
-# lookAt()
+## lookAt()
 
 The `lookAt()` method calls are necessary so the camera looks at the coordinates system's origin, or at the position of the scene. In most cases, the position value of scene is (0,0,0) (the origin).
 
@@ -157,7 +159,7 @@ The `lookAt()` method calls are necessary so the camera looks at the coordinates
 
 <br>
 
-# controls.target vs camera.lookAt
+## controls.target vs camera.lookAt
 
 [Controls.target vs camera.lookAt](https://discourse.threejs.org/t/controls-target-vs-camera-lookat/5086/6)
 
@@ -185,7 +187,7 @@ Rotation and zooming also happens with focus on target. (Focused on the defined 
 
 <br>
 
-# Articles
+## Articles
 
 [visualization and camera](https://observablehq.com/@grantcuster/understanding-scale-and-the-three-js-perspective-camera)
 

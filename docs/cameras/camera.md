@@ -1,6 +1,6 @@
-# Camera 🎥
+## Camera 🎥
 
-# Position
+### Position
 
 ```js
 camera.position.x = 1; // horizontal movement
@@ -28,7 +28,7 @@ camera.position.z = 5; // zoom in or out
 
 <br>
 
-# Perspective Camera
+## Perspective Camera
 
 **[Udacity - Perspective Camera](https://youtu.be/KyTaxN2XUyQ)**
 
@@ -48,7 +48,7 @@ Call **update()**: if you change fov, near, or far, you need to call **`camera.u
 
 <br>
 
-# [How to control camera.position.x from dat.GUI](https://discourse.threejs.org/t/how-to-control-camera-position-x-from-dat-gui/27467)
+[How to control camera.position.x from dat.GUI](https://discourse.threejs.org/t/how-to-control-camera-position-x-from-dat-gui/27467)
 
 It was stupidly complicated, but I learned something.
 
@@ -60,7 +60,7 @@ Also, they rolled their own [axis helper](https://jsfiddle.net/fiddleuser01/rezc
 
 <br>
 
-# Camera Helper
+## Camera Helper
 
 [CameraHelper not linked?](https://discourse.threejs.org/t/camerahelper-not-linked/2319/2)
   
@@ -70,7 +70,7 @@ A CameraHelper draws the frustum for a Camera.
 
 <br>
 
-# Cameras 🎥 🎥
+## Cameras 🎥 🎥
 
 To use 2 cameras, having one do the same thing as the other (mirror the movement), have one be the parent of the other.
 
@@ -81,6 +81,7 @@ camera.add(cameraTop);
 scene.add(camera);
 ```
 
+<br>
 Then, it's the same scene, same canvas, but we're gonna set renderer scissor test.
 
 ```js
@@ -102,3 +103,5 @@ x = window.innerWidth - insetWidth - 16; // 16 for padding, I guess.
 
 renderer.setScissor(x, y, insetWidth, insetHeight);
 ```
+
+<br>

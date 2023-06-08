@@ -1,8 +1,8 @@
 It all started with...
 
-<!--https://stackoverflow.com/questions/73705786/how-to-free-draw-a-line-in-three-js-r144-on-mouse-move-and-using-buffergeometry#73713583-->
+[How to free-draw a line in three.js r144 on mouse move, and using BufferGeometry?](https://stackoverflow.com/questions/73705786/how-to-free-draw-a-line-in-three-js-r144-on-mouse-move-and-using-buffergeometry#73713583)
 
-# compute the side planes of the view frustum
+## compute the side planes of the view frustum
 
 [Frustum Calculation And Culling, Hopefully Demystified](http://davidlively.com/programming/graphics/frustum-calculation-and-culling-hopefully-demystified/)
 
@@ -16,7 +16,7 @@ The view space is the result of transforming your world-space coordinates to coo
 
 [Coordinate Systems](https://learnopengl.com/Getting-started/Coordinate-Systems)
 
-<table>
+<!--<table>
 <thead>
 <tr>
 <th colspan="3">Input values</th>
@@ -51,11 +51,11 @@ The view space is the result of transforming your world-space coordinates to coo
 </tbody>
 </table>
 
-<br>
+<br>-->
 
-# Vertical field of view
+## Vertical field of view
 
-## FOV 120°
+### FOV 120°
 
 [Glossary:Field of view (FOV)](https://www.pcgamingwiki.com/wiki/Glossary:Field_of_view_%28FOV%29)
 
@@ -75,7 +75,7 @@ Field of view is the angular extent of what can be seen with the eye. Various an
 
 <br>
 
-# Binocular vision
+## Binocular vision
 
 [What is Binocular Vision?](https://www.seevividly.com/info/Binocular_Vision)
 
@@ -91,7 +91,7 @@ This forward-facing orientation of the eye means each eye has a rather similar v
 
 <br>
 
-# Calculating the Viewing Frustum in a 3D Space
+## Calculating the Viewing Frustum in a 3D Space
 
 ### [Peep](https://stackoverflow.com/questions/13665932/calculating-the-viewing-frustum-in-a-3d-space)
 
