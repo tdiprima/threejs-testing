@@ -32,7 +32,7 @@
   let boxGeometry = new THREE.BoxGeometry(1.5, 1.5, 1.5);
 
   // Create a material for the box
-  let material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+  let material = new THREE.MeshBasicMaterial({ color: 0x0000ff });
 
   // Create a mesh for the box
   let box = new THREE.Mesh(boxGeometry, material);
@@ -58,9 +58,10 @@
 
     // If there is an intersection, change the box color
     if (intersects.length > 0) {
-      box.material.color.set(0x00ff00);
+      box.material.color.set(0xff00ff);
+      // box.material.color = new THREE.Color(0xffffff * Math.random());
     } else {
-      box.material.color.set(0xff0000);
+      box.material.color.set(0x0000ff);
     }
   });
 
