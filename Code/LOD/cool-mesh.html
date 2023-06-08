@@ -8,7 +8,7 @@
   <!-- https://threejs.org/docs/#api/en/objects/LOD -->
   <!-- https://codepen.io/ptolam/pen/MWbWJLg -->
   <!-- Example: webgl_lod.html -->
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 </head>
 <body>
 <div id="container"></div>
@@ -23,17 +23,17 @@
 <script async src="/es-module-shims-1.3.6/dist/es-module-shims.js"></script>
 
 <script type="module">
-  import * as THREE from 'three';
-  import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+  import * as THREE from "three";
+  import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
-  const $container = $('#container');
+  const container = $("#container");
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   const camera = new THREE.PerspectiveCamera(80, 1, 0.1, 10000);
   const scene = new THREE.Scene();
 
   scene.add(camera);
   renderer.setSize(800, 800);
-  $container.append(renderer.domElement);
+  container.append(renderer.domElement);
 
   // /////////////////////////////////////////////
   // Camera
@@ -46,16 +46,14 @@
 
   // Material
   const pinkMat = new THREE.MeshPhongMaterial({
-    color: new THREE.Color('rgb(226,35,213)'),
-    emissive: new THREE.Color('rgb(255,128,64)'),
-    specular: new THREE.Color('rgb(255,155,255)'),
+    color: new THREE.Color("rgb(226,35,213)"),
+    emissive: new THREE.Color("rgb(255,128,64)"),
+    specular: new THREE.Color("rgb(255,155,255)"),
     shininess: 10,
-    // shading: THREE.FlatShading,
     transparent: 1,
-    opacity: 1
+    opacity: 1,
+    wireframe: true
   });
-
-  const material = new THREE.MeshLambertMaterial( { color: 0xffffff, wireframe: true } );
 
   const L1 = new THREE.PointLight(0xffffff, 1);
   L1.position.z = 100;
@@ -69,26 +67,20 @@
   L2.position.x = -100;
   scene.add(L2);
 
-  // IcoSphere -> THREE.IcosahedronGeometry(80, 1) 1-4
-  // const Ico = new THREE.Mesh(new THREE.IcosahedronGeometry(75, 1), pinkMat);
-  // Ico.rotation.z = 0.5;
-  // scene.add(Ico);
-
   const lod = new THREE.LOD();
 
   // Create spheres with 3 levels of detail and create new LOD levels for them
   for (let i = 0; i < 3; i++) {
     const geometry = new THREE.IcosahedronGeometry(10, 3 - i);
-    // const mesh = new THREE.Mesh(geometry, pinkMat);
-    const mesh = new THREE.Mesh(geometry, material);
+    const mesh = new THREE.Mesh(geometry, pinkMat);
     let distance = i * 75;
     lod.addLevel(mesh, distance);
-    // console.log("%cdistance, object", "color: #ff00cc;", distance, mesh);
+    console.log("%cdistance, object", "color: #ff00cc;", distance, mesh);
   }
 
   scene.add(lod);
   // console.log('%clod', 'color: #ccff00;', lod);
-  console.log('%clod.levels', 'color: #ccff00;', lod.levels);
+  console.log("%clod.levels", "color: #ccff00;", lod.levels);
 
   // Render
   function render() {
