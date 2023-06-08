@@ -23,27 +23,19 @@ scene.add(pointLight);
 // Create a Level of Detail object
 let lod = new THREE.LOD();
 
-// TODO: play with materials
+// Easily switch between materials
 function getMaterial(type, color, geometry) {
+  const opts = { color: color, wireframe: true };
+  let material;
   if (type === 1) {
-    return new THREE.Mesh(geometry, new THREE.MeshStandardMaterial({
-      color: color,
-      wireframe: true
-    }));
-  }
-
+    material = new THREE.MeshStandardMaterial(opts);
+  } else
   if (type === 2) {
-    return new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({
-      color: color,
-      wireframe: true
-    }));
+    material = new THREE.MeshPhongMaterial(opts);
+  } else {
+    material = new THREE.MeshBasicMaterial(opts);
   }
-
-  return new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({
-    color: color,
-    wireframe: true
-  }));
-
+  return new THREE.Mesh(geometry, material);
 }
 
 // Create different levels of detail (meshes or geometries)
