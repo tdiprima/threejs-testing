@@ -12,39 +12,36 @@
 </head>
 <body>
 <script>
-  // Create a scene
-  let scene = new THREE.Scene();
+  let initColor = 0x00ffbe;
+  let rollColor = 0xff0000;
+  let sceneColor = 0x8973f8;
 
-  // Create a camera
+  let scene = new THREE.Scene();
+  scene.background = new THREE.Color(sceneColor);
+
   let camera = new THREE.PerspectiveCamera(
     75, // field of view
     window.innerWidth / window.innerHeight, // aspect ratio
     0.1, // near clipping plane
     1000 // far clipping plane
   );
+  camera.position.z = 5;
 
-  // Create a renderer
   let renderer = new THREE.WebGLRenderer();
+  // renderer.setPixelRatio(window.devicePixelRatio); // not recommended
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
 
-  // Create a box geometry
-  let boxGeometry = new THREE.BoxGeometry(1.5, 1.5, 1.5);
-
-  // Create a material for the box
-  let material = new THREE.MeshBasicMaterial({ color: 0x0000ff });
-
-  // Create a mesh for the box
-  let box = new THREE.Mesh(boxGeometry, material);
+  let box = new THREE.Mesh(
+    new THREE.BoxGeometry(1.5, 1.5, 1.5),
+    new THREE.MeshBasicMaterial({ color: initColor })
+  );
+  // box.position, rotation, scale
   scene.add(box);
 
-  // Create a raycaster
   let raycaster = new THREE.Raycaster();
-
-  // Create a mouse vector
   let mouse = new THREE.Vector2();
 
-  // Add an event listener for mouse movements
   document.addEventListener('mousemove', event => {
     // Calculate the mouse position normalized to the screen
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -58,15 +55,14 @@
 
     // If there is an intersection, change the box color
     if (intersects.length > 0) {
-      box.material.color.set(0xff00ff);
-      // box.material.color = new THREE.Color(0xffffff * Math.random());
+      box.material.color.set(rollColor);
+      // box.material.color = new THREE.Color(
+      //   0xffffff * Math.random()
+      // );
     } else {
-      box.material.color.set(0x0000ff);
+      box.material.color.set(initColor);
     }
   });
-
-  // Set the camera position
-  camera.position.z = 5;
 
   window.addEventListener("resize", function () {
     renderer.setSize(window.innerWidth, window.innerHeight);
