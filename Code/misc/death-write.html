@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Esto es tan extraño.</title>
+  <link href="/css/main.css" rel="stylesheet">
+</head>
+<body>
+
+<script async src="/es-module-shims-1.3.6/dist/es-module-shims.js"></script>
+<script type="importmap">{
+  "imports": {
+    "three": "/build/three.module.js",
+    "three/addons/": "/jsm/"
+  }
+}
+</script>
+<script type="module">
+  import * as THREE from "three";
+  import {OrbitControls} from "three/addons/controls/OrbitControls.js";
+
+  // Set up the scene, camera, and renderer
+  let scene = new THREE.Scene();
+  let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  let renderer = new THREE.WebGLRenderer();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
+
+  let control = new OrbitControls(camera, renderer.domElement);
+
+  // Create a cube geometry and material with depthWrite set to false
+  let geometry = new THREE.BoxGeometry(1, 1, 1);
+  let material = new THREE.MeshBasicMaterial({
+    color: 0x00ff00,
+    depthWrite: false
+  });
+  let cube = new THREE.Mesh(geometry, material);
+  scene.add(cube);
+
+  // Create another cube behind the first one
+  let geometry2 = new THREE.BoxGeometry(1, 1, 1);
+  let material2 = new THREE.MeshBasicMaterial({
+    color: 0xff0000
+  });
+  let cube2 = new THREE.Mesh(geometry2, material2);
+  cube2.position.z = -2;
+  scene.add(cube2);
+
+  // Position the camera
+  camera.position.z = 5;
+
+  window.addEventListener("resize", function () {
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.render(scene, camera);
+  });
+
+  // Render the scene
+  function animate() {
+    requestAnimationFrame(animate);
+
+    // Rotate the cubes. TODO: Let's not, and say we did.
+    // cube.rotation.x += 0.01;
+    // cube.rotation.y += 0.01;
+    // cube2.rotation.x -= 0.01;
+    // cube2.rotation.y -= 0.01;
+
+    control.update();
+
+    renderer.render(scene, camera);
+  }
+  animate();
+</script>
+</body>
+</html>
