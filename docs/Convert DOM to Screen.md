@@ -44,6 +44,36 @@ To understand the significance of this normalization process, consider the follo
 
 The resulting value of `mouseRelativeX * 2 - 1` provides a normalized coordinate that spans the entire screen width, with **0 representing the center.** This normalization is useful when working with graphics, simulations, or other scenarios where a standardized coordinate system is required.
 
+![mouse-coords](img/mouse-coords.jpg)
+
+## Inverted NDC Mouse Position
+
+The formula
+
+```js
+-(event.clientY / window.innerHeight) * 2 + 1
+```
+
+is used to calculate the relative vertical mouse position in a normalized coordinate system called "Normalized Device Coordinates" (NDC).
+
+Let's break down the formula to understand why the negation and addition are used:
+
+1. `vertical = (event.clientY / window.innerHeight)`:
+   This part calculates the vertical position of the mouse relative to the height of the window. It gives a value between 0 and 1, where 0 represents the top edge of the window, and 1 represents the bottom edge.
+
+2. `-(vertical)`:
+   **The negation (`-`) is applied to invert the direction.** Without the negation, the value would increase as the mouse moves down, which might be opposite to the desired behavior. By negating the value, the direction is flipped so that it increases as the mouse moves up.
+
+3. `-(vertical) * 2`:
+   Multiplying by 2 scales the value from the range of 0-1 to 0-2. This doubling of the range helps to cover the full vertical extent of the NDC system, where the valid range is typically -1 to 1.
+
+4. `-(vertical) * 2 + 1`:
+   Finally, the addition of 1 shifts the range from -1 to 1. The resulting value is now mapped to the range of -1 to 1, which is the desired range for the vertical position in NDC. The top edge of the window corresponds to -1, the bottom edge to 1, and the middle of the window to 0.
+
+By following this formula, the relative vertical mouse position is transformed to a range that matches the NDC coordinate system commonly used in computer graphics, making it easier to work with and compare against other values in the same coordinate space.
+
+![coordinates](img/coordinates.png)
+
 
 ## Put the thing where I clicked (verbiage)
 
