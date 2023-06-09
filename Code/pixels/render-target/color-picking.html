@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Read float buffer</title>
+  <title>Read buffer</title>
   <!-- https://discourse.threejs.org/t/how-to-get-texture-color-at-intersection-with-raycast/38631/8 -->
   <style>
     body { margin: 0; }
@@ -120,7 +120,7 @@
 
     planeMesh = new THREE.Mesh(
       new THREE.PlaneGeometry(texture.image.width, texture.image.height),
-      new THREE.MeshBasicMaterial({ map: texture })
+      new THREE.MeshBasicMaterial({ map: texture, side: THREE.DoubleSide })
     );
 
     sceneRTT.add(planeMesh);
