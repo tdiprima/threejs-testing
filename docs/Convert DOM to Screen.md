@@ -1,124 +1,66 @@
-## Put the thing where I clicked
+## Mouse position calculation
 
-Why isn't this working...?
+### Relative horizontal position
 
-```js
-function createTextObject(text, x, y) {
-  // ...
-}
+The calculation `event.clientX / window.innerWidth` gives us the relative position of the mouse pointer within the horizontal range of the browser window. Let's break it down to make sense of it:
 
-function onClick(event) {
-  const canvas = renderer.domElement;
-  const rect = canvas.getBoundingClientRect();
-  const x = event.clientX - rect.left;
-  const y = event.clientY - rect.top;
+- `event.clientX` represents the **horizontal coordinate** of the mouse pointer when a specific event occurs, such as a mouse click or mouse movement. It is typically measured in pixels from the left edge of the browser window.
 
-  const vector = new THREE.Vector2(
-    (x / canvas.clientWidth) * 2 - 1, 
-    -(y / canvas.clientHeight) * 2 + 1
-  );
+- `window.innerWidth` refers to the **width of the browser window**, also measured in pixels. It represents the total horizontal space available for displaying web content.
 
-  raycaster.setFromCamera(vector, camera);
-  const intersects = raycaster.intersectObjects(scene.children);
+By dividing `event.clientX` by `window.innerWidth`, we obtain a **value between 0 and 1**, which represents the relative position of the mouse within the horizontal range of the window.
 
-  if (intersects.length === 0) {
-    const textInput = document.getElementById('text-input');
-    const text = textInput.value.trim();
+Here's how it works:
 
-    if (text !== '') {
-      createTextObject(text, x, y); // oops. vector.x, vector.y
-      textInput.value = '';
-    }
-  }
-}
-```
+- If the mouse pointer is at the very **left** edge of the window, `event.clientX` would be **0**. Dividing 0 by any value gives us 0, indicating that the mouse is at the very leftmost position.
 
-## Because we're professionals? 👉 ☎️ 💀
+- If the mouse pointer is at the very **right** edge of the window, `event.clientX` would be equal to `window.innerWidth`. Dividing `window.innerWidth` by itself gives us **1**, indicating that the mouse is at the very rightmost position.
 
-The issue seems to lie with the incorrect handling of the `event.clientX` and `event.clientY` coordinates when creating the text objects. The `createTextObject` function expects the `x` and `y` coordinates to be in the **scene's coordinate space**, but the `onClick` function is currently passing the coordinates based on the **screen's client space.**
+- For any other position between the left and right edges, the result of `event.clientX / window.innerWidth` would be a decimal value **between** 0 and 1, representing the proportional distance from the left edge.
 
-To fix this issue, you need to convert the screen coordinates (`event.clientX` and `event.clientY`) to the scene's coordinates. You can achieve this by using the `THREE.Vector2` and `THREE.Vector3` classes to unproject the mouse coordinates into the scene.
+In summary, this calculation allows us to determine the **relative horizontal position** of the mouse pointer within the browser window, facilitating various interactions and calculations in web development and JavaScript programming.
 
-Here's an updated version of your code that addresses this issue:
+### Mouse position normalized to the screen
 
-```html
-<input id="text-input" placeholder="Type your text here" type="text"> 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
-```
+When calculating the mouse position normalized to the screen, we perform the operation:
 
 ```js
-  let scene, camera, renderer, mouse, raycaster;
-  let textObjects = [];
-  let fontUrl = "https://threejs.org/examples/fonts/helvetiker_regular.typeface.json";
-  
-  function createTextObject(text, x, y) {
-    const loader = new THREE.FontLoader();
-    loader.load(fontUrl, function (font) {
-      const geometry = new THREE.TextGeometry(text, {
-        font: font,
-        size: 5,
-        height: 0.2
-      });
-      const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
-      const textMesh = new THREE.Mesh(geometry, material);
-      textMesh.position.set(x, y, 0);
-      scene.add(textMesh);
-      textObjects.push(textMesh);
-    });
-  }
-  
-  function onClick(event) {
-    const canvas = renderer.domElement;
-    const rect = canvas.getBoundingClientRect();
-    
-    // Convert screen coordinates to scene coordinates
-    const mouse = new THREE.Vector2(
-      (event.clientX / canvas.clientWidth) * 2 - 1,
-      -(event.clientY / canvas.clientHeight) * 2 + 1
-    );
-    const raycaster = new THREE.Raycaster();
-    raycaster.setFromCamera(mouse, camera);
-    const intersects = raycaster.intersectObjects(scene.children);
-    
-    if (intersects.length === 0) {
-      const textInput = document.getElementById('text-input');
-      const text = textInput.value.trim();
-      if (text !== '') {
-        createTextObject(text, mouse.x, mouse.y);
-        textInput.value = '';
-      }
-    }
-  }
-  
-  function init() {
-    scene = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 30;
-    renderer = new THREE.WebGLRenderer();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(renderer.domElement);
-    
-    mouse = new THREE.Vector2();
-    raycaster = new THREE.Raycaster();
-    
-    document.addEventListener('click', onClick, false);
-  }
-  
-  function animate() {
-    requestAnimationFrame(animate);
-    renderer.render(scene, camera);
-  }
-  
-  init();
-  animate();
-</script>
+mouseRelativeX * 2 - 1;
 ```
 
-With these modifications, the script should now correctly convert the mouse coordinates from the screen space to the scene space, allowing the text objects to be created at the desired positions when the user clicks on the screen.
+Let's explore the reasons behind multiplying by 2 and subtracting 1:
+
+1. **Multiplying by 2:**
+   By multiplying `mouseRelativeX` by 2, we are **scaling** the relative position from the range [0, 1] to [0, 2]. This scaling allows us to expand the range to cover the full width of the normalized coordinate system.
+
+2. **Subtracting 1:**
+   After multiplying by 2, we subtract 1 from the result. This step is performed to **center** the coordinate system on the screen. By subtracting 1, we shift the range from [0, 2] to [-1, 1], where 0 represents the center of the screen.
+
+To understand the significance of this normalization process, consider the following:
+
+- The original `mouseRelativeX` value, ranging from 0 to 1, represents the position of the mouse relative to the width of the browser window.
+- By multiplying by 2, the range expands to cover the full width of the normalized coordinate system, which is twice the width of the screen.
+- Subtracting 1 centers the coordinate system, with 0 representing the middle of the screen horizontally.
+
+The resulting value of `mouseRelativeX * 2 - 1` provides a normalized coordinate that spans the entire screen width, with **0 representing the center.** This normalization is useful when working with graphics, simulations, or other scenarios where a standardized coordinate system is required.
+
+
+## Put the thing where I clicked (verbiage)
+
+The `createTextObject` function expects the x and y coordinates to be in the **scene's coordinate space,** but the `onClick` function is currently passing the coordinates based on the **screen's client space** (event.clientX and clientY).
+
+You need to convert the screen coordinates (`event.clientX` and `event.clientY`) to the scene's coordinates. You can achieve this by using the `THREE.Vector2` class to unproject the mouse coordinates into the scene.
+
+The script should now correctly convert the mouse coordinates from the screen space to the scene space, allowing the text objects to be created at the desired positions when the user clicks on the screen.
 
 ## Convert DOM to Screen
 
-To convert the `left` and `top` coordinates obtained from `renderer.domElement.getBoundingClientRect()` to Three.js screen coordinates, you can use the following steps:
+```js
+let elem = renderer.domElement;
+let rect = elem.getBoundingClientRect();
+```
+
+To convert the **`left` and `top` coordinates** obtained to Three.js **screen coordinates**, you can use the following steps:
 
 1. Get the dimensions of the renderer's canvas:
 
