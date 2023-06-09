@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>>I did it</title>
+  <title>Color on Click</title>
   <!-- https://discourse.threejs.org/t/how-to-get-pixel-data-from-maps/25966 -->
   <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
   <style>
@@ -23,8 +23,10 @@
   let renderer;
   let canvas, material, mesh, loader;
 
-  const width = window.innerWidth / 2;
-  const height = window.innerHeight / 2;
+  // const width = window.innerWidth / 2;
+  // const height = window.innerHeight / 2;
+  const width = window.innerWidth;
+  const height = window.innerHeight;
 
   init();
   animate();
@@ -61,6 +63,10 @@
         pxl[i + 2] = 255 * pxl[i + 2];
         pxl[i + 3] = 255;
       }
+
+      // Shade the whole thing magenta
+      // pxl[i] = 255;
+      // pxl[i + 2] = 255;
     }
     context.putImageData(data, 0, 0);
   }
