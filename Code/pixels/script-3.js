@@ -1,4 +1,4 @@
-let IMAGE = "uv_grid_opengl.jpg";
+let IMAGE = "/textures/images/uv_grid_opengl.jpg";
 
 // Set up the scene, camera and renderer
 let scene = new THREE.Scene();

@@ -1,5 +1,5 @@
 // Use texture loader, change colors on mouse move
-let IMAGE = "uv_grid_opengl.jpg";
+let IMAGE = "/textures/images/uv_grid_opengl.jpg";
 // let IMAGE = "https://threejs.org/examples/textures/uv_grid_opengl.jpg";
 
 // Set up the scene, camera and renderer

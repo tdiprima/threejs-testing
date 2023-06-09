@@ -73,7 +73,8 @@
     const loader = new THREE.TextureLoader();
 
     // Read image data from texture and output it to the console.
-    const texture = loader.load('https://threejs.org/examples/textures/uv_grid_opengl.jpg', texture => {
+    // https://threejs.org/examples/textures/uv_grid_opengl.jpg
+    const texture = loader.load('/textures/images/uv_grid_opengl.jpg', texture => {
       getData(texture);
       // TODO: OR -
       // setMaterialColor(texture);
