@@ -4,7 +4,7 @@ import { FontLoader } from "three/addons/loaders/FontLoader.js";
 import { TextGeometry } from "three/addons/geometries/TextGeometry.js";
 
 // Load the font file
-fontLoader.load("helvetiker_regular.typeface.json", function(font) {
+fontLoader.load("https://threejs.org/examples/fonts/helvetiker_regular.typeface.json", function(font) {
   // Create the text geometry
   const textGeometry = new TextGeometry("Hello, World!", {
     font: font, // Set the loaded font
