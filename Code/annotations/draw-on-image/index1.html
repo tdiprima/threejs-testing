@@ -18,6 +18,7 @@
   let scene, camera, renderer;
   let canvas, canvasContext;
   let isDrawing = false;
+  let mouse = new THREE.Vector2();
 
   // Initialize
   function init() {
@@ -47,10 +48,12 @@
       canvasContext.drawImage(image, 0, 0, window.innerWidth, window.innerHeight);
 
       // Draw on canvas
-      canvas.addEventListener('mousedown', startDrawing);
-      canvas.addEventListener('mousemove', draw);
-      canvas.addEventListener('mouseup', stopDrawing);
-      canvas.addEventListener('mouseout', stopDrawing);
+      // const element = canvas;
+      const element = renderer.domElement;
+      element.addEventListener('mousedown', startDrawing);
+      element.addEventListener('mousemove', draw);
+      element.addEventListener('mouseup', stopDrawing);
+      element.addEventListener('mouseout', stopDrawing);
 
       // Add canvas to the scene
       const texture = new THREE.CanvasTexture(canvas);
@@ -66,17 +69,17 @@
 
   // Start drawing
   function startDrawing(event) {
-    console.log("Here");
     isDrawing = true;
     draw(event);
   }
 
   // Draw on canvas
   function draw(event) {
-    console.log("Here");
     if (isDrawing) {
-      const x = event.clientX;
-      const y = event.clientY;
+      // const x = event.clientX;
+      // const y = event.clientY;
+      const x = (event.clientX / window.innerWidth) * 2 - 1;
+      const y = -(event.clientY / window.innerHeight) * 2 + 1;
       canvasContext.fillStyle = 'black';
       canvasContext.fillRect(x, y, 5, 5);
     }
@@ -84,7 +87,6 @@
 
   // Stop drawing
   function stopDrawing() {
-    console.log("Here");
     isDrawing = false;
   }
 
