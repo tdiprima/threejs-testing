@@ -12,13 +12,13 @@
   </style>
 </head>
 <body>
-<script src="https://threejs.org/build/three.js"></script>
+<!-- <script src="https://threejs.org/build/three.js"></script> -->
+<script src="/build/three.js"></script>
 <script>
   // Variables
   let scene, camera, renderer;
   let canvas, canvasContext;
   let isDrawing = false;
-  let mouse = new THREE.Vector2();
 
   // Initialize
   function init() {
@@ -36,13 +36,13 @@
 
     // Load image
     const image = new Image();
-    image.src = '/textures/images/cut-the-rope.jpg';
+    image.src = "/textures/images/cut-the-rope.jpg";
     image.onload = function() {
       // Create canvas
-      canvas = document.createElement('canvas');
+      canvas = document.createElement("canvas");
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
-      canvasContext = canvas.getContext('2d');
+      canvasContext = canvas.getContext("2d");
 
       // Draw the image on the canvas
       canvasContext.drawImage(image, 0, 0, window.innerWidth, window.innerHeight);
@@ -50,10 +50,10 @@
       // Draw on canvas
       // const element = canvas;
       const element = renderer.domElement;
-      element.addEventListener('mousedown', startDrawing);
-      element.addEventListener('mousemove', draw);
-      element.addEventListener('mouseup', stopDrawing);
-      element.addEventListener('mouseout', stopDrawing);
+      element.addEventListener("mousedown", startDrawing);
+      element.addEventListener("mousemove", draw);
+      element.addEventListener("mouseup", stopDrawing);
+      element.addEventListener("mouseout", stopDrawing);
 
       // Add canvas to the scene
       const texture = new THREE.CanvasTexture(canvas);
@@ -76,12 +76,14 @@
   // Draw on canvas
   function draw(event) {
     if (isDrawing) {
-      // const x = event.clientX;
-      // const y = event.clientY;
-      const x = (event.clientX / window.innerWidth) * 2 - 1;
-      const y = -(event.clientY / window.innerHeight) * 2 + 1;
-      canvasContext.fillStyle = 'black';
-      canvasContext.fillRect(x, y, 5, 5);
+      let rect = canvas.getBoundingClientRect();
+      let x = event.clientX - rect.left;
+      let y = event.clientY - rect.top;
+      console.log(event.clientX, x);
+
+      // Draw square
+      canvasContext.fillStyle = "black";
+      canvasContext.fillRect(x, y, 50, 50);
     }
   }
 
