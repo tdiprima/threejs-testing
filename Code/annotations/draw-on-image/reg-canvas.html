@@ -6,10 +6,15 @@
   <title>Image Canvas</title>
 </head>
 <body>
-<canvas height="400" id="canvas" width="400"></canvas>
+<!-- <canvas height="400" id="canvas" width="400"></canvas> -->
 <script>
   window.onload = function() {
-    let canvas = document.getElementById("canvas");
+    // let canvas = document.getElementById("canvas");
+    let canvas = document.createElement('canvas');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    document.body.appendChild(canvas);
+
     let context = canvas.getContext("2d");
 
     // Load image
