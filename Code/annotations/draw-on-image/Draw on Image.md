@@ -14,7 +14,11 @@ const plane = new THREE.Mesh(planeGeometry, material);
 scene.add(plane);
 ```
 
+Also, we did `{ alpha: true }` on the renderer. Remove it and see if it matters.
+
 Can you *draw* using HTML5?  No.  Draw using a geometry.
+
+**Disclaimer:** You can.  If you're loading the image using a texture.  But then you don't see the image for some reason.  That's why I'm here.
 
 Coordinates &ndash; since we're using geometries, *now* we convert the coordinates.
 

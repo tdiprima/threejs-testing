@@ -93,12 +93,11 @@
   // Draw on canvas
   function draw(event) {
     if (isDrawing) {
-      let rect = canvas.getBoundingClientRect();
-      let x = event.clientX - rect.left;
-      let y = event.clientY - rect.top;
-      console.log(event.clientX, x);
-
       // Draw square (doesn't work)
+      // let rect = canvas.getBoundingClientRect();
+      // let x = event.clientX - rect.left;
+      // let y = event.clientY - rect.top;
+      // console.log(event.clientX, x);
       // canvasContext.fillStyle = "black";
       // canvasContext.fillRect(x, y, 50, 50);
 
@@ -109,8 +108,8 @@
       scene.add(cube);
 
       // Now that we're using three.js, we have to use three.js coordinates
-      x = (event.clientX / window.innerWidth) * 2 - 1;
-      y = -(event.clientY / window.innerHeight) * 2 + 1;
+      let x = (event.clientX / window.innerWidth) * 2 - 1;
+      let y = -(event.clientY / window.innerHeight) * 2 + 1;
       cube.position.set(x, y, 0);
       // Was this "z" the ticket this whole time? Nope! Doesn't work.
       // let z = (camera.near + camera.far) / (camera.near - camera.far);
