@@ -4,86 +4,109 @@
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Free-draw on Image using Three.js</title>
-  <!-- Showing that it doesn't work. Throwing everything into the texture loader. -->
+  <!-- FRANKENSTEIN: Draw using raycasting -->
+  <!-- Load the image and use the plane to raycast against. -->
   <style>
-    body {
-      margin: 0;
-      overflow: hidden;
-    }
-
-    canvas {
-      display: block;
-      pointer-events: none;
-    }
+    body { margin: 0; }
+    canvas { display: block; }
   </style>
 </head>
 <body>
-<script src="/build/three.js"></script>
-<script>
-  console.log(THREE.REVISION);
-  let isDrawing = false;
+  <script src="/build/three.js"></script>
+  <script>
+    // Set up scene and camera
+    let scene = new THREE.Scene();
+    let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 5;
+    camera.lookAt(new THREE.Vector3(0, 0, 0));
 
-  let scene = new THREE.Scene();
+    let renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
 
-  let camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
-  camera.position.z = 10;
+    // Set up geometry to raycast against
+    // let boxGeometry = new THREE.BoxGeometry(window.innerWidth, window.innerHeight, 1);
+    // let material = new THREE.MeshBasicMaterial({ color: "#cae9f5" });
+    // let cube = new THREE.Mesh(boxGeometry, material);
+    // scene.add(cube);
 
-  let renderer = new THREE.WebGLRenderer();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  document.body.appendChild(renderer.domElement);
+    const loader = new THREE.TextureLoader();
+    let mesh;
+    const planeGeom = new THREE.PlaneGeometry(10, 10);
 
-  new THREE.TextureLoader().load("/textures/images/cut-the-rope.jpg", function(texture) {
-    // create a plane geometry with a texture
-    let planeGeometry = new THREE.PlaneGeometry(10, 10, 1, 1);
-    let planeMaterial = new THREE.MeshBasicMaterial({ map: texture });
-    let plane = new THREE.Mesh(planeGeometry, planeMaterial);
-    scene.add(plane);
+    // Get texture
+    const tex = loader.load("/textures/images/cut-the-rope.jpg", tex => {
+      tex.needsUpdate = true;
+      console.log('aspect', tex.image.height / tex.image.width);
+      mesh.scale.set(1.0, tex.image.height / tex.image.width, 1.0);
+    });
 
-    let canvas = document.createElement("canvas");
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    // Set material texture
+    const material = new THREE.MeshBasicMaterial({
+      map: tex,
+      side: THREE.DoubleSide
+    });
 
-    let context = canvas.getContext("2d");
+    mesh = new THREE.Mesh(planeGeom, material);
+    scene.add(mesh);
 
-    let canvasTexture = new THREE.CanvasTexture(canvas);
-    planeMaterial.map = canvasTexture; // todo: because of this
+    // Set up the raycaster and mouse vector
+    let raycaster = new THREE.Raycaster();
+    let mouse = new THREE.Vector2();
 
-    context.strokeStyle = "#FF0000";
-    context.lineWidth = 5;
+    // Set up line material and geometry
+    let lineMaterial = new THREE.LineBasicMaterial({ color: "#0000ff" });
+    let bufferGeometry = new THREE.BufferGeometry();
 
-    function onCanvasMouseDown(event) {
-      isDrawing = true;
-      let x = event.clientX - canvas.offsetLeft;
-      let y = event.clientY - canvas.offsetTop;
-      context.beginPath();
-      context.moveTo(x, y);
-    }
+    // Set up array to hold line data
+    let positions = [];
 
-    function onCanvasMouseMove(event) {
-      if (isDrawing) {
-        let x = event.clientX - canvas.offsetLeft;
-        let y = event.clientY - canvas.offsetTop;
-        context.lineTo(x, y);
-        context.stroke();
-        canvasTexture.needsUpdate = true;
+    // Set up line object
+    let line = new THREE.Line(bufferGeometry, lineMaterial);
+    scene.add(line);
+
+    // Set up the mouse event listeners
+    document.addEventListener("mousemove", onMouseMove, false);
+    document.addEventListener("mouseup", onMouseUp, false);
+
+    function onMouseMove(event) {
+      // Calculate mouse position in normalized device coordinates
+      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+      // Use raycaster to get intersection point with scene
+      raycaster.setFromCamera(mouse, camera);
+      let intersects = raycaster.intersectObjects(scene.children, true);
+
+      if (intersects.length > 0) {
+        let point = intersects[0].point;
+        positions.push(point.x, point.y, point.z);
+        line.geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
       }
     }
 
-    document.addEventListener("mousemove", onCanvasMouseMove);
-    document.addEventListener("mousedown", onCanvasMouseDown);
+    function onMouseUp() {
+      // Remove the mouse event listeners
+      document.removeEventListener("mousemove", onMouseMove);
+      document.removeEventListener("mouseup", onMouseUp);
 
-    document.addEventListener("mouseup", function() {
-      isDrawing = false;
-      context.closePath();
-      context.stroke();
+      // Draw the final line
+      console.log("positions", positions);
+      line.geometry.setDrawRange(0, positions.length / 3);
+      line.geometry.computeBoundingSphere();
+    }
+
+    window.addEventListener("resize", function () {
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.render(scene, camera);
     });
 
-  });
-
-  (function render() {
-    requestAnimationFrame(render);
-    renderer.render(scene, camera);
-  })();
-</script>
+    (function animate() {
+      requestAnimationFrame(animate);
+      renderer.render(scene, camera);
+    })();
+  </script>
 </body>
 </html>
