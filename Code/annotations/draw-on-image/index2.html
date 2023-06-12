@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Free-draw on Image using Three.js</title>
-  <!-- Throwing everything into the texture loader -->
+  <!-- Showing that it doesn't work. Throwing everything into the texture loader. -->
   <style>
     body {
       margin: 0;
@@ -46,7 +46,7 @@
     let context = canvas.getContext("2d");
 
     let canvasTexture = new THREE.CanvasTexture(canvas);
-    planeMaterial.map = canvasTexture;
+    planeMaterial.map = canvasTexture; // todo: because of this
 
     context.strokeStyle = "#FF0000";
     context.lineWidth = 5;
