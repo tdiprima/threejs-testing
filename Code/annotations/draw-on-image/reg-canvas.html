@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Image Canvas</title>
+</head>
+<body>
+<canvas height="400" id="canvas" width="400"></canvas>
+<script>
+  window.onload = function() {
+    let canvas = document.getElementById("canvas");
+    let context = canvas.getContext("2d");
+
+    // Load image
+    let image = new Image();
+    image.src = "/textures/images/cut-the-rope.jpg";
+    image.onload = function() {
+      context.drawImage(image, 0, 0); // Draw the image on the canvas
+    };
+
+    // Handle mouse click
+    canvas.addEventListener("click", event => {
+      let rect = canvas.getBoundingClientRect();
+      let x = event.clientX - rect.left;
+      let y = event.clientY - rect.top;
+
+      // Draw square
+      context.fillStyle = "red";
+      context.fillRect(x, y, 50, 50);
+    });
+  };
+</script>
+</body>
+</html>
