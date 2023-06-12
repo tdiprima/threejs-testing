@@ -4,14 +4,14 @@
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Free-draw on Image using Three.js</title>
-  <!-- Load image using HTML5 -->
+  <!-- TODO: FRANKENSTEIN: Draw using raycasting -->
+  <!-- In which case, I could probably load the image and use the plane to raycast against. -->
   <style>
     body { margin: 0; }
     canvas { display: block; }
   </style>
 </head>
 <body>
-<!-- <script src="https://threejs.org/build/three.js"></script> -->
 <script src="/build/three.js"></script>
 <script>
   // Variables
@@ -19,30 +19,13 @@
   let canvas, canvasContext;
   let isDrawing = false;
 
-  const frustumSize = 4;
-  const varTop = frustumSize / 2; // Because it always wigs out if you declare a "top"
-  const varBottom = frustumSize / -2; // It's fine with "bottom", but idc
-  const aspect = window.innerWidth / window.innerHeight;
-
   // Initialize
   function init() {
     // Create scene
     scene = new THREE.Scene();
 
-    // TODO: Switch cameras
     // Create camera
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-
-    // Orthogonal camera for 2D drawing
-    // camera = new THREE.OrthographicCamera(
-    //   frustumSize * aspect / -2, // left
-    //   frustumSize * aspect / 2,  // right
-    //   varTop,                    // top
-    //   varBottom,                 // bottom
-    //   0.1,                       // near
-    //   20                         // far
-    // );
-
     camera.position.z = 3;
 
     // Create renderer
@@ -63,20 +46,21 @@
       // Draw the image on the canvas
       canvasContext.drawImage(image, 0, 0, window.innerWidth, window.innerHeight);
 
+      // const element = canvas;
+      const element = renderer.domElement;
+
+      // Draw on canvas
+      element.addEventListener('mousedown', startDrawing);
+      element.addEventListener('mousemove', draw);
+      element.addEventListener('mouseup', stopDrawing);
+      element.addEventListener('mouseout', stopDrawing);
+
       // Add canvas to the scene
       const texture = new THREE.CanvasTexture(canvas);
       const material = new THREE.MeshBasicMaterial({ map: texture });
       const planeGeometry = new THREE.PlaneGeometry(2, 2);
       const plane = new THREE.Mesh(planeGeometry, material);
       scene.add(plane);
-
-      // const element = canvas;
-      const element = renderer.domElement;
-      // const element = plane;
-      element.addEventListener("mousedown", startDrawing);
-      element.addEventListener("mousemove", draw);
-      element.addEventListener("mouseup", stopDrawing);
-      element.addEventListener("mouseout", stopDrawing);
 
       // Render the scene
       render();
@@ -92,27 +76,19 @@
   // Draw on canvas
   function draw(event) {
     if (isDrawing) {
-      // Draw square (doesn't work)
-      // let rect = canvas.getBoundingClientRect();
-      // let x = event.clientX - rect.left;
-      // let y = event.clientY - rect.top;
-      // console.log(event.clientX, x);
-      // canvasContext.fillStyle = "black";
-      // canvasContext.fillRect(x, y, 50, 50);
+      // const x = event.clientX;
+      // const y = event.clientY;
+      // canvasContext.fillStyle = 'black';
+      // canvasContext.fillRect(x, y, 5, 5);
 
-      // todo: Fine. Draw a geometry, then.
       let geometry = new THREE.BoxGeometry(0.25, 0.25, 0.25);
-      let material = new THREE.MeshBasicMaterial({ color: 0x0000ff });
+      let material = new THREE.MeshBasicMaterial({ color: 0x000000 });
       let cube = new THREE.Mesh(geometry, material);
       scene.add(cube);
 
-      // Now that we're using three.js, we have to use three.js coordinates
       let x = (event.clientX / window.innerWidth) * 2 - 1;
       let y = -(event.clientY / window.innerHeight) * 2 + 1;
       cube.position.set(x, y, 0);
-      // Was this "z" the ticket this whole time? Nope! Doesn't work.
-      // let z = (camera.near + camera.far) / (camera.near - camera.far);
-      // cube.position.set(x, y, z);
     }
   }
 
@@ -133,6 +109,8 @@
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
   };
 </script>
 </body>

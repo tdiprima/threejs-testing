@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Free-draw on Image using Three.js</title>
+  <!-- TODO: FRANKENSTEIN: Draw using raycasting -->
+  <!-- In which case, I could probably load the image and use the plane to raycast against. -->
+  <style>
+    body {
+      margin: 0;
+    }
+
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <script src="/build/three.js"></script>
+  <script>
+    // Set up scene and camera
+    let scene = new THREE.Scene();
+    let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 5;
+    camera.lookAt(new THREE.Vector3(0, 0, 0));
+
+    let renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    // Set up geometry to raycast against
+    // let boxGeometry = new THREE.BoxGeometry(window.innerWidth, window.innerHeight, 1);
+    // let material = new THREE.MeshBasicMaterial({ color: "#cae9f5" });
+    // let cube = new THREE.Mesh(boxGeometry, material);
+    // scene.add(cube);
+
+    const loader = new THREE.TextureLoader();
+    let mesh;
+    const planeGeom = new THREE.PlaneGeometry(10, 10);
+
+    // Get texture
+    const tex = loader.load("/textures/images/cut-the-rope.jpg", tex => {
+      tex.needsUpdate = true;
+      console.log('aspect', tex.image.height / tex.image.width);
+      mesh.scale.set(1.0, tex.image.height / tex.image.width, 1.0);
+    });
+
+    // Set material texture
+    const material = new THREE.MeshBasicMaterial({
+      map: tex,
+      side: THREE.DoubleSide
+    });
+
+    mesh = new THREE.Mesh(planeGeom, material);
+    scene.add(mesh);
+
+
+    // Set up the raycaster and mouse vector
+    let raycaster = new THREE.Raycaster();
+    let mouse = new THREE.Vector2();
+
+    // Set up line material and geometry
+    let lineMaterial = new THREE.LineBasicMaterial({ color: "#0000ff" });
+    let bufferGeometry = new THREE.BufferGeometry();
+
+    // Set up arrays to hold line data
+    let positions = [];
+    // let colors = [];
+    // let color = new THREE.Color();
+
+    // Set up line object
+    let line = new THREE.Line(bufferGeometry, lineMaterial);
+    scene.add(line);
+
+    // Set up the mouse event listeners
+    document.addEventListener("mousemove", onMouseMove, false);
+    document.addEventListener("mouseup", onMouseUp, false);
+
+    function onMouseMove(event) {
+      // Calculate mouse position in normalized device coordinates
+      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+      // Use raycaster to get intersection point with scene
+      raycaster.setFromCamera(mouse, camera);
+      let intersects = raycaster.intersectObjects(scene.children, true);
+
+      if (intersects.length > 0) {
+        let point = intersects[0].point;
+        positions.push(point.x, point.y, point.z);
+        line.geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
+        // color.setHex(Math.random() * 0xffffff);
+        // colors.push(color.r, color.g, color.b);
+        // line.geometry.setAttribute("color", new THREE.Float32BufferAttribute(colors, 3));
+      }
+    }
+
+    function onMouseUp() {
+      // Remove the mouse event listeners
+      document.removeEventListener("mousemove", onMouseMove);
+      document.removeEventListener("mouseup", onMouseUp);
+
+      // Draw the final line
+      console.log("positions", positions);
+      line.geometry.setDrawRange(0, positions.length / 3);
+      line.geometry.computeBoundingSphere();
+    }
+
+    /* Resize Event */
+    window.addEventListener("resize", function () {
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.render(scene, camera);
+    });
+
+    /* Animate */
+    (function animate() {
+      requestAnimationFrame(animate);
+      renderer.render(scene, camera);
+    })();
+  </script>
+</body>
+
+</html>
