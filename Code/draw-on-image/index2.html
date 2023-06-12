@@ -17,7 +17,7 @@
     // Set up scene and camera
     let scene = new THREE.Scene();
     let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 5;
+    camera.position.z = 4;
     camera.lookAt(new THREE.Vector3(0, 0, 0));
 
     let renderer = new THREE.WebGLRenderer();
@@ -30,24 +30,12 @@
     // let cube = new THREE.Mesh(boxGeometry, material);
     // scene.add(cube);
 
-    const loader = new THREE.TextureLoader();
-    let mesh;
-    const planeGeom = new THREE.PlaneGeometry(10, 10);
+    let textureLoader = new THREE.TextureLoader();
+    let texture = textureLoader.load("/textures/images/cut-the-rope.jpg");
 
-    // Get texture
-    const tex = loader.load("/textures/images/cut-the-rope.jpg", tex => {
-      tex.needsUpdate = true;
-      console.log('aspect', tex.image.height / tex.image.width);
-      mesh.scale.set(1.0, tex.image.height / tex.image.width, 1.0);
-    });
-
-    // Set material texture
-    const material = new THREE.MeshBasicMaterial({
-      map: tex,
-      side: THREE.DoubleSide
-    });
-
-    mesh = new THREE.Mesh(planeGeom, material);
+    let material = new THREE.MeshBasicMaterial({ map: texture });
+    let geometry = new THREE.PlaneGeometry(5, 5);
+    let mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
 
     // Set up the raycaster and mouse vector
