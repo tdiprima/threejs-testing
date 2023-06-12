@@ -55,7 +55,7 @@
     const image = new Image();
     image.src = "/textures/images/cut-the-rope.jpg";
     image.onload = function() {
-      // Create canvas
+      // Create HTML canvas
       canvas = document.createElement("canvas");
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
@@ -64,20 +64,20 @@
       // Draw the image on the canvas
       canvasContext.drawImage(image, 0, 0, window.innerWidth, window.innerHeight);
 
-      // Draw on canvas
-      // const element = canvas;
-      const element = renderer.domElement;
-      element.addEventListener("mousedown", startDrawing);
-      element.addEventListener("mousemove", draw);
-      element.addEventListener("mouseup", stopDrawing);
-      element.addEventListener("mouseout", stopDrawing);
-
       // Add canvas to the scene
       const texture = new THREE.CanvasTexture(canvas);
       const material = new THREE.MeshBasicMaterial({ map: texture });
       const planeGeometry = new THREE.PlaneGeometry(2, 2);
       const plane = new THREE.Mesh(planeGeometry, material);
       scene.add(plane);
+
+      // const element = canvas;
+      const element = renderer.domElement;
+      // const element = plane;
+      element.addEventListener("mousedown", startDrawing);
+      element.addEventListener("mousemove", draw);
+      element.addEventListener("mouseup", stopDrawing);
+      element.addEventListener("mouseout", stopDrawing);
 
       // Render the scene
       render();
@@ -98,9 +98,9 @@
       let y = event.clientY - rect.top;
       console.log(event.clientX, x);
 
-      // Draw square
-      canvasContext.fillStyle = "black";
-      canvasContext.fillRect(x, y, 50, 50);
+      // Draw square (doesn't work)
+      // canvasContext.fillStyle = "black";
+      // canvasContext.fillRect(x, y, 50, 50);
 
       // todo: Fine. Draw a geometry, then.
       let geometry = new THREE.BoxGeometry(0.25, 0.25, 0.25);
@@ -112,7 +112,7 @@
       x = (event.clientX / window.innerWidth) * 2 - 1;
       y = -(event.clientY / window.innerHeight) * 2 + 1;
       cube.position.set(x, y, 0);
-      // Was this the ticket this whole time? Nope! Doesn't work.
+      // Was this "z" the ticket this whole time? Nope! Doesn't work.
       // let z = (camera.near + camera.far) / (camera.near - camera.far);
       // cube.position.set(x, y, z);
     }
