@@ -1,4 +1,15 @@
-# Manual
+## Power-of-two dimensions
+
+```js
+let canvasTexture = new THREE.CanvasTexture(canvas);
+```
+
+Make sure that you have created the `canvasTexture` object correctly and that it is loaded before assigning it to the map property of the material.
+
+Also, check that the `canvasTexture` object has the correct dimensions and format. In three.js, **textures must have power-of-two dimensions** (e.g. `256x256`, `512x512`, etc.), and some formats (such as `SVG`) may not be supported.
+
+
+## Three.js Manual
 
 [Textures](https://threejs.org/manual/#en/textures)
 
@@ -16,11 +27,11 @@
 
 [Scene Graph](https://threejs.org/manual/#en/scenegraph)
 
-# HTML
+## HTML
 
 Most of these have some of the same code in it, except for sun-earth-moon &amp; texture-wrap.
 
-# Data
+## Data
 
 [https://globe.chromeexperiments.com/population909500.json](https://globe.chromeexperiments.com/population909500.json)
 
