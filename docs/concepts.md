@@ -1,6 +1,6 @@
-# Concepts ⭐️
+## Concepts ⭐️
 
-# Lazy Loading of Data 
+## Lazy Loading of Data 
 
 [Google Search](https://www.google.com/search?q=lazy+loading+of+data&oq=lazy+loading+of+data&aqs=chrome..69i57j0i22i30l9.2657j0j7&sourceid=chrome&ie=UTF-8)
 
@@ -16,7 +16,7 @@ An example of powering picture elements for responsive images with lazy loading,
 
 <br>
 
-# Models
+## Models
 
 Check this out: [Sun](https://g.co/kgs/Vr4cvA)
 
@@ -24,7 +24,7 @@ Uses Google [model-viewer](https://unpkg.com/@google/model-viewer/dist/model-vie
 
 <br>
 
-# Imaging Level of Detail
+## Imaging Level of Detail
 
 [Google Search](https://www.google.com/search?q=imaging+level+of+detail&oq=imaging+level+of+detail&aqs=chrome..69i57j33i160j33i299l2.12167j0j7&sourceid=chrome&ie=UTF-8)
 
@@ -48,7 +48,7 @@ An example of various DLOD ranges. Darker areas are meant to be rendered with hi
 
 <br>
 
-# Frustum
+## Frustum
 
 [Google Search](https://www.google.com/search?q=frustum&spell=1&sa=X&ved=2ahUKEwiMwrK0n875AhWgj4kEHThuApkQBSgAegQIAhA1&biw=1389&bih=729&dpr=2.5)
 
@@ -64,7 +64,7 @@ three.js/camera frustum, tricks with frustum, idk 🤔
 
 <br>
 
-# Culling
+## Culling
 
 [Google Search](https://www.google.com/search?q=three.js+culling&oq=three.js+culling&aqs=chrome..69i57j0i22i30l6j0i390l3.2220j0j7&sourceid=chrome&ie=UTF-8)
 
@@ -74,7 +74,7 @@ three.js/camera frustum, tricks with frustum, idk 🤔
 
 <br>
 
-# Raycasting
+## Raycasting
 
 [Tutorial](http://soledadpenades.com/articles/three-js-tutorials/object-picking/)
 
@@ -84,7 +84,7 @@ three.js/camera frustum, tricks with frustum, idk 🤔
 
 <br>
 
-# Editing a Polygon in three.js
+## Editing a Polygon in three.js
 
 [Google Search](https://www.google.com/search?q=editing+a+polygon+in+three.js&oq=editing+a+polygon+in+three.js&aqs=chrome..69i57j33i22i29i30l5.3805j0j7&sourceid=chrome&ie=UTF-8)
 
@@ -100,7 +100,7 @@ three.js/camera frustum, tricks with frustum, idk 🤔
 
 <br>
 
-# Deep Learning Distributed Training
+## Deep Learning Distributed Training
 
 [Distributed Training in a Deep Learning Context](https://blog.ovhcloud.com/distributed-training-in-a-deep-learning-context/)
 
@@ -110,19 +110,19 @@ three.js/camera frustum, tricks with frustum, idk 🤔
 
 ### Interactive - click on box, and it highlights - that concept; identifying a single object.
 
-# Axes
+## Axes
 
 ![axes](img/x-y-z-2.png)
 
 ![axes](img/x-y-z-1.png)
 
-# Yaw, Pitch, Roll
+## Yaw, Pitch, Roll
 
 <!-- <img src="https://www.researchgate.net/profile/Hashim-Hashim/publication/335854843/figure/fig2/AS:803963083452423@1568691144637/Graphical-representation-of-Euler-angles-with-respect-to-the-reference-axis-of-the_Q320.jpg"/> -->
 
 ![Yaw, Pitch, Roll](img/Euler-angles-with-respect-to-axis-of-rotation.jpg)
 
-# Quaternion
+## Quaternion
 
 [Don't Get Lost in Deep Space: Understanding Quaternions](https://www.allaboutcircuits.com/technical-articles/dont-get-lost-in-deep-space-understanding-quaternions/)
 
@@ -142,7 +142,7 @@ They have the ability to uniquely describe any three-dimensional rotation about 
 
 [Rotating 3D shapes](https://www.khanacademy.org/computing/computer-programming/programming-games-visualizations/programming-3d-shapes/a/rotating-3d-shapes)
 
-# Vertex
+## Vertex
 
 ### What word do we use to describe where 2 edges meet and touch?
 
@@ -150,7 +150,7 @@ Vertices in shapes are the points where two or more line segments or edges meet 
 
 [What Are Vertices, Faces And Edges?](https://thirdspacelearning.com/blog/what-are-vertices-faces-edges/)
 
-# Vector3
+## Vector3
 
 Represent a number of things, such as: A point in 3D space. A direction and length in 3D space.
 
@@ -160,7 +160,7 @@ Represent a number of things, such as: A point in 3D space. A direction and leng
 
 [Vector3](https://threejs.org/docs/#api/en/math/Vector3)
 
-# World Space
+## World Space
 
 [transformations](https://discoverthreejs.com/book/first-steps/transformations/)
 
