@@ -1,4 +1,4 @@
-## Drawing 🏴‍☠️
+## Drawing <span style="font-size:32px;">🏴‍☠️</span>
 
 Does `OrthographicCamera` have anything to do with drawing? No.
 
@@ -26,9 +26,9 @@ Don't let anybody tell you some BS about the event listeners not firing due to t
 
 The only thing it seems to recognize as clickable, is the renderer canvas.  Or the window or document, duh.
 
-When we do interact with objects, how does it work then?  Raycasting.  You're still adding the event listener to the document; not the mesh.
+When we do interact with objects, how does it work then?  Raycasting.  You're still adding the event listener to the document (or renderer canvas); not the mesh.
 
-Here's some css anyway:
+### Here's some css anyway:
 
 ```css
 body { margin: 0; overflow: hidden; }
@@ -39,5 +39,9 @@ canvas { display: block; pointer-events: none; }
 /* The HTML canvas is positioned absolutely on top of the container, enabling the event listeners to work correctly. */
 #canvas-container canvas { position: absolute; top: 0; left: 0; pointer-events: none; }
 ```
+
+### I'm putting this StackOverflow because it looks familiar:
+
+[Drawing a line with three.js dynamically](https://stackoverflow.com/questions/31399856/drawing-a-line-with-three-js-dynamically)
 
 <br>
