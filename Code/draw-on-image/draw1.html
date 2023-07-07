@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>Free-draw on Image using Three.js</title>
-  <!-- Loading image with image.onload -->
+  <!-- Creating a canvas and loading image with image.onload -->
+  <!-- Note: Not using raycasting; drawing-coordinates are off-track. -->
   <style>
     body { margin: 0; }
     canvas { display: block; }
@@ -13,22 +14,19 @@
 <body>
 <script src="/build/three.js"></script>
 <script>
-  // Variables
   let scene, camera, renderer;
   let canvas, canvasContext;
   let isDrawing = false;
   let color = 0x000000;
+  let size = 0.08; // any smaller, and it doesn't look like a line anymore
+  let smoothness = 32;
 
-  // Initialize
   function init() {
-    // Create scene
     scene = new THREE.Scene();
 
-    // Create camera
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.z = 3;
 
-    // Create renderer
     renderer = new THREE.WebGLRenderer({ alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
@@ -46,14 +44,11 @@
       // Draw the image on the canvas
       canvasContext.drawImage(image, 0, 0, window.innerWidth, window.innerHeight);
 
-      // let element = canvas;
-      let element = renderer.domElement;
-
-      // Draw on canvas
-      element.addEventListener('mousedown', startDrawing);
-      element.addEventListener('mousemove', draw);
-      element.addEventListener('mouseup', stopDrawing);
-      element.addEventListener('mouseout', stopDrawing);
+      // Set up event listeners
+      renderer.domElement.addEventListener('mousedown', startDrawing);
+      renderer.domElement.addEventListener('mousemove', draw);
+      renderer.domElement.addEventListener('mouseup', stopDrawing);
+      renderer.domElement.addEventListener('mouseout', stopDrawing);
 
       // Add canvas to the scene
       let texture = new THREE.CanvasTexture(canvas);
@@ -70,8 +65,9 @@
     draw(event);
   }
 
+  // Geometries
   function cube() {
-    let geometry = new THREE.BoxGeometry(0.25, 0.25, 0.25);
+    let geometry = new THREE.BoxGeometry(size, size, size);
     let material = new THREE.MeshBasicMaterial({ color });
     let cube = new THREE.Mesh(geometry, material);
     scene.add(cube);
@@ -80,8 +76,6 @@
   }
 
   function sphere() {
-    let size = 0.25;
-    let smoothness = 32;
     let geometry = new THREE.SphereGeometry(size, smoothness, smoothness);
     let material = new THREE.MeshBasicMaterial( { color } );
     let sphere = new THREE.Mesh( geometry, material );
@@ -91,7 +85,7 @@
   }
 
   function circle() {
-    let geometry = new THREE.CircleGeometry( 0.25, 32 );
+    let geometry = new THREE.CircleGeometry( size, smoothness );
     let material = new THREE.MeshBasicMaterial( { color } );
     let circle = new THREE.Mesh( geometry, material );
     scene.add( circle );
@@ -102,13 +96,24 @@
   // Draw on canvas
   function draw(event) {
     if (isDrawing) {
-      // let mesh = cube();
-      // let mesh = sphere();
-      let mesh = circle();
+      // Limit drawing to the image boundaries
+      const rect = renderer.domElement.getBoundingClientRect();
+      const mouseX = event.clientX - rect.left;
+      const mouseY = event.clientY - rect.top;
 
-      let x = (event.clientX / window.innerWidth) * 2 - 1;
-      let y = -(event.clientY / window.innerHeight) * 2 + 1;
-      mesh.position.set(x, y, 0);
+      if (mouseX >= 0 && mouseX < window.innerWidth && mouseY >= 0 && mouseY < window.innerHeight) {
+        // Continue with drawing the geometry
+        // let mesh = cube();
+        let mesh = sphere();
+        // let mesh = circle();
+
+        let x = (event.clientX / window.innerWidth) * 2 - 1;
+        let y = -(event.clientY / window.innerHeight) * 2 + 1;
+        mesh.position.set(x, y, 0);
+      } else {
+        // Mouse is outside the image boundaries, so exit the function
+        return;
+      }
     }
   }
 
