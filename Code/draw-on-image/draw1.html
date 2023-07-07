@@ -17,6 +17,7 @@
   let scene, camera, renderer;
   let canvas, canvasContext;
   let isDrawing = false;
+  let color = 0x000000;
 
   // Initialize
   function init() {
@@ -33,7 +34,7 @@
     document.body.appendChild(renderer.domElement);
 
     // Load image
-    const image = new Image();
+    let image = new Image();
     image.src = "/textures/images/cut-the-rope.jpg";
     image.onload = function() {
       // Create HTML canvas
@@ -45,8 +46,8 @@
       // Draw the image on the canvas
       canvasContext.drawImage(image, 0, 0, window.innerWidth, window.innerHeight);
 
-      // const element = canvas;
-      const element = renderer.domElement;
+      // let element = canvas;
+      let element = renderer.domElement;
 
       // Draw on canvas
       element.addEventListener('mousedown', startDrawing);
@@ -55,14 +56,11 @@
       element.addEventListener('mouseout', stopDrawing);
 
       // Add canvas to the scene
-      const texture = new THREE.CanvasTexture(canvas);
-      const material = new THREE.MeshBasicMaterial({ map: texture });
-      const planeGeometry = new THREE.PlaneGeometry(2, 2);
-      const plane = new THREE.Mesh(planeGeometry, material);
+      let texture = new THREE.CanvasTexture(canvas);
+      let material = new THREE.MeshBasicMaterial({ map: texture });
+      let planeGeometry = new THREE.PlaneGeometry(2, 2);
+      let plane = new THREE.Mesh(planeGeometry, material);
       scene.add(plane);
-
-      // Render the scene
-      render();
     };
   }
 
@@ -72,22 +70,45 @@
     draw(event);
   }
 
+  function cube() {
+    let geometry = new THREE.BoxGeometry(0.25, 0.25, 0.25);
+    let material = new THREE.MeshBasicMaterial({ color });
+    let cube = new THREE.Mesh(geometry, material);
+    scene.add(cube);
+
+    return cube;
+  }
+
+  function sphere() {
+    let size = 0.25;
+    let smoothness = 32;
+    let geometry = new THREE.SphereGeometry(size, smoothness, smoothness);
+    let material = new THREE.MeshBasicMaterial( { color } );
+    let sphere = new THREE.Mesh( geometry, material );
+    scene.add( sphere );
+
+    return sphere;
+  }
+
+  function circle() {
+    let geometry = new THREE.CircleGeometry( 0.25, 32 );
+    let material = new THREE.MeshBasicMaterial( { color } );
+    let circle = new THREE.Mesh( geometry, material );
+    scene.add( circle );
+
+    return circle;
+  }
+
   // Draw on canvas
   function draw(event) {
     if (isDrawing) {
-      // const x = event.clientX;
-      // const y = event.clientY;
-      // canvasContext.fillStyle = 'black';
-      // canvasContext.fillRect(x, y, 5, 5);
-
-      let geometry = new THREE.BoxGeometry(0.25, 0.25, 0.25);
-      let material = new THREE.MeshBasicMaterial({ color: 0x000000 });
-      let cube = new THREE.Mesh(geometry, material);
-      scene.add(cube);
+      // let mesh = cube();
+      // let mesh = sphere();
+      let mesh = circle();
 
       let x = (event.clientX / window.innerWidth) * 2 - 1;
       let y = -(event.clientY / window.innerHeight) * 2 + 1;
-      cube.position.set(x, y, 0);
+      mesh.position.set(x, y, 0);
     }
   }
 
@@ -96,21 +117,18 @@
     isDrawing = false;
   }
 
-  // Render the scene
-  function render() {
-    renderer.render(scene, camera);
-    requestAnimationFrame(render);
-  }
+  init();
 
-  // Initialize the script
-  window.onload = init;
-  window.onresize = function() {
+  window.addEventListener("resize", function () {
+    renderer.setSize(window.innerWidth, window.innerHeight);
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  };
+  });
+
+  (function animate() {
+    requestAnimationFrame(animate);
+    renderer.render(scene, camera);
+  })();
 </script>
 </body>
 </html>
