@@ -1,6 +1,6 @@
 import * as THREE from "three";
-import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-import Stats from "three/addons/libs/stats.module.js";
+import { OrbitControls } from "three/examples/controls/OrbitControls.js";
+import Stats from "three/examples/libs/stats.module.js";
 
 export default class SceneInit {
   constructor(canvasId) {

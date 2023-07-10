@@ -1,10 +1,10 @@
 import * as THREE from "three";
-import { GUI } from "three/addons/libs/dat.gui.module.js";
-import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
-import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
-import { ShaderPass } from "three/addons/postprocessing/ShaderPass.js";
-import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
+import { GUI } from "three/examples/libs/dat.gui.module.js";
+import { OrbitControls } from "three/examples/controls/OrbitControls.js";
+import { EffectComposer } from "three/examples/postprocessing/EffectComposer.js";
+import { RenderPass } from "three/examples/postprocessing/RenderPass.js";
+import { ShaderPass } from "three/examples/postprocessing/ShaderPass.js";
+import { UnrealBloomPass } from "three/examples/postprocessing/UnrealBloomPass.js";
 
 const ENTIRE_SCENE = 0;
 const BLOOM_SCENE = 1;

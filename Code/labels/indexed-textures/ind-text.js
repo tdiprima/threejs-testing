@@ -1,6 +1,6 @@
 // and with that we should be able to pick countries
 import * as THREE from "three";
-import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { OrbitControls } from "three/examples/controls/OrbitControls.js";
 
 function main() {
   const canvas = document.querySelector("#c");

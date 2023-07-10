@@ -1,7 +1,7 @@
 // What about highlighting the selected countries?
 // For that we can take inspiration from paletted graphics.
 import * as THREE from "three";
-import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { OrbitControls } from "three/examples/controls/OrbitControls.js";
 
 function main() {
   const canvas = document.querySelector("#c");
