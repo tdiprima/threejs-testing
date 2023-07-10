@@ -16,7 +16,7 @@
 <script type="importmap">{
   "imports": {
     "three": "/build/three.module.js",
-    "three/addons/": "/jsm/"
+    "three/examples/": "/jsm/"
   }
 }
 </script>
@@ -25,8 +25,8 @@
 <script type="module">
   // Import necessary modules from Three.js
   import * as THREE from "three";
-  import { FontLoader } from "three/addons/loaders/FontLoader.js";
-  import { TextGeometry } from "three/addons/geometries/TextGeometry.js";
+  import { FontLoader } from "three/examples/loaders/FontLoader.js";
+  import { TextGeometry } from "three/examples/geometries/TextGeometry.js";
 
   // Initialize variables
   let scene, camera, renderer, mouse, raycaster;

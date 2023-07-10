@@ -1,7 +1,7 @@
 // FONT LOADER
 import * as THREE from "three";
-import { FontLoader } from "three/addons/loaders/FontLoader.js";
-import { TextGeometry } from "three/addons/geometries/TextGeometry.js";
+import { FontLoader } from "three/examples/loaders/FontLoader.js";
+import { TextGeometry } from "three/examples/geometries/TextGeometry.js";
 
 // Load the font file
 fontLoader.load("https://threejs.org/examples/fonts/helvetiker_regular.typeface.json", function(font) {
