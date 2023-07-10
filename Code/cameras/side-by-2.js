@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { OrbitControls } from "three/examples/controls/OrbitControls.js";
 
 function main() {
   const checker = "/textures/images/checker.png";

@@ -18,15 +18,15 @@
   {
   	"imports": {
   		"three": "/build/three.module.js",
-  		"three/addons/": "/jsm/"
+  		"three/examples/": "/jsm/"
   	}
   }
 </script>
 
 <script type="module">
   import * as THREE from "three";
-  import Stats from "three/addons/libs/stats.module.js";
-  import { GUI } from "three/addons/libs/lil-gui.module.min.js";
+  import Stats from "three/examples/libs/stats.module.js";
+  import { GUI } from "three/examples/libs/lil-gui.module.min.js";
 
   let camera, scene, renderer, stats, material;
   let mouseX = 0, mouseY = 0;
