@@ -5,9 +5,11 @@
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>BoxGeometry Raycasting Example</title>
+
   <!-- Use Raycaster object to check for intersections between ray and box. -->
   <!-- Basically, see if your pointer is over the box.  Duh. -->
   <!-- Add event listener for mouse movements, which updates the mouse position. -->
+
   <link rel="stylesheet" href="/css/main.css">
   <script src="/build/three.min.js"></script>
 </head>
@@ -33,12 +35,20 @@
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
 
-  let box = new THREE.Mesh(
+  // BOX
+  let mesh = new THREE.Mesh(
     new THREE.BoxGeometry(1.5, 1.5, 1.5),
     new THREE.MeshBasicMaterial({ color: initColor })
   );
-  // box.position, rotation, scale
-  scene.add(box);
+  // mesh.position, rotation, scale
+
+  // PLANE
+  // // let geometry = new THREE.PlaneGeometry( 14.5, 7.5 );
+  // let geometry = new THREE.PlaneGeometry( 7.5, 7.5 );
+  // let material = new THREE.MeshBasicMaterial( { color: initColor } );
+  // let mesh = new THREE.Mesh( geometry, material );
+
+  scene.add(mesh);
 
   let raycaster = new THREE.Raycaster();
   let mouse = new THREE.Vector2();
@@ -51,16 +61,16 @@
     // Update the raycaster with the mouse position
     raycaster.setFromCamera(mouse, camera);
 
-    // Check for intersections between the raycaster and the box
-    let intersects = raycaster.intersectObject(box);
+    // Check for intersections between the raycaster and the mesh
+    let intersects = raycaster.intersectObject(mesh);
 
-    // If there is an intersection, change the box color
+    // If there is an intersection, change the mesh color
     if (intersects.length > 0) {
-      box.material.color.set(rollColor);
+      mesh.material.color.set(rollColor);
       // Random color
-      // box.material.color = new THREE.Color( 0xffffff * Math.random() );
+      // mesh.material.color = new THREE.Color( 0xffffff * Math.random() );
     } else {
-      box.material.color.set(initColor);
+      mesh.material.color.set(initColor);
     }
   });
 
