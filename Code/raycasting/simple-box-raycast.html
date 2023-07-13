@@ -43,7 +43,7 @@
   let raycaster = new THREE.Raycaster();
   let mouse = new THREE.Vector2();
 
-  document.addEventListener('mousemove', event => {
+  renderer.domElement.addEventListener('mousemove', event => {
     // Calculate the mouse position normalized to the screen
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
