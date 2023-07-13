@@ -4,6 +4,7 @@
 intersects.length > 0; // never executes
 ```
 
+<br>
 <mark>**Because there needs to be an object there to intersect with. The End.**</mark>
 
 If `intersects.length > 0` is not executing, it's likely because the raycasting is not working properly.
@@ -44,6 +45,8 @@ function onMouseUp() {
 }
 ```
 
+<br>
+
 <mark>It's possible that the `scene.children` array **doesn't contain the objects you're trying to raycast against,** which would result in an empty intersects array.</mark>
 
 When calling `intersectObjects`, the first argument should be an array of objects that you want to test for intersection.
@@ -55,15 +58,30 @@ If you're not getting any intersections, it's possible that you're not passing t
 1. Make sure that the objects you want to test for intersection are added to the scene using `scene.add(object)` **before** calling `intersectObjects`.
 
 2. If your scene has nested objects, you can set the **second argument** of `intersectObjects` to `true` to test for intersection with **child objects** as well.
-   * `raycaster.intersectObjects(scene.children, true)`
+
+    ```js
+    const intersects = 
+      raycaster.intersectObjects(scene.children, true);
+    ```
 
 3. If you're still not getting any intersections, you can try **logging** the `scene.children` array to the console to make sure that it contains the objects you're expecting.
-    * You can also **log** the `intersects` array to see if any intersections are being detected at all. This can help you narrow down the issue.
+
+    ```js
+    console.log("scene.children", scene.children);
+    ```
+    
+    You can also **log** the `intersects` array to see if any intersections are being detected at all. This can help you narrow down the issue.
+    
+    ```js
+    console.log("intersects", intersects);
+    ```
 
 ## There are no objects.
 
-I have no objects to intersect with.  Instead of calling `intersectObjects`, is there a function that does an **intersect** simply with the **screen coordinates?**
+<!--I have no objects to intersect with.  Instead of calling `intersectObjects`, is there a function that does an **intersect** simply with the **screen coordinates?**
 
-<span style="color:red;font-weight:bold;">No!</span>
+<span style="color:red;font-weight:bold;">No!</span>-->
+
+I'm writing a three.js script using raycasting.  I have no objects to intersect with. So when I call `raycaster.intersectObjects`, can I pass in the `scene` or the `renderer.domElement` instead of `scene.children`?  
 
 <br>

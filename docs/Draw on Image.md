@@ -14,6 +14,8 @@ const plane = new THREE.Mesh(planeGeometry, material);
 scene.add(plane);
 ```
 
+<br>
+
 Also, we did `{ alpha: true }` on the renderer. Remove it and see if it matters.
 
 Can you *draw* using HTML5?  No.  Draw using a geometry.
