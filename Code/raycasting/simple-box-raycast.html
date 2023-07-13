@@ -6,6 +6,7 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
   <title>BoxGeometry Raycasting Example</title>
   <!-- Use Raycaster object to check for intersections between ray and box. -->
+  <!-- Basically, see if your pointer is over the box.  Duh. -->
   <!-- Add event listener for mouse movements, which updates the mouse position. -->
   <link rel="stylesheet" href="/css/main.css">
   <script src="/build/three.min.js"></script>
@@ -56,9 +57,8 @@
     // If there is an intersection, change the box color
     if (intersects.length > 0) {
       box.material.color.set(rollColor);
-      // box.material.color = new THREE.Color(
-      //   0xffffff * Math.random()
-      // );
+      // Random color
+      // box.material.color = new THREE.Color( 0xffffff * Math.random() );
     } else {
       box.material.color.set(initColor);
     }
@@ -71,7 +71,6 @@
     renderer.render(scene, camera);
   });
 
-  // Render the scene
   (function render() {
     requestAnimationFrame(render);
     renderer.render(scene, camera);
