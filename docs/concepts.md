@@ -1,42 +1,14 @@
-## Concepts ⭐️
-
-## Lazy Loading of Data 
-
-[Google Search](https://www.google.com/search?q=lazy+loading+of+data&oq=lazy+loading+of+data&aqs=chrome..69i57j0i22i30l9.2657j0j7&sourceid=chrome&ie=UTF-8)
-
-Lazy Loading 🆚 Eager Loading
-
-[Native image lazy-loading for the web!](https://addyosmani.com/blog/lazy-loading/)
-
-[Tips for rolling your own lazy loading](https://css-tricks.com/tips-for-rolling-your-own-lazy-loading/)
-
-![Lightweight Lazy Loading with Netlify](img/css-tricks.jpg)
-
-An example of powering picture elements for responsive images with lazy loading, using [Netlify](https://lazy-load-nlm.netlify.com) Large Media.
-
-<br>
-
 ## Models
 
-Check this out: [Sun](https://g.co/kgs/Vr4cvA)
+Check this out: [Sun](https://g.co/kgs/fqW65n) scroll down to 3D model.
 
 Uses Google [model-viewer](https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js).
 
-<br>
-
 ## Imaging Level of Detail
-
-[Google Search](https://www.google.com/search?q=imaging+level+of+detail&oq=imaging+level+of+detail&aqs=chrome..69i57j33i160j33i299l2.12167j0j7&sourceid=chrome&ie=UTF-8)
-
-In computer graphics, level of detail (LOD) refers to the complexity of a 3D model representation.
 
 Level of Detail can be decreased as the model moves away from the viewer. **(Distance!)**
 
-Or according to other metrics, such as object importance, viewpoint-relative speed, or position.
-
 An example of various DLOD ranges. Darker areas are meant to be rendered with higher detail. An additional culling operation is run, discarding all the information outside the frustum (colored areas).
-
-<p><a href="https://commons.wikimedia.org/wiki/File:DiscreteLodAndCullExampleRanges.MaxDZ8.svg#/media/File:DiscreteLodAndCullExampleRanges.MaxDZ8.svg"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/DiscreteLodAndCullExampleRanges.MaxDZ8.svg/256px-DiscreteLodAndCullExampleRanges.MaxDZ8.svg.png" alt="DiscreteLodAndCullExampleRanges.MaxDZ8.svg"></a></p>
 
 [Level of Detail in 3D City Model](https://www.treistek.com/post/level-of-detail-in-3d-city-model)
 
@@ -50,27 +22,27 @@ An example of various DLOD ranges. Darker areas are meant to be rendered with hi
 
 ## Frustum
 
-[Google Search](https://www.google.com/search?q=frustum&spell=1&sa=X&ved=2ahUKEwiMwrK0n875AhWgj4kEHThuApkQBSgAegQIAhA1&biw=1389&bih=729&dpr=2.5)
+[field-of-view.md](cameras/field-of-view.md)
 
-In geometry, a frustum (from the Latin for "morsel"; plural: frusta or frustums) is the portion of a solid (normally a pyramid or a cone) that lies between one or two parallel planes cutting it. The base faces are polygonal, the side faces are trapezoidal
+A frustum is the portion of a pyramid that lies between one or two parallel planes cutting it.
 
 ![Camera Frustum](img/VisualCameraFrustum.jpg)
 
 <br>
 
-![Cone Frustum](img/Frustum-Of-A-Cone-4.jpg)
-
-three.js/camera frustum, tricks with frustum, idk 🤔
-
-<br>
-
 ## Culling
 
-[Google Search](https://www.google.com/search?q=three.js+culling&oq=three.js+culling&aqs=chrome..69i57j0i22i30l6j0i390l3.2220j0j7&sourceid=chrome&ie=UTF-8)
+![Culling](img/tree.jpg)
+
+If it's off-camera, don't render it.
+
+OK, well what if it's behind an object that's on camera?
 
 [Does Three.js automatically cull objects that are not visible behind other objects?](https://stackoverflow.com/questions/67428704/does-three-js-automatically-cull-objects-that-are-not-visible-behind-other-objec)
 
-![Culling](img/tree.jpg)
+It's called occlusion culling?  And no, [not yet](https://github.com/mrdoob/three.js/pull/15450).
+
+![](https://global.discourse-cdn.com/standard17/uploads/threejs/original/2X/6/61406af82ba29741938fbd22ec5328d88f0b255a.jpeg)
 
 <br>
 
@@ -86,8 +58,6 @@ three.js/camera frustum, tricks with frustum, idk 🤔
 
 ## Editing a Polygon in three.js
 
-[Google Search](https://www.google.com/search?q=editing+a+polygon+in+three.js&oq=editing+a+polygon+in+three.js&aqs=chrome..69i57j33i22i29i30l5.3805j0j7&sourceid=chrome&ie=UTF-8)
-
 [Drawing a line with three.js dynamically](https://stackoverflow.com/questions/31399856/drawing-a-line-with-three-js-dynamically)
 
 ![Line](img/aVBCe.jpg)
@@ -100,21 +70,13 @@ three.js/camera frustum, tricks with frustum, idk 🤔
 
 <br>
 
-## Deep Learning Distributed Training
-
-[Distributed Training in a Deep Learning Context](https://blog.ovhcloud.com/distributed-training-in-a-deep-learning-context/)
-
-![Distributed Deep Learning](img/distributed_dl_architecture.jpg)
-
-<br>
-
-### Interactive - click on box, and it highlights - that concept; identifying a single object.
-
 ## Axes
 
 ![axes](img/x-y-z-2.png)
 
 ![axes](img/x-y-z-1.png)
+
+<br>
 
 ## Yaw, Pitch, Roll
 
@@ -122,46 +84,5 @@ three.js/camera frustum, tricks with frustum, idk 🤔
 
 ![Yaw, Pitch, Roll](img/Euler-angles-with-respect-to-axis-of-rotation.jpg)
 
-## Quaternion
+<br>
 
-[Don't Get Lost in Deep Space: Understanding Quaternions](https://www.allaboutcircuits.com/technical-articles/dont-get-lost-in-deep-space-understanding-quaternions/)
-
-Quaternions are an alternate way to describe orientation or rotations in 3D space using an ordered set of four numbers.
-
-They have the ability to uniquely describe any three-dimensional rotation about an arbitrary axis and do not suffer from **gimbal lock**.
-
-<img src="https://www.meccanismocomplesso.org/wp-content/uploads/2020/09/Hamiltons-quaternions-and-3D-rotation-with-Python.jpg" alt="3D rotation with Python"/>
-
-<img src="https://cdn.kastatic.org/ka-perseus-images/d24dd08a0ea7aaeeaa90d84f642e12998df3ffe7.svg" alt="Khan Academy"/>
-
-<img src="https://w7.pngwing.com/pngs/1010/569/png-transparent-conversion-between-quaternions-and-euler-angles-orientation-rotation-rigid-body-angle-angle-text-symmetry-thumbnail.png" alt="quaternions"/>
-
-[Rotating objects in 3D Engines](https://artrointel.github.io/rotating-objects/)
-
-[Understanding Quaternion](https://www.ceva-dsp.com/ourblog/what-is-a-quaterion/)
-
-[Rotating 3D shapes](https://www.khanacademy.org/computing/computer-programming/programming-games-visualizations/programming-3d-shapes/a/rotating-3d-shapes)
-
-## Vertex
-
-### What word do we use to describe where 2 edges meet and touch?
-
-Vertices in shapes are the points where two or more line segments or edges meet (like a corner). The singular of vertices is vertex. For example a cube has 8 vertices and a cone has one vertex. Vertices are sometimes called corners but when dealing with 2D and 3D shapes, the word vertices is preferred.
-
-[What Are Vertices, Faces And Edges?](https://thirdspacelearning.com/blog/what-are-vertices-faces-edges/)
-
-## Vector3
-
-Represent a number of things, such as: A point in 3D space. A direction and length in 3D space.
-
-```text
-(x, y, z)
-```
-
-[Vector3](https://threejs.org/docs/#api/en/math/Vector3)
-
-## World Space
-
-[transformations](https://discoverthreejs.com/book/first-steps/transformations/)
-
-![](img/world-space.png)
