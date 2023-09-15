@@ -93,19 +93,7 @@ function onWindowResize() {
 
 <br>
 
-## updateMatrixWorld() 🌎
 
-**[From the docs:](https://threejs.org/docs/#api/en/core/Object3D)**
-
-force - A boolean that can be used to **bypass** `.matrixWorldAutoUpdate`, to recalculate the world matrix of the object and descendants on the current frame.
-
-Useful **if you cannot wait** for the renderer to update it on the next frame (assuming `.matrixWorldAutoUpdate` set to true).
-
-Call it in `render()`.
-
-For **picture-in-picture**, IDK. Cuz the stuff *in* the world is moving? 🤷‍♀️
-
-When you **move camera via gui**, you update matrix world on every change in camera movement. 👍
 
 <br>
 
@@ -149,41 +137,8 @@ Altering the `up` vector is done in only a few examples, and normally not necess
 
 <br>
 
-## lookAt()
 
-The `lookAt()` method calls are necessary so the camera looks at the coordinates system's origin, or at the position of the scene. In most cases, the position value of scene is (0,0,0) (the origin).
 
-<br><!-- http://tanrobby.github.io/note/opengl/gluLookAt.jpg -->
-
-![Look At](../img/gluLookAt.jpg)
-
-<br>
-
-## controls.target vs camera.lookAt
-
-[Controls.target vs camera.lookAt](https://discourse.threejs.org/t/controls-target-vs-camera-lookat/5086/6)
-
-I used `camera.lookAt()` to set direction in which camera looks.
-
-Reading on OrbitControls, I learned that `camera.lookAt()` should be replaced by<br>
-`controls.target`.
-
-What's the difference?
-
-OrbitControls internally uses `Object3D.lookAt()` in order to look at the defined<br>
-target location of focus (`OrbitControls.target`).
-
-> When I use it, panning becomes an issue.<br>
-> Target object doesn't pan with rest of the scene,<br>
-> and is static while panning.<br>
-
-That's the intended behavior since panning transforms the `OrbitControls.target` vector.<br>
-Or in other words, the location of focus.
-
-You also have to call `controls.update()` after changing the target.
-
-OrbitControls ensures that the camera orbits (rotates) around the target.<br>
-Rotation and zooming also happens with focus on target. (Focused on the defined target vector.)
 
 <br>
 

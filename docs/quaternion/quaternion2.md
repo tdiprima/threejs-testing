@@ -8,7 +8,7 @@ Quaternions are like super-coordinates. They use four numbers instead of three.
 
 They help you describe not just *where* something is but also how it's turned or *rotated*.
 
-Let's get a bit into why they're helpful. Imagine you have a spinning top. If you just use regular angles to describe how it rotates, things can get weird or jumpy. This is known as "gimbal lock," and it's like trying to spin a top on a very slippery surface &mdash; it might wobble or fall over. Quaternions help you avoid that, making the rotation really smooth.
+Let's get a bit into why they're helpful. Imagine you have a spinning top. If you just use **regular angles** *(versus Euler angles)* to describe how it rotates, things can get weird or jumpy. This is known as "gimbal lock," and it's like trying to spin a top on a very slippery surface &mdash; it might wobble or fall over. Quaternions help you avoid that, making the rotation really smooth.
 
 So, when game developers or people working with robots want to make sure that rotations look really smooth and natural, they often use quaternions. For controlling exactly how something spins around in 3D space.
 
@@ -30,8 +30,31 @@ Think of it like this: the *x*, *y*, and *z* parts (which correspond to *b*, *c*
 
 In simpler terms, the 4th number *a* works with the other three numbers *b*, *c*, *d* to make sure you can spin and rotate things in 3D space in a really smooth and accurate way. So, in a quaternion, all four numbers team up to give you super-detailed control over rotations.
 
-## Euler angles (roll, pitch and yaw)
+### Euler angles
 
-Euler angles (roll, pitch and yaw)
+[Roll, pitch and yaw.](what-is-a-quaternion.html)
+
+<br>
+
+## Transforming Between Coordinate Spaces
+
+**[Local to World Transforms](https://aframe.io/docs/1.3.0/introduction/developing-with-threejs.html#local-to-world-transforms)**
+
+Normally, we'd need to call `updateMatrixWorld()` on parent Object3Ds, but three.js defaults `Object3D.matrixAutoUpdate` to true.
+
+
+To get the world *position* of an Object3D:
+
+```js
+let worldPosition = new THREE.Vector3();
+entityEl.object3D.getWorldPosition(worldPosition);
+```
+
+To get the world *rotation* of an Object3D:
+
+```js
+let worldQuaternion = new THREE.Quaternion();
+entityEl.object3D.getWorldQuaternion(worldQuaternion);
+```
 
 <br>

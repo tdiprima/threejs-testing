@@ -1,4 +1,6 @@
-## THREE.LOD (Level of Detail)
+## Level of Detail (LOD)
+
+<a href="../Code/LOD/muse.html"> muse.html </a>
 
 The LOD function is used to create a Level of Detail object, which allows you to **switch between** different models or geometries **based on the distance** between the camera and the object.
 

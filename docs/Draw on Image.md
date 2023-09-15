@@ -1,4 +1,5 @@
 ## Drawing <span style="font-size:32px;">🏴‍☠️</span>
+<!-- TJD -->
 
 Does `OrthographicCamera` have anything to do with drawing? No.
 
@@ -30,24 +31,10 @@ The only thing it seems to recognize as clickable, is the renderer canvas.  Or t
 
 When we do interact with objects, how does it work then?  Raycasting.  You're still adding the event listener to the document (or renderer canvas); not the mesh.
 
-### Here's some css anyway:
 
-```css
-body { margin: 0; overflow: hidden; }
-/* Allow the mouse events to pass through the three.js canvas */
-canvas { display: block; pointer-events: none; }
-/* Try setting it on the Three.js renderer's DOM element instead of the Three.js canvas itself */
-#canvas-container { position: relative; }
-/* The HTML canvas is positioned absolutely on top of the container, enabling the event listeners to work correctly. */
-#canvas-container canvas { position: absolute; top: 0; left: 0; pointer-events: none; }
-```
+## Compute Bounding Sphere Explanation
 
-### I'm putting this StackOverflow because it looks familiar:
-
-[Drawing a line dynamically](https://stackoverflow.com/questions/31399856/drawing-a-line-with-three-js-dynamically)
-
-
-## Line Rendering: Bounding Sphere
+<a href="../Code/draw-on-image/draw2.html">draw 2</a>
 
 ```js
 let line = new THREE.Line(bufferGeometry, lineMaterial);
@@ -63,13 +50,31 @@ line.geometry.computeBoundingSphere();
 ```
 
 <br>
-<span style="color:#0000dd;font-size:larger;">What is this bounding sphere?</span>
+Imagine you have a bunch of points in 3D space that make up an object (in this case, a line). A "bounding sphere" is like an invisible ball that completely contains all these points. The sphere is as small as possible but still big enough to fit every point inside it. 
 
-The `computeBoundingSphere` method calculates and updates the bounding sphere of an object based on its geometry. The bounding sphere represents the **smallest sphere** that completely encloses the object's geometry. It is used for various purposes, including frustum culling, collision detection, and efficient rendering.
+```js
+line.geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
+```
 
-When you create a `THREE.Line` object and accumulate points in an array, the bounding sphere is initially not computed automatically. By calling `computeBoundingSphere`, you are explicitly instructing Three.js to calculate the bounding sphere based on the current geometry of the line.
+updates the line's geometry with the new points.
 
-The reason for computing the bounding sphere is to <mark>**optimize the rendering process.**</mark> When rendering a complex scene, it's computationally expensive to check each individual vertex or point for visibility or intersection tests. 
+```js
+line.geometry.setDrawRange(0, positions.length / 3);
+```
+
+specifies what part of the line should be drawn.
+
+```js
+line.geometry.computeBoundingSphere();
+```
+
+calculates the smallest possible sphere that can contain the whole line.
+
+### So, why do you need to compute a bounding sphere?
+
+Computing the bounding sphere helps Three.js to be more efficient when rendering your 3D world.
+
+When rendering a complex scene, it's computationally expensive to check each individual vertex or point for visibility or intersection tests. 
 
 The bounding sphere provides a simplified representation of the object's geometry, allowing for **faster calculations.**
 

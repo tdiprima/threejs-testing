@@ -1,4 +1,4 @@
-# Math.sin
+## Math.sin
 
 Calculating the **path** for the **arc of a circle.**  That's what it's for.
 
@@ -12,7 +12,7 @@ z = Math.sin
 
 <br>
 
-# Math.sin and Math.cos — The creative coder's best friend
+## Math.sin and Math.cos — The creative coder's best friend
 
 Sine waves are great to build oscillators. `Math.sin()` will always oscillate between the values of -1, 1. We multiply this by an amplitude variable to get an oscillating wave effect.
 
@@ -83,7 +83,7 @@ function addParticle(_i, _object) {
 
 <br>
 
-# What does math sin do?
+## What does math sin do?
 
 The [Math.sin()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/sin) function returns the sine of a number in **radians**.
 
@@ -116,7 +116,7 @@ console.log("X coord at 180 degree", getCircleX(Math.PI, 100));
 
 <br>
 
-# Radian
+## Radian
 [Radian](https://www.mathsisfun.com/geometry/radians.html): the angle made when we take the radius and wrap it round the circle.
 
 In a half circle there are `π` radians, which is also 180°.
@@ -177,7 +177,7 @@ camera.position.x = radius * Math.sin(THREE.MathUtils.degToRad(theta));
 
 <br>
 
-# [What radian?](https://www.essai.in/blog/2019/2/25/what-exactly-is-a-radian)
+## [What radian?](https://www.essai.in/blog/2019/2/25/what-exactly-is-a-radian)
 
 Now most of us are used to using the conversion formula for degrees to radians and vice versa but ever wondered how it came about? It's actually fairly simple. The **circumference** of a circle is **2 times π times r** which means that there are approximately 6.28 Radians in a full circle.
 
@@ -187,7 +187,7 @@ It is from this relationship that we say `2*π*r = 360` Degrees or that 1 Radian
 
 <br>
 
-# Sine, Cosine and Tangent
+## Sine, Cosine and Tangent
 
 [Sine, Cosine and Tangent](https://www.mathsisfun.com/sine-cosine-tangent.html) are the main functions used in Trigonometry and are based on a Right-Angled Triangle.
 
@@ -207,7 +207,7 @@ Divide the length of one side by another side.
 
 <br>
 
-# Why do we call the angle theta?
+## Why do we call the angle theta?
 
 In ancient Greek, theta is the go-to variable to represent a generic angle. Most often, θ is a variable that stands for an angle in geometry.
 
@@ -219,3 +219,5 @@ Often, two angles in the same plane are represented by α and β.
 this.phi = (90 - this.lat) * Math.PI / 180;
 this.theta = this.lon * Math.PI / 180;
 ```
+
+<br>
