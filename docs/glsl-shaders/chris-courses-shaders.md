@@ -1,6 +1,6 @@
-# Three.js Shaders
+## ChrisCourses
 
-**ChrisCourses**
+2022-11-17
 
 [Intermediate Three.js Tutorial - Create a Globe with Custom Shaders](https://youtu.be/vM8M4QloVL0)
 
@@ -11,12 +11,12 @@ The dude explains a lot.
 Note that you can therefore calculate the position of a vertex in the vertex shader by:
 
 ```glsl
-gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+gl_Position = projectionMatrix *
+              modelViewMatrix *
+              vec4(position, 1.0);
 ```
 
 [The Book of Shaders](https://thebookofshaders.com/glossary/?search=texture2D)
-
-# Notes
 
 ## What is a UV?
 

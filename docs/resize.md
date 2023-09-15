@@ -1,6 +1,8 @@
-# [gman](https://stackoverflow.com/questions/29884485/threejs-canvas-size-based-on-container#29884485) 😎
+## [canvas size based on container](https://stackoverflow.com/questions/29884485/threejs-canvas-size-based-on-container#45046955)
 
-Some people seem to be concerned about **performance**, as if checking if 2 values don't match 2 other values has any measurable performance impact. 🙄
+<a href="https://webglfundamentals.org/webgl/lessons/webgl-resizing-the-canvas.html">See also: WebGL Resizing the Canvas</a>
+
+Update: 2021, there is no "best" way, there are just multiple ways with various tradeoffs.
 
 In any case, there's the older answer I posted above which just **checks the size of the container.**
 
@@ -8,7 +10,7 @@ People have suggested using `window.addEventListener('resize', ...)` but failed 
 
 The newer `ResizeObserver` isn't all that great.
 
-# Three.js example
+## Example
 
 ```js
 // Resize when *window* size changes
@@ -47,24 +49,61 @@ function render() {
 } 
 ```
 
-# Using event listener
+## Set a boolean
 
-**Examples** with  `window.addEventListener("resize", ...)` ("wrong" way).
-
-Now, this is based on three.js examples.  Gman is awesome, but idk...
-It could be that these examples were made a gazillion years ago; and gman evolved, whereas the examples did not.
-
-[picture-in-picture.html](picture-in-picture.html)
-
-[how-to-use-2-cameras-1.html](how-to-use-2-cameras-1.html)
-
-[bear-soongnyoong.html](bear-soongnyoong.html)
-
-[how-to-use-2-cameras.html](how-to-use-2-cameras.html)
-
-# Calling a function
+[Every](https://stackoverflow.com/questions/29884485/threejs-canvas-size-based-on-container#59176168) animationframe @gman will run the function `resizeCanvasToDisplaySize`, doing multiple calculations.
 
 ```js
+let resized = false
+
+// resize event listener
+window.addEventListener('resize', function() {
+    resized = true
+})
+
+function animate(time) {
+    time *= 0.001
+
+    if (resized) resize()
+
+    // rotate the cube
+    cube.rotation.x += 0.01
+    cube.rotation.y += 0.01
+
+    // render the view
+    renderer.render(scene, camera)
+
+    // animate
+    requestAnimationFrame(animate)
+}
+
+function resize() {
+    resized = false
+
+    // update the size
+    renderer.setSize(window.innerWidth, window.innerHeight)
+
+    // update the camera
+    const canvas = renderer.domElement
+    camera.aspect = canvas.clientWidth/canvas.clientHeight
+    camera.updateProjectionMatrix()
+}
+```
+
+## Using event listener
+
+[picture-in-picture.html](../Code/cameras/picture-in-picture.html)
+
+[how-to-use-2-cameras-1.html](../Code/cameras/how-to-use-2-cameras-1.html)
+
+<!--bear-soongnyoong.html-->
+
+[how-to-use-2-cameras.html](../Code/cameras/how-to-use-2-cameras.html)
+
+## Calling a function
+
+```js
+// TODO: You could return a boolean from here as well
 function resizeCanvasToDisplaySize() {
   const canvas = renderer.domElement;
   // look up the size the canvas is being displayed

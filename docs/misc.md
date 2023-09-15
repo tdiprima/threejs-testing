@@ -170,8 +170,6 @@ three.js you can use any way you could use canvas, including full-screen animati
 
 [Build Basic 3D Scenes with Three.js](https://javascript.plainenglish.io/three-js-lesson-1-building-basic-3d-scenes-with-three-js-e06d05c28feb)
 
-[three.js fundamentals - multiple scenes](https://threejsfundamentals.org/threejs/lessons/threejs-multiple-scenes.html)
-
 [Multiple instances of Three.js in same page to show objects library](https://discourse.threejs.org/t/multiple-instances-of-three-js-in-same-page-to-show-objects-library/18341)
 
 [Display multiple instances of three.js in a single page](https://stackoverflow.com/questions/33959538/display-multiple-instances-of-three-js-in-a-single-page)

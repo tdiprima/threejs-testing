@@ -1,20 +1,52 @@
-## Where to set needsUpdate
+## Setting needsUpdate
 
-<span style="color:#0000dd;">If I need to set "needsUpdate = true" in three.js, what object do I do that on?  The scene or the mesh or what?</span>
+In Three.js, the needsUpdate flag is used to indicate that certain properties of an object have changed and need to be updated on the GPU. Setting this flag to true tells Three.js to update the relevant information the next time the scene is rendered. This is particularly important for performance reasons; updating only when needed helps maintain good rendering speed.
 
-In Three.js, the property `needsUpdate` is not a built-in property of any specific object like the scene or mesh. Instead, it is commonly used with certain objects or properties to signal that they need to be updated or refreshed.
+Here are some common scenarios where you might set needsUpdate to true:
 
-Here are a few **common use cases** where `needsUpdate` can be used:
+### Textures
+If you modify a texture, you should set texture.needsUpdate = true;. This will upload the new texture data to the GPU the next time the scene is rendered.
 
-1. **Geometry:** If you modify the vertices or faces of a `THREE.Geometry` object directly (not recommended), you can set `geometry.verticesNeedUpdate` or `geometry.elementsNeedUpdate` to `true` to indicate that the geometry needs to be updated.
+```javascript
+texture.image = newImage;
+texture.needsUpdate = true;
+```
 
-2. **Material:** When using `THREE.ShaderMaterial` or custom shaders, you might need to set `material.needsUpdate` to `true` if you modify the shader code or any uniforms that affect the rendering.
+### Material
+When you make changes to certain properties of a material, like changing a texture, color, or other data that affects how the material looks, you may need to set material.needsUpdate = true;.
 
-3. **Texture:** If you modify the data of a texture directly (e.g., by manipulating its `.image` property), you should set `texture.needsUpdate` to `true` to ensure that the changes are reflected in the rendering.
+```javascript
+material.color.set(0xff0000);
+material.needsUpdate = true;
+```
 
-So... mainly with **ShaderMaterial.**
+### Geometry
+Three.js generally handles updating built-in geometries automatically, but if you're using BufferGeometry and modify the vertex positions or other attributes manually, you'll have to set geometry.attributes.position.needsUpdate = true;.
 
-It's important to note that `needsUpdate` is not a universal property in Three.js. Its usage and availability depend on the specific object or property you are working with. Therefore, you'll need to refer to the documentation or **inspect the specific object you are working with** to determine whether it has a `needsUpdate` property and how to use it correctly.
+```javascript
+geometry.attributes.position.array[0] = newValue;
+geometry.attributes.position.needsUpdate = true;
+```
+
+### Morph Targets
+If you're changing morph targets, you might need to set geometry.morphAttributes.position[i].needsUpdate = true;.
+
+```javascript
+geometry.morphAttributes.position[i].array[someIndex] = newValue;
+geometry.morphAttributes.position[i].needsUpdate = true;
+```
+
+### Other Attributes
+If you're working with **custom attributes** in a BufferGeometry instance, you'll also need to flag them for update when changed:
+
+```javascript
+geometry.attributes.customAttribute.array[0] = newValue;
+geometry.attributes.customAttribute.needsUpdate = true;
+```
+
+In all these cases, setting `needsUpdate` to `true` makes sure that Three.js uploads the modified data to the GPU the next time it renders the scene.
+
+Once the upload has been completed, Three.js will automatically set `needsUpdate` back to `false`.
 
 ## Example
 
@@ -56,12 +88,3 @@ animate();
 ```
 
 <br>
-
-In this example, we create a simple cube mesh and add it to the scene. The `updateCubePosition()` function is called inside the render loop (`animate()`), which updates the position and rotation of the cube every frame.
-
-To indicate that the mesh needs to be updated, we set `cube.needsUpdate = true;` inside the `updateCubePosition()` function. This tells Three.js that the position and rotation of the cube have changed and need to be updated before the next frame is rendered.
-
-By using `needsUpdate`, Three.js efficiently <mark>**updates only the parts of the scene that have changed, improving performance.**</mark> However, it's important to note that `needsUpdate` is not needed for all properties. It's typically used for specific cases where you need to manually signal that an object or property needs to be updated.
-
-<br>
-
