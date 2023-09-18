@@ -6,7 +6,7 @@ Coordinates, like "x, y, z" in 3D space, tell you where something is.
 
 Quaternions are like super-coordinates. They use four numbers instead of three.
 
-They help you describe not just *where* something is but also how it's turned or *rotated*.
+They help you describe not just ***where*** something is but also how it's turned or ***rotated***.
 
 Let's get a bit into why they're helpful. Imagine you have a spinning top. If you just use **regular angles** *(versus Euler angles)* to describe how it rotates, things can get weird or jumpy. This is known as "gimbal lock," and it's like trying to spin a top on a very slippery surface &mdash; it might wobble or fall over. Quaternions help you avoid that, making the rotation really smooth.
 
@@ -43,14 +43,14 @@ In simpler terms, the 4th number *a* works with the other three numbers *b*, *c*
 Normally, we'd need to call `updateMatrixWorld()` on parent Object3Ds, but three.js defaults `Object3D.matrixAutoUpdate` to true.
 
 
-To get the world *position* of an Object3D:
+To get the world ***position*** of an Object3D:
 
 ```js
 let worldPosition = new THREE.Vector3();
 entityEl.object3D.getWorldPosition(worldPosition);
 ```
 
-To get the world *rotation* of an Object3D:
+To get the world ***rotation*** of an Object3D:
 
 ```js
 let worldQuaternion = new THREE.Quaternion();

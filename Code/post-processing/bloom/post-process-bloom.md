@@ -4,7 +4,7 @@ only to discover that it's a copy of [webgl\_postprocessing\_unreal\_bloom\_sele
 
 **Important read:** [**Post Processing**](http://127.0.0.1:5501/manual/#en/post-processing)
 
-# bloomLayer
+## bloomLayer
 
 ```js
 const bloomLayer = new THREE.Layers();
@@ -15,7 +15,7 @@ if (bloomLayer.test(obj.layers) === false) {
 }
 ```
 
-# RenderPass
+## RenderPass
 
 **RenderPass** is normally placed at the beginning of the chain in order to
 provide the rendered scene as an input for the next post-processing step.
@@ -26,7 +26,7 @@ bloomComposer.addPass(renderScene);
 finalComposer.addPass(renderScene);
 ```
 
-# ShaderPass
+## ShaderPass
 
 **ShaderPass** for our custom post-processing shader
 
@@ -44,7 +44,7 @@ finalComposer.addPass(finalPass);
 finalPass.needsSwap = true;
 ```
 
-# ShaderMaterial
+## ShaderMaterial
 
 **ShaderMaterial** is material rendered with custom shaders
 
@@ -74,7 +74,7 @@ processed by vertex function
 think texture
 
 
-# What the heck is renderTarget2?
+## What the heck is renderTarget2?
 
 [**Club Babylon, Render Target**](https://doc.babylonjs.com/features/featuresDeepDive/postProcesses/renderTargetTextureMultiPass)
 
@@ -86,7 +86,7 @@ uniforms: {
 }
 ```
 
-# What is a Pass?
+## What is a Pass?
 
 It's the actual thing that does what you want.
 
@@ -97,7 +97,7 @@ bloomPass.strength = params.bloomStrength;
 bloomComposer.addPass(bloomPass);
 ```
 
-# EffectComposer
+## EffectComposer
 
 ```js
 const bloomComposer = new EffectComposer(renderer);
@@ -112,6 +112,8 @@ bloomComposer.setSize(width, height);
 
 bloomComposer.render();
 ```
+
+<br>
 
 ```js
 const finalComposer = new EffectComposer(renderer);
@@ -144,3 +146,5 @@ renderScene = RenderPass
 finalPass = ShaderPass
 finalComposer = EffectComposer
 ```
+
+<br>

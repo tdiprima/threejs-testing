@@ -2,7 +2,7 @@
 
 ### [How to draw more than one million spheres?](https://discourse.threejs.org/t/how-to-draw-spheres-more-than-1000000/19731)
 
-⚠️ **<mark>Drawing a million spheres may still be demanding on some hardware.  Including a souped-up MacBook Pro! (Don't do it. LOL.)</mark>** 💻 
+⚠️ **<mark>Drawing a million spheres may still be demanding on some hardware.  Including a souped-up MacBook Pro! (Don't do it. LOL.)</mark>** 💻
 
 <span style="color:#0000dd;">They're saying that in order to draw a million spheres, you would have to use either an InstancedMesh or an InstancedBufferGeometry.</span>
 
@@ -15,12 +15,13 @@ Here's an example that shows how to draw a million spheres using `InstancedMesh`
 First, include the three.js library. You can download it from [three.js official website](https://threejs.org/) or include it via CDN:
 
 ```html
+<!-- r128 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 ```
 
 Then, you can use the following JavaScript code:
 
-<a href="Draw_a_Million_Spheres.html">Draw_a_Million_Spheres.html</a>
+<span style="color: #59acf3;">Draw\_a\_Million\_Spheres.html</span>
 
 This code sets up a basic three.js scene and uses `InstancedMesh` to create 1,000,000 instances of a basic sphere geometry. Each instance is then randomly positioned within a bounding box.
 
@@ -50,7 +51,9 @@ So, to sum it up: calling `updateMatrix()` is necessary to ensure that the trans
 
 ## Transformation Matrix
 
-Absolutely! Imagine you're playing a video game, and you have a character on the screen. You can make your character do several things: move around (translate), turn or spin (rotate), or even grow and shrink (scale).
+Imagine you're playing a video game, and you have a character on the screen. 🕹️ 👾 🛸
+
+You can make your character do several things: move around (translate), turn or spin (rotate), or even grow and shrink (scale).
 
 Now, let's say you're the game developer, and you want to tell the computer how to display this character after they've moved, spun, or changed size. You could do it with a bunch of numbers for each thing: one set for where the character is, another for how it's turned, and yet another for how big or small it is. But that's a lot of numbers to keep track of!
 
@@ -60,7 +63,7 @@ In the matrix, which is like a grid of numbers, each number has a special role i
 
 In simple terms, a transformation matrix is a super-efficient way to keep track of an object's position, rotation, and size all in one go. And because it's so compact and easy for computers to work with, your games run smoother and faster!
 
-### OK, so it's a matrix variable; not something on the rendered screen.
+### OK, so it's a matrix variable; not part of the rendered screen.
 
 ## fabric.js
 
@@ -76,10 +79,13 @@ transformMatrix == [ 1, 0, 0, 1, 0, 0 ];
 ```js
 newP = fabric.util.transformPoint(P, canvas.viewportTransform);
 newP = fabric.util.transformPoint(P, object.calcTransformMatrix());
-// Fabric applies transformations in this order:
-zoom and pan => object transformation => nested object ( group ) => additionally nested objects ( nested groups )
 ```
 
+Fabric applies transformations in this order:
+
+```regexp
+zoom and pan => object transformation => nested object ( group ) => additionally nested objects ( nested groups )
+```
 [Understanding the Transformation Matrix in Flash 8](https://www.senocular.com/flash/tutorials/transformmatrix/)
 
 [Class: Object &mdash; transformMatrix](http://fabricjs.com/docs/fabric.Object.html#calcTransformMatrix)

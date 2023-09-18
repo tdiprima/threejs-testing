@@ -1,14 +1,14 @@
 ## Textures are humongous
 
-* [Textures](https://threejs.org/manual/#en/textures) are often the part of a three.js app that use the most memory. It's important to understand that in general, textures take `width * height * 4 * 1.33` bytes of memory.  So make your textures small in dimensions not just small in file size.
-* "Filtering and Mips"
-* Texture.magFilter
+* [Textures](https://threejs.org/manual/#en/textures) often use the most memory. It's important to understand that in general, textures take `width * height * 4 * 1.33` bytes of memory.  So make your textures small in dimensions not just small in file size.
 
-<br>
+* "Filtering and Mips"
+
+* Texture.magFilter
 
 ## Data to canvas
 
-https://threejs.org/manual/#en/optimize-lots-of-objects
+[Optimize Lots of Objects](https://threejs.org/manual/#en/optimize-lots-of-objects)
 
 To make sure we understand the data let's try to plot it in 2D.
 
@@ -69,7 +69,7 @@ function drawData(file) {
 <br>
 And finally gluing it all together.
 
-```
+```js
 loadFile(url)
   .then(parseData)
   .then(drawData);

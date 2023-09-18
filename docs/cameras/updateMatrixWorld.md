@@ -4,7 +4,10 @@
 
 When the camera is a child of another object, you generally use `lookAt` and `updateMatrixWorld` to ensure that the camera's orientation is updated correctly relative to its parent's transformation matrix. When you apply transformations to the parent object, those transformations get applied to the camera as well. However, calling `lookAt` on the camera won't take into account the transformations of its parent unless you also call `updateMatrixWorld`.
 
-Here's a simple example. Let's say you have a parent object (could be an empty `THREE.Object3D` or another mesh), and you want the camera to be its child:
+Here's a simple example. Let's say you have a parent object (could be an empty `THREE.Object3D` or another mesh), and you want the camera to be its child...
+
+(Basically, you do `lookAt` and `updateMatrixWorld` together.
+<a href="../../Code/cameras/picture-in-picture.html">Picture in Picture</a> is an example.)
 
 ```javascript
 // Create a scene, camera, and renderer

@@ -104,6 +104,7 @@
     camera.position.y = radius * Math.sin(THREE.MathUtils.degToRad(theta));
     camera.position.z = radius * Math.cos(THREE.MathUtils.degToRad(theta));
 
+    // Make the camera look at the scene
     camera.lookAt(scene.position);
     camera.updateMatrixWorld();
 
