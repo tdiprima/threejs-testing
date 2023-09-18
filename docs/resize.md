@@ -1,4 +1,4 @@
-## [canvas size based on container](https://stackoverflow.com/questions/29884485/threejs-canvas-size-based-on-container#45046955)
+## [Three.js canvas size based on container](https://stackoverflow.com/questions/29884485/threejs-canvas-size-based-on-container#45046955)
 
 <a href="https://webglfundamentals.org/webgl/lessons/webgl-resizing-the-canvas.html">See also: WebGL Resizing the Canvas</a>
 
