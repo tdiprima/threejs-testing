@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Scrollbar Animation</title>
+  <!-- CUBE MOVES AS YOU SCROLL -->
+  <!-- https://web.archive.org/web/20211129205757/https://fireship.io/snippets/threejs-scrollbar-animation/ -->
+  <script src="/build/three.min.js"></script>
+  <link rel="stylesheet" href="/css/main.css">
+  <style>
+    /* Make the canvas stay fixed to screen as an animated background. */
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+    }
+
+    /* Overlay the main content with absolute positioning. It is given an
+    artificially large height value to make it scroll without content. */
+    main {
+      width: 100vw;
+      height: 500vh;
+      z-index: 99;
+      position: absolute;
+    }
+  </style>
+</head>
+<body>
+<main></main>
+<script>
+  // Setup basic fullscreen scene using example from official docs
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+
+  const renderer = new THREE.WebGLRenderer();
+  renderer.setSize( window.innerWidth, window.innerHeight );
+  document.body.appendChild( renderer.domElement );
+
+  // Add cube to scene
+  const geometry = new THREE.BoxGeometry();
+  const material = new THREE.MeshBasicMaterial( { color: 0xfffd01 } );
+  const cube = new THREE.Mesh( geometry, material );
+  scene.add( cube );
+
+  camera.position.z = 5;
+
+  // Animate cube
+  function animate() {
+    cube.rotation.x += 0.01;
+    cube.rotation.y += 0.01;
+    cube.rotation.z += 0.01;
+
+    renderer.render( scene, camera );
+  }
+
+  // Call animate function on scroll
+  document.body.onscroll = () => {
+    animate()
+    // console.log(document.body.offsetTop)
+  }
+</script>
+</body>
+</html>
