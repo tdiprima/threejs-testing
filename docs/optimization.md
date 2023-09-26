@@ -10,7 +10,7 @@
 
 [Optimize Lots of Objects](https://threejs.org/manual/#en/optimize-lots-of-objects)
 
-To make sure we understand the data let's try to plot it in 2D.
+To make sure we understand the data, let's try to plot it in 2D.
 
 First some code to load the text file.
 

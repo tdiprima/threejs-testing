@@ -1,11 +1,11 @@
 ## Setting needsUpdate
 
-In Three.js, the needsUpdate flag is used to indicate that certain properties of an object have changed and need to be updated on the GPU. Setting this flag to true tells Three.js to update the relevant information the next time the scene is rendered. This is particularly important for performance reasons; updating only when needed helps maintain good rendering speed.
+The `needsUpdate` flag is used to indicate that certain properties of an object have changed and need to be updated on the GPU. Setting this flag to `true` tells Three.js to update the relevant information the next time the scene is rendered. This is particularly important for performance reasons; updating only when needed helps maintain good rendering speed.
 
 Here are some common scenarios where you might set needsUpdate to true:
 
 ### Textures
-If you modify a texture, you should set texture.needsUpdate = true;. This will upload the new texture data to the GPU the next time the scene is rendered.
+If you modify a texture, you should set texture.needsUpdate = true; This will upload the new texture data to the GPU the next time the scene is rendered.
 
 ```javascript
 texture.image = newImage;
@@ -13,7 +13,7 @@ texture.needsUpdate = true;
 ```
 
 ### Material
-When you make changes to certain properties of a material, like changing a texture, color, or other data that affects how the material looks, you may need to set material.needsUpdate = true;.
+When you make changes to certain properties of a material, like changing a texture, color, or other data that affects how the material looks, you may need to set material.needsUpdate = true;
 
 ```javascript
 material.color.set(0xff0000);
@@ -21,7 +21,7 @@ material.needsUpdate = true;
 ```
 
 ### Geometry
-Three.js generally handles updating built-in geometries automatically, but if you're using BufferGeometry and modify the vertex positions or other attributes manually, you'll have to set geometry.attributes.position.needsUpdate = true;.
+Three.js generally handles updating built-in geometries automatically, but if you're using BufferGeometry and modify the vertex positions or other attributes manually, you'll have to set geometry.attributes.position.needsUpdate = true;
 
 ```javascript
 geometry.attributes.position.array[0] = newValue;

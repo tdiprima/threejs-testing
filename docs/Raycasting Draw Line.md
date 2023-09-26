@@ -76,12 +76,4 @@ If you're not getting any intersections, it's possible that you're not passing t
     console.log("intersects", intersects);
     ```
 
-## There are no objects.
-
-<!--I have no objects to intersect with.  Instead of calling `intersectObjects`, is there a function that does an **intersect** simply with the **screen coordinates?**
-
-<span style="color:red;font-weight:bold;">No!</span>-->
-
-I'm writing a three.js script using raycasting.  I have no objects to intersect with. So when I call `raycaster.intersectObjects`, can I pass in the `scene` or the `renderer.domElement` instead of `scene.children`?  
-
 <br>

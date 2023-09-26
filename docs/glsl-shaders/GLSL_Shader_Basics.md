@@ -2,7 +2,7 @@
 
 This GLSL (OpenGL Shading Language) shader code snippet contains multiple examples of different variable types and operations commonly used in shaders. I'll break down each section for you:
 
-### 1) Defining a 4x4 Matrix
+## Defining a 4x4 Matrix
 
 Projection Matrix and Model View Matrix:
 
@@ -21,7 +21,7 @@ This initializes a 4x4 matrix named `aMat4` as the **identity matrix.**
     
 The comments mention `projectionMatrix` and `modelViewMatrix`, which are commonly used matrices for 3D transformations.
 
-### 2) 3D Position as a vec3:
+## 3D Position as a vec3:
 
 ```glsl
 // position: vec3 (3 element array)
@@ -30,7 +30,7 @@ vec3 position = vec3(1, 0, 0);
 
 This creates a 3D vector named `position` with coordinates (1, 0, 0).
 
-### 3) Creating a vec4 from a vec3 and Scalar:
+## Creating a vec4 from a vec3 and Scalar:
 
 ```glsl
 vec4(position, 1.0) === vec4(1, 0, 0, 1.0)
@@ -38,7 +38,7 @@ vec4(position, 1.0) === vec4(1, 0, 0, 1.0)
 
 This shows how to create a 4D vector (`vec4`) from a 3D vector (`vec3`) and a scalar. Note that the `===` is not valid GLSL; it seems like a comment to indicate equivalence.
 
-### 4) Element-wise Multiplication of vec3:
+## Element-wise Multiplication of vec3:
 
 ```glsl
 position * vec3(2, 2, 1) === vec3(1, 0, 0) * vec3(2, 2, 1);
@@ -48,7 +48,7 @@ position = vec3(2, 0, 0);
 
 This shows that you can do element-wise multiplication of vectors. Again, the `===` seems to be a comment, not valid GLSL code. After the multiplication, `position` gets updated to (2, 0, 0).
 
-### 5) Texture Lookup:
+## Texture Lookup:
 
 ```glsl
 // texture2D returns pixel value for coordinate 

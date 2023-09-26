@@ -2,7 +2,7 @@
 
 Imagine you're playing a game where you're walking around a virtual world. As you walk, you want to be able to click on things in the world and interact with them. For example, maybe you want to pick up a sword or open a door.
 
-🚪 🗡️ 🤺
+<span style="font-size:27px;">🚪 🗡️ 🤺</span>
 
 But how does the game know what you're clicking on? That's where raycasting comes in!
 

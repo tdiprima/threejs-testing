@@ -2,7 +2,7 @@
 
 ## Understanding depthWrite
 
-In Three.js, "depthWrite" is a property you can set on a material to control how it interacts with the depth buffer. You can think of the depth buffer as a big invisible screen that helps the computer figure out what should be in front of what.
+`depthWrite` is a property you can set on a material to control how it interacts with the depth buffer. You can think of the depth buffer as a big invisible screen that helps the computer figure out what should be in front of what.
 
 Imagine you're stacking toy blocks. The depth buffer helps the computer remember which block is in front and which one is behind so that it can show them correctly on the screen. When you set "depthWrite" to `true`, it's like telling the computer, "Hey, this block is important. Remember its position so you can figure out what goes in front and what goes behind." When you set it to `false`, you're saying, "Don't bother remembering this block's position for stacking. Just show it."
 

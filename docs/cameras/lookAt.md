@@ -8,7 +8,7 @@ camera.lookAt(new THREE.Vector3(0, 0, 0));
 
 <br>
 
-In Three.js, when you create a new camera using `THREE.PerspectiveCamera` or `THREE.OrthographicCamera`, the camera is positioned so that its local -Z axis points towards the origin `(0, 0, 0)` by default. In other words, the camera "looks at" the origin initially.
+Yes, and yes.  When you create a new camera using `THREE.PerspectiveCamera` or `THREE.OrthographicCamera`, the camera is positioned so that its local -Z axis points towards the origin `(0, 0, 0)` by default. In other words, the camera "looks at" the origin initially.
 
 However, it's often a good practice to explicitly set the `lookAt` method to ensure that the camera is oriented as you intend, especially if you're going to be moving the camera or changing its orientation during the course of your program.
 
@@ -31,7 +31,7 @@ camera.lookAt(new THREE.Vector3(0, 0, 0));
 camera.updateMatrixWorld();
 ```
 
-So, while not strictly necessary at initialization if you're happy with the default orientation, using `lookAt` can be a good habit.
+So, while not strictly necessary at initialization, using `lookAt` can be a good habit.
 
 <!-- http://tanrobby.github.io/note/opengl/gluLookAt.jpg -->
 ![Look At](../img/gluLookAt.jpg)
@@ -48,7 +48,7 @@ When you set `camera.position.set(0, 1, 5)`, you're positioning the camera in 3D
 
 In more intuitive terms, imagine you are standing 5 meters away from an object, directly in front of it. If you then elevate yourself 1 meter above the ground, that would be your "camera position" in this case. You would be looking back towards the object (the origin, in this case), which is how the `lookAt(0, 0, 0)` function orients the camera.
 
-## controls.target vs camera.lookAt
+## Controls-Target
 
 [Controls.target vs camera.lookAt](https://discourse.threejs.org/t/controls-target-vs-camera-lookat/5086/6)
 
@@ -56,25 +56,21 @@ I used `camera.lookAt()` to set direction in which camera looks.
 
 Reading on OrbitControls, I learned that camera.lookAt() should be replaced by `controls.target`.
 
-Why?
-
-OrbitControls internally uses Object3D.lookAt() in order to look at the defined
-target location of focus (OrbitControls.target).
-
-> When I use it, panning becomes an issue.
-> 
-> Target object doesn't pan with rest of the scene,
-> 
-> and is static while panning.
-
-That's the intended behavior since **panning transforms** the `OrbitControls.target` vector.
+**Panning transforms** the `OrbitControls.target` vector.
 
 In other words, the **location of focus.**
 
-You also have to call `controls.update()` after changing the target.
+You have to call `controls.update()` after changing the target.
 
 OrbitControls ensures that the camera orbits (rotates) around the target.
 
-Rotation and zooming also happens with focus on target. (Focused on the defined target vector.)
+```js
+// Animation Loop
+(function animate() {
+  requestAnimationFrame(animate);
+  controls.update();
+  renderer.render(scene, camera);
+})();
+```
 
 <br>

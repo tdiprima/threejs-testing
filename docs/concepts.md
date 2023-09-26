@@ -10,6 +10,10 @@ Level of Detail can be decreased as the model moves away from the viewer. **(Dis
 
 An example of various DLOD ranges. Darker areas are meant to be rendered with higher detail. An additional culling operation is run, discarding all the information outside the frustum (colored areas).
 
+<!-- https://en.m.wikipedia.org/wiki/File:DiscreteLodAndCullExampleRanges.MaxDZ8.svg -->
+
+<!-- https://en.wikipedia.org/wiki/Level_of_detail_(computer_graphics) -->
+
 [Level of Detail in 3D City Model](https://www.treistek.com/post/level-of-detail-in-3d-city-model)
 
 ![Level of Detail 3D City](img/level-of-detail-in-3d-city-model.jpg)
