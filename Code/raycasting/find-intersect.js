@@ -4,7 +4,7 @@ let INTERSECTED;
 let pointer = new THREE.Vector2();
 
 let scene = new THREE.Scene();
-scene.background = new THREE.Color(0x8973f8);
+scene.background = new THREE.Color(0x8973f8); // Medium slate blue
 
 let camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000);
 camera.position.z = 10;
