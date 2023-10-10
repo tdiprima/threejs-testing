@@ -3,7 +3,8 @@ import * as THREE from "three";
 import { FontLoader } from "three/examples/loaders/FontLoader.js";
 import { TextGeometry } from "three/examples/geometries/TextGeometry.js";
 
-// Load the font file
+let fontLoader = new FontLoader();
+// https://github.com/mrdoob/three.js/tree/dev/examples/fonts
 fontLoader.load("https://threejs.org/examples/fonts/helvetiker_regular.typeface.json", function(font) {
   // Create the text geometry
   const textGeometry = new TextGeometry("Hello, World!", {

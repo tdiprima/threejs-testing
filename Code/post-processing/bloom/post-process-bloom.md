@@ -20,13 +20,13 @@ Now, let's dive deeper:
 
 2. **RenderPass**: This is your base layer. It's like drawing the main image on your canvas. When using `EffectComposer`, you almost always start with a `RenderPass`. It takes your Three.js scene and camera and renders the initial image.
 
-3. **ShaderPass** and other passes (like `UnrealBloomPass`): Once you have your main image, you might want to tweak its looks. For example, you might want to add a glow effect. These are the additional "filters" or "effects" you apply to your image. You can have multiple of these, and they're applied in the order you add them. 
+3. **ShaderPass** and other passes (like `UnrealBloomPass`): Once you have your main image, you might want to tweak its looks. For example, you might want to add a glow effect. These are the additional "filters" or "effects" you apply to your image. You can have multiple of these, and they're applied in the order you add them.
 
 For instance, let's say you have a `ShaderPass` that turns your image black and white, and then you have an `UnrealBloomPass` that adds a glow. If you put the black and white pass first, you'll get a glowing black and white image. Swap their order, and you'll have a colored image with a glow and then turned black and white.
 
 ---
 
-**Here's a basic order of how to set things up**:
+**Here's a basic order of how to set things up:**
 
 1. Create your `EffectComposer`.
 2. Add a `RenderPass` to it – to get the basic image of your scene.
@@ -70,8 +70,7 @@ I hope this analogy and guide help you understand the concept and order of `Effe
 ## Otra
 
 At first, I found this example:
-[Three Effectcomposer Es6 Examples](https://codesandbox.io/examples/package/three-effectcomposer-es6) (bloom),
-only to discover that it's a copy of [webgl\_postprocessing\_unreal\_bloom\_selective.html](http://127.0.0.1:5501/examples/webgl_postprocessing_unreal_bloom_selective.html)
+[Three Effectcomposer Es6 Examples](https://codesandbox.io/examples/package/three-effectcomposer-es6) (bloom), only to discover that it's a copy of [webgl\_postprocessing\_unreal\_bloom\_selective.html](http://127.0.0.1:5501/examples/webgl_postprocessing_unreal_bloom_selective.html)
 
 **Important read:** [**Post Processing**](http://127.0.0.1:5501/manual/#en/post-processing)
 

@@ -4,7 +4,7 @@
 
 ⚠️ **<mark>Drawing a million spheres may still be demanding on some hardware.  Including a souped-up MacBook Pro! (Don't do it. LOL.)</mark>** 💻
 
-<span style="color:#0000dd;">They're saying that in order to draw a million spheres, you would have to use either an InstancedMesh or an InstancedBufferGeometry.</span>
+<span style="color:#0000dd;">They're saying that in order to draw a million spheres, you would have to use either an InstancedMesh (which I'm using!) or an InstancedBufferGeometry (lights/self-shadowing.html).</span>
 
 In the realm of 3D graphics and particularly with libraries like three.js, performance is key when rendering a large number of similar objects. An `InstancedMesh` or `InstancedBufferGeometry` is generally used to achieve this.
 

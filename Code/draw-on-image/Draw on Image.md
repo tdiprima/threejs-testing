@@ -23,7 +23,7 @@ Can you *draw* using HTML5?  No.  Draw using a geometry.
 
 **Disclaimer:** You can.  If you're loading the image using a texture.  But then you don't see the image for some reason.  That's why I'm here.
 
-Coordinates &ndash; since we're using geometries, *now* we convert the coordinates.
+Coordinates &mdash; since we're using geometries, *now* we convert the coordinates.
 
 Don't let anybody tell you some BS about the event listeners not firing due to the Three.js canvas overlapping the HTML canvas.
 
@@ -46,11 +46,11 @@ line.geometry.setAttribute("position", new THREE.Float32BufferAttribute(position
 
 // onMouseUp
 line.geometry.setDrawRange(0, positions.length / 3);
-line.geometry.computeBoundingSphere();        
+line.geometry.computeBoundingSphere();
 ```
 
 <br>
-Imagine you have a bunch of points in 3D space that make up an object (in this case, a line). A "bounding sphere" is like an invisible ball that completely contains all these points. The sphere is as small as possible but still big enough to fit every point inside it. 
+Imagine you have a bunch of points in 3D space that make up an object (in this case, a line). A "bounding sphere" is like an invisible ball that completely contains all these points. The sphere is as small as possible but still big enough to fit every point inside it.
 
 ```js
 line.geometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
@@ -74,7 +74,7 @@ calculates the smallest possible sphere that can contain the whole line.
 
 Computing the bounding sphere helps Three.js to be more efficient when rendering your 3D world.
 
-When rendering a complex scene, it's computationally expensive to check each individual vertex or point for visibility or intersection tests. 
+When rendering a complex scene, it's computationally expensive to check each individual vertex or point for visibility or intersection tests.
 
 The bounding sphere provides a simplified representation of the object's geometry, allowing for **faster calculations.**
 
