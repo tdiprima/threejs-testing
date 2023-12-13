@@ -47,7 +47,7 @@
 
 <script type="module">
   import * as THREE from "three";
-  import {OrbitControls} from "/jsm/controls/OrbitControls.js";
+  import { OrbitControls } from "/jsm/controls/OrbitControls.js";
 
   window.onload = function () {
     const range = 50;
@@ -76,13 +76,8 @@
     let cubes = new THREE.Object3D(); // "cubes", plural
     scene.add(cubes);
 
-    // NOTE! Adding multiple objects into an Object3D, instead of adding each object separately into the scene.
     for (let i = 0; i < numObjects; i++) {
-
-      let grayness = Math.random() * 0.5 + 0.25; // Because multiplying by 0.5 is faster than dividing by 2.
-      // The RAND function produces a number between 0.0 and 1.0.
-      // We're dividing by 2.
-      // Since half of nothing is nothing, add 0.25 to keep it above zero.  I guess that's the reason.
+      let grayness = Math.random() * 0.5 + 0.25;
 
       let mat = new THREE.MeshBasicMaterial();
       mat.color.setRGB(grayness, grayness, grayness);
@@ -92,18 +87,17 @@
       cube.rotation.set(Math.random(), Math.random(), Math.random());
       cube.grayness = grayness; // We'll use it later!
 
-      cubes.add(cube); // Adding a cube to the cubes object (effectively, a container).
+      cubes.add(cube);
     }
 
-    raycaster = new THREE.Raycaster(); // create once
-    let mouse = new THREE.Vector2(); // create once
+    raycaster = new THREE.Raycaster();
+    let mouse = new THREE.Vector2();
 
     // User interaction
     window.addEventListener('mousemove', onMouseMove, false);
     window.addEventListener('resize', onWindowResize, false);
 
     let controls = new OrbitControls(camera, renderer.domElement);
-    // controls.zoomSpeed = 0.1;
     controls.enableDamping = true; // Simon's Cat
 
     // And go!
@@ -113,8 +107,6 @@
       // Convert the mouse coordinates, which go from 0 to divWidth, and from 0 to divHeight, to (-1, 1) in both axes.
       mouse.x = 2 * (e.clientX / divWidth) - 1;
       mouse.y = 1 - 2 * (e.clientY / divHeight);
-      // Y is negated, because in the classic DOM coordinate system, the Y axis grows from top to bottom (i.e. top is 0),
-      // whereas in 3D it grows from bottom to top (i.e. bottom is 0).
     }
 
     function findIntersection() {
@@ -129,7 +121,6 @@
         cube.material.color.setRGB(cube.grayness, cube.grayness, cube.grayness); // Reset color
       });
 
-      // console.log("intersects.length", intersects.length);
       for (let i = 0; i < intersects.length; i++) {
         let intersection = intersects[i];
 
