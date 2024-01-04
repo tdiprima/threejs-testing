@@ -1,6 +1,6 @@
 ## Lights
 
-<span style="color:#0000dd;">What's the best light to use for <a href="../Code/LOD/muse.html">this?</a>  Hemisphere or point?</span>
+<span style="color:#0000dd;">What's the best light to use for level-of-detail.html?  Hemisphere or point?</span>
 
 <span style="color:#0000dd;">None!  We're using MeshBasicMaterial.<br>MeshPhongMaterial or MeshStandardMaterial needs lighting.</span>
 

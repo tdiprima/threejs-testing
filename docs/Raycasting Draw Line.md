@@ -1,10 +1,25 @@
-## intersects.length always zero
+## Reminder
+
+Here's what to do. You can create a raycaster object that shoots out a ray and detects what it hits.
+
+1. Create a raycaster object using the `THREE.Raycaster()` constructor.
+
+    <a href="../Code/raycasting">Raycasting</a>
+
+2. Set the starting point of the raycaster to where the mouse click happened. You can get the mouse position using the `event.clientX` and `event.clientY` properties.
+
+3. Set the direction of the raycaster. In three.js, you can use the **camera's position** and the **mouse position** to calculate the direction of the ray.
+
+4. Use the `intersectObjects()` method on the raycaster to see what objects the ray has hit.
+
+5. Finally, you can use the results of the intersection to do whatever you want in your game. For example, you might use the object's `userData` property to store information about what the object is and how to interact with it.
+
+### Why is intersects.length always zero?
 
 ```js
 intersects.length > 0; // never executes
 ```
 
-<br>
 <mark>**Because there needs to be an object there to intersect with. The End.**</mark>
 
 If `intersects.length > 0` is not executing, it's likely because the raycasting is not working properly.
@@ -19,18 +34,16 @@ If `intersects.length > 0` is not executing, it's likely because the raycasting 
     * In the example, the `mousemove` event listener *calculates* the normalized device coordinates of the mouse position.
     * Make sure your code is doing something similar.
 
-### Includes some additional debugging information:
+Include some additional debugging information:
 
 ```js
+// draw2.html
 const intersects = raycaster.intersectObjects(scene.children, true);
 console.log(intersects);
 
 if (intersects.length > 0) {
     console.log('Intersected!');
-    //...
 }
-
-//...
 
 function onMouseUp() {
     // Remove the mouse event listeners
@@ -45,9 +58,7 @@ function onMouseUp() {
 }
 ```
 
-<br>
-
-<mark>It's possible that the `scene.children` array **doesn't contain the objects you're trying to raycast against,** which would result in an empty intersects array.</mark>
+It's possible that the `scene.children` array <mark>**doesn't contain the objects you're trying to raycast against**</mark>, which would result in an empty intersects array.
 
 When calling `intersectObjects`, the first argument should be an array of objects that you want to test for intersection.
 

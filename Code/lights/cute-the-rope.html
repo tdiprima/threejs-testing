@@ -52,7 +52,7 @@
   // light = new THREE.HemisphereLight(0xffffff, 1.25);
   // scene.add(light);
 
-  let controls = new OrbitControls(camera, canvas);
+  let controls = new OrbitControls(camera, renderer.domElement);
   controls.target.set(0, 0, 0);
   controls.update();
 
