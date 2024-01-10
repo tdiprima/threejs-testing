@@ -3,26 +3,41 @@
 This Three.js code is part of a script that implements object selection or highlighting in a 3D scene using raycasting. It assumes a 3D environment has been set up with a camera, scene, and pointer (likely a mouse or other input device position), as well as a global variable `INTERSECTED` and a `raycaster`. Below is a step-by-step explanation of the code:
 
 1. **check(material) Function**:
+
    - If `material` has an `emissive` property, it sets the <span style="color:#4a00b4;">**emissive color**</span> of `material` to the hexadecimal color stored in `INTERSECTED.currentHex`.
+
    - If `material` does not have an `emissive` property, it sets the <span style="color:#4a00b4;">**color**</span> of `material` to the hexadecimal color stored in `INTERSECTED.currentHex`.
 
 2. **check2(material) Function**:
+
    - If `material` has an `emissive` property, it stores the <span style="color:#4a00b4;">**current emissive color**</span> of `material` into `INTERSECTED.currentHex`, and then changes the `emissive` color to red (`0xff0000`).
+
    - If `material` does not have an `emissive` property, it stores the <span style="color:#4a00b4;">**current color**</span> of `material` into `INTERSECTED.currentHex`, and then changes the `color` to red (`0xff0000`).
 
 3. **findIntersection() Function**:
+
    - It casts a ray from the camera through the pointer position into the scene using `raycaster.setFromCamera(pointer, camera)`.
+
    - It finds intersections between the ray and objects in the scene with `raycaster.intersectObjects(scene.children)`.
+
    - If there are intersections, and the first intersection is not the currently `INTERSECTED` object:
+
      - If there is an `INTERSECTED` object, it calls `check(INTERSECTED.material)`.
+
      - It updates `INTERSECTED` to be the first object in the intersections array.
+
      - It calls `check2(INTERSECTED.material)`.
+
    - If there are no intersections:
+
      - If there is an `INTERSECTED` object, it calls `check(INTERSECTED.material)`.
+
      - It sets `INTERSECTED` to `null`.
 
 ### Purpose of the Code:
+
 - When an object is intersected by the ray (mouse pointer, for example), it changes the object's color or emissive color to red to highlight it (via `check2` function).
+
 - When the object is no longer intersected, it reverts the object's color or emissive color back to its original value (via `check` function).
 
 ### Important Note:
@@ -33,9 +48,9 @@ The error message noted in the comments indicates that there is an attempt to ac
 
 # Simplify
 
-<span style="color:#0000dd;">It seems like check and check2 are sort of doing the same things.  And also in the findIntersection function.</span>
+<span style="color:blue;font-size:larger;">It seems like `check` and `check2` are sort of doing the same things.  And also in the `findIntersection` function.</span>
 
-Certainly! You can simplify the code by consolidating the two `check` functions into one, since they perform similar operations. The consolidated function can take two arguments: the `material` and the `hex` color to be set. Here’s one way you could simplify the code:
+You can simplify the code by consolidating the two `check` functions into one, since they perform similar operations. The consolidated function can take two arguments: the `material` and the `hex` color to be set. Here's one way you could simplify the code:
 
 ```javascript
 function setMaterialColor(material, hex) {
