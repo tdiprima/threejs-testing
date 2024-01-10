@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Arrow</title>
+  <!-- https://stackoverflow.com/questions/19271549/please-explain-three-js-raycaster-direction-parameter -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/three.js/r54/three.js"></script>
+  <link href="/css/main.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: ghostwhite;
+    }
+  </style>
+</head>
+<body>
+<script>
+  let camera, scene, renderer, geometry, material, mesh;
+
+  console.log(`%cREVISION: ${THREE.REVISION}`, "color: #ff00cc;");
+
+  init();
+  animate();
+  RayCheck();
+
+  function init() {
+    scene = new THREE.Scene();
+
+    camera = new THREE.PerspectiveCamera(50, 400 / 400, 1, 10000);
+    camera.position.z = 300;
+
+    scene.add(camera);
+
+    // Add cube at 20/20
+    geometry = new THREE.CubeGeometry(20, 20, 20);
+    material = new THREE.MeshNormalMaterial();
+    mesh = new THREE.Mesh(geometry, material);
+    mesh.position.setY(20);
+    scene.add(mesh);
+
+    renderer = new THREE.CanvasRenderer();
+    renderer.setSize(400, 400);
+    document.body.appendChild(renderer.domElement);
+  }
+
+  function RayCheck() {
+    // Add Ray
+    let origin = new THREE.Vector3(50, -40, 0);
+    // let direction = new THREE.Vector3(-1, 1, 0);
+    let direction = new THREE.Vector3(-0.707, 0.707, 0); // Normalized vector
+    let ray = new THREE.Raycaster(origin, direction);
+    let collisionResults = ray.intersectObjects([mesh]);
+
+    if (collisionResults.length !== 0) {
+      console.log(`%cRay collides with mesh. Distance: ${collisionResults[0].distance}`, "color: lime;");
+    } else {
+      console.log("%cRay does not collide with mesh.", "color: red;");
+    }
+
+    // Add Arrow to show ray
+    scene.add(new THREE.ArrowHelper(direction, origin, 50, 0x000000));
+  }
+
+  function animate() {
+    requestAnimationFrame(animate);
+    render();
+  }
+
+  function render() {
+    renderer.render(scene, camera);
+    camera.updateProjectionMatrix();
+  }
+</script>
+</body>
+</html>
