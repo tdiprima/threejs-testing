@@ -49,6 +49,14 @@ function RayCheck() {
 
 In summary, `setY(20)` places the cube 20 units above the ground, and the `origin` and `direction` of the ray are set to specific values to ensure the ray starts at a particular point in the scene and travels in a specific direction to intersect with the cube. The exact values (50, -40, 0) and (-1, 1, 0) are chosen based on the layout of your 3D scene and where you want the ray to intersect with the cube.
 
+<span style="color:blue;font-size:larger;">This works too.  The arrow will come from the right side of the cube, and intersect mid-cube.</span>
+
+```js
+// All you do is play with the numbers
+mesh.position.setY(40);
+let origin = new THREE.Vector3(70, 40, 0);
+```
+
 ## Normalize vector
 
 <span style="color:blue;font-size:larger;">You said "This vector should usually be normalized (having a length of 1) to ensure consistent behavior."  Are the numbers (-1, 1, 0) wrong?</span>
