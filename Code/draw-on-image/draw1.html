@@ -13,13 +13,12 @@
 </head>
 <body>
 <script src="/build/three.js"></script>
-<script>
+<script src="draw.js" type="module"></script>
+<script type="module">
+  import { draw } from './draw.js';
+
   let scene, camera, renderer;
   let canvas, canvasContext;
-  let isDrawing = false;
-  let color = 0x000000;
-  let size = 0.08; // any smaller, and it doesn't look like a line anymore
-  let smoothness = 32;
 
   function init() {
     scene = new THREE.Scene();
@@ -30,6 +29,8 @@
     renderer = new THREE.WebGLRenderer({ alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
+
+    draw(scene, renderer);
 
     // Load image
     let image = new Image();
@@ -44,12 +45,6 @@
       // Draw the image on the canvas
       canvasContext.drawImage(image, 0, 0, window.innerWidth, window.innerHeight);
 
-      // Set up event listeners
-      renderer.domElement.addEventListener('mousedown', startDrawing);
-      renderer.domElement.addEventListener('mousemove', draw);
-      renderer.domElement.addEventListener('mouseup', stopDrawing);
-      renderer.domElement.addEventListener('mouseout', stopDrawing);
-
       // Add canvas to the scene
       let texture = new THREE.CanvasTexture(canvas);
       let material = new THREE.MeshBasicMaterial({ map: texture });
@@ -57,69 +52,6 @@
       let plane = new THREE.Mesh(planeGeometry, material);
       scene.add(plane);
     };
-  }
-
-  // Start drawing
-  function startDrawing(event) {
-    isDrawing = true;
-    draw(event);
-  }
-
-  // Geometries
-  function cube() {
-    let geometry = new THREE.BoxGeometry(size, size, size);
-    let material = new THREE.MeshBasicMaterial({ color });
-    let cube = new THREE.Mesh(geometry, material);
-    scene.add(cube);
-
-    return cube;
-  }
-
-  function sphere() {
-    let geometry = new THREE.SphereGeometry(size, smoothness, smoothness);
-    let material = new THREE.MeshBasicMaterial( { color } );
-    let sphere = new THREE.Mesh( geometry, material );
-    scene.add( sphere );
-
-    return sphere;
-  }
-
-  function circle() {
-    let geometry = new THREE.CircleGeometry( size, smoothness );
-    let material = new THREE.MeshBasicMaterial( { color } );
-    let circle = new THREE.Mesh( geometry, material );
-    scene.add( circle );
-
-    return circle;
-  }
-
-  // Draw on canvas
-  function draw(event) {
-    if (isDrawing) {
-      // Limit drawing to the image boundaries
-      const rect = renderer.domElement.getBoundingClientRect();
-      const mouseX = event.clientX - rect.left;
-      const mouseY = event.clientY - rect.top;
-
-      if (mouseX >= 0 && mouseX < window.innerWidth && mouseY >= 0 && mouseY < window.innerHeight) {
-        // Continue with drawing the geometry
-        // let mesh = cube();
-        let mesh = sphere();
-        // let mesh = circle();
-
-        let x = (event.clientX / window.innerWidth) * 2 - 1;
-        let y = -(event.clientY / window.innerHeight) * 2 + 1;
-        mesh.position.set(x, y, 0);
-      } else {
-        // Mouse is outside the image boundaries, so exit the function
-        return;
-      }
-    }
-  }
-
-  // Stop drawing
-  function stopDrawing() {
-    isDrawing = false;
   }
 
   init();
