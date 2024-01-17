@@ -1,5 +1,7 @@
 ## Understanding 3D Raycasting Numbers
 
+[ArrowHelper](https://threejs.org/docs/#api/en/helpers/ArrowHelper)
+
 <span style="color:blue;font-size:larger;">This code shoots a ray and intersects with a box.  Explain why `setY` is set to 20 and why `origin` and `direction` are set to (50, -40, 0) and (-1, 1, 0).</span>
 
 ```js
@@ -55,6 +57,20 @@ In summary, `setY(20)` places the cube 20 units above the ground, and the `origi
 // All you do is play with the numbers
 mesh.position.setY(40);
 let origin = new THREE.Vector3(70, 40, 0);
+```
+
+## Defaults
+
+```js
+   origin = { x: 0, y: 0, z: 0 }
+direction = { x: 0, y: 0, z: -1 }
+```
+
+```py
+import math
+x, y, z = 0, 0, -1
+length = math.sqrt(x**2 + y**2 + z**2)
+length  # 1.0
 ```
 
 ## Normalize vector

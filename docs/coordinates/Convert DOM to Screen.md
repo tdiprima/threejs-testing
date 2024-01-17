@@ -38,9 +38,9 @@ Now, let's look at the calculations.
 So that's it! We multiply by 2 to stretch the range out, and then we subtract 1 to shift it over so it fits in the -1 to 1 range. This gives us the normalized device coordinate, or `ndcX`, which is what we use in three.js to do all sorts of cool graphical things.
 
 
-![mouse-coords](img/mouse-coords.jpg)
+![mouse-coords](../img/mouse-coords.jpg)
 
-![coordinates](img/coordinates.png)
+![coordinates](../img/coordinates.png)
 
 
 ## Put the thing where I clicked (verbiage)

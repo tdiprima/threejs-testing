@@ -29,6 +29,6 @@ The scissor rectangle can be used to **temporarily restrict drawing to a sub-rec
 
 ## Mouse coords
 
-![my img](img/mouse-coords.jpg)
+![my img](../img/mouse-coords.jpg)
 
 <br>

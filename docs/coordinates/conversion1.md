@@ -1,4 +1,9 @@
-<span style="color:blue;">I loaded an image into a texture `let texture = loader.load(imageSource);` and then added it to a plane `let planeMat = new THREE.MeshBasicMaterial({map: texture, side: THREE.DoubleSide});`.  I have an array `polygonPositions` that contains the positions of `line.geometry`.</span>
+<span style="color:blue;">I loaded an image into a texture and then added it to a plane.  I have an array `polygonPositions` that contains the positions of `line.geometry`.</span>
+
+```js
+let texture = loader.load(imageSource);
+let planeMat = new THREE.MeshBasicMaterial({map: texture, side: THREE.DoubleSide});
+```
 
 <span style="color:blue;font-size:larger;">Since we are drawing on an image, I want to convert the three.js positions to image positions.  How do I do that?</span>
 
