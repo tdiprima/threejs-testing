@@ -9,6 +9,7 @@
   <script src="/build/three.min.js"></script>
 </head>
 <body>
+<button id="addGrid">Add Grid</button>
 <script>
   console.log(`%cREVISION ${THREE.REVISION}`, "color: #ff00cc;");
   let imgSrc = "/textures/images/bear-soongnyoong.jpg";
@@ -19,7 +20,21 @@
 
   let renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setClearColor("#f8edeb");
   document.body.appendChild(renderer.domElement);
+
+  let isGridAdded = false;
+  let grid;
+
+  document.getElementById("addGrid")
+    .addEventListener("click", function() {
+      if (isGridAdded) {
+        removeGrid();
+      } else {
+        addGrid(planeGeom);
+      }
+      isGridAdded = !isGridAdded; // Toggle the state
+    });
 
   let planeGeom = new THREE.PlaneGeometry(4, 4, 40, 40); // 40 segments for both width and height
   new THREE.TextureLoader().load(imgSrc, (tex) => {
@@ -38,15 +53,24 @@
     plane.scale.set(1.0, aspect, 1.0);
     scene.add(plane);
 
-    addGrid(planeGeom);
+    // addGrid(planeGeom);
   });
 
   function addGrid(geometry) {
     const gridMaterial = new THREE.LineBasicMaterial({ color: 0x000000 });
     const gridGeometry = new THREE.WireframeGeometry(geometry);
 
-    const grid = new THREE.LineSegments(gridGeometry, gridMaterial);
+    grid = new THREE.LineSegments(gridGeometry, gridMaterial);
     scene.add(grid);
+  }
+
+  function removeGrid() {
+    if (grid) {
+      scene.remove(grid);
+      grid.geometry.dispose();
+      grid.material.dispose();
+      grid = undefined;
+    }
   }
 
   let raycaster = new THREE.Raycaster();
