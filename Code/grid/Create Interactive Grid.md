@@ -14,87 +14,7 @@ To achieve your goal, you will need to modify your existing Three.js code to inc
 
 Here's an extended version of your code that includes these functionalities:
 
-```javascript
-let scene = new THREE.Scene();
-let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-let renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
-
-let planeGeom = new THREE.PlaneGeometry(4, 4, 40, 40); // 40 segments for both width and height
-let tex = new THREE.TextureLoader().load(imgSrc, (tex) => {
-  tex.needsUpdate = true;
-
-  const width = tex.image.width;
-  const height = tex.image.height;
-  const aspect = height / width;
-
-  let planeMaterial = new THREE.MeshBasicMaterial({
-    color: 0xffffff,
-    map: tex
-  });
-
-  let plane = new THREE.Mesh(planeGeom, planeMaterial);
-  plane.scale.set(1.0, aspect, 1.0);
-  plane.rotation.x = -Math.PI / 2; // Rotate to lay flat
-  scene.add(plane);
-
-  addGrid(planeGeom);
-});
-
-function addGrid(geometry) {
-  const gridMaterial = new THREE.LineBasicMaterial({ color: 0x000000 });
-  const gridGeometry = new THREE.WireframeGeometry(geometry);
-
-  const grid = new THREE.LineSegments(gridGeometry, gridMaterial);
-  scene.add(grid);
-}
-
-let raycaster = new THREE.Raycaster();
-let mouse = new THREE.Vector2();
-let coloredSquares = [];
-
-function onMouseMove(event) {
-  event.preventDefault();
-
-  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-  mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
-
-  raycaster.setFromCamera(mouse, camera);
-
-  const intersects = raycaster.intersectObjects(scene.children, true);
-
-  if (intersects.length > 0) {
-    const intersect = intersects[0];
-    const face = intersect.face;
-    const faceIndex = face.materialIndex;
-
-    // Compute grid square index from faceIndex
-    // Add logic here to determine the grid square and color it red
-
-    // Store colored square location
-    if (!coloredSquares.includes(faceIndex)) {
-      coloredSquares.push(faceIndex);
-      // Change color of the square to red
-      // You may need to update the material or geometry here
-    }
-  }
-}
-
-function saveColoredSquares() {
-  // Logic to save the coloredSquares array for future use
-  // This could be a server call or local storage
-}
-
-window.addEventListener('mousemove', onMouseMove, false);
-
-function animate() {
-  requestAnimationFrame(animate);
-  renderer.render(scene, camera);
-}
-
-animate();
-```
+[funky-empress.html](funky-empress.html)
 
 This code sets up the necessary elements and includes the basic logic for detecting mouse movements over the grid. You will need to fill in some specifics, especially for determining the exact grid square based on the face index and for coloring it red. This could involve modifying the geometry or using a secondary overlay mesh.
 
@@ -159,5 +79,89 @@ function onMouseMove(event) {
 ```
 
 This code creates a grid of individual squares (planes) and changes the color of the square that the mouse intersects. The position of each colored square is stored in a format like "x,z" for future use. Adjust the grid size and steps according to your needs.
+
+## Toggle Grid Button
+
+To make your button a toggle for adding and removing the grid in your Three.js scene, you can modify your code to keep track of whether the grid is currently displayed. You can do this by maintaining a boolean variable, for instance, `isGridAdded`, which will be `true` when the grid is added and `false` when it is removed.
+
+Additionally, you'll need to modify the `addGrid` function to handle both adding and removing the grid. Here is a revised version of your code with these changes:
+
+```javascript
+let isGridAdded = false;let grid;document.getElementById("addGrid").addEventListener("click", function() {  if (isGridAdded) {    removeGrid();  } else {    addGrid(planeGeom);  }  isGridAdded = !isGridAdded; // Toggle the state});
+
+// PlaneGeometry...
+
+// addGrid...
+grid = new THREE.LineSegments(gridGeometry, gridMaterial);
+  
+function removeGrid() {  if (grid) {    scene.remove(grid);    grid.geometry.dispose();    grid.material.dispose();    grid = undefined;  }}
+```
+
+In this updated code:
+
+- The `isGridAdded` variable keeps track of the grid's state (added or removed).
+- The `addGrid` function adds the grid to the scene.
+- The `removeGrid` function removes the grid from the scene and disposes of its resources.
+- The event listener for the button checks the state of `isGridAdded` and calls the appropriate function to add or remove the grid, and then toggles the state of `isGridAdded`.
+
+## Fit to image
+
+To ensure that the grid fits the exact size of the image in your Three.js scene, you should adjust the size and position of the grid based on the dimensions of the image texture. Since the plane geometry is already scaled to match the aspect ratio of the image, you need to apply similar scaling to the grid.
+
+Here's how you can modify the `addGrid` function to achieve this:
+
+1. **Calculate the Aspect Ratio:** You have already calculated the aspect ratio of the image when creating the plane. Use this aspect ratio to scale the grid accordingly.
+
+2. **Scale the Grid:** Apply the same scaling to the grid as you did to the plane. This ensures that the grid matches the size of the image.
+
+3. **Position the Grid:** Ensure the grid is correctly positioned to overlay the image. This might involve adjusting the position to align with the plane.
+
+[faithful-squirrel.html](faithful-squirrel.html)
+
+Here is the modified `addGrid` function:
+
+```javascript
+function addGrid(plane, aspect) {
+  grid.scale.set(1.0, aspect, 1.0); // Scale the grid to match the image aspect ratio
+  grid.position.copy(plane.position); // Position the grid to overlay the plane
+}
+```
+
+And modify the part where you call `addGrid` in your code to pass the `plane` and `aspect`:
+
+```javascript
+// Modify the button event listener
+addGrid(plane, aspect);
+```
+
+<span style="color:blue;font-size:larger;">The button event handler had to go inside the TextureLoader callback.</span>
+
+In this updated code:
+
+- The `addGrid` function now takes two parameters: `plane` and `aspect`. It scales and positions the grid based on the plane's size and aspect ratio.
+- When you call `addGrid`, make sure to pass the `plane` object and the `aspect` ratio you calculated earlier. This way, the grid will match the size and position of the image.
+
+## GridHelper
+
+GridHelper is not composed of individual segments that can be colored independently.
+
+```js
+// faithful-squirrel.html, 9978d7b
+
+function colorGridSquare() {
+  raycaster.setFromCamera(mouse, camera);
+
+  // Assumes each square is a separate object; for GridHelper, additional work is needed
+  const intersects = raycaster.intersectObjects(scene.children, true);
+
+  if (intersects.length > 0) {
+    // Get first intersected object and change its color
+    const square = intersects[0].object;
+    square.material.color.set(0xff0000); // Set to desired color
+  }
+}
+
+document.addEventListener('mousedown', colorGridSquare, false);
+```
 
 <br>

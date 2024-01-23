@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Interactive Grid</title>
+  <title>Coloring Grid Squares</title>
   <link href="/css/main.css" rel="stylesheet" type="text/css">
   <script src="/build/three.min.js"></script>
 </head>
@@ -102,6 +102,11 @@
         coloredSquares.push(faceIndex);
         // Change color of the square to red
         // You may need to update the material or geometry here
+
+        // Assumes each square is a separate object
+        // Get first intersected object and change its color
+        const square = intersects[0].object;
+        square.material.color.set(0xff0000); // Set to desired color
       }
     }
   }
