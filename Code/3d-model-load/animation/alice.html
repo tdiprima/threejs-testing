@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>X</title>
+  <title>Alice</title>
   <!-- https://discoverthreejs.com/book/first-steps/animation-system/ -->
   <!-- https://stackoverflow.com/questions/71848021/gltf-animation-is-not-working-in-three-js -->
   <style>
@@ -60,7 +60,7 @@
     camera.position.set(0, 9.27, 23.16);
 
     clock = new THREE.Clock();
-    renderer = new THREE.WebGLRenderer();
+    renderer = new THREE.WebGLRenderer({ antialias: true });
 
     controls = new OrbitControls(camera, renderer.domElement);
     controls.update();
@@ -77,8 +77,9 @@
   let light = new THREE.DirectionalLight(0xffffff, 1);
   light.position.set(2, 2, 5);
 
-  // HELPERS
+  // AxesHelper visualizes the x,y,z axes.
   let axesHelper = new THREE.AxesHelper(5);
+  // Define grids - two-dimensional arrays of lines.
   let gridHelper = new THREE.GridHelper(30, 30);
 
   scene.add(light, axesHelper, gridHelper);
