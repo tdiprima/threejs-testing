@@ -18,23 +18,21 @@
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
 
-  // Create Custom Grid
   // We'll create a grid of plane geometries, where each plane represents a square in the grid.
-  const gridSize = 7; // Grid will be gridSize x gridSize
-  const squareSize = 1; // Size of each square
+  const gridWidth = 20; // Grid will be gridWidth x gridHeight
+  const gridHeight = 14;
+  const squareSize = 0.5; // Size of each square
   const grid = new THREE.Group(); // Group to hold the grid
 
-  for (let i = 0; i < gridSize; i++) {
-    for (let j = 0; j < gridSize; j++) {
+  for (let i = 0; i < gridWidth; i++) {
+    for (let j = 0; j < gridHeight; j++) {
       const geometry = new THREE.PlaneGeometry(squareSize, squareSize);
-      // const material = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
-      const material = new THREE.MeshBasicMaterial({ wireframe: true, side: THREE.DoubleSide });
+      const material = new THREE.MeshBasicMaterial({ wireframe: true, color: 0x0000ff, side: THREE.DoubleSide });
       const square = new THREE.Mesh(geometry, material);
 
       // Position each square
-      square.position.x = i * squareSize - (gridSize * squareSize) / 2 + squareSize / 2;
-      square.position.y = j * squareSize - (gridSize * squareSize) / 2 + squareSize / 2;
-      // square.rotation.x = Math.PI / 2; // Rotate to lie flat
+      square.position.x = i * squareSize - (gridWidth * squareSize) / 2 + squareSize / 2;
+      square.position.y = j * squareSize - (gridHeight * squareSize) / 2 + squareSize / 2;
 
       square.userData = { row: i, column: j }; // Optional: Store grid position
 
@@ -44,7 +42,6 @@
 
   scene.add(grid);
 
-  // Implement Raycaster and Mouse Events
   // Initialize a raycaster and add mouse event listeners:
   const raycaster = new THREE.Raycaster();
   const mouse = new THREE.Vector2();
@@ -62,7 +59,6 @@
   document.addEventListener('mousemove', onMouseMove, false);
   document.addEventListener('mousedown', onMouseDown, false);
 
-  // Coloring Squares
   // Add a function to color the squares:
   function colorSquare() {
     raycaster.setFromCamera(mouse, camera);
