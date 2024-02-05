@@ -1,17 +1,3 @@
-## Camera in Scene Optional
-
-<span style="color:#0000dd;">Is it necessary to add my PerspectiveCamera to the Scene?  Because when I omit "scene.add(camera)", it works anyway.</span>
-
-It is not necessary to add your `THREE.PerspectiveCamera` to the `THREE.Scene` in order for it to work. The camera is responsible for determining the **viewpoint and projection** of the scene, while the scene is a container that holds all the objects to be rendered.
-
-By default, when you create a `THREE.PerspectiveCamera` and don't explicitly add it to the scene using `scene.add(camera)`, Three.js still uses the camera internally to render the scene. This is because the renderer requires a camera to determine the viewpoint and projection for rendering.
-
-However, <mark>it is considered **good practice** to add the camera to the scene,</mark> even if it is not strictly necessary for the rendering process. Adding the camera to the scene can make your code more organized and easier to understand, especially if you have multiple cameras or complex scenes with multiple components.
-
-Adding the camera to the scene also allows you to **apply transformations and animations** to the camera itself, just like any other object in the scene. For example, you can animate the camera's position or rotation over time.
-
-In summary, while it may work without explicitly adding the camera to the scene, it is generally **recommended** to add the camera to the scene for clarity and to take advantage of the flexibility it provides.
-
 ## Camera Position 🎥
 
 ```js
