@@ -43,7 +43,7 @@
 
   // SphereGeometry(radius : Float, widthSegments : Integer, heightSegments : Integer, ...)
   let geometry = new THREE.SphereGeometry(1, 10, 10);
-  let material = new THREE.MeshLambertMaterial({color: 0xffcc00}); // yellow
+  let material = new THREE.MeshLambertMaterial({ color: 0xffcc00, flatShading: true });
   let mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
 
