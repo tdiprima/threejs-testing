@@ -1,4 +1,4 @@
-# Three.js Testing Repository
+# Three.js Testing
 
 This repository contains a collection of examples, experiments, and prototypes created with [Three.js](https://threejs.org/), a powerful JavaScript library for 3D graphics.
 References would normally be located in header comments.
